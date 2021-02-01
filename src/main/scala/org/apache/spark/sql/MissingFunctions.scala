@@ -2,7 +2,7 @@ package org.apache.spark.sql
 
 import org.apache.spark.sql.catalyst.expressions._
 
-object functionsf {
+object MissingFunctions {
 
   private def withExpr(expr: Expression): Column = Column(expr)
 

@@ -1,11 +1,12 @@
-package mrpowers.faisca
+package mrpowers.bebe
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.faisca.extensions._
+import mrpowers.bebe.Extensions._
+import mrpowers.bebe.Columns._
 import org.apache.spark.sql.functions._
 import org.scalatest.FunSpec
 
-class ColumnsFSpec
+class ColumnsSpec
     extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer {
@@ -59,7 +60,7 @@ class ColumnsFSpec
 //    .withColumn("hour", hour(col("some_int")))
 //    .show()
 
-    val res = df.withColumn("hour", "some_int".ic.hour)
+//    val res = df.withColumn("hour", "some_int".ic.hour)
 
   }
 

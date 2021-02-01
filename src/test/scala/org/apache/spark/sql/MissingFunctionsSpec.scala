@@ -3,9 +3,9 @@ package org.apache.spark.sql
 import org.scalatest.FunSpec
 import org.apache.spark.sql.functions._
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.faisca.SparkSessionTestWrapper
+import mrpowers.bebe.SparkSessionTestWrapper
 
-class FunctionsFSpec
+class MissingFunctionsSpec
     extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer {
@@ -24,7 +24,7 @@ class FunctionsFSpec
 
       val df = data
         .toDF("some_string")
-        .withColumn("actual", functionsf.regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
+        .withColumn("actual", MissingFunctions.regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
 
       df.show()
       df.printSchema()

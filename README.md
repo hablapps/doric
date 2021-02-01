@@ -1,33 +1,33 @@
-# faisca
+# bebe
 
 This library makes it easier to write Spark code:
 
-* it exposes the Spark SQL functions that don't exist in the Scala API
+* it exposes the Spark SQL functions that aren't exposed in the Scala API (e.g. `regexp_extract_all`)
 * exposes a minimalistic functions API without overloaded method signatures
 * allows for type safe programming and compile-time errors
 * allows for syntactic sugar for common functions
 
-Fun fact: faísca means Spark in Portuguese.
-
-## functionsf
-
-`functionsf` stands for "functions faisca".
+## MissingFunctions
 
 There are some Spark SQL functions that the maintainers don't want to expose via Scala.
 
-These are native Spark functions, so they're performant.
+This library provides easy access to these missing functions.
 
-## functionsb
-
-`functionsb` stands for "functions better"
+## TypedFunctions
 
 The `org.apache.spark.sql.functions` can be a bit difficult to work with:
 
 * Lots of overloaded methods
 * Some functions take Scala objects as arguments instead of `Column` objects
-* The inconsistent use of camelCase, snake_case, and alllowercase
+* The inconsistent use of camelCase, snake_case, and dayofweek-type names that don't use underscores
 * Lots of overloaded methods
 * Inconsistent parameter names
+
+Take a look at `approx_count_distinct` with 4 different exposed methods, none of which are properly specified:
+
+ADD IMAGE
+
+
 
 ## Type safe programming
 
@@ -65,7 +65,7 @@ org.apache.spark.sql.AnalysisException: cannot resolve 'hour(`some_int`)' due to
 
 This is a runtime error.  That's not what we want.  We'd rather get a compile-time error.
 
-Here's how we can run the same code with `columnsf` defined in this faisca library:
+Here's how we can run the same code with `TypedFunctions` defined in this library:
 
 ```scala
 df.withColumn("hour", "some_int".ic.hour)
@@ -74,14 +74,14 @@ df.withColumn("hour", "some_int".ic.hour)
 Our code won't compile and will give us this descriptive error:
 
 ```
-[error] /Users/powers/Documents/code/my_apps/faisca/src/test/scala/mrpowers/faisca/ColumnsFSpec.scala:62:51: value hour is not a member of mrpowers.faisca.IntegerColumn
+[error] /Users/powers/Documents/code/my_apps/bebe/src/test/scala/mrpowers/bebe/ColumnsFSpec.scala:62:51: value hour is not a member of mrpowers.bebe.IntegerColumn
 [error]     val res = df.withColumn("hour", "some_int".ic.hour)
 [error]                                                   ^
 ```
 
 Our text editor will also complain:
 
-![compile-time error](https://github.com/MrPowers/faisca/blob/main/images/compile_time_error.png)
+![compile-time error](https://github.com/MrPowers/bebe/blob/main/images/compile_time_error.png)
 
 ### No errors
 

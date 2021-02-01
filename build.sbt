@@ -1,4 +1,4 @@
-name := "faisca"
+name := "bebe"
 
 version := "0.0.1"
 

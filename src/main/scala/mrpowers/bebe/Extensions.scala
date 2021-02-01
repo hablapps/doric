@@ -1,11 +1,18 @@
-package mrpowers.faisca
+package mrpowers.bebe
 
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{lit, typedLit, col}
 import java.sql.Date
 import java.sql.Timestamp
+import mrpowers.bebe.Columns._
 
-object extensions {
+object Extensions {
+
+  implicit class IntMethods(int: Int) {
+
+    def il: IntegerColumn = IntegerColumn(int)
+
+  }
 
   implicit class StringMethods(str: String) {
 
@@ -21,8 +28,11 @@ object extensions {
 
     def tc: TimestampColumn = TimestampColumn(str)
 
+    def dc: DateColumn = DateColumn(str)
+
     def ic: IntegerColumn = IntegerColumn(str)
 
   }
+
 
 }
