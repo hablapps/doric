@@ -3,6 +3,7 @@ package org.apache.spark.sql
 import org.scalatest.FunSpec
 import org.apache.spark.sql.functions._
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
+import mrpowers.faisca.SparkSessionTestWrapper
 
 class FunctionsFSpec
     extends FunSpec
@@ -26,6 +27,7 @@ class FunctionsFSpec
         .withColumn("actual", functionsf.regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
 
       df.show()
+      df.printSchema()
 
 //      assertColumnEquality(df, "actual", "expected")
 
