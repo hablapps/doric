@@ -81,7 +81,7 @@ Our code won't compile and will give us this descriptive error:
 
 Our text editor will also complain:
 
-![compile-time error](https://github.com/MrPowers/faisca/blob/master/images/compile_time_error.png)
+![compile-time error](https://github.com/MrPowers/faisca/blob/main/images/compile_time_error.png)
 
 ### No errors
 
