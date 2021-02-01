@@ -4,7 +4,7 @@ import org.scalatest.FunSpec
 import org.apache.spark.sql.functions._
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 
-class FunctionsSpec
+class FunctionsFSpec
     extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer {
