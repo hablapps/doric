@@ -31,7 +31,7 @@ class ColumnsSpec
 
     val res2 = df
       .withColumn("hour", "some_time".tc.hour.col)
-      .withColumn("end_of_month", "some_time".tc.to_date.end_of_month.col)
+      .withColumn("end_of_month", "some_time".tc.to_date.add_months(3.il).end_of_month.col)
 
     res2.show()
     res2.printSchema()

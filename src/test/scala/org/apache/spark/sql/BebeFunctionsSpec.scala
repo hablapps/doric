@@ -2,10 +2,11 @@ package org.apache.spark.sql
 
 import org.scalatest.FunSpec
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.BebeFunctions._
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import mrpowers.bebe.SparkSessionTestWrapper
 
-class MissingFunctionsSpec
+class BebeFunctionsSpec
     extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer {
@@ -16,18 +17,19 @@ class MissingFunctionsSpec
 
     it("extracts multiple results") {
 
-      val data = Seq(
+      val df = Seq(
         ("this 23 has 44 numbers"),
         ("no numbers"),
         (null)
-      )
+      ).toDF("some_string")
 
-      val df = data
-        .toDF("some_string")
-        .withColumn("actual", MissingFunctions.regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
+      df.show(false)
 
-      df.show()
-      df.printSchema()
+      val res = df
+        .withColumn("actual", bebe_regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
+
+      res.show(false)
+      res.printSchema()
 
 //      assertColumnEquality(df, "actual", "expected")
 

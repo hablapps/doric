@@ -1,6 +1,7 @@
 package mrpowers.bebe
 
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, TypedFunctions}
+import org.apache.spark.sql.functions
 
 object Columns {
 
@@ -25,19 +26,23 @@ object Columns {
     val col: Column
 
     def hour: IntegerColumn = {
-      IntegerColumn(org.apache.spark.sql.functions.hour(col))
+      IntegerColumn(functions.hour(col))
     }
 
     def to_date: DateColumn = {
-      DateColumn(org.apache.spark.sql.functions.to_date(col))
+      DateColumn(functions.to_date(col))
     }
+
+    def add_months(numMonths: IntegerColumn): TimestampColumn = TimestampColumn(functions.add_months(col, numMonths.col))
   }
 
 
   trait DateColumnLike {
     val col: Column
 
-    def end_of_month: DateColumn = DateColumn(org.apache.spark.sql.functions.last_day(col))
+    def end_of_month: DateColumn = DateColumn(functions.last_day(col))
+
+    def add_months(numMonths: IntegerColumn): DateColumn = DateColumn(functions.add_months(col, numMonths.col))
   }
 
 
