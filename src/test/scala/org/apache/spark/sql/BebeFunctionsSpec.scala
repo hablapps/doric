@@ -5,6 +5,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.BebeFunctions._
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import mrpowers.bebe.SparkSessionTestWrapper
+import mrpowers.bebe.Extensions._
 
 class BebeFunctionsSpec
     extends FunSpec
@@ -30,6 +31,10 @@ class BebeFunctionsSpec
 
       res.show(false)
       res.printSchema()
+
+df
+  .withColumn("actual", bebe_regexp_extract_all("some_string".c, "(\\d+)".l, 1.l))
+  .show()
 
 //      assertColumnEquality(df, "actual", "expected")
 

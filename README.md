@@ -48,6 +48,18 @@ df
 
 The `BebeFunctions` are prefixed with `bebe` to avoid a name conflict in the unlikely event that `regexp_extract_all` is added to `org.apache.spark.sql.fucntions` at some point in the future.
 
+## Syntax sugar
+
+All the parens from `lit()` and `col()` make this code hard to read.  Let's import the extensions and reformat the code:
+
+```scala
+import mrpowers.bebe.Extensions._
+
+df
+  .withColumn("actual", bebe_regexp_extract_all("some_string".c, "(\\d+)".l, 1.l))
+  .show()
+```
+
 ## TypedFunctions
 
 The `TypedFunctions` rely on objects like `IntegerColumn`, `DateColumn`, and `TimestampColumn` rather than generic `Column` objects.

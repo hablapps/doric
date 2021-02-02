@@ -12,6 +12,8 @@ object Extensions {
 
     def il: IntegerColumn = IntegerColumn(int)
 
+    def l: Column = lit(int)
+
   }
 
   implicit class StringMethods(str: String) {
