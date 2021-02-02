@@ -1,4 +1,4 @@
-# bebe
+# bebé
 
 This library makes it easier to write Spark code:
 
