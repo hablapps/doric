@@ -8,6 +8,20 @@ This library makes it easier to write Spark code:
 
 ![Anuel](https://github.com/MrPowers/bebe/blob/main/images/anuel.jpg)
 
+## Installation
+
+Fetch the JAR from Maven:
+
+```scala
+libraryDependencies += "com.github.mrpowers" %% "bebe" % "0.0.1"
+```
+
+bebe depends on Spark internals, so you need to be careful to select the right version.
+
+| Spark | Scala | bebe  |
+|-------|-------|-------|
+| 3.1.0 | 2.12  | 0.0.1 |
+
 ## MissingFunctions
 
 There are some Spark SQL functions that the maintainers don't want to expose via Scala.  For example, the Spark maintainers [intentionally removed regexp_extract_all](https://github.com/apache/spark/pull/31306#issuecomment-766466106) from the Scala API.
@@ -171,13 +185,9 @@ At the very least, we'd expect this code to error out at runtime with a `org.apa
 
 A type-safe implementation would throw a compile time error when the `reverse` function is passed a `DateType` value.
 
-## Type safe programming
-
-Let's demonstrate how `bebe` allows for type safe programming.
-
 ### Compile-time errors
 
-Some nonsensical Spark computations throw errors at runtime (instead of at compile time as would be expected in a type safe framework).
+Let's revisit a nonsensical computation, observe the runtime error that native Spark throws, and observe how bebe allows for compile-time errors.
 
 Suppose you have the following DataFrame:
 
@@ -224,12 +234,6 @@ Our code won't compile and will give us this descriptive error:
 Our text editor will also complain:
 
 ![compile-time error](https://github.com/MrPowers/bebe/blob/main/images/compile_time_error.png)
-
-### No errors
-
-Other times, nonsensical operations just return `null` without throwing an error.
-
-
 
 ## Syntactic sugar
 
