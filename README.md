@@ -74,6 +74,8 @@ df
   .show()
 ```
 
+# WARNING: The rest of this lib is still highly experimental
+
 ## TypedFunctions
 
 The `TypedFunctions` rely on objects like `IntegerColumn`, `DateColumn`, and `TimestampColumn` rather than generic `Column` objects.
