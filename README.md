@@ -22,7 +22,7 @@ bebe depends on Spark internals, so you need to be careful to select the right v
 |-------|-------|-------|
 | 3.1.0 | 2.12  | 0.0.1 |
 
-## MissingFunctions
+## BebeFunctions
 
 There are some Spark SQL functions that the maintainers don't want to expose via Scala.  For example, the Spark maintainers [intentionally removed regexp_extract_all](https://github.com/apache/spark/pull/31306#issuecomment-766466106) from the Scala API.
 
