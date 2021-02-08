@@ -1,19 +1,8 @@
 package mrpowers.bebe
 
-import org.apache.spark.sql.{Column, TypedFunctions}
-import org.apache.spark.sql.functions
+import org.apache.spark.sql.{functions, Column}
 
 object Columns {
-
-  trait ColumnLike {
-    val colLike: Any
-
-    val col = colLike match {
-      case v: String => org.apache.spark.sql.functions.col(v)
-      case v: Column => v
-    }
-  }
-
 
   trait DateOrTimestampColumnLike {
     val col: Column
@@ -46,19 +35,25 @@ object Columns {
   }
 
 
-  case class TimestampColumn(colLike: Any) extends TimestampColumnLike with DateOrTimestampColumnLike with ColumnLike
+  case class TimestampColumn(col: Column) extends TimestampColumnLike with DateOrTimestampColumnLike
 
-
-  case class DateColumn(colLike: Any) extends DateColumnLike with DateOrTimestampColumnLike with ColumnLike
-
-
-  case class IntegerColumn(colLike: Any) {
-    val col = colLike match {
-      case v: String => org.apache.spark.sql.functions.col(v)
-      case v: Int => org.apache.spark.sql.functions.lit(v)
-      case v: Column => v
-    }
+  object TimestampColumn {
+    def apply(strCol: String): TimestampColumn = TimestampColumn(org.apache.spark.sql.functions.col(strCol))
   }
 
+
+  case class DateColumn(col: Column) extends DateColumnLike with DateOrTimestampColumnLike
+
+  object DateColumn {
+    def apply(strCol: String): DateColumn = DateColumn(org.apache.spark.sql.functions.col(strCol))
+  }
+
+
+  case class IntegerColumn(col: Column)
+
+  object IntegerColumn {
+    def apply(strCol: String): IntegerColumn = IntegerColumn(org.apache.spark.sql.functions.col(strCol))
+    def apply(intCol: Int): IntegerColumn = IntegerColumn(org.apache.spark.sql.functions.lit(intCol))
+  }
 
 }
