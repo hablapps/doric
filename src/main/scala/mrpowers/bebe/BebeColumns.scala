@@ -1,7 +1,7 @@
 package mrpowers.bebe
 
 import org.apache.spark.sql.{functions, Column, DataFrame}
-import org.apache.spark.sql.types.{DataType, DateType, IntegerType}
+import org.apache.spark.sql.types.{DataType, DateType, IntegerType, TimestampType}
 
 object Columns {
 
@@ -12,12 +12,15 @@ object Columns {
 
     def validate(df: DataFrame, colName: String): T = {
       val column = df(colName)
-      val dfDatatype = df.schema.find(_.name == colName).get.dataType
-      if (dfDatatype == dataType)
+      if (column.expr.dataType == dataType)
         construct(column)
       else
-        throw new Exception(s"The column $colName in the dataframe is of type $dfDatatype and it was expected to be $dataType")
+        throw new Exception(s"The column $colName in the dataframe is of type ${column.expr.dataType} and it was expected to be $dataType")
     }
+  }
+
+  trait ToColumn[T] {
+    def column(typedCol: T): Column
   }
 
   trait DateOrTimestampColumnLike {
@@ -55,6 +58,14 @@ object Columns {
 
   object TimestampColumn {
     def apply(strCol: String): TimestampColumn = TimestampColumn(org.apache.spark.sql.functions.col(strCol))
+
+    implicit val timestampFromDf: FromDf[TimestampColumn] = new FromDf[TimestampColumn] {
+      override val dataType: DataType = TimestampType
+
+      override def construct(column: Column): TimestampColumn = TimestampColumn(column)
+    }
+
+    implicit val timestampColumn: ToColumn[TimestampColumn] = (typedCol: TimestampColumn) => typedCol.col
   }
 
 
@@ -68,6 +79,8 @@ object Columns {
 
       override def construct(column: Column): DateColumn = DateColumn(column)
     }
+
+    implicit val dateColumn: ToColumn[DateColumn] = (typedCol: DateColumn) => typedCol.col
   }
 
 
@@ -83,6 +96,8 @@ object Columns {
 
       override def construct(column: Column): IntegerColumn = IntegerColumn(column)
     }
+
+    implicit val integerColumn: ToColumn[IntegerColumn] = (typedCol: IntegerColumn) => typedCol.col
   }
 
 }

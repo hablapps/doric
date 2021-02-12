@@ -16,31 +16,15 @@ class BebeFunctionsSpec
   import spark.implicits._
 
   describe("regexp_extract_all") {
-
     it("extracts multiple results") {
-
       val df = Seq(
-        ("this 23 has 44 numbers"),
-        ("no numbers"),
-        (null)
-      ).toDF("some_string")
-
-      df.show(false)
-
-      val res = df
+        ("this 23 has 44 numbers", Array("23", "44")),
+        ("no numbers", Array.empty[String]),
+        (null, null)
+      ).toDF("some_string", "expected")
         .withColumn("actual", bebe_regexp_extract_all(col("some_string"), lit("(\\d+)"), lit(1)))
-
-      res.show(false)
-      res.printSchema()
-
-df
-  .withColumn("actual", bebe_regexp_extract_all("some_string".c, "(\\d+)".l, 1.l))
-  .show()
-
-//      assertColumnEquality(df, "actual", "expected")
-
+      assertColumnEquality(df, "actual", "expected")
     }
-
   }
 
   describe("beginning_of_month") {

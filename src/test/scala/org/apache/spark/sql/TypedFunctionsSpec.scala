@@ -18,40 +18,32 @@ class TypedFunctionsSpec
   describe("add_months") {
 
     it("adds months to a date") {
-
       val df = Seq(
-        ("2020-01-05".d, 2),
-        ("2019-04-13".d, 3),
-        (null, 4)
-      ).toDF("some_date", "months")
-
-      val res = df.withColumn("plus_months", add_months("some_date".dc, "months".ic).col)
-
-      res.show()
-      res.printSchema()
-
+        (Some("2020-01-05".d), 2, Some("2020-03-05".d)),
+        (Some("2019-04-13".d), 3, Some("2019-07-13".d)),
+        (None, 4, None)
+      ).toDF("some_date", "months", "expected")
+      val months: IntegerColumn = df.get[IntegerColumn]("months")
+      val res = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
+      assertColumnEquality(res, "actual", "expected")
     }
 
     it("adds a literal month value") {
-
       val df = Seq(
-        ("2020-01-05".d),
-        ("2019-04-13".d),
-        (null)
-      ).toDF("some_date")
-
-      val res = df.withColumn("plus_months", add_months("some_date".dc, 2.il).col)
-
-      res.show()
-      res.printSchema()
-
+        (Some("2020-01-05".d), Some("2020-03-05".d)),
+        (Some("2019-04-13".d), Some("2019-06-13".d)),
+        (None, None)
+      ).toDF("some_date", "expected")
+      val months: IntegerColumn = 2.il
+      val res = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
+      assertColumnEquality(res, "actual", "expected")
     }
 
     it("validates the type of the column in runtime") {
       val df = Seq(
-        ("2020-01-05".d, 2),
-        ("2019-04-13".d, 3),
-        (null, 4)
+        (Some("2020-01-05".d), 2),
+        (Some("2019-04-13".d), 3),
+        (None, 4)
       ).toDF("some_date", "months")
 
       df.get[DateColumn]("some_date")
