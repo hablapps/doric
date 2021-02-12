@@ -18,4 +18,8 @@ object BebeFunctions {
     RegExpExtractAll(col.expr, regex.expr, groupIndex.expr)
   }
 
+  def bebe_beginning_of_month(col: Column): Column = withExpr {
+    BeginningOfMonth(col.expr)
+  }
+
 }
