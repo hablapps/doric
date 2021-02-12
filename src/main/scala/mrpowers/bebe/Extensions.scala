@@ -1,10 +1,10 @@
 package mrpowers.bebe
 
-import org.apache.spark.sql.Column
-import org.apache.spark.sql.functions.{lit, typedLit, col}
-import java.sql.Date
-import java.sql.Timestamp
+import java.sql.{Date, Timestamp}
 import mrpowers.bebe.Columns._
+
+import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.functions.{col, lit, typedLit}
 
 object Extensions {
 
@@ -36,5 +36,9 @@ object Extensions {
 
   }
 
+  implicit class DataframeMethods(df: DataFrame) {
+    def get[T: FromDf](colName: String): T =
+      implicitly[FromDf[T]].validate(df, colName)
+  }
 
 }
