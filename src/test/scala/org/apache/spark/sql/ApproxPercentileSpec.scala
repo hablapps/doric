@@ -44,11 +44,6 @@ class ApproxPercentileSpec
   private def checkAnswer(df: DataFrame, row: Row): Unit =
     checkAnswer(df, Seq(row))
 
-  private def withTempView[T](views: String*)(body: => T) =
-    try body finally {
-      views.foreach(viewname => spark.sql(s"drop view if exists $viewname"))
-    }
-
   import spark.implicits._
 
   private val table = "percentile_test"
