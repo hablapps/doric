@@ -11,6 +11,9 @@ libraryDependencies += "com.github.mrpowers" %% "spark-daria" % "0.38.2" % "test
 libraryDependencies += "com.github.mrpowers" %% "spark-fast-tests" % "0.21.3" % "test"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
+// scaladoc settings
+Compile / doc / scalacOptions ++= Seq("-groups")
+
 // test suite settings
 fork in Test := true
 javaOptions ++= Seq("-Xms512M", "-Xmx2048M", "-XX:MaxPermSize=2048M", "-XX:+CMSClassUnloadingEnabled")
