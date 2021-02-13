@@ -1,8 +1,9 @@
 package org.apache.spark.sql.catalyst.expressions
 
 import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
-import org.apache.spark.sql.catalyst.util.{BebeDateTimeUtils, DateTimeUtils}
+import org.apache.spark.sql.catalyst.util.DateTimeUtils
 import org.apache.spark.sql.types.{AbstractDataType, DataType, DateType}
+import org.apache.spark.unsafe.types.UTF8String
 
 /**
  * Returns the first day of the month which the date belongs to.
@@ -24,14 +25,16 @@ case class BeginningOfMonth(startDate: Expression) extends UnaryExpression with 
   override def dataType: DataType = DateType
 
   override def nullSafeEval(date: Any): Any = {
-    BebeDateTimeUtils.getFirstDayOfMonth(date.asInstanceOf[Int])
+    val level = DateTimeUtils.parseTruncLevel(UTF8String.fromString("MONTH"))
+    DateTimeUtils.truncDate(date.asInstanceOf[Int], level)
   }
 
   override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode = {
-    val dtu = BebeDateTimeUtils.getClass.getName.stripSuffix("$")
-    defineCodeGen(ctx, ev, sd => s"$dtu.getFirstDayOfMonth($sd)")
+    val level = DateTimeUtils.parseTruncLevel(UTF8String.fromString("MONTH"))
+    val dtu = DateTimeUtils.getClass.getName.stripSuffix("$")
+    defineCodeGen(ctx, ev, sd => s"$dtu.parseTruncLevel($sd, $level)")
   }
 
-  override def prettyName: String = "beginning_of_month"
+  override def prettyName: String = "bebe_beginning_of_month"
 }
 
