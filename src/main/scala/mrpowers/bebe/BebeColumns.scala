@@ -59,6 +59,13 @@ object Columns {
   object TimestampColumn {
     def apply(strCol: String): TimestampColumn = TimestampColumn(org.apache.spark.sql.functions.col(strCol))
 
+    def unapply(column: Column): Option[TimestampColumn] = {
+      if (column.expr.dataType == TimestampType)
+        Some(implicitly[FromDf[TimestampColumn]].construct(column))
+      else
+        None
+    }
+
     implicit val timestampFromDf: FromDf[TimestampColumn] = new FromDf[TimestampColumn] {
       override val dataType: DataType = TimestampType
 
@@ -73,6 +80,13 @@ object Columns {
 
   object DateColumn {
     def apply(strCol: String): DateColumn = DateColumn(org.apache.spark.sql.functions.col(strCol))
+
+    def unapply(column: Column): Option[DateColumn] = {
+      if (column.expr.dataType == DateType)
+        Some(implicitly[FromDf[DateColumn]].construct(column))
+      else
+        None
+    }
 
     implicit val integerFromDf: FromDf[DateColumn] = new FromDf[DateColumn] {
       override val dataType: DataType = DateType
@@ -90,6 +104,13 @@ object Columns {
     def apply(strCol: String): IntegerColumn = IntegerColumn(org.apache.spark.sql.functions.col(strCol))
 
     def apply(intCol: Int): IntegerColumn = IntegerColumn(org.apache.spark.sql.functions.lit(intCol))
+
+    def unapply(column: Column): Option[IntegerColumn] = {
+      if (column.expr.dataType == IntegerType)
+        Some(implicitly[FromDf[IntegerColumn]].construct(column))
+      else
+        None
+    }
 
     implicit val integerFromDf: FromDf[IntegerColumn] = new FromDf[IntegerColumn] {
       override val dataType: DataType = IntegerType

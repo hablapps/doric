@@ -1,7 +1,7 @@
 package mrpowers.bebe
 
 import java.sql.{Date, Timestamp}
-import mrpowers.bebe.Columns._
+import mrpowers.bebe.Columns.{ToColumn, _}
 
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.functions.{col, lit, typedLit}
@@ -60,6 +60,14 @@ object Extensions {
       */
     def withColumn[T: ToColumn](colName: String)(col: DataFrame => T): DataFrame =
       df.withColumn(colName, implicitly[ToColumn[T]].column(col(df)))
+
+  }
+
+  implicit class BasicCol[T: FromDf: ToColumn](column: T){
+    @inline def from: FromDf[T] = implicitly
+    @inline def to: ToColumn[T] = implicitly
+
+    def as(colName: String): T = from.construct(to.column(column) as colName)
 
   }
 
