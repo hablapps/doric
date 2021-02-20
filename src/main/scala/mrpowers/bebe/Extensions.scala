@@ -1,7 +1,6 @@
 package mrpowers.bebe
 
 import java.sql.{Date, Timestamp}
-import mrpowers.bebe.Columns.{ToColumn, _}
 
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.functions.{col, lit, typedLit}
@@ -10,7 +9,7 @@ object Extensions {
 
   implicit class IntMethods(int: Int) {
 
-    def il: IntegerColumn = IntegerColumn(int)
+    def il: IntegerColumn = IntegerColumn.literal(int)
 
     def l: Column = lit(int)
 
@@ -63,12 +62,13 @@ object Extensions {
 
   }
 
-  implicit class BasicCol[T: FromDf: ToColumn](column: T){
-    @inline def from: FromDf[T] = implicitly
-    @inline def to: ToColumn[T] = implicitly
+  implicit class BasicCol[T: FromDf : ToColumn](val column: T) {
 
-    def as(colName: String): T = from.construct(to.column(column) as colName)
+    def as(colName: String): T = construct(column.sparkColumn as colName)
 
+    def ===(other: T): BooleanColumn = BooleanColumn(column.sparkColumn === other.sparkColumn)
+
+    def pipe[O: ToColumn](f: T => O): O = f(column)
   }
 
 }

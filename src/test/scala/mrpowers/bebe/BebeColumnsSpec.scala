@@ -2,8 +2,6 @@ package mrpowers.bebe
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import mrpowers.bebe.Extensions._
-import mrpowers.bebe.Columns._
-import org.apache.spark.sql.functions._
 import org.scalatest.FunSpec
 
 class BebeColumnsSpec
@@ -26,4 +24,15 @@ class BebeColumnsSpec
     assertColumnEquality(res, "end_of_month", "expected_end_of_month")
   }
 
+  it("should use the numeric functions") {
+    val df = Seq(
+      (2, true),
+      (3, true),
+      (4, false)
+    ).toDF("some_data", "expected_result")
+      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3.il)
+
+
+    assertColumnEquality(df, "transformed", "expected_result")
+  }
 }

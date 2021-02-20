@@ -1,7 +1,7 @@
 package org.apache.spark.sql
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.bebe.Columns.{DateColumn, IntegerColumn}
+import mrpowers.bebe._
 import mrpowers.bebe.SparkSessionTestWrapper
 import org.scalatest.FunSpec
 import mrpowers.bebe.Extensions._

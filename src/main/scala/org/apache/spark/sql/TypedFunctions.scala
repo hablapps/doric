@@ -1,26 +1,9 @@
 package org.apache.spark.sql
 
-import mrpowers.bebe.Columns._
+import mrpowers.bebe._
 
-import scala.collection.JavaConverters._
-import scala.reflect.runtime.universe.TypeTag
-import scala.util.Try
-
-import org.apache.spark.annotation.Stable
-import org.apache.spark.sql.api.java._
-import org.apache.spark.sql.catalyst.ScalaReflection
-import org.apache.spark.sql.catalyst.analysis.{Star, UnresolvedFunction}
-import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.aggregate._
-import org.apache.spark.sql.catalyst.plans.logical.{BROADCAST, HintInfo, ResolvedHint}
-import org.apache.spark.sql.catalyst.util.{CharVarcharUtils, TimestampFormatter}
-import org.apache.spark.sql.execution.SparkSqlParser
-import org.apache.spark.sql.expressions.{Aggregator, SparkUserDefinedFunction, UserDefinedAggregator, UserDefinedFunction}
-import org.apache.spark.sql.internal.SQLConf
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.types.DataType.parseTypeWithFallback
-import org.apache.spark.util.Utils
 
 object TypedFunctions {
 

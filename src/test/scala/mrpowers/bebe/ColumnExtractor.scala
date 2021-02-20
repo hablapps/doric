@@ -1,10 +1,10 @@
-package org.apache.spark.sql
+package mrpowers.bebe
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.bebe.Columns.{DateColumn, IntegerColumn, TimestampColumn}
 import mrpowers.bebe.Extensions._
-import mrpowers.bebe.SparkSessionTestWrapper
 import org.scalatest.FunSpec
+
+import org.apache.spark.sql.DataFrame
 
 class ColumnExtractor extends FunSpec
   with SparkSessionTestWrapper
@@ -14,11 +14,11 @@ class ColumnExtractor extends FunSpec
 
   describe("column_extractor") {
 
-    def transformDateOrTimestamp(colName: String)(df:DataFrame): IntegerColumn =
+    def transformDateOrTimestamp(colName: String)(df: DataFrame): IntegerColumn =
       df(colName) match {
         case DateColumn(dc) => dc.day_of_month
         case TimestampColumn(tc) => tc.day_of_month
-        case _ => IntegerColumn(0)
+        case _ => IntegerColumn.literal(0)
       }
 
     it("extracts according to the column") {
