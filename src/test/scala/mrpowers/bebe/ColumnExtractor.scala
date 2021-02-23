@@ -18,7 +18,7 @@ class ColumnExtractor extends FunSpec
       df(colName) match {
         case DateColumn(dc) => dc.day_of_month
         case TimestampColumn(tc) => tc.day_of_month
-        case _ => IntegerColumn.literal(0)
+        case _ => IntegerColumn(0)
       }
 
     it("extracts according to the column") {

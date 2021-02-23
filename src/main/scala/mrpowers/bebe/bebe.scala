@@ -1,33 +1,14 @@
 package mrpowers
 
 import java.sql.{Date, Timestamp}
+import mrpowers.bebe.syntax.{NumericOperationsOps, DataFrameOps, FromDfExtras, LiteralConversions, NumericOperations, ToColumnExtras}
 
-import org.apache.spark.sql.{functions, Column, DataFrame}
+import org.apache.spark.sql.{functions, Column}
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.types._
 
 
-package object bebe extends ToColumnExtras with FromDfExtras with ArithmeticExtras {
-
-  trait FromDf[T] {
-    def dataType: DataType
-
-    def construct(column: Column): T
-
-    def validate(df: DataFrame, colName: String): T = {
-      val column = df(colName)
-      if (column.expr.dataType == dataType)
-        construct(column)
-      else
-        throw new Exception(s"The column $colName in the dataframe is of type ${column.expr.dataType} and it was expected to be $dataType")
-    }
-  }
-
-
-  trait ToColumn[T] {
-    def column(typedCol: T): Column
-  }
-
+package object bebe extends ToColumnExtras with FromDfExtras with DataFrameOps with NumericOperationsOps with LiteralConversions {
 
   trait DateOrTimestampColumnLike {
     val col: Column
@@ -82,7 +63,7 @@ package object bebe extends ToColumnExtras with FromDfExtras with ArithmeticExtr
 
     def getCol(tc: T): Column
 
-    def literal(litValue: BT): T = createCol(lit(litValue))
+    def apply(litValue: BT): T = createCol(lit(litValue))
 
     def unapply(column: Column): Option[T] = {
       if (column.expr.dataType == sparkType)
@@ -134,6 +115,7 @@ package object bebe extends ToColumnExtras with FromDfExtras with ArithmeticExtr
   case class IntegerColumn(col: Column)
 
   object IntegerColumn extends StaticColumnOps {
+
     override type T = IntegerColumn
     override type BT = Int
 

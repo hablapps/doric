@@ -1,7 +1,8 @@
 package mrpowers.bebe
+package syntax
 
-import org.apache.spark.sql.types.DataType
 import org.apache.spark.sql.Column
+import org.apache.spark.sql.types.DataType
 
 trait FromDfExtras {
 

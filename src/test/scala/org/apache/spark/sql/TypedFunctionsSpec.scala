@@ -1,10 +1,9 @@
 package org.apache.spark.sql
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.bebe._
-import mrpowers.bebe.SparkSessionTestWrapper
-import org.scalatest.FunSpec
 import mrpowers.bebe.Extensions._
+import mrpowers.bebe.{SparkSessionTestWrapper, _}
+import org.scalatest.FunSpec
 
 import org.apache.spark.sql.TypedFunctions._
 
@@ -34,7 +33,7 @@ class TypedFunctionsSpec
         (Some("2019-04-13".d), Some("2019-06-13".d)),
         (None, None)
       ).toDF("some_date", "expected")
-      val months: IntegerColumn = 2.il
+      val months: IntegerColumn = 2.tc
       val res = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
       assertColumnEquality(res, "actual", "expected")
     }

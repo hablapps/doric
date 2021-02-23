@@ -19,7 +19,7 @@ class BebeColumnsSpec
     ).toDF("some_time", "expected_hour", "expected_end_of_month")
     val res = df
       .withColumn("hour", df.get[TimestampColumn]("some_time").hour)
-      .withColumn("end_of_month")(_.get[TimestampColumn]("some_time").to_date.add_months(3.il).end_of_month)
+      .withColumn("end_of_month")(_.get[TimestampColumn]("some_time").to_date.add_months(3.tc).end_of_month)
     assertColumnEquality(res, "hour", "expected_hour")
     assertColumnEquality(res, "end_of_month", "expected_end_of_month")
   }
@@ -30,7 +30,7 @@ class BebeColumnsSpec
       (3, true),
       (4, false)
     ).toDF("some_data", "expected_result")
-      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3.il)
+      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3.tc)
 
 
     assertColumnEquality(df, "transformed", "expected_result")

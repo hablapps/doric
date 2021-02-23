@@ -1,4 +1,5 @@
 package mrpowers.bebe
+package syntax
 
 import org.apache.spark.sql.Column
 
