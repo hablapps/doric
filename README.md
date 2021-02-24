@@ -1,5 +1,7 @@
 # bebé
 
+[![CI](https://github.com/MrPowers/bebe/actions/workflows/ci.yml/badge.svg)](https://github.com/MrPowers/bebe/actions/workflows/ci.yml)
+
 This library makes it easier to write Spark code:
 
 * provides access to the Spark SQL functions that aren't exposed in the Scala API (e.g. `regexp_extract_all`)
