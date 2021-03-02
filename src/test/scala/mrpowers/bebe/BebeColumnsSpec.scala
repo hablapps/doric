@@ -1,11 +1,12 @@
 package mrpowers.bebe
 
+import Predef.{any2stringadd => _, _}
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import mrpowers.bebe.Extensions._
 import org.scalatest.FunSpec
 
 class BebeColumnsSpec
-    extends FunSpec
+  extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer {
 
@@ -26,18 +27,20 @@ class BebeColumnsSpec
 
   it("should use the numeric functions") {
     val df = Seq(
-      (2, true, 1, 4),
-      (3, true, 2, 6),
-      (4, false, 3, 8)
-    ).toDF("some_data", "expected_result", "expected_minus", "expected_double")
+      (2, true, 1, 4, 4),
+      (3, true, 2, 6, 5),
+      (4, false, 3, 8, 6)
+    ).toDF("some_data", "expected_result", "expected_minus", "expected_double", "expected_sum")
       .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3)
       .withColumn("minus")(_.get[IntegerColumn]("some_data") - 1)
       .withColumn("plus_double")(df => df.get[IntegerColumn]("some_data") + df.get[IntegerColumn]("some_data"))
       .withColumn("mult_double")(df => df.get[IntegerColumn]("some_data") * 2)
+      .withColumn("sum")(df => df.get[IntegerColumn]("some_data") + 2)
 
     assertColumnEquality(df, "transformed", "expected_result")
     assertColumnEquality(df, "minus", "expected_minus")
     assertColumnEquality(df, "plus_double", "expected_double")
     assertColumnEquality(df, "mult_double", "expected_double")
+    assertColumnEquality(df, "sum", "expected_sum")
   }
 }
