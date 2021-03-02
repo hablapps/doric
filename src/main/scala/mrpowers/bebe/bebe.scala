@@ -80,6 +80,8 @@ package object bebe extends ToColumnExtras with FromDfExtras with DataFrameOps w
 
     implicit val toColumn: ToColumn[T] = (typedCol: T) => getCol(typedCol)
 
+    implicit val literal: Literal[T, BT] = new Literal[T, BT] {}
+
   }
 
   case class TimestampColumn(col: Column) extends TimestampColumnLike with DateOrTimestampColumnLike

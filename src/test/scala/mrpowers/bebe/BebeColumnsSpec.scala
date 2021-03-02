@@ -26,13 +26,18 @@ class BebeColumnsSpec
 
   it("should use the numeric functions") {
     val df = Seq(
-      (2, true),
-      (3, true),
-      (4, false)
-    ).toDF("some_data", "expected_result")
-      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3.tc)
-
+      (2, true, 1, 4),
+      (3, true, 2, 6),
+      (4, false, 3, 8)
+    ).toDF("some_data", "expected_result", "expected_minus", "expected_double")
+      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3)
+      .withColumn("minus")(_.get[IntegerColumn]("some_data") - 1)
+      .withColumn("plus_double")(df => df.get[IntegerColumn]("some_data") + df.get[IntegerColumn]("some_data"))
+      .withColumn("mult_double")(df => df.get[IntegerColumn]("some_data") * 2)
 
     assertColumnEquality(df, "transformed", "expected_result")
+    assertColumnEquality(df, "minus", "expected_minus")
+    assertColumnEquality(df, "plus_double", "expected_double")
+    assertColumnEquality(df, "mult_double", "expected_double")
   }
 }
