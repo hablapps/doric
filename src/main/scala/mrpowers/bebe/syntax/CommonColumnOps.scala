@@ -1,6 +1,8 @@
 package mrpowers.bebe
 package syntax
 
+import org.apache.spark.sql.types.DataType
+
 trait CommonColumnOps {
 
   implicit class BasicCol[T: FromDf: ToColumn](val column: T) {
@@ -14,6 +16,7 @@ trait CommonColumnOps {
     def pipe[O: ToColumn](f: T => O): O = f(column)
 
     def castTo[To: CastToT: FromDf]: To = implicitly[Casting[T, To]].cast(column)
+
   }
 
 }
