@@ -27,7 +27,7 @@ object BebeFunctions {
    *
    *  @group agg_funcs
    */
-  def approx_percentile(column: Column, percentage: Column, accuracy: Column): Column =
+  def bebe_approx_percentile(column: Column, percentage: Column, accuracy: Column): Column =
     withAggregateFunction {
       new ApproximatePercentile(column.expr, percentage.expr, accuracy.expr)
     }
@@ -42,7 +42,7 @@ object BebeFunctions {
    *
    *  @group agg_funcs
    */
-  def approx_percentile(column: Column, percentage: Column): Column =
+  def bebe_approx_percentile(column: Column, percentage: Column): Column =
     withAggregateFunction {
       new ApproximatePercentile(column.expr, percentage.expr)
     }
