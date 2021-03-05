@@ -1,5 +1,3 @@
 package org.apache.spark.sql
 
-object ColumnsExperiment {
-
-}
+object ColumnsExperiment {}

@@ -14,3 +14,9 @@ project/boot/
 
 /metastore_db/
 derby.log
+
+# metals / vs code ignores
+.metals
+.vscode
+.bloop
+**/metals.sbt

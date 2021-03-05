@@ -7,10 +7,7 @@ import org.scalatest.FunSpec
 
 import org.apache.spark.sql.TypedFunctions._
 
-class TypedFunctionsSpec
-  extends FunSpec
-    with SparkSessionTestWrapper
-    with ColumnComparer {
+class TypedFunctionsSpec extends FunSpec with SparkSessionTestWrapper with ColumnComparer {
 
   import spark.implicits._
 
@@ -23,7 +20,7 @@ class TypedFunctionsSpec
         (None, 4, None)
       ).toDF("some_date", "months", "expected")
       val months: IntegerColumn = df.get[IntegerColumn]("months")
-      val res = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
+      val res                   = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
       assertColumnEquality(res, "actual", "expected")
     }
 
@@ -34,7 +31,7 @@ class TypedFunctionsSpec
         (None, None)
       ).toDF("some_date", "expected")
       val months: IntegerColumn = 2.tc
-      val res = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
+      val res                   = df.withColumn("actual", add_months(df.get[DateColumn]("some_date"), months))
       assertColumnEquality(res, "actual", "expected")
     }
 

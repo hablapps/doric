@@ -6,8 +6,8 @@ import org.apache.spark.sql.types.{AbstractDataType, DataType, DateType}
 import org.apache.spark.unsafe.types.UTF8String
 
 /**
- * Returns the first day of the month which the date belongs to.
- */
+  * Returns the first day of the month which the date belongs to.
+  */
 @ExpressionDescription(
   usage = "_FUNC_(date) - Returns the first day of the month which the date belongs to.",
   examples = """
@@ -16,8 +16,11 @@ import org.apache.spark.unsafe.types.UTF8String
        2009-01-01
   """,
   group = "datetime_funcs",
-  since = "3.1.0")
-case class BeginningOfMonth(startDate: Expression) extends UnaryExpression with ImplicitCastInputTypes {
+  since = "3.1.0"
+)
+case class BeginningOfMonth(startDate: Expression)
+    extends UnaryExpression
+    with ImplicitCastInputTypes {
   override def child: Expression = startDate
 
   override def inputTypes: Seq[AbstractDataType] = Seq(DateType)
@@ -31,10 +34,9 @@ case class BeginningOfMonth(startDate: Expression) extends UnaryExpression with 
 
   override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode = {
     val level = DateTimeUtils.parseTruncLevel(UTF8String.fromString("MONTH"))
-    val dtu = DateTimeUtils.getClass.getName.stripSuffix("$")
+    val dtu   = DateTimeUtils.getClass.getName.stripSuffix("$")
     defineCodeGen(ctx, ev, sd => s"$dtu.parseTruncLevel($sd, $level)")
   }
 
   override def prettyName: String = "bebe_beginning_of_month"
 }
-

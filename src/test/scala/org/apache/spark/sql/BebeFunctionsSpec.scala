@@ -8,10 +8,7 @@ import mrpowers.bebe.SparkSessionTestWrapper
 import mrpowers.bebe.Extensions._
 import java.sql.{Date, Timestamp}
 
-class BebeFunctionsSpec
-    extends FunSpec
-    with SparkSessionTestWrapper
-    with ColumnComparer {
+class BebeFunctionsSpec extends FunSpec with SparkSessionTestWrapper with ColumnComparer {
 
   import spark.implicits._
 

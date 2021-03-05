@@ -6,9 +6,7 @@ import org.scalatest.FunSpec
 
 import org.apache.spark.sql.DataFrame
 
-class ColumnExtractor extends FunSpec
-  with SparkSessionTestWrapper
-  with ColumnComparer {
+class ColumnExtractor extends FunSpec with SparkSessionTestWrapper with ColumnComparer {
 
   import spark.implicits._
 
@@ -16,9 +14,9 @@ class ColumnExtractor extends FunSpec
 
     def transformDateOrTimestamp(colName: String)(df: DataFrame): IntegerColumn =
       df(colName) match {
-        case DateColumn(dc) => dc.day_of_month
+        case DateColumn(dc)      => dc.day_of_month
         case TimestampColumn(tc) => tc.day_of_month
-        case _ => IntegerColumn(0)
+        case _                   => IntegerColumn(0)
       }
 
     it("extracts according to the column") {
