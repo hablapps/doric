@@ -33,9 +33,7 @@ import org.scalatest.FunSuite
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import mrpowers.bebe.SparkSessionTestWrapper
 
-class ApproxPercentileSpec
-    extends FunSuite
-    with SparkSessionTestWrapper {
+class ApproxPercentileSpec extends FunSuite with SparkSessionTestWrapper {
 
   private def checkAnswer(df: DataFrame, rows: Seq[Row]): Unit = {
     assert(df.collect.toSeq == rows)
@@ -60,7 +58,7 @@ class ApproxPercentileSpec
         bebe_approx_percentile(col("col"), lit(0)),
         bebe_approx_percentile(col("col"), lit(1))
       ),
-      Row(250D, 500D, 750D, 1D, 1000D, 1D, 1000D)
+      Row(250d, 500d, 750d, 1d, 1000d, 1d, 1000d)
     )
   }
 
@@ -78,12 +76,12 @@ class ApproxPercentileSpec
     checkAnswer(
       table
         .select(
-          bebe_approx_percentile(col("col"), array(lit(0.25), lit(0.5), lit(0.75D))),
+          bebe_approx_percentile(col("col"), array(lit(0.25), lit(0.5), lit(0.75d))),
           count(col("col")),
           bebe_approx_percentile(col("col"), array(lit(0.0), lit(1.0))),
           sum(col("col"))
         ),
-      Row(Seq(250D, 500D, 750D), 1000, Seq(1D, 1000D), 500500)
+      Row(Seq(250d, 500d, 750d), 1000, Seq(1d, 1000d), 500500)
     )
   }
 
@@ -96,15 +94,16 @@ class ApproxPercentileSpec
     checkAnswer(
       table
         .select(
-          bebe_approx_percentile(col("cdecimal"), array(lit(0.25), lit(0.5), lit(0.75D))),
-          bebe_approx_percentile(col("cdate"), array(lit(0.25), lit(0.5), lit(0.75D))),
-          bebe_approx_percentile(col("ctimestamp"), array(lit(0.25), lit(0.5), lit(0.75D)))
+          bebe_approx_percentile(col("cdecimal"), array(lit(0.25), lit(0.5), lit(0.75d))),
+          bebe_approx_percentile(col("cdate"), array(lit(0.25), lit(0.5), lit(0.75d))),
+          bebe_approx_percentile(col("ctimestamp"), array(lit(0.25), lit(0.5), lit(0.75d)))
         ),
       Row(
         Seq("250.000000000000000000", "500.000000000000000000", "750.000000000000000000")
-            .map(i => new java.math.BigDecimal(i)),
+          .map(i => new java.math.BigDecimal(i)),
         Seq(250, 500, 750).map(DateTimeUtils.toJavaDate),
-        Seq(250, 500, 750).map(i => DateTimeUtils.toJavaTimestamp(i.toLong)))
+        Seq(250, 500, 750).map(i => DateTimeUtils.toJavaTimestamp(i.toLong))
+      )
     )
   }
 
@@ -112,27 +111,29 @@ class ApproxPercentileSpec
     val table = spark.sparkContext.makeRDD(Seq(1, 1, 2, 1, 1, 3, 1, 1, 4, 1, 1, 5), 4).toDF("col")
     checkAnswer(
       table.select(bebe_approx_percentile(col("col"), array(lit(0.5)))),
-      Row(Seq(1.0D))
+      Row(Seq(1.0d))
     )
   }
 
   test("approx_percentile, with different accuracies") {
     val tableCount = 1000
-    val table = (1 to tableCount).toDF("col")
+    val table      = (1 to tableCount).toDF("col")
 
     // With different accuracies
-    val accuracies = Array(1, 10, 100, 1000, 10000)
-    val expectedPercentiles = Array(100D, 200D, 250D, 314D, 777D)
+    val accuracies          = Array(1, 10, 100, 1000, 10000)
+    val expectedPercentiles = Array(100d, 200d, 250d, 314d, 777d)
     for (accuracy <- accuracies) {
       for (expectedPercentile <- expectedPercentiles) {
         val df = table
           .select(
             bebe_approx_percentile(
-              col("col"), lit(expectedPercentile)/lit(tableCount), lit(accuracy)
+              col("col"),
+              lit(expectedPercentile) / lit(tableCount),
+              lit(accuracy)
             )
-           )
+          )
         val approximatePercentile = df.collect().head.getInt(0)
-        val error = Math.abs(approximatePercentile - expectedPercentile)
+        val error                 = Math.abs(approximatePercentile - expectedPercentile)
         assert(error <= math.floor(tableCount.toDouble / accuracy.toDouble))
       }
     }
@@ -160,10 +161,7 @@ class ApproxPercentileSpec
       table
         .groupBy("key")
         .agg(bebe_approx_percentile(lit(null), lit(0.5))),
-      Seq(
-        Row(1, null),
-        Row(2, null),
-        Row(0, null))
+      Seq(Row(1, null), Row(2, null), Row(0, null))
     )
   }
 
@@ -187,7 +185,8 @@ class ApproxPercentileSpec
         sum(lit(null)),
         bebe_approx_percentile(col("col"), lit(0.5))
       ),
-      Row(500D, null, 500D))
+      Row(500d, null, 500d)
+    )
   }
 
   test("approx_percentile(col, ...), input rows contains null, with group by") {
@@ -199,22 +198,24 @@ class ApproxPercentileSpec
       .flatMap(Seq(_, (null: Integer, null: Integer)))
       .toDF("key", "value")
     checkAnswer(
-      table.groupBy("key")
+      table
+        .groupBy("key")
         .agg(
           bebe_approx_percentile(col("value"), lit(0.5)),
           sum(col("value")),
           bebe_approx_percentile(col("value"), lit(0.5))
-        ).drop("key"),
+        )
+        .drop("key"),
       Seq(
         Row(null, null, null),
-        Row(499.0D, 250000, 499.0D),
-        Row(500.0D, 250500, 500.0D)
+        Row(499.0d, 250000, 499.0d),
+        Row(500.0d, 250500, 500.0d)
       )
     )
   }
 
   test("approx_percentile(col, ...) works in window function") {
-    val data = (1 to 10).map(v => (v % 2, v))
+    val data  = (1 to 10).map(v => (v % 2, v))
     val table = data.toDF("key", "value")
 
     val windowSpec = Window
@@ -226,15 +227,15 @@ class ApproxPercentileSpec
 
     val expected = data.groupBy(_._1).toSeq.flatMap { group =>
       val (key, values) = group
-      val sortedValues = values.map(_._2).sorted
+      val sortedValues  = values.map(_._2).sorted
 
       var outputRows = Seq.empty[Row]
-      var i = 0
+      var i          = 0
 
       val percentile = new PercentileDigest(1.0 / DEFAULT_PERCENTILE_ACCURACY)
       sortedValues.foreach { value =>
         percentile.add(value)
-        outputRows :+= Row(percentile.getPercentiles(Array(0.5D)).head)
+        outputRows :+= Row(percentile.getPercentiles(Array(0.5d)).head)
       }
       outputRows
     }
