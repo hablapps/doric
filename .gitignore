@@ -20,3 +20,5 @@ derby.log
 .vscode
 .bloop
 **/metals.sbt
+
+.bsp/
