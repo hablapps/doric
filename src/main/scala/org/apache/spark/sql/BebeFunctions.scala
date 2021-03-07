@@ -49,6 +49,17 @@ object BebeFunctions {
     }
 
   /**
+   * Returns length of array or map.
+   *
+   * The function returns null for null input if spark.sql.legacy.sizeOfNull is set to false or
+   * spark.sql.ansi.enabled is set to true. Otherwise, the function returns -1 for null input.
+   * With the default settings, the function returns -1 for null input.
+   *
+   * @group collection_funcs
+   */
+  def bebe_cardinality(e: Column): Column = withExpr { Size(e.expr) }
+
+  /**
     * Extract all strings in the `str` that match the `regexp` expression
     * and corresponding to the regex group index.
     * @group string_funcs

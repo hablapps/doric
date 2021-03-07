@@ -24,6 +24,28 @@ class BebeFunctionsSpec extends FunSpec with SparkSessionTestWrapper with Column
     }
   }
 
+  describe("bebe_cardinality") {
+    it("returns the size of an array") {
+      val df = Seq(
+        (Array("23", "44"), 2),
+        (Array.empty[String], 0),
+        (null, -1)
+      ).toDF("some_strings", "expected")
+        .withColumn("actual", bebe_cardinality(col("some_strings")))
+      assertColumnEquality(df, "actual", "expected")
+    }
+
+    it("returns the size of a map") {
+      val df = Seq(
+        (Map("23" -> 23, "44" -> 44), 2),
+        (Map.empty[String, Int], 0),
+        (null, -1)
+      ).toDF("some_kv_pairs", "expected")
+        .withColumn("actual", bebe_cardinality(col("some_kv_pairs")))
+      assertColumnEquality(df, "actual", "expected")
+    }
+  }
+
   describe("beginning_of_month") {
 //    it("has a good blog post example") {
 //      val df = Seq(
