@@ -1,9 +1,9 @@
-package mrpowers.bebe
-
-import scala.annotation.implicitNotFound
+package habla.doric
 
 import org.apache.spark.sql.types.DataType
 import org.apache.spark.sql.{Column, DataFrame}
+
+import scala.annotation.implicitNotFound
 
 @implicitNotFound(
   "Cant use the type ${T} to generate the typed column. Check your imported FromDf[${T}] instances"

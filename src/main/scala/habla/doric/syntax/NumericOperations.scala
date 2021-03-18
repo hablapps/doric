@@ -1,7 +1,7 @@
-package mrpowers.bebe.syntax
+package habla.doric.syntax
 
-import mrpowers.bebe.{BooleanColumn, FromDf, Literal, ToColumn}
-import mrpowers.bebe.syntax.TypeColumnHelper.sparkFunction
+import habla.doric.syntax.TypeColumnHelper.sparkFunction
+import habla.doric.{BooleanColumn, FromDf, Literal, ToColumn}
 
 case class NumericOperations[DT]() {
 

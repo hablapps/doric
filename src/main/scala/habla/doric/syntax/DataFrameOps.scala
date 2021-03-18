@@ -1,10 +1,7 @@
-package mrpowers.bebe
+package habla.doric
 package syntax
 
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types.BooleanType
-import org.apache.spark.sql.RelationalGroupedDataset
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, DataFrame, RelationalGroupedDataset}
 
 trait DataFrameOps {
 
@@ -98,7 +95,7 @@ trait DataFrameOps {
 
   }
 
-  class GroupedDataFrame private[bebe] (df: DataFrame, columns: Column*) {
+  class GroupedDataFrame private[doric] (df: DataFrame, columns: Column*) {
     def agg[T: ToColumn](aggColumn: T, aggColumns: T*): DataFrame = {
       df.groupBy(columns: _*).agg(aggColumn.sparkColumn, aggColumns.map(_.sparkColumn): _*)
     }

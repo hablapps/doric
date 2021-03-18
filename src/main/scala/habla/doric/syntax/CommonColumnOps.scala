@@ -1,7 +1,5 @@
-package mrpowers.bebe
+package habla.doric
 package syntax
-
-import org.apache.spark.sql.types.DataType
 
 trait CommonColumnOps {
 

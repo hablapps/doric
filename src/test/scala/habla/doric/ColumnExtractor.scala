@@ -1,7 +1,7 @@
-package mrpowers.bebe
+package habla.doric
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.bebe.Extensions._
+import habla.doric.Extensions._
 import org.scalatest.FunSpec
 
 import org.apache.spark.sql.DataFrame

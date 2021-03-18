@@ -1,6 +1,6 @@
-package mrpowers.bebe.syntax
+package habla.doric.syntax
 
-import mrpowers.bebe.{BooleanColumn, IntegerColumn, StringColumn}
+import habla.doric.{BooleanColumn, IntegerColumn, StringColumn}
 
 trait LiteralConversions {
 

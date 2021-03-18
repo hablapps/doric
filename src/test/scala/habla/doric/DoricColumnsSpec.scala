@@ -1,20 +1,20 @@
-package mrpowers.bebe
+package habla.doric
 
-import Predef.{any2stringadd => _, _}
+import habla.doric.Extensions._
+
+import org.apache.spark.sql.types.{StringType,FloatType,LongType,DoubleType}
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import mrpowers.bebe.Extensions._
 import org.scalatest.FunSpec
+import Predef.{any2stringadd => _, _} // scalafix:ok
 
-import org.apache.spark.sql.functions.col
-import org.apache.spark.sql.types._
-
-class BebeColumnsSpec
+class DoricColumnsSpec
     extends FunSpec
     with SparkSessionTestWrapper
     with ColumnComparer
     with TypedColumnTest {
 
+  // scalafix:ok
   import spark.implicits._
 
   it("allows for type safe programming") {

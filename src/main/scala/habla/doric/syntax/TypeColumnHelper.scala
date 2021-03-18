@@ -1,9 +1,9 @@
-package mrpowers.bebe
+package habla.doric
 package syntax
 
 import org.apache.spark.sql.Column
 
-private[bebe] object TypeColumnHelper {
+private[doric] object TypeColumnHelper {
   @inline def sparkFunction[T: ToColumn, O: FromDf](
       column: T,
       other: T,

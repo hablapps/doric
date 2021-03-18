@@ -1,22 +1,14 @@
-package mrpowers
+package habla
 
-import java.sql.{Date, Timestamp}
-import mrpowers.bebe.syntax.{
-  CommonColumnOps,
-  DataFrameOps,
-  FromDfExtras,
-  LiteralConversions,
-  NumericOperations,
-  NumericOperationsOps,
-  ToColumnExtras
-}
+import habla.doric.syntax.{CommonColumnOps, DataFrameOps, FromDfExtras, LiteralConversions, NumericOperations, NumericOperationsOps, ToColumnExtras}
 
-import org.apache.spark.sql.{functions, Column}
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.types._
-import org.apache.parquet.filter2.predicate.Operators.LongColumn
+import org.apache.spark.sql.{Column, functions}
 
-package object bebe
+import java.sql.{Date, Timestamp}
+
+package object doric
     extends ToColumnExtras
     with FromDfExtras
     with DataFrameOps

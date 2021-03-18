@@ -1,4 +1,4 @@
-package mrpowers.bebe
+package habla.doric
 
 import org.apache.spark.sql.types.DataType
 import scala.reflect.{ClassTag, _}

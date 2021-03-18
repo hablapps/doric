@@ -1,9 +1,9 @@
-package mrpowers.bebe
-
-import scala.annotation.implicitNotFound
+package habla.doric
 
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.lit
+
+import scala.annotation.implicitNotFound
 
 @implicitNotFound("The type $ScalaType cant be casted as a literal for $T.")
 trait Literal[T, ScalaType] {

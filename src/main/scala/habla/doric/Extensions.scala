@@ -1,9 +1,9 @@
-package mrpowers.bebe
-
-import java.sql.{Date, Timestamp}
+package habla.doric
 
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{col, lit, typedLit}
+
+import java.sql.{Date, Timestamp}
 
 object Extensions {
 
