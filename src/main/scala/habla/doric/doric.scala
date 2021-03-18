@@ -1,6 +1,14 @@
 package habla
 
-import habla.doric.syntax.{CommonColumnOps, DataFrameOps, FromDfExtras, LiteralConversions, NumericOperations, NumericOperationsOps, ToColumnExtras}
+import habla.doric.syntax.{
+  CommonColumnOps,
+  DataFrameOps,
+  FromDfExtras,
+  LiteralConversions,
+  NumericOperations,
+  NumericOperationsOps,
+  ToColumnExtras
+}
 
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.types._

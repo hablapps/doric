@@ -2,7 +2,7 @@ package habla.doric
 
 import habla.doric.Extensions._
 
-import org.apache.spark.sql.types.{StringType,FloatType,LongType,DoubleType}
+import org.apache.spark.sql.types.{StringType, FloatType, LongType, DoubleType}
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import org.scalatest.FunSpec
