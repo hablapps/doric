@@ -20,8 +20,8 @@ trait DataFrameOps {
       *       for instance, via loops in order to add multiple columns can generate big plans which
       *       can cause performance issues and even `StackOverflowException`.
       */
-    def withColumn[T: ToColumn](colName: String, col: T): DataFrame =
-      df.withColumn(colName, implicitly[ToColumn[T]].column(col))
+    def withColumn[T: FromDf](colName: String, col: T): DataFrame =
+      df.withColumn(colName, implicitly[FromDf[T]].column(col))
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
@@ -33,33 +33,33 @@ trait DataFrameOps {
       *       for instance, via loops in order to add multiple columns can generate big plans which
       *       can cause performance issues and even `StackOverflowException`.
       */
-    def withColumn[T: ToColumn](colName: String)(col: DataFrame => T): DataFrame =
-      df.withColumn(colName, implicitly[ToColumn[T]].column(col(df)))
+    def withColumn[T: FromDf](colName: String)(col: DataFrame => T): DataFrame =
+      df.withColumn(colName, implicitly[FromDf[T]].column(col(df)))
 
-    def join[T: ToColumn](df2: DataFrame, column: T): DataFrame = {
+    def join[T: FromDf](df2: DataFrame, column: T): DataFrame = {
       df.join(df2, column.sparkColumn)
     }
 
-    def join[T: ToColumn](df2: DataFrame)(f: (DataFrame, DataFrame) => T): DataFrame = {
+    def join[T: FromDf](df2: DataFrame)(f: (DataFrame, DataFrame) => T): DataFrame = {
       df.join(df2, f(df, df2).sparkColumn)
     }
 
-    def groupBy[T: ToColumn](column: DataFrame => T): RelationalGroupedDataset = {
+    def groupBy[T: FromDf](column: DataFrame => T): RelationalGroupedDataset = {
       df.groupBy(column(df).sparkColumn)
     }
 
-    def groupBy[T: ToColumn](columns: T*): RelationalGroupedDataset = {
+    def groupBy[T: FromDf](columns: T*): RelationalGroupedDataset = {
       df.groupBy(columns.map(_.sparkColumn): _*)
     }
 
-    def groupBy[T1: ToColumn, T2: ToColumn](
+    def groupBy[T1: FromDf, T2: FromDf](
         column1: T1,
         column2: T2
     ): RelationalGroupedDataset = {
       df.groupBy(column1.sparkColumn)
     }
 
-    def groupBy[T1: ToColumn, T2: ToColumn, T3: ToColumn](
+    def groupBy[T1: FromDf, T2: FromDf, T3: FromDf](
         column1: T1,
         column2: T2,
         column3: T3
@@ -67,7 +67,7 @@ trait DataFrameOps {
       df.groupBy(column1.sparkColumn)
     }
 
-    def groupBy[T1: ToColumn, T2: ToColumn, T3: ToColumn, T4: ToColumn](
+    def groupBy[T1: FromDf, T2: FromDf, T3: FromDf, T4: FromDf](
         column1: T1,
         column2: T2,
         column3: T3,
@@ -76,17 +76,17 @@ trait DataFrameOps {
       df.groupBy(column1.sparkColumn)
     }
 
-    def groupByF[T: ToColumn](f: DataFrame => T): GroupedDataFrame = {
+    def groupByF[T: FromDf](f: DataFrame => T): GroupedDataFrame = {
       new GroupedDataFrame(df, f(df).sparkColumn)
     }
 
-    def groupByF[TG: ToColumn, TA: ToColumn](
+    def groupByF[TG: FromDf, TA: FromDf](
         f: DataFrame => TG
     )(agg: DataFrame => TA): DataFrame = {
       df.groupBy(f(df).sparkColumn).agg(agg(df).sparkColumn)
     }
 
-    def groupByFMulty[TG: ToColumn, TA: ToColumn](
+    def groupByFMulty[TG: FromDf, TA: FromDf](
         f: DataFrame => Seq[TG]
     )(agg: DataFrame => Seq[TA]): DataFrame = {
       val aggColumns = agg(df).map(_.sparkColumn)
@@ -96,30 +96,30 @@ trait DataFrameOps {
   }
 
   class GroupedDataFrame private[doric] (df: DataFrame, columns: Column*) {
-    def agg[T: ToColumn](aggColumn: T, aggColumns: T*): DataFrame = {
+    def agg[T: FromDf](aggColumn: T, aggColumns: T*): DataFrame = {
       df.groupBy(columns: _*).agg(aggColumn.sparkColumn, aggColumns.map(_.sparkColumn): _*)
     }
   }
 
   implicit class GroupedDataFrameSyntax(gdf: RelationalGroupedDataset) {
-    def agg[T: ToColumn](column: T, columns: T*): DataFrame = {
+    def agg[T: FromDf](column: T, columns: T*): DataFrame = {
       gdf.agg(column.sparkColumn, columns.map(_.sparkColumn): _*)
     }
 
-    def agg[T1: ToColumn](
+    def agg[T1: FromDf](
         column1: T1
     ): DataFrame = {
       gdf.agg(column1.sparkColumn)
     }
 
-    def agg[T1: ToColumn, T2: ToColumn](
+    def agg[T1: FromDf, T2: FromDf](
         column1: T1,
         column2: T2
     ): DataFrame = {
       gdf.agg(column1.sparkColumn, column2.sparkColumn)
     }
 
-    def agg[T1: ToColumn, T2: ToColumn, T3: ToColumn](
+    def agg[T1: FromDf, T2: FromDf, T3: FromDf](
         column1: T1,
         column2: T2,
         column3: T3
@@ -127,7 +127,7 @@ trait DataFrameOps {
       gdf.agg(column1.sparkColumn, column2.sparkColumn, column3.sparkColumn)
     }
 
-    def agg[T1: ToColumn, T2: ToColumn, T3: ToColumn, T4: ToColumn](
+    def agg[T1: FromDf, T2: FromDf, T3: FromDf, T4: FromDf](
         column1: T1,
         column2: T2,
         column3: T3,

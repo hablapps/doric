@@ -73,7 +73,7 @@ package object doric
       */
     def sparkType: DataType
 
-    def createCol(column: Column): T
+    def createCol: Column => T
 
     def getCol(tc: T): Column
 
@@ -89,10 +89,10 @@ package object doric
     implicit val fromDf: FromDf[T] = new FromDf[T] {
       override def dataType: DataType = sparkType
 
-      override def construct(column: Column): T = createCol(column)
-    }
+      override val construct: Column => T = createCol
 
-    implicit val toColumn: ToColumn[T] = (typedCol: T) => getCol(typedCol)
+      override val column: T => Column = getCol
+    }
 
     implicit val literal: Literal[T, BT] = new Literal[T, BT] {}
 
@@ -107,7 +107,7 @@ package object doric
 
     override def sparkType: DataType = TimestampType
 
-    override def createCol(column: Column): TimestampColumn = TimestampColumn(column)
+    override def createCol: Column => TimestampColumn = TimestampColumn.apply
 
     override def getCol(tc: TimestampColumn): Column = tc.col
   }
@@ -121,7 +121,7 @@ package object doric
 
     override def sparkType: DataType = DateType
 
-    override def createCol(column: Column): DateColumn = DateColumn(column)
+    override def createCol: Column => DateColumn = DateColumn.apply
 
     override def getCol(tc: DateColumn): Column = tc.col
   }
@@ -135,7 +135,7 @@ package object doric
 
     override def sparkType: DataType = IntegerType
 
-    override def createCol(column: Column): IntegerColumn = IntegerColumn(column)
+    override def createCol: Column => IntegerColumn = IntegerColumn.apply
 
     override def getCol(tc: IntegerColumn): Column = tc.col
 
@@ -164,7 +164,7 @@ package object doric
 
     override def sparkType: DataType = LongType
 
-    override def createCol(column: Column): LongColumn = LongColumn(column)
+    override def createCol: Column => LongColumn = LongColumn.apply
 
     override def getCol(tc: LongColumn): Column = tc.col
 
@@ -190,7 +190,7 @@ package object doric
 
     override def sparkType: DataType = FloatType
 
-    override def createCol(column: Column): FloatColumn = FloatColumn(column)
+    override def createCol: Column => FloatColumn = FloatColumn.apply
 
     override def getCol(tc: FloatColumn): Column = tc.col
 
@@ -213,7 +213,7 @@ package object doric
 
     override def sparkType: DataType = DoubleType
 
-    override def createCol(column: Column): DoubleColumn = DoubleColumn(column)
+    override def createCol: Column => DoubleColumn = DoubleColumn.apply
 
     override def getCol(tc: DoubleColumn): Column = tc.col
 
@@ -233,7 +233,7 @@ package object doric
 
     override def sparkType: DataType = BooleanType
 
-    override def createCol(column: Column): BooleanColumn = BooleanColumn(column)
+    override def createCol: Column => BooleanColumn = BooleanColumn.apply
 
     override def getCol(tc: BooleanColumn): Column = tc.col
   }
@@ -247,7 +247,7 @@ package object doric
 
     override def sparkType: DataType = StringType
 
-    override def createCol(column: Column): StringColumn = StringColumn(column)
+    override def createCol: Column => StringColumn = StringColumn.apply
 
     override def getCol(tc: StringColumn): Column = tc.col
   }

@@ -5,8 +5,8 @@ import org.apache.spark.sql.Column
 
 trait ToColumnExtras {
 
-  implicit class ToColumnSyntax[T: ToColumn](column: T) {
-    def sparkColumn: Column = implicitly[ToColumn[T]].column(column)
+  implicit class ToColumnSyntax[T: FromDf](column: T) {
+    def sparkColumn: Column = implicitly[FromDf[T]].column(column)
   }
 
 }

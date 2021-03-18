@@ -4,7 +4,7 @@ import org.apache.spark.sql.types.DataType
 import scala.reflect.{ClassTag, _}
 
 trait TypedColumnTest {
-  implicit class TestColumn[T: FromDf: ToColumn: ClassTag](tcolumn: T) {
+  implicit class TestColumn[T: FromDf: ClassTag](tcolumn: T) {
 
     type Cast[To] = Casting[T, To]
 
@@ -46,7 +46,7 @@ trait TypedColumnTest {
       * @param expectedType the spark datatype expected in this moment
       * @return the provided column casted to the type if
       */
-    def testCastingTo[To: Cast: FromDf: ToColumn: ClassTag](expectedType: DataType): To = {
+    def testCastingTo[To: Cast: FromDf: ClassTag](expectedType: DataType): To = {
       tcolumn.castTo[To].withTypeChecked.withTypeChecked(expectedType)
     }
   }
