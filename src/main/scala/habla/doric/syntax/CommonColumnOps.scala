@@ -6,6 +6,7 @@ trait CommonColumnOps {
   implicit class BasicCol[T: FromDf](val column: T) {
 
     type CastToT[To] = Casting[T, To]
+    type WCastToT[To] = WarningCasting[T, To]
 
     type Lit[ST] = Literal[T, ST]
 
@@ -18,6 +19,8 @@ trait CommonColumnOps {
     def pipe[O: FromDf](f: T => O): O = f(column)
 
     def castTo[To: CastToT: FromDf]: To = implicitly[Casting[T, To]].cast(column)
+
+    def warningCastTo[To: WCastToT: FromDf]: To = implicitly[WarningCasting[T, To]].cast(column)
 
   }
 
