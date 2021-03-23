@@ -7,7 +7,11 @@ import habla.doric.syntax.{
   LiteralConversions,
   NumericOperations,
   NumericOperationsOps,
-  ToColumnExtras
+  ToColumnExtras,
+  TimestampColumnLike,
+  TimestampColumnLikeOps,
+  DateColumnLike,
+  DateColumnLikeOps
 }
 
 import org.apache.spark.sql.functions.lit
@@ -22,122 +26,88 @@ package object doric
     with DataFrameOps
     with NumericOperationsOps
     with LiteralConversions
-    with CommonColumnOps {
+    with CommonColumnOps
+    with TimestampColumnLikeOps
+    with DateColumnLikeOps {
 
-  trait DateOrTimestampColumnLike {
-    val col: Column
+  case class TimestampColumn(col: Column)
 
-    def day_of_month: IntegerColumn = IntegerColumn(org.apache.spark.sql.functions.dayofmonth(col))
-  }
+  object TimestampColumn {
 
-  trait TimestampColumnLike {
-    val col: Column
-
-    def hour: IntegerColumn = {
-      IntegerColumn(functions.hour(col))
-    }
-
-    def to_date: DateColumn = {
-      DateColumn(functions.to_date(col))
-    }
-
-    def add_months(numMonths: IntegerColumn): TimestampColumn =
-      TimestampColumn(functions.add_months(col, numMonths.col))
-  }
-
-  trait DateColumnLike {
-    val col: Column
-
-    def end_of_month: DateColumn = DateColumn(functions.last_day(col))
-
-    def add_months(numMonths: IntegerColumn): DateColumn =
-      DateColumn(functions.add_months(col, numMonths.col))
-  }
-
-  trait StaticColumnOps {
-
-    /**
-      * The type of the typed column
-      */
-    type T
-
-    /**
-      * The type in scala that corresponds the typed column
-      */
-    type BT
-
-    /**
-      * The spark type for the previous types
-      *
-      * @return
-      */
-    def sparkType: DataType
-
-    def createCol: Column => T
-
-    def getCol(tc: T): Column
-
-    def apply(litValue: BT): T = createCol(lit(litValue))
-
-    def unapply(column: Column): Option[T] = {
-      if (column.expr.dataType == sparkType)
-        Some(createCol(column))
+    def unapply(column: Column): Option[TimestampColumn] = {
+      if (column.expr.dataType == TimestampType)
+        Some(TimestampColumn(column))
       else
         None
     }
+    implicit val fromDf: FromDf[TimestampColumn] = new FromDf[TimestampColumn] {
 
-    implicit val fromDf: FromDf[T] = new FromDf[T] {
-      override def dataType: DataType = sparkType
+      override def dataType: DataType = TimestampType
 
-      override val construct: Column => T = createCol
+      override val construct: Column => TimestampColumn = TimestampColumn.apply
 
-      override val column: T => Column = getCol
+      override val column: TimestampColumn => Column = _.col
     }
 
-    implicit val literal: Literal[T, BT] = new Literal[T, BT] {}
+    implicit val literal: Literal[TimestampColumn, Timestamp] =
+      new Literal[TimestampColumn, Timestamp] {}
+
+    implicit val timestampOps = new TimestampColumnLike[TimestampColumn] {}
+    implicit val timestampDateOps = new DateColumnLike[TimestampColumn] {}
 
   }
 
-  case class TimestampColumn(col: Column) extends TimestampColumnLike with DateOrTimestampColumnLike
+  case class DateColumn(col: Column)
 
-  object TimestampColumn extends StaticColumnOps {
+  object DateColumn {
 
-    type T  = TimestampColumn
-    type BT = Timestamp
+    def unapply(column: Column): Option[DateColumn] = {
+      if (column.expr.dataType == DateType)
+        Some(DateColumn(column))
+      else
+        None
+    }
+    implicit val fromDf: FromDf[DateColumn] = new FromDf[DateColumn] {
 
-    override def sparkType: DataType = TimestampType
+      override def dataType: DataType = DateType
 
-    override def createCol: Column => TimestampColumn = TimestampColumn.apply
+      override val construct: Column => DateColumn = DateColumn.apply
 
-    override def getCol(tc: TimestampColumn): Column = tc.col
-  }
+      override val column: DateColumn => Column = _.col
+    }
 
-  case class DateColumn(col: Column) extends DateColumnLike with DateOrTimestampColumnLike
+    implicit val literal: Literal[DateColumn, Date] =
+      new Literal[DateColumn, Date] {}
 
-  object DateColumn extends StaticColumnOps {
-
-    type T  = DateColumn
-    type BT = Date
-
-    override def sparkType: DataType = DateType
-
-    override def createCol: Column => DateColumn = DateColumn.apply
-
-    override def getCol(tc: DateColumn): Column = tc.col
+    implicit val dateCol: DateColumnLike[DateColumn] = new DateColumnLike[DateColumn] {}
   }
 
   case class IntegerColumn(col: Column)
 
-  object IntegerColumn extends StaticColumnOps {
+  object IntegerColumn {
 
-    override type T  = IntegerColumn
-    override type BT = Int
+    type Lit[T] = Literal[IntegerColumn, T]
 
-    override def sparkType: DataType = IntegerType
+    def apply[LT: Lit](lit: LT): IntegerColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => IntegerColumn = IntegerColumn.apply
+    def unapply(column: Column): Option[IntegerColumn] = {
+      if (column.expr.dataType == IntegerType)
+        Some(IntegerColumn(column))
+      else
+        None
+    }
+    implicit val fromDf: FromDf[IntegerColumn] = new FromDf[IntegerColumn] {
 
-    override def getCol(tc: IntegerColumn): Column = tc.col
+      override def dataType: DataType = IntegerType
+
+      override val construct: Column => IntegerColumn = IntegerColumn.apply
+
+      override val column: IntegerColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[IntegerColumn, Int] =
+      new Literal[IntegerColumn, Int] {}
 
     implicit val intArith: NumericOperations[IntegerColumn] = NumericOperations[IntegerColumn]()
 
@@ -157,16 +127,31 @@ package object doric
 
   case class LongColumn(col: Column)
 
-  object LongColumn extends StaticColumnOps {
+  object LongColumn {
 
-    override type T  = LongColumn
-    override type BT = Int
+    type Lit[T] = Literal[LongColumn, T]
 
-    override def sparkType: DataType = LongType
+    def apply[LT: Lit](lit: LT): LongColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => LongColumn = LongColumn.apply
+    def unapply(column: Column): Option[LongColumn] = {
+      if (column.expr.dataType == LongType)
+        Some(LongColumn(column))
+      else
+        None
+    }
 
-    override def getCol(tc: LongColumn): Column = tc.col
+    implicit val fromDf: FromDf[LongColumn] = new FromDf[LongColumn] {
+
+      override def dataType: DataType = LongType
+
+      override val construct: Column => LongColumn = LongColumn.apply
+
+      override val column: LongColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[LongColumn, Int] =
+      new Literal[LongColumn, Int] {}
 
     implicit val intArith: NumericOperations[LongColumn] = NumericOperations[LongColumn]()
 
@@ -183,16 +168,31 @@ package object doric
 
   case class FloatColumn(col: Column)
 
-  object FloatColumn extends StaticColumnOps {
+  object FloatColumn {
 
-    override type T  = FloatColumn
-    override type BT = Int
+    type Lit[T] = Literal[FloatColumn, T]
 
-    override def sparkType: DataType = FloatType
+    def apply[LT: Lit](lit: LT): FloatColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => FloatColumn = FloatColumn.apply
+    def unapply(column: Column): Option[FloatColumn] = {
+      if (column.expr.dataType == FloatType)
+        Some(FloatColumn(column))
+      else
+        None
+    }
 
-    override def getCol(tc: FloatColumn): Column = tc.col
+    implicit val fromDf: FromDf[FloatColumn] = new FromDf[FloatColumn] {
+
+      override def dataType: DataType = FloatType
+
+      override val construct: Column => FloatColumn = FloatColumn.apply
+
+      override val column: FloatColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[FloatColumn, Float] =
+      new Literal[FloatColumn, Float] {}
 
     implicit val intArith: NumericOperations[FloatColumn] = NumericOperations[FloatColumn]()
 
@@ -206,16 +206,31 @@ package object doric
 
   case class DoubleColumn(col: Column)
 
-  object DoubleColumn extends StaticColumnOps {
+  object DoubleColumn {
 
-    override type T  = DoubleColumn
-    override type BT = Int
+    type Lit[T] = Literal[DoubleColumn, T]
 
-    override def sparkType: DataType = DoubleType
+    def apply[LT: Lit](lit: LT): DoubleColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => DoubleColumn = DoubleColumn.apply
+    def unapply(column: Column): Option[DoubleColumn] = {
+      if (column.expr.dataType == DoubleType)
+        Some(DoubleColumn(column))
+      else
+        None
+    }
 
-    override def getCol(tc: DoubleColumn): Column = tc.col
+    implicit val fromDf: FromDf[DoubleColumn] = new FromDf[DoubleColumn] {
+
+      override def dataType: DataType = DoubleType
+
+      override val construct: Column => DoubleColumn = DoubleColumn.apply
+
+      override val column: DoubleColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[DoubleColumn, Double] =
+      new Literal[DoubleColumn, Double] {}
 
     implicit val intArith: NumericOperations[DoubleColumn] = NumericOperations[DoubleColumn]()
 
@@ -226,30 +241,60 @@ package object doric
 
   case class BooleanColumn(col: Column)
 
-  object BooleanColumn extends StaticColumnOps {
+  object BooleanColumn {
 
-    override type T  = BooleanColumn
-    override type BT = Boolean
+    type Lit[T] = Literal[BooleanColumn, T]
 
-    override def sparkType: DataType = BooleanType
+    def apply[LT: Lit](lit: LT): BooleanColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => BooleanColumn = BooleanColumn.apply
+    def unapply(column: Column): Option[BooleanColumn] = {
+      if (column.expr.dataType == BooleanType)
+        Some(BooleanColumn(column))
+      else
+        None
+    }
 
-    override def getCol(tc: BooleanColumn): Column = tc.col
+    implicit val fromDf: FromDf[BooleanColumn] = new FromDf[BooleanColumn] {
+
+      override def dataType: DataType = BooleanType
+
+      override val construct: Column => BooleanColumn = BooleanColumn.apply
+
+      override val column: BooleanColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[BooleanColumn, Boolean] =
+      new Literal[BooleanColumn, Boolean] {}
   }
 
   case class StringColumn(col: Column)
 
-  object StringColumn extends StaticColumnOps {
+  object StringColumn {
 
-    override type T  = StringColumn
-    override type BT = String
+    type Lit[T] = Literal[StringColumn, T]
 
-    override def sparkType: DataType = StringType
+    def apply[LT: Lit](lit: LT): StringColumn =
+      implicitly[Lit[LT]].createTLiteral(lit)
 
-    override def createCol: Column => StringColumn = StringColumn.apply
+    def unapply(column: Column): Option[StringColumn] = {
+      if (column.expr.dataType == StringType)
+        Some(StringColumn(column))
+      else
+        None
+    }
 
-    override def getCol(tc: StringColumn): Column = tc.col
+    implicit val fromDf: FromDf[StringColumn] = new FromDf[StringColumn] {
+
+      override def dataType: DataType = StringType
+
+      override val construct: Column => StringColumn = StringColumn.apply
+
+      override val column: StringColumn => Column = _.col
+    }
+
+    implicit val literal: Literal[StringColumn, String] =
+      new Literal[StringColumn, String] {}
   }
 
 }

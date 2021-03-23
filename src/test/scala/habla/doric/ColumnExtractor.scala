@@ -14,8 +14,8 @@ class ColumnExtractor extends FunSpec with SparkSessionTestWrapper with ColumnCo
 
     def transformDateOrTimestamp(colName: String)(df: DataFrame): IntegerColumn =
       df(colName) match {
-        case DateColumn(dc)      => dc.day_of_month
-        case TimestampColumn(tc) => tc.day_of_month
+        case DateColumn(dc)      => dc.dayOfMonth
+        case TimestampColumn(tc) => tc.dayOfMonth
         case _                   => IntegerColumn(0)
       }
 

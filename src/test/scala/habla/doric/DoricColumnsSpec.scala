@@ -26,10 +26,10 @@ class DoricColumnsSpec
     val res = df
       .withColumn("hour", df.get[TimestampColumn]("some_time").hour withTypeChecked)
       .withColumn("end_of_month")(
-        _.get[TimestampColumn]("some_time").to_date.withTypeChecked
-          .add_months(3.tc)
+        _.get[TimestampColumn]("some_time").toDate.withTypeChecked
+          .addMonths(3)
           .withTypeChecked
-          .end_of_month withTypeChecked
+          .endOfMonth withTypeChecked
       )
     assertColumnEquality(res, "hour", "expected_hour")
     assertColumnEquality(res, "end_of_month", "expected_end_of_month")
