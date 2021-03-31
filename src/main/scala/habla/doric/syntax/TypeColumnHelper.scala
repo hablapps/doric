@@ -4,10 +4,10 @@ package syntax
 import org.apache.spark.sql.Column
 
 private[doric] object TypeColumnHelper {
-  @inline def sparkFunction[T: FromDf, O: FromDf](
-      column: T,
-      other: T,
+  @inline def sparkFunction[T, O](
+      column: DoricColumn[T],
+      other: DoricColumn[T],
       f: (Column, Column) => Column
-  ): O =
-    construct[O](f(column.sparkColumn, other.sparkColumn))
+  ): DoricColumn[O] =
+    DoricColumn(f(column.col, other.col))
 }

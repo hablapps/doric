@@ -3,26 +3,31 @@ package syntax
 
 import org.apache.spark.sql.functions
 import habla.doric.FromDf
+import java.sql.Time
 
 case class TimestampColumnLike[T]() {
-    def hour(col: T)(implicit t: FromDf[T]): IntegerColumn = {
-      IntegerColumn(functions.hour(col.sparkColumn))
+    def hour(col: DoricColumn[T])(implicit t: FromDf[T]): IntegerColumn = {
+      DoricColumn(functions.hour(col.col))
     }
 
-    def to_date(col: T)(implicit t: FromDf[T]): DateColumn = {
-      DateColumn(functions.to_date(col.sparkColumn))
+    def to_date(col: DoricColumn[T])(implicit t: FromDf[T]): DateColumn = {
+      DoricColumn(functions.to_date(col.col))
     }
 
-    def add_months(col: T, numMonths: IntegerColumn)(implicit t: FromDf[T]): T =
-      implicitly[FromDf[T]].construct(functions.add_months(col.sparkColumn, numMonths.sparkColumn))
+    def add_months(col: DoricColumn[T], numMonths: IntegerColumn)(implicit t: FromDf[T]): DoricColumn[T] =
+      DoricColumn(functions.add_months(col.sparkColumn, numMonths.col))
+}
+
+object TimestampColumnLike {
+  @inline def apply[T: TimestampColumnLike]: TimestampColumnLike[T] = implicitly[TimestampColumnLike[T]]
 }
 
 trait TimestampColumnLikeOps {
-  implicit class TimestampColumnLikeSyntax[T:  TimestampColumnLike: FromDf](column: T) {
-    def hour: IntegerColumn = implicitly[TimestampColumnLike[T]].hour(column)
+  implicit class TimestampColumnLikeSyntax[T:  TimestampColumnLike: FromDf](column: DoricColumn[T]) {
+    def hour: IntegerColumn = TimestampColumnLike[T].hour(column)
 
-    def toDate: DateColumn = implicitly[TimestampColumnLike[T]].to_date(column)
+    def toDate: DateColumn = TimestampColumnLike[T].to_date(column)
 
-    def addMonths(numMonths: IntegerColumn): T = implicitly[TimestampColumnLike[T]].add_months(column, numMonths)
+    def addMonths(numMonths: IntegerColumn): DoricColumn[T] = TimestampColumnLike[T].add_months(column, numMonths)
   }
 }

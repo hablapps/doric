@@ -2,11 +2,12 @@ package habla.doric
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import habla.doric.Extensions._
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpecLike
 
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.lit
 
-class ColumnExtractor extends FunSpec with SparkSessionTestWrapper with ColumnComparer {
+class ColumnExtractor extends AnyFunSpecLike with SparkSessionTestWrapper with ColumnComparer {
 
   import spark.implicits._
 
@@ -16,7 +17,7 @@ class ColumnExtractor extends FunSpec with SparkSessionTestWrapper with ColumnCo
       df(colName) match {
         case DateColumn(dc)      => dc.dayOfMonth
         case TimestampColumn(tc) => tc.dayOfMonth
-        case _                   => IntegerColumn(0)
+        case _                   => 0.lit
       }
 
     it("extracts according to the column") {
@@ -26,9 +27,11 @@ class ColumnExtractor extends FunSpec with SparkSessionTestWrapper with ColumnCo
       ).toDF("date", "date_expected_month", "integer_expected_month")
         .withColumn("date_month")(transformDateOrTimestamp("date"))
         .withColumn("integer_month")(transformDateOrTimestamp("date_expected_month"))
+
       assertColumnEquality(df, "date_month", "date_expected_month")
       assertColumnEquality(df, "integer_month", "integer_expected_month")
     }
+
   }
 
 }

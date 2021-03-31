@@ -12,14 +12,14 @@ trait FromDf[T] {
 
   def dataType: DataType
 
-  def construct: Column => T
+  def construct: Column => DoricColumn[T] = DoricColumn.apply
 
-  def validate(df: DataFrame, colName: String): T = {
+  def validate(df: DataFrame, colName: String): DoricColumn[T] = {
     validate(df(colName))
   }
 
-  def validate(column: Column): T = {
-    if (column.expr.dataType == dataType)
+  def validate(column: Column): DoricColumn[T] = {
+    if (isValid(column))
       construct(column)
     else
       throw new Exception(
@@ -27,5 +27,12 @@ trait FromDf[T] {
       )
   }
 
-  def column: T => Column
+  def isValid(column: Column): Boolean = column.expr.dataType == dataType
+
+  def column: DoricColumn[T] => Column = _.col
+}
+
+
+object FromDf{
+  @inline def apply[A: FromDf] = implicitly[FromDf[A]]
 }

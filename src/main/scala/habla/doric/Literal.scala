@@ -9,6 +9,12 @@ import scala.annotation.implicitNotFound
 trait Literal[T, ScalaType] {
   def createLiteral(st: ScalaType): Column = lit(st)
 
-  def createTLiteral(st: ScalaType)(implicit fromDf: FromDf[T]): T =
-    fromDf.construct(createLiteral(st))
+  def createTLiteral(st: ScalaType): DoricColumn[T] =
+    DoricColumn(createLiteral(st))
+}
+
+object Literal {
+  @inline def apply[T, ScalaType](implicit imp: Literal[T, ScalaType]): Literal[T, ScalaType] = {
+    imp
+  }
 }

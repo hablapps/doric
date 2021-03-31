@@ -4,7 +4,7 @@ import org.apache.spark.sql.types.DataType
 import scala.reflect.{ClassTag, _}
 
 trait TypedColumnTest {
-  implicit class TestColumn[T: FromDf: ClassTag](tcolumn: T) {
+  implicit class TestColumn[T: ClassTag](tcolumn: DoricColumn[T]) {
 
     type Cast[To] = Casting[T, To]
 
@@ -13,8 +13,8 @@ trait TypedColumnTest {
       *
       * @return the provided column
       */
-    def withTypeChecked: T = {
-      val columnType: DataType   = tcolumn.sparkColumn.expr.dataType
+    def withTypeChecked(implicit fromdf: FromDf[T]): DoricColumn[T] = {
+      val columnType: DataType   = tcolumn.col.expr.dataType
       val expectedType: DataType = dataType[T]
       assert(
         columnType == expectedType,
@@ -30,8 +30,8 @@ trait TypedColumnTest {
       * @param expectedType the spark datatype expected in this moment
       * @return the provided column
       */
-    def withTypeChecked(expectedType: DataType): T = {
-      val columnType: DataType = tcolumn.sparkColumn.expr.dataType
+    def withTypeChecked(expectedType: DataType): DoricColumn[T] = {
+      val columnType: DataType = tcolumn.col.expr.dataType
       println(s"$columnType $expectedType")
       assert(
         columnType == expectedType,
@@ -46,7 +46,9 @@ trait TypedColumnTest {
       * @param expectedType the spark datatype expected in this moment
       * @return the provided column casted to the type if
       */
-    def testCastingTo[To: Cast: FromDf: ClassTag](expectedType: DataType): To = {
+    def testCastingTo[To: Cast: FromDf: ClassTag](expectedType: DataType): DoricColumn[To] = {
+      FromDf[To].dataType
+      Casting[T, To].cast(tcolumn)
       tcolumn.castTo[To].withTypeChecked.withTypeChecked(expectedType)
     }
   }
