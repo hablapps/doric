@@ -7,7 +7,6 @@ import habla.doric.syntax.{
   LiteralConversions,
   NumericOperations,
   NumericOperationsOps,
-  ToColumnExtras,
   TimestampColumnLike,
   TimestampColumnLikeOps,
   DateColumnLike,
@@ -22,8 +21,7 @@ import java.sql.{Date, Timestamp}
 import org.apache.spark.sql.TypedColumn
 
 package object doric
-    extends ToColumnExtras
-    with FromDfExtras
+    extends FromDfExtras
     with DataFrameOps
     with NumericOperationsOps
     with LiteralConversions
@@ -53,9 +51,6 @@ package object doric
 
     override def dataType: DataType = TimestampType
 
-    override val construct: Column => TimestampColumn = DoricColumn.apply
-
-    override val column: TimestampColumn => Column = _.col
   }
 
   implicit val literalTimestamp: Literal[Timestamp, Timestamp] =
@@ -96,15 +91,12 @@ package object doric
 
     override def dataType: DataType = IntegerType
 
-    override val construct: Column => IntegerColumn = DoricColumn.apply
-
-    override val column: IntegerColumn => Column = _.col
   }
 
   implicit val literal: Literal[Int, Int] =
     new Literal[Int, Int] {}
 
-  implicit val intArith: NumericOperations[Int] = NumericOperations[Int]()
+  implicit val intArith: NumericOperations[Int] = new NumericOperations[Int] {}
 
   implicit val intCastToString: Casting[Int, String] =
     new SparkCasting[Int, String] {}
@@ -135,15 +127,12 @@ package object doric
 
     override def dataType: DataType = LongType
 
-    override val construct: Column => LongColumn = DoricColumn.apply
-
-    override val column: LongColumn => Column = _.col
   }
 
   implicit val literalLong: Literal[Long, Int] =
     new Literal[Long, Int] {}
 
-  implicit val longArith: NumericOperations[Long] = NumericOperations[Long]()
+  implicit val longArith: NumericOperations[Long] = new NumericOperations[Long] {}
 
   implicit val longCastToString: Casting[Long, String] =
     new SparkCasting[Long, String] {}
@@ -168,16 +157,12 @@ package object doric
   implicit val fromFloat: FromDf[Float] = new FromDf[Float] {
 
     override def dataType: DataType = FloatType
-
-    override val construct: Column => FloatColumn = DoricColumn.apply
-
-    override val column: FloatColumn => Column = _.col
   }
 
   implicit val literalFloat: Literal[FloatColumn, Float] =
     new Literal[FloatColumn, Float] {}
 
-  implicit val floatArith: NumericOperations[FloatColumn] = NumericOperations[FloatColumn]()
+  implicit val floatArith: NumericOperations[FloatColumn] = new NumericOperations[FloatColumn] {}
 
   implicit val floatCastToString: Casting[FloatColumn, StringColumn] =
     new SparkCasting[FloatColumn, StringColumn] {}
@@ -199,16 +184,12 @@ package object doric
   implicit val fromDouble: FromDf[Double] = new FromDf[Double] {
 
     override def dataType: DataType = DoubleType
-
-    override val construct: Column => DoubleColumn = DoricColumn.apply
-
-    override val column: DoubleColumn => Column = _.col
   }
 
   implicit val literalDouble: Literal[DoubleColumn, Double] =
     new Literal[DoubleColumn, Double] {}
 
-  implicit val doubleArith: NumericOperations[DoubleColumn] = NumericOperations[DoubleColumn]()
+  implicit val doubleArith: NumericOperations[DoubleColumn] = new NumericOperations[DoubleColumn] {}
 
   implicit val doubleCastToString: Casting[DoubleColumn, StringColumn] =
     new SparkCasting[DoubleColumn, StringColumn] {}
@@ -226,10 +207,6 @@ package object doric
   implicit val fromBoolean: FromDf[Boolean] = new FromDf[Boolean] {
 
     override def dataType: DataType = BooleanType
-
-    override val construct: Column => BooleanColumn = DoricColumn.apply
-
-    override val column: BooleanColumn => Column = _.col
   }
 
   implicit val literalBoolean: Literal[BooleanColumn, Boolean] =
@@ -249,10 +226,6 @@ package object doric
   implicit val fromStringDf: FromDf[String] = new FromDf[String] {
 
     override def dataType: DataType = StringType
-
-    override val construct: Column => StringColumn = DoricColumn.apply
-
-    override val column: StringColumn => Column = _.col
   }
 
   implicit val literalString: StringLit[String] =
@@ -266,10 +239,6 @@ package object doric
     implicit def fromDF[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
 
       override def dataType: DataType = ArrayType(implicitly[FromDf[A]].dataType)
-
-      override val construct: Column => ArrayColumn[A] = DoricColumn.apply
-
-      override val column: ArrayColumn[A] => Column = _.col
 
     }
 

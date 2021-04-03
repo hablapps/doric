@@ -5,9 +5,9 @@ trait CommonColumnOps {
 
   implicit class BasicCol[T](private val column: DoricColumn[T]) {
 
-    type CastToT[To] = Casting[T, To]
+    type CastToT[To]  = Casting[T, To]
     type WCastToT[To] = WarningCasting[T, To]
-    type Lit[ST] = Literal[T, ST]
+    type Lit[ST]      = Literal[T, ST]
 
     def as(colName: String): DoricColumn[T] = DoricColumn(column.col as colName)
 
@@ -15,7 +15,7 @@ trait CommonColumnOps {
 
     def ===[LT: Lit](other: LT): BooleanColumn = column === other.lit
 
-    def pipe[O: FromDf](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
+    def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
 
     def castTo[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
 

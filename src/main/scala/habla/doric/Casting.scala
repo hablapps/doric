@@ -6,7 +6,7 @@ trait Casting[From, To] {
 
 object Casting {
   @inline def apply[From, To](implicit imp: Casting[From, To]): Casting[From, To] =
-   implicitly[Casting[From, To]]
+    implicitly[Casting[From, To]]
 }
 
 trait SparkCasting[From, To] extends Casting[From, To] {

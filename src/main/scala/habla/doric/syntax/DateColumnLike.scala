@@ -18,7 +18,7 @@ trait DateColumnLike[T] {
 }
 
 object DateColumnLike {
-  @inline def apply[T: DateColumnLike]():DateColumnLike[T] = implicitly[DateColumnLike[T]]
+  @inline def apply[T: DateColumnLike](): DateColumnLike[T] = implicitly[DateColumnLike[T]]
 }
 
 trait DateColumnLikeOps {
@@ -30,8 +30,10 @@ trait DateColumnLikeOps {
 
     def dayOfMonth: IntegerColumn = DateColumnLike[T].day_of_month(column)
 
-    def addMonths(nMonths: IntegerColumn): DoricColumn[T] = DateColumnLike[T].add_months(column, nMonths)
-    
-    def addMonths[LT: IntLit](nMonths: LT): DoricColumn[T] = DateColumnLike[T].add_months(column, nMonths.lit)
+    def addMonths(nMonths: IntegerColumn): DoricColumn[T] =
+      DateColumnLike[T].add_months(column, nMonths)
+
+    def addMonths[LT: IntLit](nMonths: LT): DoricColumn[T] =
+      DateColumnLike[T].add_months(column, nMonths.lit)
   }
 }

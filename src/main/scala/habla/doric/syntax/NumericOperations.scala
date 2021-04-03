@@ -2,28 +2,35 @@ package habla.doric
 package syntax
 
 import habla.doric.syntax.TypeColumnHelper.sparkFunction
-import habla.doric.{BooleanColumn, FromDf, Literal}
+import habla.doric.{BooleanColumn, Literal}
 
-case class NumericOperations[DT]() {
+trait NumericOperations[T] {
 
-  def +[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] = sparkFunction(column, other, _ + _)
+  def +(column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] =
+    sparkFunction(column, other, _ + _)
 
-  def -[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] = sparkFunction(column, other, _ - _)
+  def -(column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] =
+    sparkFunction(column, other, _ - _)
 
-  def *[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] = sparkFunction(column, other, _ * _)
+  def *(column: DoricColumn[T], other: DoricColumn[T]): DoricColumn[T] =
+    sparkFunction(column, other, _ * _)
 
-  def >[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
+  def >(column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
     sparkFunction[T, Boolean](column, other, _ > _)
 
-  def >=[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
+  def >=(column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
     sparkFunction[T, Boolean](column, other, _ >= _)
 
-  def <[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
+  def <(column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
     sparkFunction[T, Boolean](column, other, _ < _)
 
-  def <=[T: FromDf](column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
+  def <=(column: DoricColumn[T], other: DoricColumn[T]): BooleanColumn =
     sparkFunction[T, Boolean](column, other, _ <= _)
 
+}
+
+object NumericOperations {
+  @inline def apply[T: NumericOperations]: NumericOperations[T] = implicitly[NumericOperations[T]]
 }
 
 trait NumericOperationsOps {
@@ -35,31 +42,35 @@ trait NumericOperationsOps {
     def +(other: DoricColumn[T]): DoricColumn[T] = implicitly[NumericOperations[T]].+(column, other)
 
     def +[LT: Lit](other: LT): DoricColumn[T] =
-      implicitly[NumericOperations[T]].+(column, implicitly[Lit[LT]].createTLiteral(other))
+      NumericOperations[T].+(column, Literal[T, LT].createTLiteral(other))
 
-    def -(other: DoricColumn[T]): DoricColumn[T] = implicitly[NumericOperations[T]] - (column, other)
+    def -(other: DoricColumn[T]): DoricColumn[T] =
+      NumericOperations[T] - (column, other)
 
-    def -[LT: Lit](other: LT): DoricColumn[T] = column - implicitly[Lit[LT]].createTLiteral(other)
+    def -[LT: Lit](other: LT): DoricColumn[T] = column - Literal[T, LT].createTLiteral(other)
 
-    def *(other: DoricColumn[T]): DoricColumn[T] = implicitly[NumericOperations[T]] * (column, other)
+    def *(other: DoricColumn[T]): DoricColumn[T] =
+      NumericOperations[T] * (column, other)
 
-    def *[LT: Lit](other: LT): DoricColumn[T] = column * implicitly[Lit[LT]].createTLiteral(other)
+    def *[LT: Lit](other: LT): DoricColumn[T] = column * Literal[T, LT].createTLiteral(other)
 
-    def >(other: DoricColumn[T]): BooleanColumn = implicitly[NumericOperations[T]] > (column, other)
+    def >(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] > (column, other)
 
-    def >[LT: Lit](other: LT): BooleanColumn = column > implicitly[Lit[LT]].createTLiteral(other)
+    def >[LT: Lit](other: LT): BooleanColumn = column > Literal[T, LT].createTLiteral(other)
 
-    def >=(other: DoricColumn[T]): BooleanColumn = implicitly[NumericOperations[T]] >= (column, other)
+    def >=(other: DoricColumn[T]): BooleanColumn =
+      NumericOperations[T] >= (column, other)
 
-    def >=[LT: Lit](other: LT): BooleanColumn = column >= implicitly[Lit[LT]].createTLiteral(other)
+    def >=[LT: Lit](other: LT): BooleanColumn = column >= Literal[T, LT].createTLiteral(other)
 
-    def <(other: DoricColumn[T]): BooleanColumn = implicitly[NumericOperations[T]] < (column, other)
+    def <(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] < (column, other)
 
-    def <[LT: Lit](other: LT): BooleanColumn = column < implicitly[Lit[LT]].createTLiteral(other)
+    def <[LT: Lit](other: LT): BooleanColumn = column < Literal[T, LT].createTLiteral(other)
 
-    def <=(other: DoricColumn[T]): BooleanColumn = implicitly[NumericOperations[T]] <= (column, other)
+    def <=(other: DoricColumn[T]): BooleanColumn =
+      NumericOperations[T] <= (column, other)
 
-    def <=[LT: Lit](other: LT): BooleanColumn = column <= implicitly[Lit[LT]].createTLiteral(other)
+    def <=[LT: Lit](other: LT): BooleanColumn = column <= Literal[T, LT].createTLiteral(other)
   }
 
 }

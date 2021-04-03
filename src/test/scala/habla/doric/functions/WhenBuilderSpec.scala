@@ -41,7 +41,7 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
             .otherwiseNull
         })
 
-        df.get[Int]("c1") === 100
+      df.get[Int]("c1") === 100
       assertColEquality(df, "whenResult", "whenExpected")
     }
   }

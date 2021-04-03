@@ -11,6 +11,14 @@ trait Literal[T, ScalaType] {
 
   def createTLiteral(st: ScalaType): DoricColumn[T] =
     DoricColumn(createLiteral(st))
+
+  def map[ST2](f: ST2 => ScalaType): Literal[T, ST2] = {
+    val self = this
+    new Literal[T, ST2] {
+      override def createTLiteral(st: ST2): DoricColumn[T] =
+        DoricColumn(self.createLiteral(f(st)))
+    }
+  }
 }
 
 object Literal {

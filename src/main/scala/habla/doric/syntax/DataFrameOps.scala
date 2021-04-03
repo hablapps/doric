@@ -20,8 +20,8 @@ trait DataFrameOps {
       *       for instance, via loops in order to add multiple columns can generate big plans which
       *       can cause performance issues and even `StackOverflowException`.
       */
-    def withColumn[T: FromDf](colName: String, col: DoricColumn[T]): DataFrame =
-      df.withColumn(colName, FromDf[T].column(col))
+    def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame =
+      df.withColumn(colName, col.col)
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
@@ -46,10 +46,10 @@ trait DataFrameOps {
       *       for instance, via loops in order to add multiple columns can generate big plans which
       *       can cause performance issues and even `StackOverflowException`.
       */
-    def withLitColumn[T: FromDf, LT](colName: String)(col: LT)(implicit lit: Literal[T, LT]): DataFrame =
-      df.withColumn(colName, col.lit.sparkColumn)
+    def withLitColumn[T, LT](colName: String)(col: LT)(implicit lit: Literal[T, LT]): DataFrame =
+      df.withColumn(colName, col.lit.col)
 
-      /*
+    /*
     def join[T: FromDf](df2: DataFrame, column: T): DataFrame = {
       df.join(df2, column.sparkColumn)
     }
@@ -149,7 +149,7 @@ trait DataFrameOps {
     ): DataFrame = {
       gdf.agg(column1.sparkColumn, column2.sparkColumn, column3.sparkColumn, column4.sparkColumn)
     }
-*/
+     */
   }
 
 }

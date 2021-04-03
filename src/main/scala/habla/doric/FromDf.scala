@@ -12,15 +12,13 @@ trait FromDf[T] {
 
   def dataType: DataType
 
-  def construct: Column => DoricColumn[T] = DoricColumn.apply
-
   def validate(df: DataFrame, colName: String): DoricColumn[T] = {
     validate(df(colName))
   }
 
   def validate(column: Column): DoricColumn[T] = {
     if (isValid(column))
-      construct(column)
+      DoricColumn(column)
     else
       throw new Exception(
         s"This column ${column.expr.prettyName} is of type ${column.expr.dataType} and it was expected to be $dataType"
@@ -29,10 +27,8 @@ trait FromDf[T] {
 
   def isValid(column: Column): Boolean = column.expr.dataType == dataType
 
-  def column: DoricColumn[T] => Column = _.col
 }
 
-
-object FromDf{
+object FromDf {
   @inline def apply[A: FromDf] = implicitly[FromDf[A]]
 }

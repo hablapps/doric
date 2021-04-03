@@ -1,5 +1,3 @@
 package habla.doric
 
-package object functions {
-  
-}
+package object functions {}

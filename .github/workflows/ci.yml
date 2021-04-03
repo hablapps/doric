@@ -15,7 +15,7 @@ jobs:
       - name: Coursier cache
         uses: coursier/cache-action@v5
       - name: Test
-        run: sbt -Dspark.testVersion=${{ matrix.spark  }} ++${{ matrix.scala }} test
+        run: sbt test
       - name: Code Quality
         run: sbt scalafmtCheckAll
       - name: Cleaning for cache

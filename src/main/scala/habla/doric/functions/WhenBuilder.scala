@@ -16,9 +16,7 @@ final case class WhenBuilder[T](
 
   private def casesToWhenColumn: Column = {
     val first = cases.head
-    cases.tail.foldLeft(when(first._1.col, first._2.col))(
-      (acc, c) => acc.when(c._1.col, c._2.col)
-    )
+    cases.tail.foldLeft(when(first._1.col, first._2.col))((acc, c) => acc.when(c._1.col, c._2.col))
   }
   def caseW(cond: BooleanColumn, elem: DoricColumn[T]): WhenBuilder[T] =
     WhenBuilder(cases.:+((cond, elem)))
