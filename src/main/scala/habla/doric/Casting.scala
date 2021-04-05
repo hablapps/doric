@@ -1,5 +1,8 @@
 package habla.doric
 
+import cats.implicits._
+import cats.data.Kleisli
+
 trait Casting[From, To] {
   def cast(column: DoricColumn[From])(implicit constructor: FromDf[To]): DoricColumn[To]
 }
@@ -11,5 +14,5 @@ object Casting {
 
 trait SparkCasting[From, To] extends Casting[From, To] {
   override def cast(column: DoricColumn[From])(implicit constructor: FromDf[To]): DoricColumn[To] =
-    DoricColumn(column.col.cast(constructor.dataType))
+    DoricColumn(column.toKleisli.map(_.cast(constructor.dataType)).run)
 }

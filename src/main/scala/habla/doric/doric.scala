@@ -1,24 +1,12 @@
 package habla
 
-import habla.doric.syntax.{
-  CommonColumnOps,
-  DataFrameOps,
-  FromDfExtras,
-  LiteralConversions,
-  NumericOperations,
-  NumericOperationsOps,
-  TimestampColumnLike,
-  TimestampColumnLikeOps,
-  DateColumnLike,
-  DateColumnLikeOps
-}
-
-import org.apache.spark.sql.functions.lit
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Column, functions}
-
+import cats.data.{Kleisli, ValidatedNec}
+import cats.implicits._
+import habla.doric.syntax._
 import java.sql.{Date, Timestamp}
-import org.apache.spark.sql.TypedColumn
+
+import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.types._
 
 package object doric
     extends FromDfExtras
@@ -29,12 +17,21 @@ package object doric
     with TimestampColumnLikeOps
     with DateColumnLikeOps {
 
-  case class DoricColumn[A](col: Column)
+  type DoricValidated[A] = ValidatedNec[Throwable, A]
+  case class DoricColumn[A](col: DataFrame => ValidatedNec[Throwable, Column])
+
+  implicit class DoricColumnHelp[A](doricColumn: DoricColumn[A]) {
+    def toKleisli: Kleisli[DoricValidated, DataFrame, Column] = Kleisli(doricColumn.col)
+    def map[B](f: Column => Column): DoricColumn[B]           = DoricColumn(toKleisli.map(f).run)
+    def mapN[C, B](c2: DoricColumn[C])(f: (Column, Column) => Column): DoricColumn[B] = DoricColumn(
+      (toKleisli, c2.toKleisli).mapN(f).run
+    )
+  }
 
   object DoricColumnExtr {
     def unapply[A: FromDf](column: Column): Option[DoricColumn[A]] = {
       if (FromDf[A].isValid(column))
-        Some(DoricColumn[A](column))
+        Some(DoricColumn[A](_ => column.valid))
       else
         None
     }

@@ -14,14 +14,7 @@ trait TypedColumnTest {
       * @return the provided column
       */
     def withTypeChecked(implicit fromdf: FromDf[T]): DoricColumn[T] = {
-      val columnType: DataType   = tcolumn.col.expr.dataType
-      val expectedType: DataType = dataType[T]
-      assert(
-        columnType == expectedType,
-        s"the column expression type is ${columnType} but the wrapper " +
-          s"${classTag[T].runtimeClass.getSimpleName()} if of type $expectedType "
-      )
-      tcolumn
+      withTypeChecked(dataType[T])
     }
 
     /**
@@ -31,13 +24,15 @@ trait TypedColumnTest {
       * @return the provided column
       */
     def withTypeChecked(expectedType: DataType): DoricColumn[T] = {
-      val columnType: DataType = tcolumn.col.expr.dataType
-      println(s"$columnType $expectedType")
-      assert(
-        columnType == expectedType,
-        s"the column expression type is ${columnType} but the provided expected type is $expectedType "
-      )
-      tcolumn
+      tcolumn.map(c => {
+        val columnType: DataType = c.expr.dataType
+        assert(
+          columnType == expectedType,
+          s"the column expression type is ${columnType} but the wrapper " +
+            s"${classTag[T].runtimeClass.getSimpleName()} if of type $expectedType "
+        )
+        c
+      })
     }
 
     /**

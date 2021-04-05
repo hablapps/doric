@@ -7,18 +7,18 @@ import java.sql.Date
 trait DateColumnLike[T] {
 
   def end_of_month(col: DoricColumn[T]): DoricColumn[T] =
-    DoricColumn(functions.last_day(col.col))
+    col.map(functions.last_day)
 
   def day_of_month(col: DoricColumn[T]): IntegerColumn =
-    DoricColumn(org.apache.spark.sql.functions.dayofmonth(col.col))
+    col.map(functions.dayofmonth)
 
   def add_months(col: DoricColumn[T], nMonths: IntegerColumn): DoricColumn[T] =
-    DoricColumn(functions.add_months(col.col, nMonths.col))
+    col.mapN(nMonths)(functions.add_months)
 
 }
 
 object DateColumnLike {
-  @inline def apply[T: DateColumnLike](): DateColumnLike[T] = implicitly[DateColumnLike[T]]
+  @inline def apply[T: DateColumnLike]: DateColumnLike[T] = implicitly[DateColumnLike[T]]
 }
 
 trait DateColumnLikeOps {

@@ -1,6 +1,8 @@
 package habla.doric
 package syntax
 
+import cats.implicits._
+
 trait CommonColumnOps {
 
   implicit class BasicCol[T](private val column: DoricColumn[T]) {
@@ -9,9 +11,11 @@ trait CommonColumnOps {
     type WCastToT[To] = WarningCasting[T, To]
     type Lit[ST]      = Literal[T, ST]
 
-    def as(colName: String): DoricColumn[T] = DoricColumn(column.col as colName)
+    def as(colName: String): DoricColumn[T] = DoricColumn(column.toKleisli.map(_ as colName).run)
 
-    def ===(other: DoricColumn[T]): BooleanColumn = DoricColumn(column.col === other.col)
+    def ===(other: DoricColumn[T]): BooleanColumn = DoricColumn(
+      (column.toKleisli, other.toKleisli).mapN(_ === _).run
+    )
 
     def ===[LT: Lit](other: LT): BooleanColumn = column === other.lit
 

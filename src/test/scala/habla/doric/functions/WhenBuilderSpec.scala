@@ -22,12 +22,13 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
 
       val df = List((100, 1), (8, 1008), (2, 3))
         .toDF("c1", "whenExpected")
-        .withColumn("whenResult")(df => {
+        .withColumn(
+          "whenResult",
           WhenBuilder[Int]()
-            .caseW(df.get[Int]("c1") > 10, 1)
-            .caseW(df.get[Int]("c1") > 5, df.get[Int]("c1") + 1000)
+            .caseW(getInt("c1") > 10, 1)
+            .caseW(getInt("c1") > 5, getInt("c1") + 1000)
             .otherwise(3)
-        })
+        )
 
       assertColEquality(df, "whenResult", "whenExpected")
     }
@@ -35,13 +36,14 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
     it("puts null otherwiseNull is selected in rest of cases") {
       val df = List((100, Some(1)), (8, None), (2, None))
         .toDF("c1", "whenExpected")
-        .withColumn("whenResult")(df => {
+        .withColumn(
+          "whenResult",
           WhenBuilder[Int]()
-            .caseW(df.get[Int]("c1") === 100, 1)
+            .caseW(getInt("c1") === 100, 1)
             .otherwiseNull
-        })
+        )
 
-      df.get[Int]("c1") === 100
+      getInt("c1") === 100
       assertColEquality(df, "whenResult", "whenExpected")
     }
   }

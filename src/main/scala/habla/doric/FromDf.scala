@@ -4,6 +4,8 @@ import org.apache.spark.sql.types.DataType
 import org.apache.spark.sql.{Column, DataFrame}
 
 import scala.annotation.implicitNotFound
+import cats.implicits._
+import cats.data.Validated
 
 @implicitNotFound(
   "Cant use the type ${T} to generate the typed column. Check your imported FromDf[${T}] instances"
@@ -12,17 +14,20 @@ trait FromDf[T] {
 
   def dataType: DataType
 
-  def validate(df: DataFrame, colName: String): DoricColumn[T] = {
-    validate(df(colName))
-  }
-
-  def validate(column: Column): DoricColumn[T] = {
-    if (isValid(column))
-      DoricColumn(column)
-    else
-      throw new Exception(
-        s"This column ${column.expr.prettyName} is of type ${column.expr.dataType} and it was expected to be $dataType"
-      )
+  def validate(colName: String): DoricColumn[T] = {
+    DoricColumn(df => {
+      try {
+        val column = df(colName)
+        if (column.expr.dataType == dataType)
+          Validated.valid(column)
+        else
+          new Exception(
+            s"This column ${column.expr.prettyName} is of type ${column.expr.dataType} and it was expected to be $dataType"
+          ).invalidNec
+      } catch {
+        case e: Throwable => e.invalidNec
+      }
+    })
   }
 
   def isValid(column: Column): Boolean = column.expr.dataType == dataType
@@ -30,5 +35,5 @@ trait FromDf[T] {
 }
 
 object FromDf {
-  @inline def apply[A: FromDf] = implicitly[FromDf[A]]
+  @inline def apply[A: FromDf]: FromDf[A] = implicitly[FromDf[A]]
 }

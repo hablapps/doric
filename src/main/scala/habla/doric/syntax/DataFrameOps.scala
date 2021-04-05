@@ -2,12 +2,11 @@ package habla.doric
 package syntax
 
 import org.apache.spark.sql.{Column, DataFrame, RelationalGroupedDataset}
+import org.apache.spark.sql.functions.lit
 
 trait DataFrameOps {
 
   implicit class DataframeSyntax(df: DataFrame) {
-    def get[T: FromDf](colName: String): DoricColumn[T] =
-      FromDf[T].validate(df, colName)
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
@@ -21,20 +20,7 @@ trait DataFrameOps {
       *       can cause performance issues and even `StackOverflowException`.
       */
     def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame =
-      df.withColumn(colName, col.col)
-
-    /**
-      * Returns a new Dataset by adding a column or replacing the existing column that has
-      * the same name.
-      *
-      * The col function will provide the called dataframe
-      *
-      * @note this method introduces a projection internally. Therefore, calling it multiple times,
-      *       for instance, via loops in order to add multiple columns can generate big plans which
-      *       can cause performance issues and even `StackOverflowException`.
-      */
-    def withColumn[T](colName: String)(col: DataFrame => DoricColumn[T]): DataFrame =
-      df.withColumn(colName, col(df).col)
+      df.withColumn(colName, col.toKleisli.run(df).getOrElse(lit(3)))
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
@@ -47,7 +33,7 @@ trait DataFrameOps {
       *       can cause performance issues and even `StackOverflowException`.
       */
     def withLitColumn[T, LT](colName: String)(col: LT)(implicit lit: Literal[T, LT]): DataFrame =
-      df.withColumn(colName, col.lit.col)
+      df.withColumn(colName, col.lit)
 
     /*
     def join[T: FromDf](df2: DataFrame, column: T): DataFrame = {
