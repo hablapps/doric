@@ -19,7 +19,7 @@ trait FromDf[T] {
     Kleisli[DoricValidated, DataFrame, Column](df => {
       try {
         val column = df(colName)
-        if (column.expr.dataType == dataType)
+        if (isValid(column.expr.dataType))
           Validated.valid(column)
         else
           new Exception(
@@ -31,7 +31,12 @@ trait FromDf[T] {
     }).toDC
   }
 
-  def isValid(column: Column): Boolean = column.expr.dataType == dataType
+  /**
+    * Checks if the datatype corresponds to the provided datatype, but skipping if can be null
+    * @param column the datatype to check
+    * @return true if the datatype is equal to the one of the typeclass
+    */
+  def isValid(column: DataType): Boolean = column == dataType
 
 }
 

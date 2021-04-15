@@ -7,7 +7,7 @@ import org.scalatest.funspec.AnyFunSpecLike
 
 import org.apache.spark.sql.DataFrame
 
-trait NumericOperationsSpec extends AnyFunSpecLike {
+trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
   def df: DataFrame
 
@@ -48,17 +48,11 @@ trait NumericOperationsSpec extends AnyFunSpecLike {
   def test[T1: FromDf: ClassTag, T2: FromDf: ClassTag, O: FromDf](
       f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
   ): Unit =
-    assert(
-      df.withColumn(
-        "result",
-        f(
-          get[T1](getName[T1]()),
-          get[T2](getName[T1]())
-        )
-      )("result")
-        .expr
-        .dataType == dataType[O],
-      "the output type is not equal to"
+    df.validateColumnType(
+      f(
+        get[T1](getName[T1]()),
+        get[T2](getName[T1]())
+      )
     )
 
   def getName[T: ClassTag](pos: Int = 1): String = s"col_${classTag[T].getClass.getSimpleName}_$pos"

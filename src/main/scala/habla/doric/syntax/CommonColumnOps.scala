@@ -24,6 +24,8 @@ trait CommonColumnOps {
 
     def warningCastTo[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
 
+    def isIn[LT: Lit](elems: LT*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
+
   }
 
 }

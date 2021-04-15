@@ -151,7 +151,7 @@ package object doric
     def unapply[A: FromDf](
         column: Column
     )(implicit ap: Applicative[Doric]): Option[DoricColumn[A]] = {
-      if (FromDf[A].isValid(column))
+      if (FromDf[A].isValid(column.expr.dataType))
         Some(column.pure[Doric].toDC)
       else
         None
@@ -236,24 +236,33 @@ package object doric
 
   type ArrayColumn[A] = DoricColumn[Array[A]]
 
-  object ArrayColumn {
+  implicit def fromArray[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
+    override def dataType: DataType = ArrayType(implicitly[FromDf[A]].dataType)
 
-    type Lit[LT[_], AIT, AITL] = Literal[Array[AIT], LT[AITL]]
-
-    implicit def fromDF[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
-
-      override def dataType: DataType = ArrayType(implicitly[FromDf[A]].dataType)
-
+    override def isValid(column: DataType): Boolean = column match {
+      case ArrayType(left, _) => FromDf[A].isValid(left)
+      case _                  => false
     }
-
-    def unapply[A: FromDf](column: Column): Option[ArrayColumn[A]] =
-      DoricColumnExtr.unapply[Array[A]](column)
   }
+
+  type Lit[LT[_], AIT, AITL] = Literal[Array[AIT], LT[AITL]]
 
   implicit def listLit[IST, A](implicit
       intLit: Literal[A, IST]
   ): Literal[Array[A], Array[IST]] = {
     new Literal[Array[A], Array[IST]] {}
+  }
+
+  type MapColumn[K, V] = DoricColumn[Map[K, V]]
+
+  implicit def fromDF[K: FromDf, V: FromDf]: FromDf[Map[K, V]] = new FromDf[Map[K, V]] {
+    override def dataType: DataType = MapType(FromDf[K].dataType, FromDf[V].dataType)
+
+    override def isValid(column: DataType): Boolean = column match {
+      case MapType(keyType, valueType, _) =>
+        FromDf[K].isValid(keyType) && FromDf[V].isValid(valueType)
+      case _ => false
+    }
   }
 
 }
