@@ -19,7 +19,7 @@ package object doric
     with DateColumnLikeOps {
 
   type DoricValidated[T] = ValidatedNec[Throwable, T]
-  type Doric[T] = Kleisli[DoricValidated, DataFrame, T]
+  type Doric[T]          = Kleisli[DoricValidated, DataFrame, T]
   implicit val timestampOps: TimestampColumnLike[Timestamp] =
     new TimestampColumnLike[Timestamp] {}
   implicit val timestampDateOps: DateColumnLike[Timestamp] =
@@ -149,8 +149,8 @@ package object doric
 
   object DoricColumnExtr {
     def unapply[A: FromDf](
-                            column: Column
-                          )(implicit ap: Applicative[Doric]): Option[DoricColumn[A]] = {
+        column: Column
+    )(implicit ap: Applicative[Doric]): Option[DoricColumn[A]] = {
       if (FromDf[A].isValid(column))
         Some(column.pure[Doric].toDC)
       else

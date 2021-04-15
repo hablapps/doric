@@ -11,13 +11,13 @@ trait NumericOperationsSpec extends AnyFunSpecLike {
 
   def df: DataFrame
 
-  def test[T: FromDf : ClassTag, O: FromDf](f: DoricColumn[T] => DoricColumn[O]): Unit =
+  def test[T: FromDf: ClassTag, O: FromDf](f: DoricColumn[T] => DoricColumn[O]): Unit =
     assert(
       df.withColumn("result", f(get[T](getName[T](1))))("result").expr.dataType == dataType[O],
       "the output type is not equal to"
     )
 
-  def test[T: NumericOperations : FromDf : ClassTag](): Unit = {
+  def test[T: NumericOperations: FromDf: ClassTag](): Unit = {
 
     describe(s"Numeric ${classTag[T].getClass.getSimpleName}") {
 
@@ -45,9 +45,9 @@ trait NumericOperationsSpec extends AnyFunSpecLike {
     }
   }
 
-  def test[T1: FromDf : ClassTag, T2: FromDf : ClassTag, O: FromDf](
-                                                                     f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
-                                                                   ): Unit =
+  def test[T1: FromDf: ClassTag, T2: FromDf: ClassTag, O: FromDf](
+      f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
+  ): Unit =
     assert(
       df.withColumn(
         "result",
