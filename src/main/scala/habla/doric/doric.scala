@@ -2,6 +2,7 @@ package habla
 
 import cats.data.{Kleisli, ValidatedNec}
 import cats.implicits._
+import cats.Applicative
 import habla.doric.syntax._
 import java.sql.{Date, Timestamp}
 
@@ -17,32 +18,22 @@ package object doric
     with TimestampColumnLikeOps
     with DateColumnLikeOps {
 
-  type DoricValidated[A] = ValidatedNec[Throwable, A]
-  case class DoricColumn[A](col: DataFrame => ValidatedNec[Throwable, Column])
+  type DoricValidated[T] = ValidatedNec[Throwable, T]
+  type Doric[T] = Kleisli[DoricValidated, DataFrame, T]
+  implicit val timestampOps: TimestampColumnLike[Timestamp] =
+    new TimestampColumnLike[Timestamp] {}
+  implicit val timestampDateOps: DateColumnLike[Timestamp] =
+    new DateColumnLike[Timestamp] {}
 
-  implicit class DoricColumnHelp[A](doricColumn: DoricColumn[A]) {
-    def toKleisli: Kleisli[DoricValidated, DataFrame, Column] = Kleisli(doricColumn.col)
-    def map[B](f: Column => Column): DoricColumn[B]           = DoricColumn(toKleisli.map(f).run)
-    def mapN[C, B](c2: DoricColumn[C])(f: (Column, Column) => Column): DoricColumn[B] = DoricColumn(
-      (toKleisli, c2.toKleisli).mapN(f).run
-    )
+  implicit class DoricColumnops(elem: Doric[Column]) {
+    def toDC[A]: DoricColumn[A] = DoricColumn(elem)
   }
 
-  object DoricColumnExtr {
-    def unapply[A: FromDf](column: Column): Option[DoricColumn[A]] = {
-      if (FromDf[A].isValid(column))
-        Some(DoricColumn[A](_ => column.valid))
-      else
-        None
-    }
-  }
+  implicit val literalFloat: Literal[Float, Float] =
+    new Literal[Float, Float] {}
 
   type TimestampColumn = DoricColumn[Timestamp]
-
-  object TimestampColumn {
-
-    def unapply(column: Column): Option[TimestampColumn] = DoricColumnExtr.unapply(column)
-  }
+  implicit val floatArith: NumericOperations[Float] = new NumericOperations[Float] {}
 
   implicit val fromTimestamp: FromDf[Timestamp] = new FromDf[Timestamp] {
 
@@ -52,9 +43,10 @@ package object doric
 
   implicit val literalTimestamp: Literal[Timestamp, Timestamp] =
     new Literal[Timestamp, Timestamp] {}
-
-  implicit val timestampOps     = new TimestampColumnLike[Timestamp] {}
-  implicit val timestampDateOps = new DateColumnLike[Timestamp] {}
+  implicit val floatCastToString: Casting[Float, String] =
+    new SparkCasting[Float, String] {}
+  implicit val floatCastToDouble: Casting[Float, Double] =
+    new SparkCasting[Float, Double] {}
 
   type DateColumn = DoricColumn[Date]
 
@@ -109,14 +101,7 @@ package object doric
 
   type LongColumn = DoricColumn[Long]
 
-  object LongColumn {
-
-    def apply[LT: LongLit](lit: LT): LongColumn =
-      implicitly[LongLit[LT]].createTLiteral(lit)
-
-    def unapply(column: Column): Option[LongColumn] = DoricColumnExtr.unapply(column)
-
-  }
+  case class DoricColumn[T](elem: Doric[Column])
 
   type LongLit[T] = Literal[Long, T]
 
@@ -149,6 +134,7 @@ package object doric
 
     def unapply(column: Column): Option[FloatColumn] = DoricColumnExtr.unapply[Float](column)
   }
+
   type FloatLit[T] = Literal[Float, T]
 
   implicit val fromFloat: FromDf[Float] = new FromDf[Float] {
@@ -156,16 +142,35 @@ package object doric
     override def dataType: DataType = FloatType
   }
 
-  implicit val literalFloat: Literal[FloatColumn, Float] =
-    new Literal[FloatColumn, Float] {}
+  object DoricColumn {
+    def apply[T](f: DataFrame => DoricValidated[Column]): DoricColumn[T] =
+      DoricColumn(Kleisli(f))
+  }
 
-  implicit val floatArith: NumericOperations[FloatColumn] = new NumericOperations[FloatColumn] {}
+  object DoricColumnExtr {
+    def unapply[A: FromDf](
+                            column: Column
+                          )(implicit ap: Applicative[Doric]): Option[DoricColumn[A]] = {
+      if (FromDf[A].isValid(column))
+        Some(column.pure[Doric].toDC)
+      else
+        None
+    }
+  }
 
-  implicit val floatCastToString: Casting[FloatColumn, StringColumn] =
-    new SparkCasting[FloatColumn, StringColumn] {}
+  object TimestampColumn {
 
-  implicit val floatCastToDouble: Casting[FloatColumn, DoubleColumn] =
-    new SparkCasting[FloatColumn, DoubleColumn] {}
+    def unapply(column: Column): Option[TimestampColumn] = DoricColumnExtr.unapply[Timestamp](column)
+  }
+
+  object LongColumn {
+
+    def apply[LT: LongLit](lit: LT): LongColumn =
+      implicitly[LongLit[LT]].createTLiteral(lit)
+
+    def unapply(column: Column): Option[LongColumn] = DoricColumnExtr.unapply[Long](column)
+
+  }
 
   type DoubleColumn = DoricColumn[Double]
 
@@ -198,7 +203,7 @@ package object doric
     def apply[LT: BooleanLit](lit: LT): BooleanColumn =
       implicitly[BooleanLit[LT]].createTLiteral(lit)
 
-    def unapply(column: Column): Option[BooleanColumn] = DoricColumnExtr.unapply(column)
+    def unapply(column: Column): Option[BooleanColumn] = DoricColumnExtr.unapply[Boolean](column)
   }
   type BooleanLit[T] = Literal[Boolean, T]
   implicit val fromBoolean: FromDf[Boolean] = new FromDf[Boolean] {
@@ -216,7 +221,7 @@ package object doric
     def apply[LT: StringLit](lit: LT): StringColumn =
       implicitly[StringLit[LT]].createTLiteral(lit)
 
-    def unapply(column: Column): Option[StringColumn] = DoricColumnExtr.unapply(column)
+    def unapply(column: Column): Option[StringColumn] = DoricColumnExtr.unapply[String](column)
   }
 
   type StringLit[T] = Literal[String, T]
@@ -233,13 +238,15 @@ package object doric
   object ArrayColumn {
 
     type Lit[LT[_], AIT, AITL] = Literal[Array[AIT], LT[AITL]]
+
     implicit def fromDF[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
 
       override def dataType: DataType = ArrayType(implicitly[FromDf[A]].dataType)
 
     }
 
-    def unapply[A: FromDf](column: Column): Option[ArrayColumn[A]] = DoricColumnExtr.unapply(column)
+    def unapply[A: FromDf](column: Column): Option[ArrayColumn[A]] =
+      DoricColumnExtr.unapply[Array[A]](column)
   }
 
   implicit def listLit[IST, A](implicit

@@ -1,19 +1,20 @@
 package habla.doric
 package syntax
 
+import cats.implicits._
+
 import org.apache.spark.sql.functions
-import java.sql.Date
 
 trait DateColumnLike[T] {
 
   def end_of_month(col: DoricColumn[T]): DoricColumn[T] =
-    col.map(functions.last_day)
+    (col.elem).map(functions.last_day).toDC
 
   def day_of_month(col: DoricColumn[T]): IntegerColumn =
-    col.map(functions.dayofmonth)
+    (col.elem).map(functions.dayofmonth).toDC
 
   def add_months(col: DoricColumn[T], nMonths: IntegerColumn): DoricColumn[T] =
-    col.mapN(nMonths)(functions.add_months)
+    (col.elem, nMonths.elem).mapN(functions.add_months).toDC
 
 }
 

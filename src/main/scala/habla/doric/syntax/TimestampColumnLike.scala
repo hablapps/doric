@@ -1,19 +1,21 @@
 package habla.doric
 package syntax
 
+import cats.implicits._
+
 import org.apache.spark.sql.functions
 
-case class TimestampColumnLike[T]() {
+trait TimestampColumnLike[T] {
   def hour(col: DoricColumn[T]): IntegerColumn = {
-    col.map(functions.hour)
+    (col.elem).map(functions.hour).toDC
   }
 
   def to_date(col: DoricColumn[T]): DateColumn = {
-    col.map(functions.to_date)
+    (col.elem).map(functions.to_date).toDC
   }
 
   def add_months(col: DoricColumn[T], numMonths: IntegerColumn): DoricColumn[T] =
-    col.mapN(numMonths)(functions.add_months)
+    (col.elem, numMonths.elem).mapN(functions.add_months).toDC
 }
 
 object TimestampColumnLike {

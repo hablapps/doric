@@ -1,8 +1,7 @@
 package habla.doric
 package syntax
 
-import org.apache.spark.sql.{Column, DataFrame, RelationalGroupedDataset}
-import org.apache.spark.sql.functions.lit
+import org.apache.spark.sql.DataFrame
 
 trait DataFrameOps {
 
@@ -19,8 +18,11 @@ trait DataFrameOps {
       *       for instance, via loops in order to add multiple columns can generate big plans which
       *       can cause performance issues and even `StackOverflowException`.
       */
-    def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame =
-      df.withColumn(colName, col.toKleisli.run(df).getOrElse(lit(3)))
+    def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
+      col.elem.run(df).fold(x => {
+        throw x.head; df
+      }, df.withColumn(colName, _))
+    }
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has

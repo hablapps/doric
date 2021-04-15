@@ -2,7 +2,6 @@ package habla.doric
 package syntax
 
 import habla.doric.syntax.TypeColumnHelper.sparkFunction
-import habla.doric.{BooleanColumn, Literal}
 
 trait NumericOperations[T] {
 

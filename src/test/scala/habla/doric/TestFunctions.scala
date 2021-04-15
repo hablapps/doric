@@ -1,7 +1,8 @@
 package habla.doric
 
-import org.apache.spark.sql.types.DataType
 import scala.reflect.{ClassTag, _}
+
+import org.apache.spark.sql.types.DataType
 
 trait TypedColumnTest {
   implicit class TestColumn[T: ClassTag](tcolumn: DoricColumn[T]) {
@@ -24,15 +25,15 @@ trait TypedColumnTest {
       * @return the provided column
       */
     def withTypeChecked(expectedType: DataType): DoricColumn[T] = {
-      tcolumn.map(c => {
+      tcolumn.elem.map(c => {
         val columnType: DataType = c.expr.dataType
         assert(
           columnType == expectedType,
           s"the column expression type is ${columnType} but the wrapper " +
-            s"${classTag[T].runtimeClass.getSimpleName()} if of type $expectedType "
+            s"${classTag[T].runtimeClass.getSimpleName} if of type $expectedType "
         )
         c
-      })
+      }).toDC
     }
 
     /**
