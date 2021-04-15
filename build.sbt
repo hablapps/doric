@@ -5,11 +5,12 @@ version := "0.0.1"
 
 scalaVersion := "2.12.13"
 
-libraryDependencies ++=Seq(
-   "org.apache.spark" %% "spark-sql" % "3.1.1" % "provided",
-   "com.github.mrpowers" %% "spark-daria"      % "0.38.2" % "test",
-   "com.github.mrpowers" %% "spark-fast-tests" % "0.23.0" % "test",
-   "org.scalatest"       %% "scalatest"        % "3.0.1"  % "test"
+libraryDependencies ++= Seq(
+  "org.apache.spark"    %% "spark-sql"        % "3.1.1"  % "provided",
+  "org.typelevel"       %% "cats-core"        % "2.3.0",
+  "com.github.mrpowers" %% "spark-daria"      % "0.38.2" % "test",
+  "com.github.mrpowers" %% "spark-fast-tests" % "0.23.0" % "test",
+  "org.scalatest"       %% "scalatest"        % "3.2.5"  % "test"
 )
 
 // scaladoc settings
@@ -49,12 +50,14 @@ publishTo := sonatypePublishToBundle.value
 Global / useGpgPinentry := true
 
 scalacOptions ++= Seq(
-  "-encoding", "utf8", // Option and arguments on same line
-  "-Xfatal-warnings",  // New lines for each options
+  "-encoding",
+  "utf8",             // Option and arguments on same line
+  "-Xfatal-warnings", // New lines for each options
   "-deprecation",
   "-unchecked",
   "-language:implicitConversions",
   "-language:higherKinds",
   "-language:existentials",
-  "-language:postfixOps"
+  "-language:postfixOps",
+  "-Ypartial-unification"
 )

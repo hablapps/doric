@@ -1,19 +1,13 @@
-package habla.doric.syntax
+package habla.doric
+package syntax
 
 import habla.doric.{BooleanColumn, IntegerColumn, StringColumn}
+import habla.doric.Literal
 
 trait LiteralConversions {
 
-  implicit class Convinteger(int: Int) {
-    def tc: IntegerColumn = IntegerColumn(int)
-  }
-
-  implicit class Convstring(str: String) {
-    def tc: StringColumn = StringColumn(str)
-  }
-
-  implicit class Convboolean(bool: Boolean) {
-    def tc: BooleanColumn = BooleanColumn(bool)
+  implicit class LiteralOps[L](lit: L) {
+    def lit[O](implicit litTc: Literal[O, L]): DoricColumn[O] = Literal[O, L].createTLiteral(lit)
   }
 
 }

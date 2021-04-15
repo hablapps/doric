@@ -1,13 +1,15 @@
 package habla.doric
 package syntax
 
+import cats.implicits._
+
 import org.apache.spark.sql.Column
 
 private[doric] object TypeColumnHelper {
-  @inline def sparkFunction[T: ToColumn, O: FromDf](
-      column: T,
-      other: T,
+  @inline def sparkFunction[T, O](
+      column: DoricColumn[T],
+      other: DoricColumn[T],
       f: (Column, Column) => Column
-  ): O =
-    construct[O](f(column.sparkColumn, other.sparkColumn))
+  ): DoricColumn[O] =
+    (column.elem, other.elem).mapN(f).toDC
 }

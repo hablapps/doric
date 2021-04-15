@@ -1,19 +1,28 @@
 package habla.doric
 package syntax
 
+import cats.implicits._
+
 trait CommonColumnOps {
 
-  implicit class BasicCol[T: FromDf: ToColumn](val column: T) {
+  implicit class BasicCol[T](private val column: DoricColumn[T]) {
 
-    type CastToT[To] = Casting[T, To]
+    type CastToT[To]  = Casting[T, To]
+    type WCastToT[To] = WarningCasting[T, To]
+    type Lit[ST]      = Literal[T, ST]
 
-    def as(colName: String): T = construct(column.sparkColumn as colName)
+    def as(colName: String): DoricColumn[T] = column.elem.map(_ as colName).toDC
 
-    def ===(other: T): BooleanColumn = BooleanColumn(column.sparkColumn === other.sparkColumn)
+    def ===(other: DoricColumn[T]): BooleanColumn =
+      (column.elem, other.elem).mapN(_ === _).toDC
 
-    def pipe[O: ToColumn](f: T => O): O = f(column)
+    def ===[LT: Lit](other: LT): BooleanColumn = column === other.lit
 
-    def castTo[To: CastToT: FromDf]: To = implicitly[Casting[T, To]].cast(column)
+    def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
+
+    def castTo[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
+
+    def warningCastTo[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
 
   }
 

@@ -1,15 +1,14 @@
 package habla.doric
 
-trait Casting[From, To] {
+trait WarningCasting[From, To] {
   def cast(column: DoricColumn[From])(implicit constructor: FromDf[To]): DoricColumn[To]
 }
 
-object Casting {
-  @inline def apply[From, To](implicit imp: Casting[From, To]): Casting[From, To] =
-    implicitly[Casting[From, To]]
+object WarningCasting {
+  @inline def apply[From, To](implicit imp: WarningCasting[From, To]): WarningCasting[From, To] =
+    implicitly[WarningCasting[From, To]]
 }
-
-trait SparkCasting[From, To] extends Casting[From, To] {
+trait SparkWarningCasting[From, To] extends WarningCasting[From, To] {
   override def cast(column: DoricColumn[From])(implicit constructor: FromDf[To]): DoricColumn[To] =
     column.elem.map(_.cast(constructor.dataType)).toDC
 }

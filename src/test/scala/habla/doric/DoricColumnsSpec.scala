@@ -5,11 +5,12 @@ import habla.doric.Extensions._
 import org.apache.spark.sql.types.{StringType, FloatType, LongType, DoubleType}
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 import Predef.{any2stringadd => _, _} // scalafix:ok
+import java.sql.Timestamp
 
 class DoricColumnsSpec
-    extends FunSpec
+    extends AnyFunSpec
     with SparkSessionTestWrapper
     with ColumnComparer
     with TypedColumnTest {
@@ -24,12 +25,13 @@ class DoricColumnsSpec
       (None, None, None)
     ).toDF("some_time", "expected_hour", "expected_end_of_month")
     val res = df
-      .withColumn("hour", df.get[TimestampColumn]("some_time").hour withTypeChecked)
-      .withColumn("end_of_month")(
-        _.get[TimestampColumn]("some_time").to_date.withTypeChecked
-          .add_months(3.tc)
+      .withColumn("hour", getTimestamp("some_time").hour withTypeChecked)
+      .withColumn(
+        "end_of_month",
+        getTimestamp("some_time").toDate.withTypeChecked
+          .addMonths(3)
           .withTypeChecked
-          .end_of_month withTypeChecked
+          .endOfMonth withTypeChecked
       )
     assertColumnEquality(res, "hour", "expected_hour")
     assertColumnEquality(res, "end_of_month", "expected_end_of_month")
@@ -41,13 +43,11 @@ class DoricColumnsSpec
       (3, true, 2, 6, 5),
       (4, false, 3, 8, 6)
     ).toDF("some_data", "expected_result", "expected_minus", "expected_double", "expected_sum")
-      .withColumn("transformed")(_.get[IntegerColumn]("some_data") <= 3 withTypeChecked)
-      .withColumn("minus")(_.get[IntegerColumn]("some_data") - 1 withTypeChecked)
-      .withColumn("plus_double")(df =>
-        df.get[IntegerColumn]("some_data") + df.get[IntegerColumn]("some_data") withTypeChecked
-      )
-      .withColumn("mult_double")(df => df.get[IntegerColumn]("some_data") * 2 withTypeChecked)
-      .withColumn("sum")(df => df.get[IntegerColumn]("some_data") + 2 withTypeChecked)
+      .withColumn("transformed", getInt("some_data") <= 3 withTypeChecked)
+      .withColumn("minus", getInt("some_data") - 1 withTypeChecked)
+      .withColumn("plus_double", getInt("some_data") + getInt("some_data") withTypeChecked)
+      .withColumn("mult_double", getInt("some_data") * 2 withTypeChecked)
+      .withColumn("sum", getInt("some_data") + 2 withTypeChecked)
 
     assertColumnEquality(df, "transformed", "expected_result")
     assertColumnEquality(df, "minus", "expected_minus")
@@ -58,20 +58,12 @@ class DoricColumnsSpec
 
   it("should cast to the valid types") {
     val df = List(1)
-      .map(x => (x, x.toString(), x.toFloat, x.toLong, x.toDouble))
+      .map(x => (x, x.toString, x.toFloat, x.toLong, x.toDouble))
       .toDF("some_data", "expected_string", "expected_float", "expected_long", "expected_double")
-      .withColumn("transformed_string")(
-        _.get[IntegerColumn]("some_data").testCastingTo[StringColumn](StringType)
-      )
-      .withColumn("transformed_float")(
-        _.get[IntegerColumn]("some_data").testCastingTo[FloatColumn](FloatType)
-      )
-      .withColumn("transformed_long")(
-        _.get[IntegerColumn]("some_data").testCastingTo[LongColumn](LongType)
-      )
-      .withColumn("transformed_double")(
-        _.get[IntegerColumn]("some_data").testCastingTo[DoubleColumn](DoubleType)
-      )
+      .withColumn("transformed_string", getInt("some_data").testCastingTo[String](StringType))
+      .withColumn("transformed_float", getInt("some_data").testCastingTo[Float](FloatType))
+      .withColumn("transformed_long", getInt("some_data").testCastingTo[Long](LongType))
+      .withColumn("transformed_double", getInt("some_data").testCastingTo[Double](DoubleType))
 
     assertColumnEquality(df, "transformed_string", "expected_string")
     assertColumnEquality(df, "transformed_float", "expected_float")
