@@ -34,4 +34,4 @@ class ColumnExtractor extends AnyFunSpecLike with SparkSessionTestWrapper with C
   }
 
 }
-*/
+ */

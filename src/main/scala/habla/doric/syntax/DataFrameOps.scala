@@ -19,9 +19,15 @@ trait DataFrameOps {
       *       can cause performance issues and even `StackOverflowException`.
       */
     def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
-      col.elem.run(df).fold(x => {
-        throw x.head; df
-      }, df.withColumn(colName, _))
+      col.elem
+        .run(df)
+        .fold(
+          x => {
+            throw x.head
+            df
+          },
+          df.withColumn(colName, _)
+        )
     }
 
     /**

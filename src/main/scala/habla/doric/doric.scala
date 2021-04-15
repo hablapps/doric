@@ -160,7 +160,8 @@ package object doric
 
   object TimestampColumn {
 
-    def unapply(column: Column): Option[TimestampColumn] = DoricColumnExtr.unapply[Timestamp](column)
+    def unapply(column: Column): Option[TimestampColumn] =
+      DoricColumnExtr.unapply[Timestamp](column)
   }
 
   object LongColumn {

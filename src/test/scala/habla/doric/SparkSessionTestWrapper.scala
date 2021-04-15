@@ -12,7 +12,8 @@ trait SparkSessionTestWrapper {
       .builder()
       .master("local")
       .config("spark.driver.bindAddress", "127.0.0.1")
-      .appName("spark session").getOrCreate()
+      .appName("spark session")
+      .getOrCreate()
   }
 
 }
