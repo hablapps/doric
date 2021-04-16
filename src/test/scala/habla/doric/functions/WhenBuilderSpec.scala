@@ -1,14 +1,10 @@
 package habla.doric
 package functions
 
-import org.scalatest.funspec.AnyFunSpecLike
-import habla.doric.SparkSessionTestWrapper
+import scala.Predef.{any2stringadd => _}
+
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import habla.doric.IntegerColumn
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types.IntegerType
-import Predef.{any2stringadd => _, _} // scalafix:ok
-import com.fasterxml.jackson.module.scala.deser.overrides
+import org.scalatest.funspec.AnyFunSpecLike
 
 class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with ColumnComparer {
 
