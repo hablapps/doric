@@ -23,12 +23,12 @@ trait FromDf[T] {
           Validated.valid(column)
         else
           new Exception(
-            s"This column ${column.expr.prettyName} is of type ${column.expr.dataType} and it was expected to be $dataType"
+            s"The column with name '${colName}' is of type ${column.expr.dataType} and it was expected to be $dataType"
           ).invalidNec
       } catch {
         case e: Throwable => e.invalidNec
       }
-    }).toDC
+    }).toDC(colName)
   }
 
   /**

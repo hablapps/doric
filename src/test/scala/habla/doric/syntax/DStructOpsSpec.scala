@@ -29,10 +29,10 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .left
         .value
         .head
-        .getMessage shouldBe "Column 'jander' is not a child of 'col'"
+        .getMessage shouldBe "No such struct field jander in name, surname, age"
     }
 
-    it("throws an error if the sub column is of the provided type") {
+    it("throws an error if the sub column is not of the provided type") {
       getStruct("col")
         .getChild[String]("age")
         .elem
@@ -41,7 +41,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .left
         .value
         .head
-        .getMessage shouldBe "The nested column age is of type IntegerType and it was expected to be StringType"
+        .getMessage shouldBe "The column with name 'col.age' is of type IntegerType and it was expected to be StringType"
     }
   }
 

@@ -1,5 +1,6 @@
 package habla.doric
 
+import habla.doric.syntax.User
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 
@@ -61,6 +62,23 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
       get[DStruct]("column").elem.run(df).toEither.value
       val df2 = List((Some((1, "hola")), 1), (None, 1)).toDF("column", "extra").select("column")
       get[DStruct]("column").elem.run(df2).toEither.value
+    }
+    it("works for structs if accessed directly") {
+      val df = List((User("John", "doe", 34), 1))
+        .toDF("col", "delete")
+        .select("col")
+
+      get[String]("col.name").elem.run(df).toEither.value
+      get[Int]("col.age").elem.run(df).toEither.value
+    }
+    it("works for arrays if accessed directly an index") {
+      val df = List((List("hola", "adios"), 1))
+        .toDF("col", "delete")
+        .select("col")
+
+      get[String]("col.0").elem.run(df).toEither.value
+      get[String]("col.1").elem.run(df).toEither.value
+      get[String]("col.2").elem.run(df).toEither.value
     }
   }
 
