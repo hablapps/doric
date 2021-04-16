@@ -32,4 +32,7 @@ trait FromDfExtras {
   @inline def getArrayString(colName: String): DoricColumn[Array[String]] =
     get[Array[String]](colName)
 
+  @inline def getStruct(colName: String): DStructColumn =
+    get[DStruct](colName)
+
 }

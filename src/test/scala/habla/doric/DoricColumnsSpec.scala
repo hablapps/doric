@@ -56,6 +56,12 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
       testValue[Map[Timestamp, Int]](Map(timestamp -> 10))
       testValueNullable[Map[Timestamp, Int]](Map(timestamp -> 10))
     }
+    it("works for DStruct") {
+      val df = List(((1, "hola"), 1)).toDF("column", "extra").select("column")
+      get[DStruct]("column").elem.run(df).toEither.value
+      val df2 = List((Some((1, "hola")), 1), (None, 1)).toDF("column", "extra").select("column")
+      get[DStruct]("column").elem.run(df2).toEither.value
+    }
   }
 
 }
