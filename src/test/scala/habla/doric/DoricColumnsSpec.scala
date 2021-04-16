@@ -1,73 +1,61 @@
 package habla.doric
 
-import habla.doric.Extensions._
+import java.sql.{Date, Timestamp}
+import org.scalatest.EitherValues
 
-import org.apache.spark.sql.types.{StringType, FloatType, LongType, DoubleType}
+import org.apache.spark.sql.Encoder
 
-import com.github.mrpowers.spark.fast.tests.ColumnComparer
-import org.scalatest.funspec.AnyFunSpec
-import Predef.{any2stringadd => _, _} // scalafix:ok
-import java.sql.Timestamp
+class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
-class DoricColumnsSpec
-    extends AnyFunSpec
-    with SparkSessionTestWrapper
-    with ColumnComparer
-    with TypedColumnTest {
-
-  // scalafix:ok
   import spark.implicits._
 
-  it("allows for type safe programming") {
-    val df = Seq(
-      (Some("2012-05-05 12:01:15".t), Some(12), Some("2012-08-31".d)),
-      (Some("2012-01-01 09:06:15".t), Some(9), Some("2012-04-30".d)),
-      (None, None, None)
-    ).toDF("some_time", "expected_hour", "expected_end_of_month")
-    val res = df
-      .withColumn("hour", getTimestamp("some_time").hour withTypeChecked)
-      .withColumn(
-        "end_of_month",
-        getTimestamp("some_time").toDate.withTypeChecked
-          .addMonths(3)
-          .withTypeChecked
-          .endOfMonth withTypeChecked
-      )
-    assertColumnEquality(res, "hour", "expected_hour")
-    assertColumnEquality(res, "end_of_month", "expected_end_of_month")
+  def testValue[T: FromDf: Encoder](example: T): Unit = {
+    val df = List(example).toDF("column")
+
+    get[T]("column").elem.run(df).toEither.value
+  }
+  def testValueNullable[T: FromDf](example: T)(implicit enc: Encoder[Option[T]]): Unit = {
+    val df = List(Some(example), None).toDF("column")
+    get[T]("column").elem.run(df).toEither.value
   }
 
-  it("should use the numeric functions") {
-    val df = Seq(
-      (2, true, 1, 4, 4),
-      (3, true, 2, 6, 5),
-      (4, false, 3, 8, 6)
-    ).toDF("some_data", "expected_result", "expected_minus", "expected_double", "expected_sum")
-      .withColumn("transformed", getInt("some_data") <= 3 withTypeChecked)
-      .withColumn("minus", getInt("some_data") - 1 withTypeChecked)
-      .withColumn("plus_double", getInt("some_data") + getInt("some_data") withTypeChecked)
-      .withColumn("mult_double", getInt("some_data") * 2 withTypeChecked)
-      .withColumn("sum", getInt("some_data") + 2 withTypeChecked)
-
-    assertColumnEquality(df, "transformed", "expected_result")
-    assertColumnEquality(df, "minus", "expected_minus")
-    assertColumnEquality(df, "plus_double", "expected_double")
-    assertColumnEquality(df, "mult_double", "expected_double")
-    assertColumnEquality(df, "sum", "expected_sum")
+  describe("each column should represent their datatype") {
+    it("works for String") {
+      testValue[String]("hola")
+      testValueNullable[String]("hola")
+    }
+    it("works for Int") {
+      testValue[Int](14)
+      testValueNullable[Int](54)
+    }
+    it("works for Long") {
+      testValue[Long](14L)
+      testValueNullable[Long](54L)
+    }
+    it("works for Float") {
+      testValue[Float](14f)
+      testValueNullable[Float](54f)
+    }
+    it("works for Array") {
+      testValue[Array[Int]](Array(14))
+      testValueNullable[Array[Int]](Array(54))
+      testValue[Array[Long]](Array(14L))
+      testValueNullable[Array[Long]](Array(54L))
+      testValueNullable[Array[Array[Long]]](Array(Array(14L)))
+    }
+    it("works for Date") {
+      testValue[Date](Date.valueOf("2020-01-01"))
+      testValueNullable[Date](Date.valueOf("2020-01-01"))
+    }
+    val timestamp = Timestamp.valueOf("2020-01-01 01:01:901")
+    it("works for Timestamp") {
+      testValue[Timestamp](timestamp)
+      testValueNullable[Timestamp](timestamp)
+    }
+    it("works for Map") {
+      testValue[Map[Timestamp, Int]](Map(timestamp -> 10))
+      testValueNullable[Map[Timestamp, Int]](Map(timestamp -> 10))
+    }
   }
 
-  it("should cast to the valid types") {
-    val df = List(1)
-      .map(x => (x, x.toString, x.toFloat, x.toLong, x.toDouble))
-      .toDF("some_data", "expected_string", "expected_float", "expected_long", "expected_double")
-      .withColumn("transformed_string", getInt("some_data").testCastingTo[String](StringType))
-      .withColumn("transformed_float", getInt("some_data").testCastingTo[Float](FloatType))
-      .withColumn("transformed_long", getInt("some_data").testCastingTo[Long](LongType))
-      .withColumn("transformed_double", getInt("some_data").testCastingTo[Double](DoubleType))
-
-    assertColumnEquality(df, "transformed_string", "expected_string")
-    assertColumnEquality(df, "transformed_float", "expected_float")
-    assertColumnEquality(df, "transformed_long", "expected_long")
-    assertColumnEquality(df, "transformed_double", "expected_double")
-  }
 }

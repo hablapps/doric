@@ -24,4 +24,12 @@ trait FromDfExtras {
   @inline def getDate(colName: String): DoricColumn[Date] =
     get[Date](colName)
 
+  @inline def getArray[T: FromDf](colName: String): DoricColumn[Array[T]] =
+    get[Array[T]](colName)
+
+  @inline def getArrayInt(colName: String): DoricColumn[Array[Int]] =
+    get[Array[Int]](colName)
+  @inline def getArrayString(colName: String): DoricColumn[Array[String]] =
+    get[Array[String]](colName)
+
 }
