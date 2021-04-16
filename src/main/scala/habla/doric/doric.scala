@@ -20,13 +20,17 @@ package object doric
 
   type DoricValidated[T] = ValidatedNec[Throwable, T]
   type Doric[T]          = Kleisli[DoricValidated, DataFrame, T]
+
   implicit val timestampOps: TimestampColumnLike[Timestamp] =
     new TimestampColumnLike[Timestamp] {}
+
   implicit val timestampDateOps: DateColumnLike[Timestamp] =
     new DateColumnLike[Timestamp] {}
 
   implicit class DoricColumnops(elem: Doric[Column]) {
-    def toDC[A]: DoricColumn[A] = DoricColumn(elem)
+    def toDC[A]: DoricColumn[A]                     = DoricColumn(elem)
+    def toDC[A](name: String): DoricColumn[A]       = DoricColumn(elem, List(name))
+    def toDC[A](name: List[String]): DoricColumn[A] = DoricColumn(elem, name)
   }
 
   implicit val literalFloat: Literal[Float, Float] =
@@ -101,7 +105,7 @@ package object doric
 
   type LongColumn = DoricColumn[Long]
 
-  case class DoricColumn[T](elem: Doric[Column])
+  case class DoricColumn[T](elem: Doric[Column], name: List[String] = List.empty)
 
   type LongLit[T] = Literal[Long, T]
 
@@ -255,13 +259,28 @@ package object doric
 
   type MapColumn[K, V] = DoricColumn[Map[K, V]]
 
-  implicit def fromDF[K: FromDf, V: FromDf]: FromDf[Map[K, V]] = new FromDf[Map[K, V]] {
+  implicit def fromMap[K: FromDf, V: FromDf]: FromDf[Map[K, V]] = new FromDf[Map[K, V]] {
     override def dataType: DataType = MapType(FromDf[K].dataType, FromDf[V].dataType)
 
     override def isValid(column: DataType): Boolean = column match {
       case MapType(keyType, valueType, _) =>
         FromDf[K].isValid(keyType) && FromDf[V].isValid(valueType)
       case _ => false
+    }
+  }
+
+  sealed trait DStruct
+
+  object DStruct extends DStruct {}
+
+  type DStructColumn = DoricColumn[DStruct]
+
+  implicit val fromDStruct: FromDf[DStruct] = new FromDf[DStruct] {
+    override def dataType: DataType = StructType(Seq.empty)
+
+    override def isValid(column: DataType): Boolean = column match {
+      case StructType(_) => true
+      case _             => false
     }
   }
 
