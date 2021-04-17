@@ -41,7 +41,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .left
         .value
         .head
-        .getMessage shouldBe "The column with name 'col.age' is of type IntegerType and it was expected to be StringType"
+        .getMessage shouldBe "The nested column age is of type IntegerType and it was expected to be StringType"
     }
   }
 
