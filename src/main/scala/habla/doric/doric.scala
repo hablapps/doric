@@ -29,8 +29,6 @@ package object doric
 
   implicit class DoricColumnops(elem: Doric[Column]) {
     def toDC[A]: DoricColumn[A]                     = DoricColumn(elem)
-    def toDC[A](name: String): DoricColumn[A]       = DoricColumn(elem, List(name))
-    def toDC[A](name: List[String]): DoricColumn[A] = DoricColumn(elem, name)
   }
 
   implicit val literalFloat: Literal[Float, Float] =
@@ -105,7 +103,7 @@ package object doric
 
   type LongColumn = DoricColumn[Long]
 
-  case class DoricColumn[T](elem: Doric[Column], name: List[String] = List.empty)
+  case class DoricColumn[T](elem: Doric[Column])
 
   type LongLit[T] = Literal[Long, T]
 

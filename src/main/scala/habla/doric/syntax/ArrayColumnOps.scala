@@ -25,64 +25,59 @@ trait ArrayColumnOps {
     }
 
     def transform[A](func: DoricColumn[T] => DoricColumn[A]): DoricColumn[Array[A]] =
-      col.elem
-        .mapK(toEither)
-        .flatMap(subC => {
-          Kleisli[DoricEither, DataFrame, Column](df => {
-            val untypedFunc: Column => DoricEither[Column] = (c: Column) =>
-              func(DoricColumn[T](c)).elem
-                .run(df)
-                .toEither
-            val x                           = UnresolvedNamedLambdaVariable(Seq("x"))
-            val result: DoricEither[Column] = untypedFunc(new Column(x))
-            result.map(_ =>
-              f.transform(
-                subC,
-                x => {
-                  untypedFunc(x).right.get
-                }
-              )
-            )
-          })
-        })
-        .mapK(toValidated)
+      (col.elem, doricFunc(func))
+        .mapN((c, untypedFunc) => f.transform(c, untypedFunc))
         .toDC
 
-    def doricFunc[A,B](f: DoricColumn[A] => DoricColumn[B]): Doric[Column => Column] = {
-      val x                           = UnresolvedNamedLambdaVariable(Seq("x"))
-      f(DoricColumn[A](new Column(x))).elem.mapK(toEither)
-      .flatMap(_ => Kleisli[DoricEither, DataFrame, Column => Column](df => ((x: Column) => f(DoricColumn[A](x)).elem.run(df).toEither.right.get).asRight))
+    private def doricFunc[A, B](f: DoricColumn[A] => DoricColumn[B]): Doric[Column => Column] = {
+      val x = UnresolvedNamedLambdaVariable(Seq("x"))
+      f(DoricColumn[A](new Column(x))).elem
+        .mapK(toEither)
+        .flatMap(_ =>
+          Kleisli[DoricEither, DataFrame, Column => Column](df =>
+            ((x: Column) => f(DoricColumn[A](x)).elem.run(df).toEither.right.get).asRight
+          )
+        )
         .mapK(toValidated)
     }
 
+    private def doricFunc2[A1, A2, B](
+        f: (DoricColumn[A1], DoricColumn[A2]) => DoricColumn[B]
+    ): Doric[(Column, Column) => Column] = {
+      val x = UnresolvedNamedLambdaVariable(Seq("x"))
+      val y = UnresolvedNamedLambdaVariable(Seq("y"))
+      f(DoricColumn[A1](new Column(x)), DoricColumn[A2](new Column(y))).elem
+        .mapK(toEither)
+        .flatMap(_ =>
+          Kleisli[DoricEither, DataFrame, (Column, Column) => Column](df =>
+            (
+                (
+                    x: Column,
+                    y: Column
+                ) => f(DoricColumn[A1](x), DoricColumn[A2](y)).elem.run(df).toEither.right.get
+            ).asRight
+          )
+        )
+        .mapK(toValidated)
+    }
 
     def transformWithIndex[A](
         func: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
     ): DoricColumn[Array[A]] =
-      col.elem
-        .mapK(toEither)
-        .flatMap(subC => {
-          Kleisli[DoricEither, DataFrame, Column](df => {
-            val untypedFunc: (Column, Column) => DoricEither[Column] = (c: Column, c2: Column) =>
-              func(DoricColumn[T](c), DoricColumn[Int](c2)).elem
-                .run(df)
-                .toEither
-            val x                           = UnresolvedNamedLambdaVariable(Seq("x"))
-            val y                           = UnresolvedNamedLambdaVariable(Seq("y"))
-            val result: DoricEither[Column] = untypedFunc(new Column(x), new Column(y))
-            result.map(_ =>
-              f.transform(
-                subC,
-                (x, y) => {
-                  untypedFunc(x, y).right.get
-                }
-              )
-            )
-          })
-        })
-        .mapK(toValidated)
-        .toDC
+      (col.elem, doricFunc2(func)).mapN((c, untypedFunc) => f.transform(c, untypedFunc)).toDC
 
+    def aggregate[A, B](
+        initialValue: DoricColumn[A],
+        merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
+        finish: DoricColumn[A] => DoricColumn[B]
+    ): DoricColumn[B] =
+      (col.elem, initialValue.elem, doricFunc2(merge), doricFunc(finish)).mapN(f.aggregate).toDC
+
+    def aggregate[A](
+        initialValue: DoricColumn[A],
+        merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]
+    ): DoricColumn[A] =
+      (col.elem, initialValue.elem, doricFunc2(merge)).mapN(f.aggregate).toDC
   }
 
 }
