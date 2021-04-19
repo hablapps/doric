@@ -26,6 +26,10 @@ trait CommonColumnOps {
 
     def isIn[LT: Lit](elems: LT*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
 
+    def isNull: BooleanColumn    = column.elem.map(_.isNull).toDC
+    def isNotNull: BooleanColumn = column.elem.map(_.isNotNull).toDC
+    def isNaN: BooleanColumn     = column.elem.map(_.isNaN).toDC
+
   }
 
 }

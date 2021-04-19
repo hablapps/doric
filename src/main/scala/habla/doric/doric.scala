@@ -149,6 +149,10 @@ package object doric
   object DoricColumn {
     def apply[T](f: DataFrame => DoricValidated[Column]): DoricColumn[T] =
       DoricColumn(Kleisli(f))
+
+    def apply[T](col: Column): DoricColumn[T] = {
+      Kleisli[DoricValidated, DataFrame, Column]((_:DataFrame)  => col.valid)
+    }.toDC
   }
 
   object DoricColumnExtr {
