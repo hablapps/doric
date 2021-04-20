@@ -78,6 +78,12 @@ trait ArrayColumnOps {
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]
     ): DoricColumn[A] =
       (col.elem, initialValue.elem, doricFunc2(merge)).mapN(f.aggregate).toDC
+
+    def aggregate[A](
+                      initialValue: DoricColumn[A])(
+                      merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]
+                    ): DoricColumn[A] =
+      aggregate(initialValue, merge)
   }
 
 }

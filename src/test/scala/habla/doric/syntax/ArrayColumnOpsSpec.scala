@@ -94,7 +94,7 @@ class ArrayColumnOpsSpec
     it("should capture errors in aggregate") {
       val df = List((List(10, 20, 30), "7")).toDF("col", "something")
       val errors = getArrayInt("col")
-        .aggregate[Int](getInt("something2"), _ + _ + getInt("something"))
+        .aggregate(getInt("something2"))( _ + _ + getInt("something"))
         .elem
         .run(df)
         .toEither
