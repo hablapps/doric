@@ -15,7 +15,7 @@ trait FromDf[T] {
 
   def dataType: DataType
 
-  def validate(colName: String): DoricColumn[T] = {
+  def validate(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[T] = {
     Kleisli[DoricValidated, DataFrame, Column](df => {
       try {
         val column = df(colName)
@@ -23,10 +23,10 @@ trait FromDf[T] {
           Validated.valid(column)
         else
           new Exception(
-            s"The column with name '${colName}' is of type ${column.expr.dataType} and it was expected to be $dataType"
+            s"The column with name '${colName}' is of type ${column.expr.dataType} and it was expected to be $dataType (${implicitly[sourcecode.FileName].value}:${implicitly[sourcecode.Line].value})"
           ).invalidNec
       } catch {
-        case e: Throwable => e.invalidNec
+        case e: Throwable => new Throwable(e.getMessage + s" (${implicitly[sourcecode.FileName].value}:${implicitly[sourcecode.Line].value})", e).invalidNec
       }
     }).toDC
   }

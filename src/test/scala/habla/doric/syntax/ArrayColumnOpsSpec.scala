@@ -39,7 +39,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something) (ArrayColumnOpsSpec.scala:35)"
 
       getArrayInt("col")
         .transform(_ => getString("something"))
@@ -49,7 +49,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType"
+        .getMessage shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType (ArrayColumnOpsSpec.scala:45)"
     }
 
     it("should transform with index the elements of the array with the provided function") {
@@ -70,7 +70,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType"
+        .getMessage shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType (ArrayColumnOpsSpec.scala:66)"
 
       getArrayInt("col")
         .transformWithIndex(_ + _ + getInt("something2"))
@@ -80,7 +80,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something) (ArrayColumnOpsSpec.scala:76)"
     }
 
     it("should aggregate the elements of the array with the provided function") {
@@ -103,8 +103,8 @@ class ArrayColumnOpsSpec
 
       errors.toChain.size shouldBe 2
       errors.map(_.getMessage).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)",
-        "The column with name 'something' is of type StringType and it was expected to be IntegerType"
+        "Cannot resolve column name \"something2\" among (col, something) (ArrayColumnOpsSpec.scala:97)",
+        "The column with name 'something' is of type StringType and it was expected to be IntegerType (ArrayColumnOpsSpec.scala:97)"
       )
     }
 
@@ -137,9 +137,9 @@ class ArrayColumnOpsSpec
 
       errors.toChain.size shouldBe 3
       errors.map(_.getMessage).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)",
-        "The column with name 'something' is of type StringType and it was expected to be IntegerType",
-        "Cannot resolve column name \"something3\" among (col, something)"
+        "Cannot resolve column name \"something2\" among (col, something) (ArrayColumnOpsSpec.scala:128)",
+        "The column with name 'something' is of type StringType and it was expected to be IntegerType (ArrayColumnOpsSpec.scala:129)",
+        "Cannot resolve column name \"something3\" among (col, something) (ArrayColumnOpsSpec.scala:130)"
       )
     }
 
