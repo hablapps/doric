@@ -28,7 +28,7 @@ package object doric
     new DateColumnLike[Timestamp] {}
 
   implicit class DoricColumnops(elem: Doric[Column]) {
-    def toDC[A]: DoricColumn[A]                     = DoricColumn(elem)
+    def toDC[A]: DoricColumn[A] = DoricColumn(elem)
   }
 
   implicit val literalFloat: Literal[Float, Float] =
@@ -149,7 +149,7 @@ package object doric
       DoricColumn(Kleisli(f))
 
     def apply[T](col: Column): DoricColumn[T] = {
-      Kleisli[DoricValidated, DataFrame, Column]((_:DataFrame)  => col.valid)
+      Kleisli[DoricValidated, DataFrame, Column]((_: DataFrame) => col.valid)
     }.toDC
   }
 
