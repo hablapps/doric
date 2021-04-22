@@ -29,6 +29,7 @@ trait FromDfExtras {
 
   @inline def getArrayInt(colName: String): DoricColumn[Array[Int]] =
     get[Array[Int]](colName)
+
   @inline def getArrayString(colName: String): DoricColumn[Array[String]] =
     get[Array[String]](colName)
 

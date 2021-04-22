@@ -28,9 +28,7 @@ package object doric
     new DateColumnLike[Timestamp] {}
 
   implicit class DoricColumnops(elem: Doric[Column]) {
-    def toDC[A]: DoricColumn[A]                     = DoricColumn(elem)
-    def toDC[A](name: String): DoricColumn[A]       = DoricColumn(elem, List(name))
-    def toDC[A](name: List[String]): DoricColumn[A] = DoricColumn(elem, name)
+    def toDC[A]: DoricColumn[A] = DoricColumn(elem)
   }
 
   implicit val literalFloat: Literal[Float, Float] =
@@ -105,7 +103,7 @@ package object doric
 
   type LongColumn = DoricColumn[Long]
 
-  case class DoricColumn[T](elem: Doric[Column], name: List[String] = List.empty)
+  case class DoricColumn[T](elem: Doric[Column])
 
   type LongLit[T] = Literal[Long, T]
 
@@ -149,6 +147,10 @@ package object doric
   object DoricColumn {
     def apply[T](f: DataFrame => DoricValidated[Column]): DoricColumn[T] =
       DoricColumn(Kleisli(f))
+
+    def apply[T](col: Column): DoricColumn[T] = {
+      Kleisli[DoricValidated, DataFrame, Column]((_: DataFrame) => col.valid)
+    }.toDC
   }
 
   object DoricColumnExtr {

@@ -28,7 +28,7 @@ trait FromDf[T] {
       } catch {
         case e: Throwable => e.invalidNec
       }
-    }).toDC(colName)
+    }).toDC
   }
 
   /**
