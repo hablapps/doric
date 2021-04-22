@@ -85,7 +85,7 @@ class ArrayColumnOpsSpec
 
     it("should aggregate the elements of the array with the provided function") {
       val df = List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
-      df.withColumn("result", getArrayInt("col").aggregate[Int](100.lit, _ + _))
+      df.withColumn("result", getArrayInt("col").aggregate[Int](100.lit)(_ + _))
         .select("result")
         .as[Int]
         .head() shouldBe 160
@@ -94,7 +94,7 @@ class ArrayColumnOpsSpec
     it("should capture errors in aggregate") {
       val df = List((List(10, 20, 30), "7")).toDF("col", "something")
       val errors = getArrayInt("col")
-        .aggregate(getInt("something2"))( _ + _ + getInt("something"))
+        .aggregate(getInt("something2"))(_ + _ + getInt("something"))
         .elem
         .run(df)
         .toEither
@@ -141,6 +141,15 @@ class ArrayColumnOpsSpec
         "The column with name 'something' is of type StringType and it was expected to be IntegerType",
         "Cannot resolve column name \"something3\" among (col, something)"
       )
+    }
+
+    it("should filter") {
+      val df = List((List(10, 20, 30), 25))
+        .toDF("col", "val")
+        .withColumn("result", getArrayInt("col").filter(_ < getInt("val")))
+        .select("result")
+        .as[List[Int]]
+        .head() shouldBe List(10, 20)
     }
   }
 
