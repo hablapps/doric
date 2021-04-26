@@ -23,7 +23,7 @@ trait FromDf[T] {
           Validated.valid(column)
         else
           DoricSingleError(
-            s"The column with name '$colName' is of type ${column.expr.dataType} and it was expected to be $dataType",
+            s"The column with name '$colName' is of type ${column.expr.dataType} and it was expected to be $dataType"
           ).invalidNec
       } catch {
         case e: Throwable => DoricSingleError(e.getMessage, e).invalidNec

@@ -11,5 +11,4 @@ class ErrorsSpec extends DoricTestElements with Matchers {
     }
   }
 
-
 }

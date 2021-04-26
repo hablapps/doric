@@ -31,14 +31,18 @@ trait DStructOps {
             fatherStructType
               .find(_.name == subColumnName)
               .fold[DoricEither[Column]](
-                 DoricSingleError(s"No such struct field $subColumnName among nested columns ${fatherStructType.names.mkString("(",", ",")")}").leftNec
+                DoricSingleError(
+                  s"No such struct field $subColumnName among nested columns ${fatherStructType.names
+                    .mkString("(", ", ", ")")}"
+                ).leftNec
               )(st =>
                 if (FromDf[T].isValid(st.dataType))
                   vcolumn.getItem(subColumnName).asRight[NonEmptyChain[DoricSingleError]]
                 else
                   DoricSingleError(
-                    s"The nested column $subColumnName is of type ${st.dataType} and it was expected to be ${FromDf[T].dataType}")
-                  .leftNec[Column]
+                    s"The nested column $subColumnName is of type ${st.dataType} and it was expected to be ${FromDf[T].dataType}"
+                  )
+                    .leftNec[Column]
               )
           })
         )

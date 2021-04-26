@@ -2,12 +2,16 @@ package habla.doric
 
 import cats.data.NonEmptyChain
 
-case class DoricMultiError(errors: NonEmptyChain[Throwable]) extends Throwable(s"found ${errors.length} errors", errors.head.getCause) {
-  override def getMessage: String = (s"found ${errors.length} errors" +: errors.map(_.getMessage)).iterator.mkString("\n")
+case class DoricMultiError(errors: NonEmptyChain[Throwable])
+    extends Throwable(s"found ${errors.length} errors", errors.head.getCause) {
+  override def getMessage: String =
+    (s"found ${errors.length} errors" +: errors.map(_.getMessage)).iterator.mkString("\n")
 }
 
-case class DoricSingleError(message: String, cause: Throwable = null)(implicit val location: Location) extends Throwable(message, cause) {
-  override def getMessage: String = message+s"\n\tlocated at . ${location.getLocation}"
+case class DoricSingleError(message: String, cause: Throwable = null)(implicit
+    val location: Location
+) extends Throwable(message, cause) {
+  override def getMessage: String = message + s"\n\tlocated at . ${location.getLocation}"
 }
 
 object Location {
