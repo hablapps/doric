@@ -29,7 +29,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .left
         .value
         .head
-        .getMessage shouldBe "No such struct field jander in name, surname, age"
+        .message shouldBe "No such struct field jander among nested columns (name, surname, age)"
     }
 
     it("throws an error if the sub column is not of the provided type") {
@@ -41,7 +41,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .left
         .value
         .head
-        .getMessage shouldBe "The nested column age is of type IntegerType and it was expected to be StringType"
+        .message shouldBe "The nested column age is of type IntegerType and it was expected to be StringType"
     }
   }
 

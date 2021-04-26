@@ -10,7 +10,7 @@ import org.apache.spark.sql.types.StructType
 
 trait DStructOps {
 
-  type DoricEither[A] = Either[NonEmptyChain[Throwable], A]
+  type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
   private val toValidated = new FunctionK[DoricEither, DoricValidated] {
     override def apply[A](fa: DoricEither[A]): DoricValidated[A] = fa.toValidated
@@ -20,7 +20,7 @@ trait DStructOps {
   }
 
   implicit class DStructSyntax(private val col: DStructColumn) {
-    def getChild[T: FromDf](subColumnName: String): DoricColumn[T] = {
+    def getChild[T: FromDf](subColumnName: String)(implicit location: Location): DoricColumn[T] = {
       col.elem
         .mapK(toEither)
         .flatMap(vcolumn =>
@@ -31,16 +31,14 @@ trait DStructOps {
             fatherStructType
               .find(_.name == subColumnName)
               .fold[DoricEither[Column]](
-                new Exception(
-                  s"No such struct field $subColumnName in ${fatherStructType.names.mkString(", ")}"
-                ).leftNec
+                 DoricSingleError(s"No such struct field $subColumnName among nested columns ${fatherStructType.names.mkString("(",", ",")")}").leftNec
               )(st =>
                 if (FromDf[T].isValid(st.dataType))
-                  vcolumn.getItem(subColumnName).asRight[NonEmptyChain[Throwable]]
+                  vcolumn.getItem(subColumnName).asRight[NonEmptyChain[DoricSingleError]]
                 else
-                  new Exception(
-                    s"The nested column $subColumnName is of type ${st.dataType} and it was expected to be ${FromDf[T].dataType}"
-                  ).leftNec[Column]
+                  DoricSingleError(
+                    s"The nested column $subColumnName is of type ${st.dataType} and it was expected to be ${FromDf[T].dataType}")
+                  .leftNec[Column]
               )
           })
         )

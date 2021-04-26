@@ -9,31 +9,33 @@ trait FromDfExtras {
 
   @inline def dataType[T: FromDf]: DataType = FromDf[T].dataType
 
-  def get[T: FromDf](colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[T] =
+  def get[T: FromDf](colName: String)(implicit location: Location): DoricColumn[T] =
     FromDf[T].validate(colName)
 
-  @inline def getInt(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Int] =
-    get[Int](colName)
+  def getInt(colName: String)(implicit location: Location): DoricColumn[Int] = {
+    FromDf[Int].validate(colName)
+  }
 
-  @inline def getString(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[String] =
-    get[String](colName)
+  def getString(colName: String)(implicit location: Location): DoricColumn[String] = {
+    FromDf[String].validate(colName)
+  }
 
-  @inline def getTimestamp(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Timestamp] =
-    get[Timestamp](colName)
+  def getTimestamp(colName: String)(implicit location: Location): DoricColumn[Timestamp] =
+    FromDf[Timestamp].validate(colName)
 
-  @inline def getDate(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Date] =
-    get[Date](colName)
+  def getDate(colName: String)(implicit location: Location): DoricColumn[Date] =
+    FromDf[Date].validate(colName)
 
-  @inline def getArray[T: FromDf](colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Array[T]] =
-    get[Array[T]](colName)
+  def getArray[T: FromDf](colName: String)(implicit location: Location): DoricColumn[Array[T]] =
+    FromDf[Array[T]].validate(colName)
 
-  @inline def getArrayInt(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Array[Int]] =
-    get[Array[Int]](colName)
+  def getArrayInt(colName: String)(implicit location: Location): DoricColumn[Array[Int]] =
+    FromDf[Array[Int]].validate(colName)
 
-  @inline def getArrayString(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DoricColumn[Array[String]] =
-    get[Array[String]](colName)
+  def getArrayString(colName: String)(implicit location: Location): DoricColumn[Array[String]] =
+    FromDf[Array[String]].validate(colName)
 
-  @inline def getStruct(colName: String)(implicit line: sourcecode.Line, file: sourcecode.FileName): DStructColumn =
-    get[DStruct](colName)
+  def getStruct(colName: String)(implicit location: Location): DStructColumn =
+    FromDf[DStruct].validate(colName)
 
 }
