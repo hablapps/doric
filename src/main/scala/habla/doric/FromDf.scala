@@ -22,11 +22,9 @@ trait FromDf[T] {
         if (isValid(column.expr.dataType))
           Validated.valid(column)
         else
-          DoricSingleError(
-            s"The column with name '$colName' is of type ${column.expr.dataType} and it was expected to be $dataType"
-          ).invalidNec
+          ColumnTypeError(colName, dataType, column.expr.dataType).invalidNec
       } catch {
-        case e: Throwable => DoricSingleError(e.getMessage, e).invalidNec
+        case e: Throwable => SparkErrorWrapper(e).invalidNec
       }
     }).toDC
   }

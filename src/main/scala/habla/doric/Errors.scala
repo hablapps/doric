@@ -2,16 +2,43 @@ package habla.doric
 
 import cats.data.NonEmptyChain
 
+import org.apache.spark.sql.types.DataType
+
 case class DoricMultiError(errors: NonEmptyChain[Throwable])
-    extends Throwable(s"found ${errors.length} errors", errors.head.getCause) {
+    extends Throwable(errors.head.getCause) {
   override def getMessage: String =
     (s"found ${errors.length} errors" +: errors.map(_.getMessage)).iterator.mkString("\n")
 }
 
-case class DoricSingleError(message: String, cause: Throwable = null)(implicit
+abstract class DoricSingleError(cause: Throwable)(implicit
     val location: Location
-) extends Throwable(message, cause) {
+) extends Throwable(cause) {
+  def message: String
+
   override def getMessage: String = message + s"\n\tlocated at . ${location.getLocation}"
+}
+
+case class ColumnTypeError(
+    columnName: String,
+    expectedType: DataType,
+    foundType: DataType,
+    cause: Throwable = null
+) extends DoricSingleError(cause) {
+  override def message: String =
+    s"The column with name '$columnName' is of type $foundType and it was expected to be $expectedType"
+}
+
+case class ChildColumnNotFound(
+    columnName: String,
+    validColumns: Seq[String],
+    cause: Throwable = null
+) extends DoricSingleError(cause) {
+  override def message: String =
+    s"No such struct field $columnName among nested columns ${validColumns.mkString("(", ", ", ")")}"
+}
+
+case class SparkErrorWrapper(cause: Throwable) extends DoricSingleError(cause) {
+  override def message: String = cause.getMessage
 }
 
 object Location {
