@@ -6,7 +6,7 @@ import cats.data.{Kleisli, NonEmptyChain}
 import cats.implicits._
 
 import org.apache.spark.sql.{Column, DataFrame, functions => f}
-import org.apache.spark.sql.catalyst.expressions.UnresolvedNamedLambdaVariable
+import org.apache.spark.sql.catalyst.expressions._
 
 trait ArrayColumnOps {
 
@@ -24,10 +24,12 @@ trait ArrayColumnOps {
       col.elem.map(_.apply(n)).toDC
     }
 
-    def transform[A](func: DoricColumn[T] => DoricColumn[A]): DoricColumn[Array[A]] =
-      (col.elem, doricFunc(func))
-        .mapN((c, untypedFunc) => f.transform(c, untypedFunc))
-        .toDC
+    private val xarg = UnresolvedNamedLambdaVariable(Seq("x"))
+
+    def transform[A](f: DoricColumn[T] => DoricColumn[A]): DoricColumn[Array[A]] =
+      (col.elem, f(DoricColumn[T](new Column(xarg))).elem).mapN { (arr, fun) =>
+        new Column(ArrayTransform(arr.expr, LambdaFunction(fun.expr, Seq(xarg))))
+      }.toDC
 
     private def doricFunc[A, B](f: DoricColumn[A] => DoricColumn[B]): Doric[Column => Column] = {
       val x = UnresolvedNamedLambdaVariable(Seq("x"))
