@@ -1,12 +1,10 @@
 package habla.doric
 package syntax
 
-import cats.arrow.FunctionK
-import cats.data.{Kleisli, NonEmptyChain}
 import cats.implicits._
 
-import org.apache.spark.sql.{Column, DataFrame, functions => f}
-import org.apache.spark.sql.catalyst.expressions._, LambdaFunction.{identity => id}
+import org.apache.spark.sql.Column
+import org.apache.spark.sql.catalyst.expressions._, LambdaFunction.identity
 
 trait ArrayColumnOps {
 
@@ -16,12 +14,11 @@ trait ArrayColumnOps {
       col.elem.map(_.apply(n)).toDC
 
     def transform[A](fun: DoricColumn[T] => DoricColumn[A]): DoricColumn[Array[A]] =
-      (col.elem, fun(x).elem).mapN { (a, f) =>
-        new Column(ArrayTransform(a.expr, lam1(f.expr)))
-      }.toDC
+      (col.elem, fun(x).elem).mapN((a, f) => new Column(ArrayTransform(a.expr, lam1(f.expr)))).toDC
 
     def transformWithIndex[A](
-        fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]): DoricColumn[Array[A]] =
+        fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
+    ): DoricColumn[Array[A]] =
       (col.elem, fun(x, y).elem).mapN { (a, f) =>
         new Column(ArrayTransform(a.expr, lam2(f.expr)))
       }.toDC
@@ -29,22 +26,21 @@ trait ArrayColumnOps {
     def aggregate[A, B](
         zero: DoricColumn[A],
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
-        finish: DoricColumn[A] => DoricColumn[B]): DoricColumn[B] =
+        finish: DoricColumn[A] => DoricColumn[B]
+    ): DoricColumn[B] =
       (col.elem, zero.elem, merge(x, y).elem, finish(x).elem).mapN { (a, z, m, f) =>
         new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), lam1(f.expr)))
       }.toDC
 
     def aggregate[A](
-        zero: DoricColumn[A])(
-        merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]): DoricColumn[A] =
+        zero: DoricColumn[A]
+    )(merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]): DoricColumn[A] =
       (col.elem, zero.elem, merge(x, y).elem).mapN { (a, z, m) =>
-        new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), id))
+        new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), identity))
       }.toDC
 
     def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[Array[T]] =
-      (col.elem, p(x).elem).mapN { (a, f) =>
-        new Column(ArrayFilter(a.expr, lam1(f.expr)))
-      }.toDC
+      (col.elem, p(x).elem).mapN((a, f) => new Column(ArrayFilter(a.expr, lam1(f.expr)))).toDC
 
     private def x[A] = DoricColumn[A](new Column(xarg))
     private def y[A] = DoricColumn[A](new Column(yarg))
@@ -56,4 +52,3 @@ trait ArrayColumnOps {
     private val yarg = UnresolvedNamedLambdaVariable(Seq("y"))
   }
 }
-
