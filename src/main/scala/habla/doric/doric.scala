@@ -240,6 +240,9 @@ package object doric
   implicit val literalString: StringLit[String] =
     new Literal[String, String] {}
 
+  implicit val stringCastToInt: WarningCasting[String, Int] =
+    new SparkWarningCasting[String, Int] {}
+
   type ArrayColumn[A] = DoricColumn[Array[A]]
 
   implicit def fromArray[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
