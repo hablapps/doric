@@ -15,18 +15,16 @@ trait FromDf[T] {
 
   def dataType: DataType
 
-  def validate(colName: String): DoricColumn[T] = {
+  def validate(colName: String)(implicit location: Location): DoricColumn[T] = {
     Kleisli[DoricValidated, DataFrame, Column](df => {
       try {
         val column = df(colName)
         if (isValid(column.expr.dataType))
           Validated.valid(column)
         else
-          new Exception(
-            s"The column with name '${colName}' is of type ${column.expr.dataType} and it was expected to be $dataType"
-          ).invalidNec
+          ColumnTypeError(colName, dataType, column.expr.dataType).invalidNec
       } catch {
-        case e: Throwable => e.invalidNec
+        case e: Throwable => SparkErrorWrapper(e).invalidNec
       }
     }).toDC
   }

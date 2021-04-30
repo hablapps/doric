@@ -39,7 +39,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
 
       getArrayInt("col")
         .transform(_ => getString("something"))
@@ -49,7 +49,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType"
+        .message shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType"
     }
 
     it("should transform with index the elements of the array with the provided function") {
@@ -70,7 +70,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType"
+        .message shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType"
 
       getArrayInt("col")
         .transformWithIndex(_ + _ + getInt("something2"))
@@ -80,7 +80,7 @@ class ArrayColumnOpsSpec
         .left
         .value
         .head
-        .getMessage shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
     }
 
     it("should aggregate the elements of the array with the provided function") {
@@ -102,7 +102,7 @@ class ArrayColumnOpsSpec
         .value
 
       errors.toChain.size shouldBe 2
-      errors.map(_.getMessage).toChain.toList shouldBe List(
+      errors.map(_.message).toChain.toList shouldBe List(
         "Cannot resolve column name \"something2\" among (col, something)",
         "The column with name 'something' is of type StringType and it was expected to be IntegerType"
       )
@@ -136,7 +136,7 @@ class ArrayColumnOpsSpec
         .value
 
       errors.toChain.size shouldBe 3
-      errors.map(_.getMessage).toChain.toList shouldBe List(
+      errors.map(_.message).toChain.toList shouldBe List(
         "Cannot resolve column name \"something2\" among (col, something)",
         "The column with name 'something' is of type StringType and it was expected to be IntegerType",
         "Cannot resolve column name \"something3\" among (col, something)"

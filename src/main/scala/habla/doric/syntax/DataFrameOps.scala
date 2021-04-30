@@ -23,7 +23,7 @@ trait DataFrameOps {
         .run(df)
         .fold(
           x => {
-            throw x.head
+            throw DoricMultiError(x)
             df
           },
           df.withColumn(colName, _)

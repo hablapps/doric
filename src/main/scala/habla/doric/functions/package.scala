@@ -20,4 +20,10 @@ package object functions {
       List(first._1.elem, first._2.elem) ++ rest.flatMap(x => List(x._1.elem, x._2.elem))
     list.sequence.map(x => f.map(x: _*)).toDC
   }
+
+  def concat(cols: DoricColumn[String]*): DoricColumn[String] =
+    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
+
+  def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
+    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
 }

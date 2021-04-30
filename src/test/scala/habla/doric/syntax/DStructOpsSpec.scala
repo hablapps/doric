@@ -4,6 +4,8 @@ package syntax
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
+import org.apache.spark.sql.types.{IntegerType, StringType}
+
 case class User(name: String, surname: String, age: Int)
 
 class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues with Matchers {
@@ -28,8 +30,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .toEither
         .left
         .value
-        .head
-        .getMessage shouldBe "No such struct field jander in name, surname, age"
+        .head shouldBe ChildColumnNotFound("jander", List("name", "surname", "age"))
     }
 
     it("throws an error if the sub column is not of the provided type") {
@@ -40,8 +41,7 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .toEither
         .left
         .value
-        .head
-        .getMessage shouldBe "The nested column age is of type IntegerType and it was expected to be StringType"
+        .head shouldBe ColumnTypeError("age", StringType, IntegerType)
     }
   }
 

@@ -18,7 +18,7 @@ package object doric
     with TimestampColumnLikeOps
     with DateColumnLikeOps {
 
-  type DoricValidated[T] = ValidatedNec[Throwable, T]
+  type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, DataFrame, T]
 
   implicit val timestampOps: TimestampColumnLike[Timestamp] =
@@ -239,6 +239,9 @@ package object doric
 
   implicit val literalString: StringLit[String] =
     new Literal[String, String] {}
+
+  implicit val stringCastToInt: WarningCasting[String, Int] =
+    new SparkWarningCasting[String, Int] {}
 
   type ArrayColumn[A] = DoricColumn[Array[A]]
 
