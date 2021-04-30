@@ -29,14 +29,18 @@ trait NumericOperations[T] {
 }
 
 object NumericOperations {
-  @inline def apply[T: NumericOperations]: NumericOperations[T] = implicitly[NumericOperations[T]]
+  @inline def apply[T: NumericOperations]: NumericOperations[T] =
+    implicitly[NumericOperations[T]]
 }
 
 trait NumericOperationsOps {
 
-  implicit class NumericOperationsSyntax[T: NumericOperations: FromDf](column: DoricColumn[T]) {
+  implicit class NumericOperationsSyntax[T: NumericOperations: FromDf](
+      column: DoricColumn[T]
+  ) {
 
-    def +(other: DoricColumn[T]): DoricColumn[T] = implicitly[NumericOperations[T]].+(column, other)
+    def +(other: DoricColumn[T]): DoricColumn[T] =
+      implicitly[NumericOperations[T]].+(column, other)
 
     def -(other: DoricColumn[T]): DoricColumn[T] =
       NumericOperations[T] - (column, other)
@@ -44,12 +48,14 @@ trait NumericOperationsOps {
     def *(other: DoricColumn[T]): DoricColumn[T] =
       NumericOperations[T] * (column, other)
 
-    def >(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] > (column, other)
+    def >(other: DoricColumn[T]): BooleanColumn =
+      NumericOperations[T] > (column, other)
 
     def >=(other: DoricColumn[T]): BooleanColumn =
       NumericOperations[T] >= (column, other)
 
-    def <(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] < (column, other)
+    def <(other: DoricColumn[T]): BooleanColumn =
+      NumericOperations[T] < (column, other)
 
     def <=(other: DoricColumn[T]): BooleanColumn =
       NumericOperations[T] <= (column, other)

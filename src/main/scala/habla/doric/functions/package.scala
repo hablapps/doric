@@ -17,7 +17,9 @@ package object functions {
       rest: (DoricColumn[K], DoricColumn[V])*
   ): DoricColumn[Map[K, V]] = {
     val list: List[Doric[Column]] =
-      List(first._1.elem, first._2.elem) ++ rest.flatMap(x => List(x._1.elem, x._2.elem))
+      List(first._1.elem, first._2.elem) ++ rest.flatMap(x =>
+        List(x._1.elem, x._2.elem)
+      )
     list.sequence.map(x => f.map(x: _*)).toDC
   }
 

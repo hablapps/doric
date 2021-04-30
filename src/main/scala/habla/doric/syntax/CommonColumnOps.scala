@@ -16,7 +16,11 @@ trait CommonColumnOps {
           if (FromDf[T].isValid(head.dataType))
             Validated.valid(column)
           else
-            ColumnTypeError(head.name, FromDf[T].dataType, head.dataType).invalidNec
+            ColumnTypeError(
+              head.name,
+              FromDf[T].dataType,
+              head.dataType
+            ).invalidNec
         } catch {
           case e: Throwable => SparkErrorWrapper(e).invalidNec
         }
@@ -26,7 +30,7 @@ trait CommonColumnOps {
   implicit class BasicCol[T](private val column: DoricColumn[T]) {
 
     type CastToT[To]  = Casting[T, To]
-    type WCastToT[To] = WarningCasting[T, To]
+    type WCastToT[To] = UnsafeCasting[T, To]
 
     def as(colName: String): DoricColumn[T] = column.elem.map(_ as colName).toDC
 
@@ -35,9 +39,10 @@ trait CommonColumnOps {
 
     def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
 
-    def castTo[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
+    def cast[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
 
-    def warningCastTo[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
+    def unsafeCast[To: WCastToT: FromDf]: DoricColumn[To] =
+      UnsafeCasting[T, To].cast(column)
 
     def isIn(elems: T*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
 

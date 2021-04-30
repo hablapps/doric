@@ -19,11 +19,14 @@ trait DateColumnLike[T] {
 }
 
 object DateColumnLike {
-  @inline def apply[T: DateColumnLike]: DateColumnLike[T] = implicitly[DateColumnLike[T]]
+  @inline def apply[T: DateColumnLike]: DateColumnLike[T] =
+    implicitly[DateColumnLike[T]]
 }
 
 trait DateColumnLikeOps {
-  implicit class DateColumnLikeSyntax[T: DateColumnLike](column: DoricColumn[T]) {
+  implicit class DateColumnLikeSyntax[T: DateColumnLike](
+      column: DoricColumn[T]
+  ) {
 
     def endOfMonth: DoricColumn[T] = DateColumnLike[T].end_of_month(column)
 

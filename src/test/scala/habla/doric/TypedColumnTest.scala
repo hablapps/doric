@@ -8,7 +8,10 @@ import org.apache.spark.sql.DataFrame
 trait TypedColumnTest {
 
   implicit class ValidateColumnType(df: DataFrame) {
-    def validateColumnType[T: FromDf](column: DoricColumn[T], show: Boolean = false): Unit = {
+    def validateColumnType[T: FromDf](
+        column: DoricColumn[T],
+        show: Boolean = false
+    ): Unit = {
       val colName          = "result"
       val df2              = df.withColumn(colName, column)
       val providedDatatype = df2(colName).expr.dataType
@@ -19,7 +22,9 @@ trait TypedColumnTest {
       if (show) {
         df2.show(false)
       } else {
-        df2.foreach(_ => ()) //force a spark execution to check if in spark runtime the job fails
+        df2.foreach(_ =>
+          ()
+        ) //force a spark execution to check if in spark runtime the job fails
       }
     }
   }
@@ -63,10 +68,12 @@ trait TypedColumnTest {
       * @param expectedType the spark datatype expected in this moment
       * @return the provided column casted to the type if
       */
-    def testCastingTo[To: Cast: FromDf: ClassTag](expectedType: DataType): DoricColumn[To] = {
+    def testCastingTo[To: Cast: FromDf: ClassTag](
+        expectedType: DataType
+    ): DoricColumn[To] = {
       FromDf[To].dataType
       Casting[T, To].cast(tcolumn)
-      tcolumn.castTo[To].withTypeChecked.withTypeChecked(expectedType)
+      tcolumn.cast[To].withTypeChecked.withTypeChecked(expectedType)
     }
   }
 

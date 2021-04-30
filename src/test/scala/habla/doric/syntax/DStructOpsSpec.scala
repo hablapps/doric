@@ -8,7 +8,11 @@ import org.apache.spark.sql.types.{IntegerType, StringType}
 
 case class User(name: String, surname: String, age: Int)
 
-class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues with Matchers {
+class DStructOpsSpec
+    extends DoricTestElements
+    with DStructOps
+    with EitherValues
+    with Matchers {
 
   import spark.implicits._
 
@@ -18,23 +22,26 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
 
   describe("Dinamic struct column") {
     it("can get values subcolumns") {
-      df.validateColumnType(getStruct("col").getChild[String]("name"))
-      df.validateColumnType(getStruct("col").getChild[Int]("age"))
+      df.validateColumnType(colStruct("col").getChild[String]("name"))
+      df.validateColumnType(colStruct("col").getChild[Int]("age"))
     }
 
     it("generates a error if the sub column doesn't exist") {
-      getStruct("col")
+      colStruct("col")
         .getChild[String]("jander")
         .elem
         .run(df)
         .toEither
         .left
         .value
-        .head shouldBe ChildColumnNotFound("jander", List("name", "surname", "age"))
+        .head shouldBe ChildColumnNotFound(
+        "jander",
+        List("name", "surname", "age")
+      )
     }
 
     it("throws an error if the sub column is not of the provided type") {
-      getStruct("col")
+      colStruct("col")
         .getChild[String]("age")
         .elem
         .run(df)

@@ -6,7 +6,9 @@ import cats.implicits._
 import org.apache.spark.sql.functions.{map_keys, map_values}
 
 trait MapColumnOps {
-  implicit class MapColumnSyntax[K, V](private val map: DoricColumn[Map[K, V]]) {
+  implicit class MapColumnSyntax[K, V](
+      private val map: DoricColumn[Map[K, V]]
+  ) {
 
     def get(key: DoricColumn[K]): DoricColumn[V] =
       (map.elem, key.elem).mapN(_(_)).toDC
