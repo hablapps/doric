@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   "org.typelevel"       %% "cats-core"        % "2.3.0",
   "com.lihaoyi"         %% "sourcecode"       % "0.2.6",
   "com.github.mrpowers" %% "spark-daria"      % "0.38.2" % "test",
-  "com.github.mrpowers" %% "spark-fast-tests" % "0.23.0" % "test",
+  "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
   "org.scalatest"       %% "scalatest"        % "3.2.5"  % "test"
 )
 
