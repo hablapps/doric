@@ -35,9 +35,9 @@ trait CommonColumnOps {
 
     def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
 
-    def castTo[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
+    def cast[To: CastToT: FromDf]: DoricColumn[To] = Casting[T, To].cast(column)
 
-    def warningCastTo[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
+    def unsafeCast[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
 
     def isIn(elems: T*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
 

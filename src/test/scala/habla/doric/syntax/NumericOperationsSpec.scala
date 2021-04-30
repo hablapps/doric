@@ -13,7 +13,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
   def test[T: FromDf: ClassTag, O: FromDf](f: DoricColumn[T] => DoricColumn[O]): Unit =
     assert(
-      df.withColumn("result", f(get[T](getName[T](1))))("result").expr.dataType == dataType[O],
+      df.withColumn("result", f(col[T](getName[T](1))))("result").expr.dataType == dataType[O],
       "the output type is not equal to"
     )
 
@@ -50,8 +50,8 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
   ): Unit =
     df.validateColumnType(
       f(
-        get[T1](getName[T1]()),
-        get[T2](getName[T1]())
+        col[T1](getName[T1]()),
+        col[T2](getName[T1]())
       )
     )
 

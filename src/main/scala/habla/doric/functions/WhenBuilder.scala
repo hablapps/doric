@@ -3,15 +3,16 @@ package functions
 
 import cats.implicits._
 
-import org.apache.spark.sql.functions.{lit, when}
+import org.apache.spark.sql.functions.{when, lit => sparkLit}
 import org.apache.spark.sql.Column
+
 final case class WhenBuilder[T](
     private val cases: Vector[(BooleanColumn, DoricColumn[T])] = Vector.empty
 ) {
 
   def otherwiseNull(implicit dt: FromDf[T]): DoricColumn[T] =
     if (cases.isEmpty)
-      lit(null).cast(dataType[T]).pure[Doric].toDC
+      sparkLit(null).cast(dataType[T]).pure[Doric].toDC
     else
       casesToWhenColumn.toDC
 

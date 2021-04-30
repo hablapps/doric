@@ -22,8 +22,8 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
         .withColumn(
           "whenResult",
           WhenBuilder[Int]()
-            .caseW(getInt("c1") > 10, 1)
-            .caseW(getInt("c1") > 5, getInt("c1") + 1000)
+            .caseW(colInt("c1") > 10, 1)
+            .caseW(colInt("c1") > 5, colInt("c1") + 1000)
             .otherwise(3)
         )
 
@@ -36,11 +36,11 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
         .withColumn(
           "whenResult",
           WhenBuilder[Int]()
-            .caseW(getInt("c1") === 100.lit, 1)
+            .caseW(colInt("c1") === lit(100), 1)
             .otherwiseNull
         )
 
-      getInt("c1") === 100
+      colInt("c1") === 100
       assertColEquality(df, "whenResult", "whenExpected")
     }
   }

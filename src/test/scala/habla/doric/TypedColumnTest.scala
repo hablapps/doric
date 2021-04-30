@@ -66,7 +66,7 @@ trait TypedColumnTest {
     def testCastingTo[To: Cast: FromDf: ClassTag](expectedType: DataType): DoricColumn[To] = {
       FromDf[To].dataType
       Casting[T, To].cast(tcolumn)
-      tcolumn.castTo[To].withTypeChecked.withTypeChecked(expectedType)
+      tcolumn.cast[To].withTypeChecked.withTypeChecked(expectedType)
     }
   }
 

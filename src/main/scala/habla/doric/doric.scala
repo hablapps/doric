@@ -8,7 +8,6 @@ import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
 import org.apache.spark.sql.{Column, DataFrame}
-import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.types._
 
 package object doric
@@ -84,7 +83,7 @@ package object doric
   object IntegerColumn {
 
     def apply(litv: Int): IntegerColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[IntegerColumn] = DoricColumnExtr.unapply[Int](column)
   }
@@ -134,7 +133,7 @@ package object doric
   object FloatColumn {
 
     def apply(litv: Float): FloatColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[FloatColumn] = DoricColumnExtr.unapply[Float](column)
   }
@@ -173,7 +172,7 @@ package object doric
   object LongColumn {
 
     def apply(litv: Long): LongColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[LongColumn] = DoricColumnExtr.unapply[Long](column)
 
@@ -184,7 +183,7 @@ package object doric
   object DoubleColumn {
 
     def apply(litv: Double): DoubleColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[DoubleColumn] = DoricColumnExtr.unapply[Double](column)
 
@@ -205,7 +204,7 @@ package object doric
   object BooleanColumn {
 
     def apply(litv: Boolean): BooleanColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[BooleanColumn] = DoricColumnExtr.unapply[Boolean](column)
   }
@@ -220,7 +219,7 @@ package object doric
   object StringColumn {
 
     def apply(litv: String): StringColumn =
-      lit(litv).pure[Doric].toDC
+      litv.lit
 
     def unapply(column: Column): Option[StringColumn] = DoricColumnExtr.unapply[String](column)
   }
@@ -237,7 +236,7 @@ package object doric
 
   object ArrayColumn {
     def apply[A](litv: Array[A]): ArrayColumn[A] =
-      lit(litv).pure[Doric].toDC
+      litv.lit
   }
 
   implicit def fromArray[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
