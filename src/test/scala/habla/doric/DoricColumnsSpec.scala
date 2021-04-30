@@ -15,7 +15,9 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
     col[T]("column").elem.run(df).toEither.value
   }
-  def testValueNullable[T: FromDf](example: T)(implicit enc: Encoder[Option[T]]): Unit = {
+  def testValueNullable[T: FromDf](
+      example: T
+  )(implicit enc: Encoder[Option[T]]): Unit = {
     val df = List(Some(example), None).toDF("column")
     col[T]("column").elem.run(df).toEither.value
   }
@@ -60,7 +62,9 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
     it("works for DStruct") {
       val df = List(((1, "hola"), 1)).toDF("column", "extra").select("column")
       col[DStruct]("column").elem.run(df).toEither.value
-      val df2 = List((Some((1, "hola")), 1), (None, 1)).toDF("column", "extra").select("column")
+      val df2 = List((Some((1, "hola")), 1), (None, 1))
+        .toDF("column", "extra")
+        .select("column")
       col[DStruct]("column").elem.run(df2).toEither.value
     }
     it("works for structs if accessed directly") {

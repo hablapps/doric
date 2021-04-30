@@ -11,9 +11,13 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
   def df: DataFrame
 
-  def test[T: FromDf: ClassTag, O: FromDf](f: DoricColumn[T] => DoricColumn[O]): Unit =
+  def test[T: FromDf: ClassTag, O: FromDf](
+      f: DoricColumn[T] => DoricColumn[O]
+  ): Unit =
     assert(
-      df.withColumn("result", f(col[T](getName[T](1))))("result").expr.dataType == dataType[O],
+      df.withColumn("result", f(col[T](getName[T](1))))("result")
+        .expr
+        .dataType == dataType[O],
       "the output type is not equal to"
     )
 
@@ -55,14 +59,16 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       )
     )
 
-  def getName[T: ClassTag](pos: Int = 1): String = s"col_${classTag[T].getClass.getSimpleName}_$pos"
+  def getName[T: ClassTag](pos: Int = 1): String =
+    s"col_${classTag[T].getClass.getSimpleName}_$pos"
 }
 
 class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
 
   import spark.implicits._
 
-  def df: DataFrame = List((1, 2f, 3L)).toDF(getName[Int](), getName[Float](), getName[Long]())
+  def df: DataFrame =
+    List((1, 2f, 3L)).toDF(getName[Int](), getName[Float](), getName[Long]())
 
   test[Int]()
   test[Float]()

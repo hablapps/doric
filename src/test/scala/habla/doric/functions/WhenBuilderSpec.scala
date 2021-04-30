@@ -7,9 +7,14 @@ import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import habla.doric.implicitConversions._
 import org.scalatest.funspec.AnyFunSpecLike
 
-class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with ColumnComparer {
+class WhenBuilderSpec
+    extends AnyFunSpecLike
+    with SparkSessionTestWrapper
+    with ColumnComparer {
 
-  override def convertToEqualizer[T](left: T): Equalizer[T] = new Equalizer(left)
+  override def convertToEqualizer[T](left: T): Equalizer[T] = new Equalizer(
+    left
+  )
 
   // scalafix:ok
   import spark.implicits._

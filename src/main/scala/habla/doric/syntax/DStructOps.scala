@@ -13,14 +13,17 @@ trait DStructOps {
   type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
   private val toValidated = new FunctionK[DoricEither, DoricValidated] {
-    override def apply[A](fa: DoricEither[A]): DoricValidated[A] = fa.toValidated
+    override def apply[A](fa: DoricEither[A]): DoricValidated[A] =
+      fa.toValidated
   }
   private val toEither = new FunctionK[DoricValidated, DoricEither] {
     override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
   }
 
   implicit class DStructSyntax(private val col: DStructColumn) {
-    def getChild[T: FromDf](subColumnName: String)(implicit location: Location): DoricColumn[T] = {
+    def getChild[T: FromDf](
+        subColumnName: String
+    )(implicit location: Location): DoricColumn[T] = {
       col.elem
         .mapK(toEither)
         .flatMap(vcolumn =>
@@ -31,12 +34,21 @@ trait DStructOps {
             fatherStructType
               .find(_.name == subColumnName)
               .fold[DoricEither[Column]](
-                ChildColumnNotFound(subColumnName, fatherStructType.names).leftNec
+                ChildColumnNotFound(
+                  subColumnName,
+                  fatherStructType.names
+                ).leftNec
               )(st =>
                 if (FromDf[T].isValid(st.dataType))
-                  vcolumn.getItem(subColumnName).asRight[NonEmptyChain[DoricSingleError]]
+                  vcolumn
+                    .getItem(subColumnName)
+                    .asRight[NonEmptyChain[DoricSingleError]]
                 else
-                  ColumnTypeError(subColumnName, FromDf[T].dataType, st.dataType).leftNec[Column]
+                  ColumnTypeError(
+                    subColumnName,
+                    FromDf[T].dataType,
+                    st.dataType
+                  ).leftNec[Column]
               )
           })
         )

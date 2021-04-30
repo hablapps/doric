@@ -1,11 +1,13 @@
 package habla.doric
 package syntax
 
-import org.apache.spark.sql.DataFrame
+import cats.implicits._
+
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 trait DataFrameOps {
 
-  implicit class DataframeSyntax(df: DataFrame) {
+  implicit class DataframeSyntax[A](df: Dataset[A]) {
 
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
@@ -20,13 +22,40 @@ trait DataFrameOps {
       */
     def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
       col.elem
-        .run(df)
+        .run(df.toDF())
+        .fold(
+          x => {
+            throw DoricMultiError(x)
+            df.toDF()
+          },
+          df.withColumn(colName, _)
+        )
+    }
+
+    def filter(col: BooleanColumn): Dataset[A] = {
+      col.elem
+        .run(df.toDF())
         .fold(
           x => {
             throw DoricMultiError(x)
             df
           },
-          df.withColumn(colName, _)
+          df.filter
+        )
+    }
+
+    def select(col: DoricColumn[_]*): DataFrame = {
+      col
+        .map(_.elem)
+        .toList
+        .sequence
+        .run(df.toDF())
+        .fold(
+          x => {
+            throw DoricMultiError(x)
+            df.toDF()
+          },
+          df.select(_: _*)
         )
     }
 

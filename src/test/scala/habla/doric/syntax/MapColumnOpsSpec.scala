@@ -12,7 +12,9 @@ class MapColumnOpsSpec extends DoricTestElements with MapColumnOps {
 
   describe("Map column") {
     it("can get values from the keys") {
-      df.validateColumnType(col[Map[String, Int]]("col").get(colString("validkey")))
+      df.validateColumnType(
+        col[Map[String, Int]]("col").get(colString("validkey"))
+      )
       df.validateColumnType(col[Map[String, Int]]("col").get("validkey"))
     }
 

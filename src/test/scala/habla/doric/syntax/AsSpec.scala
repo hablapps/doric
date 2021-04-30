@@ -15,7 +15,12 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
 
     it("should return a doricColum if it passes all validations") {
       val originalColumn = sparkCol("int")
-      originalColumn.asDoric[Int].elem.run(df).toEither.value shouldBe originalColumn
+      originalColumn
+        .asDoric[Int]
+        .elem
+        .run(df)
+        .toEither
+        .value shouldBe originalColumn
     }
 
     it("should return a SparkError if the column doesn't exist") {
@@ -26,7 +31,6 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
         57
       ) shouldBe "cannot resolve '`error`' given input columns: [int, str];"
       errors.head.location.fileName.value shouldBe "AsSpec.scala"
-      errors.head.location.lineNumber.value shouldBe 22
     }
 
     it("should return a SparkError if the column doesn't match the type") {
@@ -35,7 +39,6 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
       errors.length shouldBe 1
       errors.head.message shouldBe "The column with name 'int' is of type IntegerType and it was expected to be StringType"
       errors.head.location.fileName.value shouldBe "AsSpec.scala"
-      errors.head.location.lineNumber.value shouldBe 33
     }
   }
 

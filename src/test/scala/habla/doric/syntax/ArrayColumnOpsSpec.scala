@@ -21,10 +21,14 @@ class ArrayColumnOpsSpec
         .head() shouldBe 2
     }
 
-    it("should transform the elements of the array with the provided function") {
+    it(
+      "should transform the elements of the array with the provided function"
+    ) {
       val df = List((List(1, 2, 3), 7)).toDF("col", "something")
-      df.withColumn("result", colArrayInt("col").transform(_ + colInt("something")))
-        .select("result")
+      df.withColumn(
+        "result",
+        colArrayInt("col").transform(_ + colInt("something"))
+      ).select("result")
         .as[List[Int]]
         .head() shouldBe List(8, 9, 10)
     }
@@ -52,8 +56,11 @@ class ArrayColumnOpsSpec
         .message shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType"
     }
 
-    it("should transform with index the elements of the array with the provided function") {
-      val df = List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
+    it(
+      "should transform with index the elements of the array with the provided function"
+    ) {
+      val df =
+        List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
       df.withColumn("result", colArrayInt("col").transformWithIndex(_ + _))
         .select("result")
         .as[List[Int]]
@@ -83,8 +90,11 @@ class ArrayColumnOpsSpec
         .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
     }
 
-    it("should aggregate the elements of the array with the provided function") {
-      val df = List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
+    it(
+      "should aggregate the elements of the array with the provided function"
+    ) {
+      val df =
+        List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
       df.withColumn("result", colArrayInt("col").aggregate[Int](100.lit)(_ + _))
         .select("result")
         .as[Int]
@@ -115,7 +125,10 @@ class ArrayColumnOpsSpec
       df.withColumn(
         "result",
         colArrayInt("col")
-          .aggregateWT[Int, String](100.lit)(_ + _, x => (x + col[Int]("something")).cast)
+          .aggregateWT[Int, String](100.lit)(
+            _ + _,
+            x => (x + col[Int]("something")).cast
+          )
       ).select("result")
         .as[String]
         .head() shouldBe "167"

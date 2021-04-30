@@ -8,7 +8,11 @@ import org.apache.spark.sql.types.{IntegerType, StringType}
 
 case class User(name: String, surname: String, age: Int)
 
-class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues with Matchers {
+class DStructOpsSpec
+    extends DoricTestElements
+    with DStructOps
+    with EitherValues
+    with Matchers {
 
   import spark.implicits._
 
@@ -30,7 +34,10 @@ class DStructOpsSpec extends DoricTestElements with DStructOps with EitherValues
         .toEither
         .left
         .value
-        .head shouldBe ChildColumnNotFound("jander", List("name", "surname", "age"))
+        .head shouldBe ChildColumnNotFound(
+        "jander",
+        List("name", "surname", "age")
+      )
     }
 
     it("throws an error if the sub column is not of the provided type") {

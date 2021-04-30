@@ -23,7 +23,9 @@ final case class WhenBuilder[T](
     val first = cases.head
     cases.tail.foldLeft(
       (first._1.elem, first._2.elem).mapN((c, a) => when(c, a))
-    )((acc, c) => (acc, c._1.elem, c._2.elem).mapN((a, cond, algo) => a.when(cond, algo)))
+    )((acc, c) =>
+      (acc, c._1.elem, c._2.elem).mapN((a, cond, algo) => a.when(cond, algo))
+    )
   }
 
   def otherwise(other: DoricColumn[T]): DoricColumn[T] =
