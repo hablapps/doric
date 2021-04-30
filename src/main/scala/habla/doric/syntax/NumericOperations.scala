@@ -36,40 +36,24 @@ trait NumericOperationsOps {
 
   implicit class NumericOperationsSyntax[T: NumericOperations: FromDf](column: DoricColumn[T]) {
 
-    type Lit[ST] = Literal[T, ST]
-
     def +(other: DoricColumn[T]): DoricColumn[T] = implicitly[NumericOperations[T]].+(column, other)
-
-    def +[LT: Lit](other: LT): DoricColumn[T] =
-      NumericOperations[T].+(column, Literal[T, LT].createTLiteral(other))
 
     def -(other: DoricColumn[T]): DoricColumn[T] =
       NumericOperations[T] - (column, other)
 
-    def -[LT: Lit](other: LT): DoricColumn[T] = column - Literal[T, LT].createTLiteral(other)
-
     def *(other: DoricColumn[T]): DoricColumn[T] =
       NumericOperations[T] * (column, other)
 
-    def *[LT: Lit](other: LT): DoricColumn[T] = column * Literal[T, LT].createTLiteral(other)
-
     def >(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] > (column, other)
-
-    def >[LT: Lit](other: LT): BooleanColumn = column > Literal[T, LT].createTLiteral(other)
 
     def >=(other: DoricColumn[T]): BooleanColumn =
       NumericOperations[T] >= (column, other)
 
-    def >=[LT: Lit](other: LT): BooleanColumn = column >= Literal[T, LT].createTLiteral(other)
-
     def <(other: DoricColumn[T]): BooleanColumn = NumericOperations[T] < (column, other)
-
-    def <[LT: Lit](other: LT): BooleanColumn = column < Literal[T, LT].createTLiteral(other)
 
     def <=(other: DoricColumn[T]): BooleanColumn =
       NumericOperations[T] <= (column, other)
 
-    def <=[LT: Lit](other: LT): BooleanColumn = column <= Literal[T, LT].createTLiteral(other)
   }
 
 }

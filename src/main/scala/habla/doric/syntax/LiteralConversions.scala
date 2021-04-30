@@ -1,13 +1,14 @@
 package habla.doric
 package syntax
 
-import habla.doric.{BooleanColumn, IntegerColumn, StringColumn}
-import habla.doric.Literal
+import cats.implicits.catsSyntaxApplicativeId
+
+import org.apache.spark.sql.functions
 
 trait LiteralConversions {
 
-  implicit class LiteralOps[L](lit: L) {
-    def lit[O](implicit litTc: Literal[O, L]): DoricColumn[O] = Literal[O, L].createTLiteral(lit)
+  implicit class LiteralOps[L](litv: L) {
+    def lit: DoricColumn[L] = functions.lit(litv).pure[Doric].toDC
   }
 
 }

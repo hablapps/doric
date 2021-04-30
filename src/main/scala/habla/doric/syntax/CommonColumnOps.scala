@@ -9,14 +9,11 @@ trait CommonColumnOps {
 
     type CastToT[To]  = Casting[T, To]
     type WCastToT[To] = WarningCasting[T, To]
-    type Lit[ST]      = Literal[T, ST]
 
     def as(colName: String): DoricColumn[T] = column.elem.map(_ as colName).toDC
 
     def ===(other: DoricColumn[T]): BooleanColumn =
       (column.elem, other.elem).mapN(_ === _).toDC
-
-    def ===[LT: Lit](other: LT): BooleanColumn = column === other.lit
 
     def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
 
@@ -24,7 +21,7 @@ trait CommonColumnOps {
 
     def warningCastTo[To: WCastToT: FromDf]: DoricColumn[To] = WarningCasting[T, To].cast(column)
 
-    def isIn[LT: Lit](elems: LT*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
+    def isIn(elems: T*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
 
     def isNull: BooleanColumn    = column.elem.map(_.isNull).toDC
     def isNotNull: BooleanColumn = column.elem.map(_.isNotNull).toDC

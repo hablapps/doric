@@ -4,7 +4,8 @@ package syntax
 import cats.implicits._
 
 import org.apache.spark.sql.Column
-import org.apache.spark.sql.catalyst.expressions._, LambdaFunction.identity
+import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
 trait ArrayColumnOps {
 
@@ -23,8 +24,7 @@ trait ArrayColumnOps {
         new Column(ArrayTransform(a.expr, lam2(f.expr)))
       }.toDC
 
-    def aggregate[A, B](
-        zero: DoricColumn[A],
+    def aggregateWT[A, B](zero: DoricColumn[A])(
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
         finish: DoricColumn[A] => DoricColumn[B]
     ): DoricColumn[B] =

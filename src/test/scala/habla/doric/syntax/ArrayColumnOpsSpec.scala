@@ -115,7 +115,7 @@ class ArrayColumnOpsSpec
       df.withColumn(
         "result",
         getArrayInt("col")
-          .aggregate[Int, String](100.lit, _ + _, x => (x + get[Int]("something")).castTo)
+          .aggregateWT[Int, String](100.lit)(_ + _, x => (x + get[Int]("something")).castTo)
       ).select("result")
         .as[String]
         .head() shouldBe "167"
@@ -124,8 +124,7 @@ class ArrayColumnOpsSpec
     it("should capture errors in aggregate with final transform") {
       val df = List((List(10, 20, 30), "7")).toDF("col", "something")
       val errors = getArrayInt("col")
-        .aggregate[Int, String](
-          getInt("something2"),
+        .aggregateWT[Int, String](getInt("something2"))(
           _ + _ + getInt("something"),
           x => (x + getInt("something3")).castTo
         )
