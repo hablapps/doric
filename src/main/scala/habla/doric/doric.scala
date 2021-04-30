@@ -5,8 +5,10 @@ import cats.implicits._
 import cats.Applicative
 import habla.doric.syntax._
 import java.sql.{Date, Timestamp}
+import java.time.{Instant, LocalDate}
 
 import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.types._
 
 package object doric
@@ -21,9 +23,6 @@ package object doric
   type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, DataFrame, T]
 
-  implicit val timestampOps: TimestampColumnLike[Timestamp] =
-    new TimestampColumnLike[Timestamp] {}
-
   implicit val timestampDateOps: DateColumnLike[Timestamp] =
     new DateColumnLike[Timestamp] {}
 
@@ -31,10 +30,16 @@ package object doric
     def toDC[A]: DoricColumn[A] = DoricColumn(elem)
   }
 
-  implicit val literalFloat: Literal[Float, Float] =
-    new Literal[Float, Float] {}
-
   type TimestampColumn = DoricColumn[Timestamp]
+
+  implicit val timestampOps: TimestampColumnLike[Timestamp] =
+    new TimestampColumnLike[Timestamp] {}
+
+  type InstantColumn = DoricColumn[Instant]
+
+  implicit val instantOps: TimestampColumnLike[Instant] =
+    new TimestampColumnLike[Instant] {}
+
   implicit val floatArith: NumericOperations[Float] = new NumericOperations[Float] {}
 
   implicit val fromTimestamp: FromDf[Timestamp] = new FromDf[Timestamp] {
@@ -43,8 +48,12 @@ package object doric
 
   }
 
-  implicit val literalTimestamp: Literal[Timestamp, Timestamp] =
-    new Literal[Timestamp, Timestamp] {}
+  implicit val fromInstant: FromDf[Instant] = new FromDf[Instant] {
+
+    override def dataType: DataType = TimestampType
+
+  }
+
   implicit val floatCastToString: Casting[Float, String] =
     new SparkCasting[Float, String] {}
   implicit val floatCastToDouble: Casting[Float, Double] =
@@ -62,19 +71,20 @@ package object doric
     override val dataType: DataType = DateType
   }
 
-  implicit val literalDate: Literal[Date, Date] =
-    new Literal[Date, Date] {}
+  implicit val fromLocalDate: FromDf[LocalDate] = new FromDf[LocalDate] {
+    override val dataType: DataType = DateType
+  }
 
   implicit val dateCol: DateColumnLike[Date] = new DateColumnLike[Date] {}
+
+  implicit val localdateOps: DateColumnLike[Instant] = new DateColumnLike[Instant] {}
 
   type IntegerColumn = DoricColumn[Int]
 
   object IntegerColumn {
 
-    type Lit[T] = Literal[Int, T]
-
-    def apply[LT: Lit](lit: LT): IntegerColumn =
-      implicitly[Lit[LT]].createTLiteral(lit)
+    def apply(litv: Int): IntegerColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[IntegerColumn] = DoricColumnExtr.unapply[Int](column)
   }
@@ -83,9 +93,6 @@ package object doric
     override def dataType: DataType = IntegerType
 
   }
-
-  implicit val literal: Literal[Int, Int] =
-    new Literal[Int, Int] {}
 
   implicit val intArith: NumericOperations[Int] = new NumericOperations[Int] {}
 
@@ -105,16 +112,11 @@ package object doric
 
   case class DoricColumn[T](elem: Doric[Column])
 
-  type LongLit[T] = Literal[Long, T]
-
   implicit val fromLong: FromDf[Long] = new FromDf[Long] {
 
     override def dataType: DataType = LongType
 
   }
-
-  implicit val literalLong: Literal[Long, Int] =
-    new Literal[Long, Int] {}
 
   implicit val longArith: NumericOperations[Long] = new NumericOperations[Long] {}
 
@@ -131,13 +133,11 @@ package object doric
 
   object FloatColumn {
 
-    def apply[LT: FloatLit](lit: LT): FloatColumn =
-      implicitly[FloatLit[LT]].createTLiteral(lit)
+    def apply(litv: Float): FloatColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[FloatColumn] = DoricColumnExtr.unapply[Float](column)
   }
-
-  type FloatLit[T] = Literal[Float, T]
 
   implicit val fromFloat: FromDf[Float] = new FromDf[Float] {
 
@@ -172,8 +172,8 @@ package object doric
 
   object LongColumn {
 
-    def apply[LT: LongLit](lit: LT): LongColumn =
-      implicitly[LongLit[LT]].createTLiteral(lit)
+    def apply(litv: Long): LongColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[LongColumn] = DoricColumnExtr.unapply[Long](column)
 
@@ -183,20 +183,17 @@ package object doric
 
   object DoubleColumn {
 
-    def apply[LT: DoubleLit](lit: LT): DoubleColumn =
-      implicitly[Literal[Double, LT]].createTLiteral(lit)
+    def apply(litv: Double): DoubleColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[DoubleColumn] = DoricColumnExtr.unapply[Double](column)
 
   }
-  type DoubleLit[T] = Literal[Double, T]
+
   implicit val fromDouble: FromDf[Double] = new FromDf[Double] {
 
     override def dataType: DataType = DoubleType
   }
-
-  implicit val literalDouble: Literal[DoubleColumn, Double] =
-    new Literal[DoubleColumn, Double] {}
 
   implicit val doubleArith: NumericOperations[DoubleColumn] = new NumericOperations[DoubleColumn] {}
 
@@ -207,43 +204,41 @@ package object doric
 
   object BooleanColumn {
 
-    def apply[LT: BooleanLit](lit: LT): BooleanColumn =
-      implicitly[BooleanLit[LT]].createTLiteral(lit)
+    def apply(litv: Boolean): BooleanColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[BooleanColumn] = DoricColumnExtr.unapply[Boolean](column)
   }
-  type BooleanLit[T] = Literal[Boolean, T]
+
   implicit val fromBoolean: FromDf[Boolean] = new FromDf[Boolean] {
 
     override def dataType: DataType = BooleanType
   }
 
-  implicit val literalBoolean: Literal[BooleanColumn, Boolean] =
-    new Literal[BooleanColumn, Boolean] {}
-
   type StringColumn = DoricColumn[String]
 
   object StringColumn {
 
-    def apply[LT: StringLit](lit: LT): StringColumn =
-      implicitly[StringLit[LT]].createTLiteral(lit)
+    def apply(litv: String): StringColumn =
+      lit(litv).pure[Doric].toDC
 
     def unapply(column: Column): Option[StringColumn] = DoricColumnExtr.unapply[String](column)
   }
 
-  type StringLit[T] = Literal[String, T]
   implicit val fromStringDf: FromDf[String] = new FromDf[String] {
 
     override def dataType: DataType = StringType
   }
 
-  implicit val literalString: StringLit[String] =
-    new Literal[String, String] {}
-
   implicit val stringCastToInt: WarningCasting[String, Int] =
     new SparkWarningCasting[String, Int] {}
 
   type ArrayColumn[A] = DoricColumn[Array[A]]
+
+  object ArrayColumn {
+    def apply[A](litv: Array[A]): ArrayColumn[A] =
+      lit(litv).pure[Doric].toDC
+  }
 
   implicit def fromArray[A: FromDf]: FromDf[Array[A]] = new FromDf[Array[A]] {
     override def dataType: DataType = ArrayType(implicitly[FromDf[A]].dataType)
@@ -252,14 +247,6 @@ package object doric
       case ArrayType(left, _) => FromDf[A].isValid(left)
       case _                  => false
     }
-  }
-
-  type Lit[LT[_], AIT, AITL] = Literal[Array[AIT], LT[AITL]]
-
-  implicit def listLit[IST, A](implicit
-      intLit: Literal[A, IST]
-  ): Literal[Array[A], Array[IST]] = {
-    new Literal[Array[A], Array[IST]] {}
   }
 
   type MapColumn[K, V] = DoricColumn[Map[K, V]]

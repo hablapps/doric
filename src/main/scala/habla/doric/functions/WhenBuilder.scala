@@ -9,8 +9,6 @@ final case class WhenBuilder[T](
     private val cases: Vector[(BooleanColumn, DoricColumn[T])] = Vector.empty
 ) {
 
-  type Lit[ST] = Literal[T, ST]
-
   def otherwiseNull(implicit dt: FromDf[T]): DoricColumn[T] =
     if (cases.isEmpty)
       lit(null).cast(dataType[T]).pure[Doric].toDC
@@ -19,9 +17,6 @@ final case class WhenBuilder[T](
 
   def caseW(cond: BooleanColumn, elem: DoricColumn[T]): WhenBuilder[T] =
     WhenBuilder(cases.:+((cond, elem)))
-
-  def caseW[LT: Lit](cond: BooleanColumn, elem: LT): WhenBuilder[T] =
-    WhenBuilder(cases.:+((cond, elem.lit)))
 
   private def casesToWhenColumn: Doric[Column] = {
     val first = cases.head
@@ -34,9 +29,4 @@ final case class WhenBuilder[T](
     if (cases.isEmpty) other
     else (casesToWhenColumn, other.elem).mapN(_.otherwise(_)).toDC
 
-  def otherwise[LT: Lit](other: LT): DoricColumn[T] =
-    if (cases.isEmpty)
-      other.lit
-    else
-      (casesToWhenColumn, other.lit.elem).mapN(_.otherwise(_)).toDC
 }

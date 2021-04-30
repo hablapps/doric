@@ -4,6 +4,7 @@ package functions
 import scala.Predef.{any2stringadd => _}
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
+import habla.doric.implicitConversions._
 import org.scalatest.funspec.AnyFunSpecLike
 
 class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with ColumnComparer {
@@ -35,7 +36,7 @@ class WhenBuilderSpec extends AnyFunSpecLike with SparkSessionTestWrapper with C
         .withColumn(
           "whenResult",
           WhenBuilder[Int]()
-            .caseW(getInt("c1") === 100, 1)
+            .caseW(getInt("c1") === 100.lit, 1)
             .otherwiseNull
         )
 

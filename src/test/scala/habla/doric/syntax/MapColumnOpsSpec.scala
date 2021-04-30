@@ -1,6 +1,8 @@
 package habla.doric
 package syntax
 
+import habla.doric.implicitConversions._
+
 class MapColumnOpsSpec extends DoricTestElements with MapColumnOps {
 
   import spark.implicits._

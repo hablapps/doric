@@ -30,28 +30,7 @@ trait DataFrameOps {
         )
     }
 
-    /**
-      * Returns a new Dataset by adding a column or replacing the existing column that has
-      * the same name.
-      *
-      * The col function will provide the called dataframe
-      *
-      * @note this method introduces a projection internally. Therefore, calling it multiple times,
-      *       for instance, via loops in order to add multiple columns can generate big plans which
-      *       can cause performance issues and even `StackOverflowException`.
-      */
-    def withLitColumn[T, LT](colName: String)(col: LT)(implicit lit: Literal[T, LT]): DataFrame =
-      df.withColumn(colName, col.lit)
-
     /*
-    def join[T: FromDf](df2: DataFrame, column: T): DataFrame = {
-      df.join(df2, column.sparkColumn)
-    }
-
-    def join[T: FromDf](df2: DataFrame)(f: (DataFrame, DataFrame) => T): DataFrame = {
-      df.join(df2, f(df, df2).sparkColumn)
-    }
-
     def groupBy[T: FromDf](column: DataFrame => T): RelationalGroupedDataset = {
       df.groupBy(column(df).sparkColumn)
     }
