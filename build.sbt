@@ -6,19 +6,19 @@ version := "0.0.1"
 scalaVersion := "2.12.13"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark"    %% "spark-sql"        % "3.1.1"  % "provided",
+  "org.apache.spark"    %% "spark-sql"        % "3.1.1" % "provided",
   "org.typelevel"       %% "cats-core"        % "2.6.0",
   "com.lihaoyi"         %% "sourcecode"       % "0.2.6",
   "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
-  "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0"  % "test",
-  "org.scalatest"       %% "scalatest"        % "3.2.8"  % "test"
+  "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
+  "org.scalatest"       %% "scalatest"        % "3.2.8" % "test"
 )
 
 // scaladoc settings
 Compile / doc / scalacOptions ++= Seq("-groups")
 
 // test suite settings
-fork in Test := true
+Test / fork := true
 javaOptions ++= Seq(
   "-Xms512M",
   "-Xmx2048M",
@@ -26,20 +26,26 @@ javaOptions ++= Seq(
   "-XX:+CMSClassUnloadingEnabled"
 )
 // Show runtime of tests
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
+Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
 
 credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials")
-
-fork in Test := true
 
 licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
 
 homepage := Some(url("https://github.com/hablapps/doric"))
 developers ++= List(
-  Developer("AlfonsoRR", "Alfonso Roa", "@saco_pepe", url("https://github.com/alfonsorr"))
+  Developer(
+    "AlfonsoRR",
+    "Alfonso Roa",
+    "@saco_pepe",
+    url("https://github.com/alfonsorr")
+  )
 )
 scmInfo := Some(
-  ScmInfo(url("https://github.com/hablapps/doric"), "git@github.com:hablapps/doric.git")
+  ScmInfo(
+    url("https://github.com/hablapps/doric"),
+    "git@github.com:hablapps/doric.git"
+  )
 )
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
