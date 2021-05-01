@@ -33,11 +33,3 @@ trait DoricDateType {
     new DateColumnLike[Instant] {}
 
 }
-
-
-
-
-
-
-
-
