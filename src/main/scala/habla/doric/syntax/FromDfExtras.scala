@@ -57,3 +57,5 @@ trait FromDfExtras {
     FromDf[DStruct].validate(colName)
 
 }
+
+object FromDfExtras extends FromDfExtras

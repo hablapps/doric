@@ -30,6 +30,7 @@ class DataFrameOpsSpec
     it("works filter") {
       val result = spark
         .range(10)
+        .toDF()
         .filter(colLong("id") > 2L)
 
       val errors = intercept[DoricMultiError] {
@@ -61,6 +62,82 @@ class DataFrameOpsSpec
       }
 
       errors.errors.length shouldBe 3
+    }
+
+    it("works with join of same name and type columns") {
+
+      val left = spark
+        .range(10)
+        .toDF()
+        .withColumn(
+          "otherColumn",
+          functions.concat(colLong("id").cast[String], "left")
+        )
+        .toDF()
+        .filter(colLong("id") > 3L)
+      val right = spark
+        .range(10)
+        .toDF()
+        .withColumn(
+          "otherColumn",
+          functions.concat(colLong("id").cast[String], "right")
+        )
+        .filter(colLong("id") < 7L)
+
+      val badRight = right
+        .withColumn("id", colLong("id").cast[String])
+
+      left.join(right, "left", colLong("id"))
+      left.join(right, "right", colLong("id"))
+      left.join(right, "inner", colLong("id"))
+      left.join(right, "outer", colLong("id"))
+
+      val errors = intercept[DoricMultiError] {
+        left.join(badRight, "left", colLong("id"))
+      }
+
+      errors.errors.length shouldBe 1
+      errors.errors.head.message shouldBe "The column with name 'id' is of type StringType and it was expected to be LongType"
+    }
+
+    it("should join typesafety") {
+      val left = spark
+        .range(10)
+        .toDF()
+        .withColumn(
+          "otherColumn",
+          functions.concat(colLong("id").cast[String], "left")
+        )
+        .toDF()
+        .filter(colLong("id") > 3L)
+      val right = spark
+        .range(10)
+        .toDF()
+        .withColumn(
+          "otherColumn",
+          functions.concat(colLong("id").cast[String], "right")
+        )
+        .filter(colLong("id") < 7L)
+
+      val joinFunction: DoricJoinColumn =
+        LeftDF.colLong("id") === RightDF.colLong("id")
+
+      left.join(right, joinFunction, "inner")
+
+      val badJoinFunction: DoricJoinColumn =
+        LeftDF.colString("id") ===
+          RightDF.colString("identifier")
+
+      val errors = intercept[DoricMultiError] {
+        left.join(right, badJoinFunction, "inner")
+      }
+
+      errors.errors.length shouldBe 2
+      errors.errors.head.message shouldBe "The column with name 'id' is of type LongType and it was expected to be StringType"
+      errors.errors.toChain
+        .get(1)
+        .get
+        .message shouldBe "Cannot resolve column name \"identifier\" among (id, otherColumn)"
     }
   }
 }

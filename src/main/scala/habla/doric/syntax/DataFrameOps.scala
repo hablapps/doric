@@ -9,6 +9,16 @@ trait DataFrameOps {
 
   implicit class DataframeSyntax[A](df: Dataset[A]) {
 
+    private implicit class ErrorThrower[T](
+        element: DoricValidated[Dataset[T]]
+    ) {
+      def returnOrThrow: Dataset[T] = if (element.isValid) {
+        element.toEither.right.get
+      } else {
+        throw DoricMultiError(element.toEither.left.get)
+      }
+    }
+
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
       * the same name.
@@ -23,135 +33,63 @@ trait DataFrameOps {
     def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
       col.elem
         .run(df.toDF())
-        .fold(
-          x => {
-            throw DoricMultiError(x)
-            df.toDF()
-          },
-          df.withColumn(colName, _)
-        )
+        .map(df.withColumn(colName, _))
+        .returnOrThrow
     }
 
-    def filter(col: BooleanColumn): Dataset[A] = {
-      col.elem
-        .run(df.toDF())
-        .fold(
-          x => {
-            throw DoricMultiError(x)
-            df
-          },
-          df.filter
-        )
+    def filter(condition: BooleanColumn): Dataset[A] = {
+      condition.elem
+        .run(df)
+        .map(df.filter)
+        .returnOrThrow
+    }
+
+    def where(condition: BooleanColumn): Dataset[A] = {
+      condition.elem
+        .run(df)
+        .map(df.filter)
+        .returnOrThrow
     }
 
     def select(col: DoricColumn[_]*): DataFrame = {
-      col
-        .map(_.elem)
-        .toList
-        .sequence
+      col.toList
+        .traverse(_.elem)
         .run(df.toDF())
-        .fold(
-          x => {
-            throw DoricMultiError(x)
-            df.toDF()
-          },
-          df.select(_: _*)
+        .map(df.select(_: _*))
+        .returnOrThrow
+    }
+
+    def join(
+        df2: Dataset[_],
+        joinType: String,
+        col: DoricColumn[_],
+        cols: DoricColumn[_]*
+    ): DataFrame = {
+      val elems = col +: cols.toList
+      (
+        elems.traverse(_.elem.run(df.toDF())),
+        elems.traverse(_.elem.run(df2.toDF()))
+      )
+        .mapN((left, right) =>
+          df.join(
+            df2,
+            left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
+            joinType
+          ).drop()
         )
+        .returnOrThrow
     }
 
-    /*
-    def groupBy[T: FromDf](column: DataFrame => T): RelationalGroupedDataset = {
-      df.groupBy(column(df).sparkColumn)
-    }
-
-    def groupBy[T: FromDf](columns: T*): RelationalGroupedDataset = {
-      df.groupBy(columns.map(_.sparkColumn): _*)
-    }
-
-    def groupBy[T1: FromDf, T2: FromDf](
-        column1: T1,
-        column2: T2
-    ): RelationalGroupedDataset = {
-      df.groupBy(column1.sparkColumn)
-    }
-
-    def groupBy[T1: FromDf, T2: FromDf, T3: FromDf](
-        column1: T1,
-        column2: T2,
-        column3: T3
-    ): RelationalGroupedDataset = {
-      df.groupBy(column1.sparkColumn)
-    }
-
-    def groupBy[T1: FromDf, T2: FromDf, T3: FromDf, T4: FromDf](
-        column1: T1,
-        column2: T2,
-        column3: T3,
-        column4: T4
-    ): RelationalGroupedDataset = {
-      df.groupBy(column1.sparkColumn)
-    }
-
-    def groupByF[T: FromDf](f: DataFrame => T): GroupedDataFrame = {
-      new GroupedDataFrame(df, f(df).sparkColumn)
-    }
-
-    def groupByF[TG: FromDf, TA: FromDf](
-        f: DataFrame => TG
-    )(agg: DataFrame => TA): DataFrame = {
-      df.groupBy(f(df).sparkColumn).agg(agg(df).sparkColumn)
-    }
-
-    def groupByFMulty[TG: FromDf, TA: FromDf](
-        f: DataFrame => Seq[TG]
-    )(agg: DataFrame => Seq[TA]): DataFrame = {
-      val aggColumns = agg(df).map(_.sparkColumn)
-      df.groupBy(f(df).map(_.sparkColumn): _*).agg(aggColumns.head, aggColumns.tail: _*)
-    }
-
-  }
-
-  class GroupedDataFrame private[doric] (df: DataFrame, columns: Column*) {
-    def agg[T: FromDf](aggColumn: T, aggColumns: T*): DataFrame = {
-      df.groupBy(columns: _*).agg(aggColumn.sparkColumn, aggColumns.map(_.sparkColumn): _*)
-    }
-  }
-
-  implicit class GroupedDataFrameSyntax(gdf: RelationalGroupedDataset) {
-    def agg[T: FromDf](column: T, columns: T*): DataFrame = {
-      gdf.agg(column.sparkColumn, columns.map(_.sparkColumn): _*)
-    }
-
-    def agg[T1: FromDf](
-        column1: T1
+    def join(
+        df2: Dataset[_],
+        colum: DoricJoinColumn,
+        joinType: String
     ): DataFrame = {
-      gdf.agg(column1.sparkColumn)
+      colum.elem
+        .run((df, df2))
+        .map(df.join(df2, _, joinType))
+        .returnOrThrow
     }
-
-    def agg[T1: FromDf, T2: FromDf](
-        column1: T1,
-        column2: T2
-    ): DataFrame = {
-      gdf.agg(column1.sparkColumn, column2.sparkColumn)
-    }
-
-    def agg[T1: FromDf, T2: FromDf, T3: FromDf](
-        column1: T1,
-        column2: T2,
-        column3: T3
-    ): DataFrame = {
-      gdf.agg(column1.sparkColumn, column2.sparkColumn, column3.sparkColumn)
-    }
-
-    def agg[T1: FromDf, T2: FromDf, T3: FromDf, T4: FromDf](
-        column1: T1,
-        column2: T2,
-        column3: T3,
-        column4: T4
-    ): DataFrame = {
-      gdf.agg(column1.sparkColumn, column2.sparkColumn, column3.sparkColumn, column4.sparkColumn)
-    }
-     */
   }
 
 }

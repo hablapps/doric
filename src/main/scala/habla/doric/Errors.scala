@@ -4,7 +4,7 @@ import cats.data.NonEmptyChain
 
 import org.apache.spark.sql.types.DataType
 
-case class DoricMultiError(errors: NonEmptyChain[Throwable])
+case class DoricMultiError(errors: NonEmptyChain[DoricSingleError])
     extends Throwable(errors.head.getCause) {
   override def getMessage: String =
     (s"found ${errors.length} errors" +: errors.map(_.getMessage)).iterator
