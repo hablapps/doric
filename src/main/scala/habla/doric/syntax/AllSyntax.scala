@@ -11,3 +11,4 @@ trait AllSyntax
     with MapColumnOps
     with NumericOperationsOps
     with TimestampColumnLikeOps
+    with BooleanOperationsOps

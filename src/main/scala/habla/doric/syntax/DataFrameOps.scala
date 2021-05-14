@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoder}
 
 trait DataFrameOps {
 
@@ -75,7 +75,7 @@ trait DataFrameOps {
             df2,
             left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
             joinType
-          ).drop()
+          )
         )
         .returnOrThrow
     }
@@ -89,6 +89,56 @@ trait DataFrameOps {
         .run((df, df2))
         .map(df.join(df2, _, joinType))
         .returnOrThrow
+    }
+
+    def innerJoinKeepLeftKeys(
+        df2: Dataset[_],
+        column: DoricColumn[_],
+        columns: DoricColumn[_]*
+    ): DataFrame = {
+      val elems = column +: columns.toList
+      (
+        elems.traverse(_.elem.run(df.toDF())),
+        elems.traverse(_.elem.run(df2.toDF()))
+      )
+        .mapN((left, right) =>
+          right.foldLeft(
+            df.join(
+              df2,
+              left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
+              "inner"
+            )
+          )(_.drop(_))
+        )
+        .returnOrThrow
+    }
+
+    def collectCols[T1: Encoder](col1: DoricColumn[T1]): Array[T1] = {
+      df.select(col1).as[T1].collect()
+    }
+
+    def collectCols[T1: Encoder, T2: Encoder](
+        col1: DoricColumn[T1],
+        col2: DoricColumn[T2]
+    )(implicit fenc: Encoder[(T1, T2)]): Array[(T1, T2)] = {
+      df.select(col1, col2).as[(T1, T2)].collect()
+    }
+
+    def collectCols[T1: Encoder, T2: Encoder, T3: Encoder](
+        col1: DoricColumn[T1],
+        col2: DoricColumn[T2],
+        col3: DoricColumn[T3]
+    )(implicit fenc: Encoder[(T1, T2, T3)]): Array[(T1, T2, T3)] = {
+      df.select(col1, col2, col3).as[(T1, T2, T3)].collect()
+    }
+
+    def collectCols[T1: Encoder, T2: Encoder, T3: Encoder, T4: Encoder](
+        col1: DoricColumn[T1],
+        col2: DoricColumn[T2],
+        col3: DoricColumn[T3],
+        col4: DoricColumn[T4]
+    )(implicit fenc: Encoder[(T1, T2, T3, T4)]): Array[(T1, T2, T3, T4)] = {
+      df.select(col1, col2, col3, col4).as[(T1, T2, T3, T4)].collect()
     }
   }
 

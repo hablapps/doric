@@ -23,8 +23,7 @@ javaOptions ++= Seq(
   "-Xms512M",
   "-Xmx2048M",
   "-XX:MaxPermSize=2048M",
-  "-XX:+CMSClassUnloadingEnabled",
-  "-Yno-predef"
+  "-XX:+CMSClassUnloadingEnabled"
 )
 // Show runtime of tests
 Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
@@ -67,5 +66,6 @@ scalacOptions ++= Seq(
   "-language:higherKinds",
   "-language:existentials",
   "-language:postfixOps",
-  "-Ypartial-unification"
+  "-Ypartial-unification",
+  "-Ywarn-numeric-widen"
 )

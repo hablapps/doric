@@ -51,7 +51,7 @@ package object doric extends DoricAllTypes with AllSyntax {
   }
 
   case class LeftDoricColumn[T](elem: Doric[Column]) {
-    def === (right: RightDoricColumn[T]): DoricJoinColumn =
+    def ===(right: RightDoricColumn[T]): DoricJoinColumn =
       Kleisli[DoricValidated, (Dataset[_], Dataset[_]), Column](dfs => {
         (elem.run(dfs._1), right.elem.run(dfs._2)).mapN(_ === _)
       }).toDJC
@@ -59,45 +59,68 @@ package object doric extends DoricAllTypes with AllSyntax {
   }
 
   case class RightDoricColumn[T](elem: Doric[Column]) {
-    def === (left: LeftDoricColumn[T]): DoricJoinColumn =
+    def ===(left: LeftDoricColumn[T]): DoricJoinColumn =
       Kleisli[DoricValidated, (Dataset[_], Dataset[_]), Column](dfs => {
         (left.elem.run(dfs._1), elem.run(dfs._2)).mapN(_ === _)
       }).toDJC
   }
 
   object LeftDF {
-    def col[T: FromDf](colName: String)(implicit location: Location): LeftDoricColumn[T] =
+    def col[T: FromDf](colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[T] =
       LeftDoricColumn(FromDfExtras.col[T](colName).elem)
 
-    def colString(colName: String)(implicit location: Location): LeftDoricColumn[String] =
+    def colString(colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[String] =
       LeftDoricColumn(FromDfExtras.col[String](colName).elem)
-    def colInt(colName: String)(implicit location: Location): LeftDoricColumn[Int] =
+    def colInt(colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[Int] =
       LeftDoricColumn(FromDfExtras.col[Int](colName).elem)
-    def colLong(colName: String)(implicit location: Location): LeftDoricColumn[Long] =
+    def colLong(colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[Long] =
       LeftDoricColumn(FromDfExtras.col[Long](colName).elem)
-    def colInstant(colName: String)(implicit location: Location): LeftDoricColumn[Instant] =
+    def colInstant(colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[Instant] =
       LeftDoricColumn(FromDfExtras.col[Instant](colName).elem)
-    def colLocalDate(colName: String)(implicit location: Location): LeftDoricColumn[LocalDate] =
+    def colLocalDate(colName: String)(implicit
+        location: Location
+    ): LeftDoricColumn[LocalDate] =
       LeftDoricColumn(FromDfExtras.col[LocalDate](colName).elem)
-
 
     def apply[T](doricColumn: DoricColumn[T]): LeftDoricColumn[T] =
       LeftDoricColumn(doricColumn.elem)
   }
 
   object RightDF {
-    def col[T: FromDf](colName: String)(implicit location: Location): RightDoricColumn[T] =
+    def col[T: FromDf](colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[T] =
       RightDoricColumn(FromDfExtras.col[T](colName).elem)
 
-    def colString(colName: String)(implicit location: Location): RightDoricColumn[String] =
+    def colString(colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[String] =
       RightDoricColumn(FromDfExtras.col[String](colName).elem)
-    def colInt(colName: String)(implicit location: Location): RightDoricColumn[Int] =
+    def colInt(colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[Int] =
       RightDoricColumn(FromDfExtras.col[Int](colName).elem)
-    def colLong(colName: String)(implicit location: Location): RightDoricColumn[Long] =
+    def colLong(colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[Long] =
       RightDoricColumn(FromDfExtras.col[Long](colName).elem)
-    def colInstant(colName: String)(implicit location: Location): RightDoricColumn[Instant] =
+    def colInstant(colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[Instant] =
       RightDoricColumn(FromDfExtras.col[Instant](colName).elem)
-    def colLocalDate(colName: String)(implicit location: Location): RightDoricColumn[LocalDate] =
+    def colLocalDate(colName: String)(implicit
+        location: Location
+    ): RightDoricColumn[LocalDate] =
       RightDoricColumn(FromDfExtras.col[LocalDate](colName).elem)
 
     def apply[T](doricColumn: DoricColumn[T]): RightDoricColumn[T] =

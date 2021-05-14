@@ -1,8 +1,11 @@
 package habla.doric
 package syntax
 
+import cats.data.{Kleisli, Validated}
+import cats.implicits.catsSyntaxValidatedIdBinCompat0
 import java.sql.{Date, Timestamp}
 
+import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types.DataType
 
 trait FromDfExtras {
@@ -55,6 +58,32 @@ trait FromDfExtras {
 
   def colStruct(colName: String)(implicit location: Location): DStructColumn =
     FromDf[DStruct].validate(colName)
+
+  def colFromDF[T: FromDf](colName: String, originDF: Dataset[_])(implicit
+      location: Location
+  ): DoricColumn[T] = {
+    Kleisli[DoricValidated, Dataset[_], Column](df => {
+      val result = FromDf[T].validate(colName).elem.run(originDF)
+      if (result.isValid) {
+        try {
+          val column: Column = result.toEither.right.get
+          val head           = df.select(column).schema.head
+          if (FromDf[T].isValid(head.dataType))
+            Validated.valid(column)
+          else
+            ColumnTypeError(
+              head.name,
+              FromDf[T].dataType,
+              head.dataType
+            ).invalidNec
+        } catch {
+          case e: Throwable => SparkErrorWrapper(e).invalidNec
+        }
+      } else {
+        result
+      }
+    }).toDC
+  }
 
 }
 
