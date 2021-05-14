@@ -4,13 +4,13 @@ package syntax
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
 
-import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.{Column, Dataset}
 
 trait CommonColumnOps {
 
   implicit class SparkCol(private val column: Column) {
     def asDoric[T: FromDf](implicit location: Location): DoricColumn[T] =
-      Kleisli[DoricValidated, DataFrame, Column](df => {
+      Kleisli[DoricValidated, Dataset[_], Column](df => {
         try {
           val head = df.select(column).schema.head
           if (FromDf[T].isValid(head.dataType))

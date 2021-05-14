@@ -1,6 +1,8 @@
 package habla.doric
 package types
 
+import habla.doric.syntax.BooleanOperations
+
 import org.apache.spark.sql.types.{BooleanType, DataType}
 import org.apache.spark.sql.Column
 
@@ -18,8 +20,10 @@ trait DoricBooleanType {
   }
 
   implicit val fromBoolean: FromDf[Boolean] = new FromDf[Boolean] {
-
     override def dataType: DataType = BooleanType
   }
+
+  implicit val booleanOps: BooleanOperations[Boolean] =
+    new BooleanOperations[Boolean] {}
 
 }

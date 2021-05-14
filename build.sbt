@@ -66,5 +66,6 @@ scalacOptions ++= Seq(
   "-language:higherKinds",
   "-language:existentials",
   "-language:postfixOps",
-  "-Ypartial-unification"
+  "-Ypartial-unification",
+  "-Ywarn-numeric-widen"
 )
