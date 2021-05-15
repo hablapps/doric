@@ -5,7 +5,7 @@ import cats.arrow.FunctionK
 import cats.data.{Kleisli, NonEmptyChain}
 import cats.implicits._
 
-import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types.StructType
 
 trait DStructOps {
@@ -27,7 +27,7 @@ trait DStructOps {
       col.elem
         .mapK(toEither)
         .flatMap(vcolumn =>
-          Kleisli[DoricEither, DataFrame, Column]((df: DataFrame) => {
+          Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
             val fatherColumn = df.select(vcolumn).schema.head
             val fatherStructType = fatherColumn.dataType
               .asInstanceOf[StructType]
