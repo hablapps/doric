@@ -19,6 +19,16 @@ trait DataFrameOps {
       }
     }
 
+    private implicit class JoinErrorThrower[T](
+        element: DoricJoinValidated[Dataset[T]]
+    ) {
+      def returnOrThrow: Dataset[T] = if (element.isValid) {
+        element.toEither.right.get
+      } else {
+        throw DoricJoinMultiError(element.toEither.left.get)
+      }
+    }
+
     /**
       * Returns a new Dataset by adding a column or replacing the existing column that has
       * the same name.
@@ -67,17 +77,15 @@ trait DataFrameOps {
     ): DataFrame = {
       val elems = col +: cols.toList
       (
-        elems.traverse(_.elem.run(df.toDF())),
-        elems.traverse(_.elem.run(df2.toDF()))
-      )
-        .mapN((left, right) =>
-          df.join(
-            df2,
-            left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
-            joinType
-          )
+        elems.traverse(_.elem.run(df.toDF())).leftMap(_.map(LeftDfError)),
+        elems.traverse(_.elem.run(df2.toDF())).leftMap(_.map(RightDfError))
+      ).mapN((left, right) =>
+        df.join(
+          df2,
+          left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
+          joinType
         )
-        .returnOrThrow
+      ).returnOrThrow
     }
 
     def join(
@@ -98,19 +106,16 @@ trait DataFrameOps {
     ): DataFrame = {
       val elems = column +: columns.toList
       (
-        elems.traverse(_.elem.run(df.toDF())),
-        elems.traverse(_.elem.run(df2.toDF()))
-      )
-        .mapN((left, right) =>
-          right.foldLeft(
-            df.join(
-              df2,
-              left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
-              "inner"
-            )
-          )(_.drop(_))
+        elems.traverse(_.elem.run(df.toDF())).leftMap(_.map(LeftDfError)),
+        elems.traverse(_.elem.run(df2.toDF()).leftMap(_.map(RightDfError)))
+      ).mapN((left, right) => {
+        val frameJoined = df.join(
+          df2,
+          left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
+          "inner"
         )
-        .returnOrThrow
+        right.foldLeft(frameJoined)(_.drop(_))
+      }).returnOrThrow
     }
 
     def collectCols[T1: Encoder](col1: DoricColumn[T1]): Array[T1] = {

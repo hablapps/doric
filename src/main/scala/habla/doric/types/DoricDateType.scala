@@ -19,11 +19,11 @@ trait DoricDateType {
 
   }
 
-  implicit val fromDate: FromDf[Date] = new FromDf[Date] {
+  implicit val fromDate: SparkType[Date] = new SparkType[Date] {
     override val dataType: DataType = DateType
   }
 
-  implicit val fromLocalDate: FromDf[LocalDate] = new FromDf[LocalDate] {
+  implicit val fromLocalDate: SparkType[LocalDate] = new SparkType[LocalDate] {
     override val dataType: DataType = DateType
   }
 

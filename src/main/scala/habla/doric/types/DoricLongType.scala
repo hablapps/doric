@@ -10,7 +10,7 @@ trait DoricLongType {
 
   type LongColumn = DoricColumn[Long]
 
-  implicit val fromLong: FromDf[Long] = new FromDf[Long] {
+  implicit val fromLong: SparkType[Long] = new SparkType[Long] {
 
     override def dataType: DataType = LongType
 

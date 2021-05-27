@@ -11,7 +11,7 @@ trait DoricDStructType {
 
   type DStructColumn = DoricColumn[DStruct]
 
-  implicit val fromDStruct: FromDf[DStruct] = new FromDf[DStruct] {
+  implicit val fromDStruct: SparkType[DStruct] = new SparkType[DStruct] {
     override def dataType: DataType = StructType(Seq.empty)
 
     override def isValid(column: DataType): Boolean = column match {

@@ -11,7 +11,7 @@ import org.apache.spark.sql.types.DataType
 @implicitNotFound(
   "Cant use the type ${T} to generate the typed column. Check your imported FromDf[${T}] instances"
 )
-trait FromDf[T] {
+trait SparkType[T] {
 
   def dataType: DataType
 
@@ -38,6 +38,6 @@ trait FromDf[T] {
 
 }
 
-object FromDf {
-  @inline def apply[A: FromDf]: FromDf[A] = implicitly[FromDf[A]]
+object SparkType {
+  @inline def apply[A: SparkType]: SparkType[A] = implicitly[SparkType[A]]
 }

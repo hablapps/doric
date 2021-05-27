@@ -8,7 +8,7 @@ import org.apache.spark.sql.DataFrame
 trait TypedColumnTest {
 
   implicit class ValidateColumnType(df: DataFrame) {
-    def validateColumnType[T: FromDf](
+    def validateColumnType[T: SparkType](
         column: DoricColumn[T],
         show: Boolean = false
     ): Unit = {
@@ -16,8 +16,8 @@ trait TypedColumnTest {
       val df2              = df.withColumn(colName, column)
       val providedDatatype = df2(colName).expr.dataType
       assert(
-        FromDf[T].isValid(providedDatatype),
-        s"the type of the column '$column' is not ${FromDf[T].dataType} is $providedDatatype"
+        SparkType[T].isValid(providedDatatype),
+        s"the type of the column '$column' is not ${SparkType[T].dataType} is $providedDatatype"
       )
       if (show) {
         df2.show(false)
@@ -29,7 +29,7 @@ trait TypedColumnTest {
     }
   }
 
-  implicit class TestColumn[T: ClassTag](tcolumn: DoricColumn[T]) {
+  implicit class TestColumn[T: ClassTag: SparkType](tcolumn: DoricColumn[T]) {
 
     type Cast[To] = Casting[T, To]
 
@@ -38,7 +38,7 @@ trait TypedColumnTest {
       *
       * @return the provided column
       */
-    def withTypeChecked(implicit fromdf: FromDf[T]): DoricColumn[T] = {
+    def withTypeChecked: DoricColumn[T] = {
       withTypeChecked(dataType[T])
     }
 
@@ -68,10 +68,10 @@ trait TypedColumnTest {
       * @param expectedType the spark datatype expected in this moment
       * @return the provided column casted to the type if
       */
-    def testCastingTo[To: Cast: FromDf: ClassTag](
+    def testCastingTo[To: Cast: SparkType: ClassTag](
         expectedType: DataType
     ): DoricColumn[To] = {
-      FromDf[To].dataType
+      SparkType[To].dataType
       Casting[T, To].cast(tcolumn)
       tcolumn.cast[To].withTypeChecked.withTypeChecked(expectedType)
     }

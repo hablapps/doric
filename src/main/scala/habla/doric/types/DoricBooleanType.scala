@@ -19,7 +19,7 @@ trait DoricBooleanType {
       DoricColumnExtr.unapply[Boolean](column)
   }
 
-  implicit val fromBoolean: FromDf[Boolean] = new FromDf[Boolean] {
+  implicit val fromBoolean: SparkType[Boolean] = new SparkType[Boolean] {
     override def dataType: DataType = BooleanType
   }
 

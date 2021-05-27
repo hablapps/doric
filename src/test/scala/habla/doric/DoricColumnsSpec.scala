@@ -10,12 +10,12 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
   import spark.implicits._
 
-  def testValue[T: FromDf: Encoder](example: T): Unit = {
+  def testValue[T: SparkType: Encoder](example: T): Unit = {
     val df = List(example).toDF("column")
 
     col[T]("column").elem.run(df).toEither.value
   }
-  def testValueNullable[T: FromDf](
+  def testValueNullable[T: SparkType](
       example: T
   )(implicit enc: Encoder[Option[T]]): Unit = {
     val df = List(Some(example), None).toDF("column")

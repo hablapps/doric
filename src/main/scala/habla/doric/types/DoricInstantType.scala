@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.{DataType, TimestampType}
 
 trait DoricInstantType {
 
-  implicit val fromInstant: FromDf[Instant] = new FromDf[Instant] {
+  implicit val fromInstant: SparkType[Instant] = new SparkType[Instant] {
     override def dataType: DataType = TimestampType
   }
 

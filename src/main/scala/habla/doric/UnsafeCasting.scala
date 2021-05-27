@@ -2,7 +2,7 @@ package habla.doric
 
 trait UnsafeCasting[From, To] {
   def cast(column: DoricColumn[From])(implicit
-      constructor: FromDf[To]
+      constructor: SparkType[To]
   ): DoricColumn[To]
 }
 
@@ -14,7 +14,7 @@ object UnsafeCasting {
 }
 trait SparkUnsafeCasting[From, To] extends UnsafeCasting[From, To] {
   override def cast(column: DoricColumn[From])(implicit
-      constructor: FromDf[To]
+      constructor: SparkType[To]
   ): DoricColumn[To] =
     column.elem.map(_.cast(constructor.dataType)).toDC
 }

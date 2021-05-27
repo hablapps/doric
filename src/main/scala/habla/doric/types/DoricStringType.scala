@@ -17,7 +17,7 @@ trait DoricStringType {
       DoricColumnExtr.unapply[String](column)
   }
 
-  implicit val fromStringDf: FromDf[String] = new FromDf[String] {
+  implicit val fromStringDf: SparkType[String] = new SparkType[String] {
 
     override def dataType: DataType = StringType
   }

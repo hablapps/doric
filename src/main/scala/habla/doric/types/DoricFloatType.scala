@@ -17,7 +17,7 @@ trait DoricFloatType {
       DoricColumnExtr.unapply[Float](column)
   }
 
-  implicit val fromFloat: FromDf[Float] = new FromDf[Float] {
+  implicit val fromFloat: SparkType[Float] = new SparkType[Float] {
 
     override def dataType: DataType = FloatType
   }

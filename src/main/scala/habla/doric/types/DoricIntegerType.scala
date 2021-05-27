@@ -18,7 +18,7 @@ trait DoricIntegerType {
     def unapply(column: Column): Option[IntegerColumn] =
       DoricColumnExtr.unapply[Int](column)
   }
-  implicit val fromInt: FromDf[Int] = new FromDf[Int] {
+  implicit val fromInt: SparkType[Int] = new SparkType[Int] {
 
     override def dataType: DataType = IntegerType
 

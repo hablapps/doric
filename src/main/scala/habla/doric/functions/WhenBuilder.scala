@@ -10,7 +10,7 @@ final case class WhenBuilder[T](
     private val cases: Vector[(BooleanColumn, DoricColumn[T])] = Vector.empty
 ) {
 
-  def otherwiseNull(implicit dt: FromDf[T]): DoricColumn[T] =
+  def otherwiseNull(implicit dt: SparkType[T]): DoricColumn[T] =
     if (cases.isEmpty)
       sparkLit(null).cast(dataType[T]).pure[Doric].toDC
     else

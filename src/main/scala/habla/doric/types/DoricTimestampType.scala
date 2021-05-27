@@ -26,7 +26,7 @@ trait DoricTimestampType {
   implicit val floatArith: NumericOperations[Float] =
     new NumericOperations[Float] {}
 
-  implicit val fromTimestamp: FromDf[Timestamp] = new FromDf[Timestamp] {
+  implicit val fromTimestamp: SparkType[Timestamp] = new SparkType[Timestamp] {
 
     override def dataType: DataType = TimestampType
 
