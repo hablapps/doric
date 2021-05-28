@@ -34,9 +34,9 @@ case class DoricJoinMultiError(
 
     val sidesErrors = (leftErrors, rightErrors) match {
       case (Some(l), Some(r)) => l + "\n" + r
-      case (Some(l), _) => l
-      case (_, Some(r)) => r
-      case _ => "impossible!!!"
+      case (Some(l), _)       => l
+      case (_, Some(r))       => r
+      case _                  => "impossible!!!"
     }
 
     s"found $numErrors ${ErrorUtils.getSingularOrPlural(numErrors)} in join:\n$sidesErrors"
@@ -47,7 +47,9 @@ case class DoricMultiError(errors: NonEmptyChain[DoricSingleError])
     extends Throwable(errors.head.getCause) {
   override def getMessage: String = {
     val length = errors.length
-    (s"found $length ${ErrorUtils.getSingularOrPlural(length)}" +: errors.map(_.getMessage)).iterator
+    (s"found $length ${ErrorUtils.getSingularOrPlural(length)}" +: errors.map(
+      _.getMessage
+    )).iterator
       .mkString("\n")
   }
 }

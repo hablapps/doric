@@ -13,7 +13,7 @@ trait ColumnExtractors {
   @inline def dataType[T: SparkType]: DataType = SparkType[T].dataType
 
   def col[T: SparkType](colName: String)(implicit
-                                         location: Location
+      location: Location
   ): DoricColumn[T] =
     SparkType[T].validate(colName)
 
@@ -42,7 +42,7 @@ trait ColumnExtractors {
     SparkType[Date].validate(colName)
 
   def colArray[T: SparkType](colName: String)(implicit
-                                              location: Location
+      location: Location
   ): DoricColumn[Array[T]] =
     SparkType[Array[T]].validate(colName)
 
@@ -60,7 +60,7 @@ trait ColumnExtractors {
     SparkType[DStruct].validate(colName)
 
   def colFromDF[T: SparkType](colName: String, originDF: Dataset[_])(implicit
-                                                                     location: Location
+      location: Location
   ): DoricColumn[T] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       val result = SparkType[T].validate(colName).elem.run(originDF)

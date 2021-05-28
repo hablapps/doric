@@ -39,7 +39,8 @@ trait CommonColumnOps {
 
     def pipe[O](f: DoricColumn[T] => DoricColumn[O]): DoricColumn[O] = f(column)
 
-    def cast[To: CastToT: SparkType]: DoricColumn[To] = Casting[T, To].cast(column)
+    def cast[To: CastToT: SparkType]: DoricColumn[To] =
+      Casting[T, To].cast(column)
 
     def unsafeCast[To: WCastToT: SparkType]: DoricColumn[To] =
       UnsafeCasting[T, To].cast(column)

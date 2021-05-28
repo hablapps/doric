@@ -77,7 +77,7 @@ package object doric extends DoricAllTypes with AllSyntax {
 
   object LeftDF {
     def col[T: SparkType](colName: String)(implicit
-                                           location: Location
+        location: Location
     ): LeftDoricColumn[T] =
       LeftDoricColumn(ColumnExtractors.col[T](colName).elem)
 
@@ -108,7 +108,7 @@ package object doric extends DoricAllTypes with AllSyntax {
 
   object RightDF {
     def col[T: SparkType](colName: String)(implicit
-                                           location: Location
+        location: Location
     ): RightDoricColumn[T] =
       RightDoricColumn(ColumnExtractors.col[T](colName).elem)
 
