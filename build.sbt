@@ -6,7 +6,7 @@ version := "0.0.1"
 scalaVersion := "2.12.13"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark"    %% "spark-sql"        % "3.1.1" % "provided",
+  "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
   "org.typelevel"       %% "cats-core"        % "2.6.1",
   "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
   "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
