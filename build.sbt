@@ -3,7 +3,7 @@ name := "doric"
 
 version := "0.0.1"
 
-scalaVersion := "2.12.13"
+scalaVersion := "2.12.14"
 
 libraryDependencies ++= Seq(
   "org.apache.spark"    %% "spark-sql"        % "3.1.1" % "provided",
