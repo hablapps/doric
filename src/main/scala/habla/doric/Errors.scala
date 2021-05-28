@@ -32,12 +32,7 @@ case class DoricJoinMultiError(
       .fromChain(errors.toChain.filter(_.isRight))
       .map(DoricMultiError(_).getForSide("Right"))
 
-    val sidesErrors = (leftErrors, rightErrors) match {
-      case (Some(l), Some(r)) => l + "\n" + r
-      case (Some(l), _)       => l
-      case (_, Some(r))       => r
-      case _                  => "impossible!!!"
-    }
+    val sidesErrors = List(leftErrors, rightErrors).flatten.mkString("\n")
 
     s"found $numErrors ${ErrorUtils.getSingularOrPlural(numErrors)} in join:\n$sidesErrors"
   }
