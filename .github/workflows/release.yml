@@ -3,8 +3,6 @@ on:
   push:
     branches: [main]
     tags: ["*"]
-    paths:
-      - '**.scala'
 jobs:
   publish:
     runs-on: ubuntu-20.04
