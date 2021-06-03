@@ -28,6 +28,9 @@ trait DoricLongType {
   implicit val longCastToDouble: Casting[Long, Double] =
     new SparkCasting[Long, Double] {}
 
+  implicit val longCastTInt: UnsafeCasting[Long, Int] =
+    new SparkUnsafeCasting[Long, Int] {}
+
   object LongColumn {
 
     def apply(litv: Long): LongColumn =

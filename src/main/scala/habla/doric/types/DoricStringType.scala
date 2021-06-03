@@ -28,4 +28,10 @@ trait DoricStringType {
   implicit val stringCastToLong: UnsafeCasting[String, Long] =
     new SparkUnsafeCasting[String, Long] {}
 
+  implicit val stringCastToFloat: UnsafeCasting[String, Float] =
+    new SparkUnsafeCasting[String, Float] {}
+
+  implicit val stringCastToDouble: UnsafeCasting[String, Double] =
+    new SparkUnsafeCasting[String, Double] {}
+
 }

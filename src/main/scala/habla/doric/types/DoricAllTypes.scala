@@ -7,7 +7,6 @@ trait DoricAllTypes
     with DoricDoubleType
     with DoricDStructType
     with DoricFloatType
-    with DoricInstantType
     with DoricIntegerType
     with DoricLongType
     with DoricMapType
