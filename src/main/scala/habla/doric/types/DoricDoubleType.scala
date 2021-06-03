@@ -25,10 +25,19 @@ trait DoricDoubleType {
     override def dataType: DataType = DoubleType
   }
 
-  implicit val doubleArith: NumericOperations[DoubleColumn] =
-    new NumericOperations[DoubleColumn] {}
+  implicit val doubleArith: NumericOperations[Double] =
+    new NumericOperations[Double] {}
 
-  implicit val doubleCastToString: Casting[DoubleColumn, StringColumn] =
-    new SparkCasting[DoubleColumn, StringColumn] {}
+  implicit val doubleCastToString: Casting[Double, String] =
+    new SparkCasting[Double, String] {}
+
+  implicit val doubleCastToInt: UnsafeCasting[Double, Int] =
+    new SparkUnsafeCasting[Double, Int] {}
+
+  implicit val doubleCastToLong: UnsafeCasting[Double, Long] =
+    new SparkUnsafeCasting[Double, Long] {}
+
+  implicit val doubleCastToFloat: UnsafeCasting[Double, Float] =
+    new SparkUnsafeCasting[Double, Float] {}
 
 }

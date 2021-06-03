@@ -32,4 +32,10 @@ trait DoricDateType {
   implicit val localdateOps: DateColumnLike[Instant] =
     new DateColumnLike[Instant] {}
 
+  implicit val dateCastToLocalDate: Casting[Date, LocalDate] =
+    new SparkCasting[Date, LocalDate] {}
+
+  implicit val localdateCastToLocalDate: Casting[LocalDate, Date] =
+    new SparkCasting[LocalDate, Date] {}
+
 }

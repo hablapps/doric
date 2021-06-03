@@ -5,10 +5,6 @@ import org.apache.spark.sql.types.{DataType, StructType}
 
 trait DoricDStructType {
 
-  sealed trait DStruct
-
-  object DStruct extends DStruct {}
-
   type DStructColumn = DoricColumn[DStruct]
 
   implicit val fromDStruct: SparkType[DStruct] = new SparkType[DStruct] {
