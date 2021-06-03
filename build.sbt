@@ -1,7 +1,18 @@
-organization := "org.hablapps"
-name := "doric"
+ThisBuild / organization := "org.hablapps"
+ThisBuild / homepage := Some(url("https://github.com/hablapps/doric"))
+ThisBuild / licenses := List(
+  "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
+)
+ThisBuild / developers := List(
+  Developer(
+    "AlfonsoRR",
+    "Alfonso Roa",
+    "@saco_pepe",
+    url("https://github.com/alfonsorr")
+  )
+)
 
-version := "0.0.1"
+name := "doric"
 
 scalaVersion := "2.12.14"
 
@@ -28,19 +39,6 @@ javaOptions ++= Seq(
 // Show runtime of tests
 Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
 
-credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials")
-
-licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
-
-homepage := Some(url("https://github.com/hablapps/doric"))
-developers ++= List(
-  Developer(
-    "AlfonsoRR",
-    "Alfonso Roa",
-    "@saco_pepe",
-    url("https://github.com/alfonsorr")
-  )
-)
 scmInfo := Some(
   ScmInfo(
     url("https://github.com/hablapps/doric"),
@@ -49,12 +47,6 @@ scmInfo := Some(
 )
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
-
-publishMavenStyle := true
-
-publishTo := sonatypePublishToBundle.value
-
-Global / useGpgPinentry := true
 
 scalacOptions ++= Seq(
   "-encoding",
