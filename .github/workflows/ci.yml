@@ -1,19 +1,18 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        scala: ["2.12.12"]
-        spark: ["3.0.1"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: olafurpg/setup-scala@v10
       - name: Coursier cache
-        uses: coursier/cache-action@v5
+        uses: coursier/cache-action@v6
       - name: Test
         run: sbt test
       - name: Code Quality
