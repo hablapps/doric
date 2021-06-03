@@ -22,3 +22,6 @@ derby.log
 **/metals.sbt
 
 .bsp/
+
+# Notebooks
+.ipynb_checkpoints/**
