@@ -91,8 +91,9 @@ class DataFrameOpsSpec
       left.join(right, "inner", colLong("id"))
       left.join(right, "outer", colLong("id"))
 
-      val errors = intercept[DoricJoinMultiError] {
-        left.join(badRight, "left", colLong("id"))
+      val errors = intercept[DoricMultiError] {
+        val value1 = colLong("id")
+        left.join(badRight, "left", value1)
       }
 
       errors.errors.length shouldBe 1
@@ -110,7 +111,7 @@ class DataFrameOpsSpec
         LeftDF.colString("id") ===
           RightDF.colString("identifier")
 
-      val errors = intercept[DoricJoinMultiError] {
+      val errors = intercept[DoricMultiError] {
         left.join(right, badJoinFunction, "inner")
       }
 

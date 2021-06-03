@@ -52,8 +52,10 @@ package object doric extends DoricAllTypes with AllSyntax {
   }
 
   implicit class DoricValidatedErrorHandler[T](dv: DoricValidated[T]) {
-    def asLeftDfError: DoricJoinValidated[T]  = dv.leftMap(_.map(LeftDfError))
-    def asRigthDfError: DoricJoinValidated[T] = dv.leftMap(_.map(RightDfError))
+    def asLeftDfError: DoricJoinValidated[T] =
+      dv.leftMap(_.map(JoinDoricSingleError(_, true)))
+    def asRigthDfError: DoricJoinValidated[T] =
+      dv.leftMap(_.map(JoinDoricSingleError(_, false)))
   }
 
   case class LeftDoricColumn[T] private (elem: Doric[Column]) {

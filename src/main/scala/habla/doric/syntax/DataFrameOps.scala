@@ -12,21 +12,8 @@ trait DataFrameOps {
     private implicit class ErrorThrower[T](
         element: DoricValidated[Dataset[T]]
     ) {
-      def returnOrThrow: Dataset[T] = if (element.isValid) {
-        element.toEither.right.get
-      } else {
-        throw DoricMultiError(element.toEither.left.get)
-      }
-    }
-
-    private implicit class JoinErrorThrower[T](
-        element: DoricJoinValidated[Dataset[T]]
-    ) {
-      def returnOrThrow: Dataset[T] = if (element.isValid) {
-        element.toEither.right.get
-      } else {
-        throw DoricJoinMultiError(element.toEither.left.get)
-      }
+      def returnOrThrow(functionType: String): Dataset[T] =
+        element.fold(er => throw DoricMultiError(functionType, er), identity)
     }
 
     /**
@@ -44,21 +31,21 @@ trait DataFrameOps {
       col.elem
         .run(df.toDF())
         .map(df.withColumn(colName, _))
-        .returnOrThrow
+        .returnOrThrow("withColumn")
     }
 
     def filter(condition: BooleanColumn): Dataset[A] = {
       condition.elem
         .run(df)
         .map(df.filter)
-        .returnOrThrow
+        .returnOrThrow("filter")
     }
 
     def where(condition: BooleanColumn): Dataset[A] = {
       condition.elem
         .run(df)
         .map(df.filter)
-        .returnOrThrow
+        .returnOrThrow("where")
     }
 
     def select(col: DoricColumn[_]*): DataFrame = {
@@ -66,7 +53,7 @@ trait DataFrameOps {
         .traverse(_.elem)
         .run(df.toDF())
         .map(df.select(_: _*))
-        .returnOrThrow
+        .returnOrThrow("select")
     }
 
     def join(
@@ -77,15 +64,19 @@ trait DataFrameOps {
     ): DataFrame = {
       val elems = col +: cols.toList
       (
-        elems.traverse(_.elem.run(df.toDF())).leftMap(_.map(LeftDfError)),
-        elems.traverse(_.elem.run(df2.toDF())).leftMap(_.map(RightDfError))
+        elems
+          .traverse(_.elem.run(df))
+          .leftMap(_.map(JoinDoricSingleError(_, isLeft = true))),
+        elems
+          .traverse(_.elem.run(df2))
+          .leftMap(_.map(JoinDoricSingleError(_, isLeft = false)))
       ).mapN((left, right) =>
         df.join(
           df2,
           left.zip(right).map(x => x._1 === x._2).reduce(_ && _),
           joinType
         )
-      ).returnOrThrow
+      ).returnOrThrow("join")
     }
 
     def join(
@@ -96,7 +87,7 @@ trait DataFrameOps {
       colum.elem
         .run((df, df2))
         .map(df.join(df2, _, joinType))
-        .returnOrThrow
+        .returnOrThrow("join")
     }
 
     def innerJoinKeepLeftKeys(
@@ -106,8 +97,12 @@ trait DataFrameOps {
     ): DataFrame = {
       val elems = column +: columns.toList
       (
-        elems.traverse(_.elem.run(df.toDF())).leftMap(_.map(LeftDfError)),
-        elems.traverse(_.elem.run(df2.toDF()).leftMap(_.map(RightDfError)))
+        elems
+          .traverse(_.elem.run(df.toDF()))
+          .leftMap(_.map(JoinDoricSingleError(_, true))),
+        elems.traverse(
+          _.elem.run(df2.toDF()).leftMap(_.map(JoinDoricSingleError(_, false)))
+        )
       ).mapN((left, right) => {
         val frameJoined = df.join(
           df2,
@@ -115,7 +110,7 @@ trait DataFrameOps {
           "inner"
         )
         right.foldLeft(frameJoined)(_.drop(_))
-      }).returnOrThrow
+      }).returnOrThrow("innerJoinKeepLeftKeys")
     }
 
     def collectCols[T1: Encoder](col1: DoricColumn[T1]): Array[T1] = {
