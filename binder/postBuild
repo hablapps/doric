@@ -1,24 +1,51 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 
 # Install coursier
-curl -L -o coursier https://git.io/coursier-cli
-chmod +x coursier
+curl -fLo cs https://github.com/coursier/coursier/releases/download/v2.0.3/cs-x86_64-pc-linux
+chmod +x cs
 
-# Install almond for Scala 2.11
-SCALA_VERSION=2.11.12 ALMOND_VERSION=0.4.0
-./coursier bootstrap \
+ALMOND_VERSION=0.11.1
+
+# Install almond for Scala 2.13
+./cs launch "almond:$ALMOND_VERSION" --scala 2.13.3 -- \
+  --install \
+  --id scala213 \
+  --display-name "Scala (2.13)" \
+  --env "JAVA_OPTS=-XX:MaxRAMPercentage=80.0" \
+  --variable-inspector \
+  </dev/null 2>&1 | grep -v '^Download'
+
+# Install almond for Scala 2.12
+./cs launch "almond:$ALMOND_VERSION" --scala 2.12.12 -- \
+  --install \
+  --id scala212 \
+  --display-name "Scala (2.12)" \
+  --env "JAVA_OPTS=-XX:MaxRAMPercentage=80.0" \
+  --variable-inspector \
+  </dev/null 2>&1 | grep -v '^Download'
+
+# Install almond 0.6.0 for Scala 2.11
+# TODO remove once TransmogrifAI and vegas are updated for Scala 2.12
+SCALA_VERSION=2.11.12 ALMOND_VERSION=0.6.0
+./cs bootstrap \
   -r jitpack \
   -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
   sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
   --sources --default=true \
-  -o almond-scala-2.11
+  -o almond-scala-2.11 \
+  </dev/null 2>&1 | grep -v '^Download'
 ./almond-scala-2.11 --install --id scala211 --display-name "Scala (2.11)" \
   --command "java -XX:MaxRAMPercentage=80.0 -jar almond-scala-2.11 --id scala211 --display-name 'Scala (2.11)'" \
-  --copy-launcher true
+  --copy-launcher \
+  --metabrowse
 rm -f almond-scala-2.11
 
 # Install required Jupyter/JupyterLab extensions
-jupyter labextension install @jupyterlab/plotly-extension
+jupyter labextension install --minimize=False \
+  jupyterlab-plotly \
+  @almond-sh/scalafmt \
+  @almond-sh/jupyterlab_variableinspector
 
 # Set indentation to two spaces
 JUPYTER_CONFIG_DIR=$(jupyter --config-dir)
