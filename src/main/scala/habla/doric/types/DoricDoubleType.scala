@@ -20,7 +20,7 @@ trait DoricDoubleType {
 
   }
 
-  implicit val fromDouble: FromDf[Double] = new FromDf[Double] {
+  implicit val fromDouble: SparkType[Double] = new SparkType[Double] {
 
     override def dataType: DataType = DoubleType
   }

@@ -2,7 +2,8 @@ package habla.doric
 
 trait Casting[From, To] {
   def cast(column: DoricColumn[From])(implicit
-      constructor: FromDf[To]
+      fromType: SparkType[From],
+      toType: SparkType[To]
   ): DoricColumn[To]
 }
 
@@ -15,7 +16,11 @@ object Casting {
 
 trait SparkCasting[From, To] extends Casting[From, To] {
   override def cast(column: DoricColumn[From])(implicit
-      constructor: FromDf[To]
+      fromType: SparkType[From],
+      toType: SparkType[To]
   ): DoricColumn[To] =
-    column.elem.map(_.cast(constructor.dataType)).toDC
+    if (fromType.dataType == toType.dataType)
+      column.elem.toDC
+    else
+      column.elem.map(_.cast(toType.dataType)).toDC
 }

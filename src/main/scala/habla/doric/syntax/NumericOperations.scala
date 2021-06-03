@@ -35,7 +35,7 @@ object NumericOperations {
 
 trait NumericOperationsOps {
 
-  implicit class NumericOperationsSyntax[T: NumericOperations: FromDf](
+  implicit class NumericOperationsSyntax[T: NumericOperations: SparkType](
       column: DoricColumn[T]
   ) {
 

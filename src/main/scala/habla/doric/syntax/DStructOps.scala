@@ -21,7 +21,7 @@ trait DStructOps {
   }
 
   implicit class DStructSyntax(private val col: DStructColumn) {
-    def getChild[T: FromDf](
+    def getChild[T: SparkType](
         subColumnName: String
     )(implicit location: Location): DoricColumn[T] = {
       col.elem
@@ -39,14 +39,14 @@ trait DStructOps {
                   fatherStructType.names
                 ).leftNec
               )(st =>
-                if (FromDf[T].isValid(st.dataType))
+                if (SparkType[T].isValid(st.dataType))
                   vcolumn
                     .getItem(subColumnName)
                     .asRight[NonEmptyChain[DoricSingleError]]
                 else
                   ColumnTypeError(
                     subColumnName,
-                    FromDf[T].dataType,
+                    SparkType[T].dataType,
                     st.dataType
                   ).leftNec[Column]
               )

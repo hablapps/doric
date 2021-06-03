@@ -8,72 +8,72 @@ import java.sql.{Date, Timestamp}
 import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types.DataType
 
-trait FromDfExtras {
+trait ColumnExtractors {
 
-  @inline def dataType[T: FromDf]: DataType = FromDf[T].dataType
+  @inline def dataType[T: SparkType]: DataType = SparkType[T].dataType
 
-  def col[T: FromDf](colName: String)(implicit
+  def col[T: SparkType](colName: String)(implicit
       location: Location
   ): DoricColumn[T] =
-    FromDf[T].validate(colName)
+    SparkType[T].validate(colName)
 
   def colInt(colName: String)(implicit location: Location): DoricColumn[Int] = {
-    FromDf[Int].validate(colName)
+    SparkType[Int].validate(colName)
   }
 
   def colLong(
       colName: String
   )(implicit location: Location): DoricColumn[Long] = {
-    FromDf[Long].validate(colName)
+    SparkType[Long].validate(colName)
   }
 
   def colString(
       colName: String
   )(implicit location: Location): DoricColumn[String] = {
-    FromDf[String].validate(colName)
+    SparkType[String].validate(colName)
   }
 
   def colTimestamp(colName: String)(implicit
       location: Location
   ): DoricColumn[Timestamp] =
-    FromDf[Timestamp].validate(colName)
+    SparkType[Timestamp].validate(colName)
 
   def colDate(colName: String)(implicit location: Location): DoricColumn[Date] =
-    FromDf[Date].validate(colName)
+    SparkType[Date].validate(colName)
 
-  def colArray[T: FromDf](colName: String)(implicit
+  def colArray[T: SparkType](colName: String)(implicit
       location: Location
   ): DoricColumn[Array[T]] =
-    FromDf[Array[T]].validate(colName)
+    SparkType[Array[T]].validate(colName)
 
   def colArrayInt(colName: String)(implicit
       location: Location
   ): DoricColumn[Array[Int]] =
-    FromDf[Array[Int]].validate(colName)
+    SparkType[Array[Int]].validate(colName)
 
   def colArrayString(colName: String)(implicit
       location: Location
   ): DoricColumn[Array[String]] =
-    FromDf[Array[String]].validate(colName)
+    SparkType[Array[String]].validate(colName)
 
   def colStruct(colName: String)(implicit location: Location): DStructColumn =
-    FromDf[DStruct].validate(colName)
+    SparkType[DStruct].validate(colName)
 
-  def colFromDF[T: FromDf](colName: String, originDF: Dataset[_])(implicit
+  def colFromDF[T: SparkType](colName: String, originDF: Dataset[_])(implicit
       location: Location
   ): DoricColumn[T] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
-      val result = FromDf[T].validate(colName).elem.run(originDF)
+      val result = SparkType[T].validate(colName).elem.run(originDF)
       if (result.isValid) {
         try {
           val column: Column = result.toEither.right.get
           val head           = df.select(column).schema.head
-          if (FromDf[T].isValid(head.dataType))
+          if (SparkType[T].isValid(head.dataType))
             Validated.valid(column)
           else
             ColumnTypeError(
               head.name,
-              FromDf[T].dataType,
+              SparkType[T].dataType,
               head.dataType
             ).invalidNec
         } catch {
@@ -87,4 +87,4 @@ trait FromDfExtras {
 
 }
 
-object FromDfExtras extends FromDfExtras
+object ColumnExtractors extends ColumnExtractors

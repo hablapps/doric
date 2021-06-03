@@ -18,7 +18,7 @@ object BooleanOperations {
 
 trait BooleanOperationsOps {
 
-  implicit class BooleanOperationsSyntax[T: BooleanOperations: FromDf](
+  implicit class BooleanOperationsSyntax[T: BooleanOperations: SparkType](
       column: DoricColumn[T]
   ) {
     def and(other: DoricColumn[T]): DoricColumn[T] =

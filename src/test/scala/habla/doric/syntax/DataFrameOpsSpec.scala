@@ -92,7 +92,8 @@ class DataFrameOpsSpec
       left.join(right, "outer", colLong("id"))
 
       val errors = intercept[DoricMultiError] {
-        left.join(badRight, "left", colLong("id"))
+        val value1 = colLong("id")
+        left.join(badRight, "left", value1)
       }
 
       errors.errors.length shouldBe 1

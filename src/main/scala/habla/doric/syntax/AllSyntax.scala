@@ -6,7 +6,7 @@ trait AllSyntax
     with DataFrameOps
     with DateColumnLikeOps
     with DStructOps
-    with FromDfExtras
+    with ColumnExtractors
     with LiteralConversions
     with MapColumnOps
     with NumericOperationsOps
