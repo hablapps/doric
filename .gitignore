@@ -24,4 +24,4 @@ derby.log
 .bsp/
 
 # Notebooks
-.ipynb_checkpoints/**
+.ipynb_checkpoints
