@@ -2,6 +2,7 @@ package habla.doric
 package functions
 
 import cats.implicits._
+import habla.doric.types.SparkType
 
 import org.apache.spark.sql.functions.{when, lit => sparkLit}
 import org.apache.spark.sql.Column

@@ -3,6 +3,7 @@ package habla.doric
 import cats.data.{Kleisli, Validated}
 import cats.Applicative
 import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple2Semigroupal, catsSyntaxValidatedId, catsSyntaxValidatedIdBinCompat0}
+import habla.doric.types.SparkType
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 

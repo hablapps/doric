@@ -3,15 +3,31 @@ package habla
 import cats.data.{Kleisli, ValidatedNec}
 import cats.implicits._
 import habla.doric.syntax._
-import habla.doric.types.DoricAllTypes
+import java.sql.{Date, Timestamp}
+import java.time.{Instant, LocalDate}
 
 import org.apache.spark.sql.{Column, Dataset}
 
-package object doric extends DoricAllTypes with AllSyntax {
+package object doric extends AllSyntax {
 
   type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
+
+  // Basic types
+  type BooleanColumn   = DoricColumn[Boolean]
+  type StringColumn    = DoricColumn[String]
+  type IntegerColumn   = DoricColumn[Int]
+  type LongColumn      = DoricColumn[Long]
+  type FloatColumn     = DoricColumn[Float]
+  type DoubleColumn    = DoricColumn[Double]
+  type DateColumn      = DoricColumn[Date]
+  type LocalDateColumn = DoricColumn[LocalDate]
+  type TimestampColumn = DoricColumn[Timestamp]
+  type InstantColumn   = DoricColumn[Instant]
+  type MapColumn[K, V] = DoricColumn[Map[K, V]]
+  type ArrayColumn[A]  = DoricColumn[Array[A]]
+  type DStructColumn   = DoricColumn[DStruct]
 
   implicit class DoricColumnops(elem: Doric[Column]) {
     def toDC[A]: DoricColumn[A] = DoricColumn(elem)

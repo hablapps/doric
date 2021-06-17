@@ -1,6 +1,7 @@
 package habla.doric
 
 import habla.doric.syntax.User
+import habla.doric.types.SparkType
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 

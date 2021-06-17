@@ -3,6 +3,7 @@ package syntax
 
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
+import habla.doric.types.{Casting, SparkType, UnsafeCasting}
 
 import org.apache.spark.sql.{Column, Dataset}
 

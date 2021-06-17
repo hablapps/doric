@@ -2,6 +2,8 @@ package habla.doric
 
 import scala.reflect.{ClassTag, _}
 
+import habla.doric.types.{Casting, SparkType}
+
 import org.apache.spark.sql.types.DataType
 import org.apache.spark.sql.DataFrame
 

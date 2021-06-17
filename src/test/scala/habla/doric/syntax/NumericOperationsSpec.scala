@@ -3,6 +3,7 @@ package syntax
 
 import scala.reflect.{classTag, ClassTag}
 
+import habla.doric.types.{NumericType, SparkType}
 import org.scalatest.funspec.AnyFunSpecLike
 
 import org.apache.spark.sql.DataFrame
@@ -11,40 +12,30 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
   def df: DataFrame
 
-  def test[T: SparkType: ClassTag, O: SparkType](
-      f: DoricColumn[T] => DoricColumn[O]
-  ): Unit =
-    assert(
-      df.withColumn("result", f(col[T](getName[T](1))))("result")
-        .expr
-        .dataType == dataType[O],
-      "the output type is not equal to"
-    )
-
-  def test[T: NumericOperations: SparkType: ClassTag](): Unit = {
+  def test[T: NumericType: SparkType: ClassTag](): Unit = {
 
     describe(s"Numeric ${classTag[T].getClass.getSimpleName}") {
 
       it("+") {
-        test(NumericOperations[T].+ _)
+        test[T, T, T]((a, b) => a + b)
       }
       it("-") {
-        test(NumericOperations[T].- _)
+        test[T, T, T]((a, b) => a - b)
       }
       it("*") {
-        test(NumericOperations[T].* _)
+        test[T, T, T]((a, b) => a * b)
       }
       it(">") {
-        test(NumericOperations[T].> _)
+        test[T, T, Boolean]((a, b) => a > b)
       }
       it(">=") {
-        test(NumericOperations[T].>= _)
+        test[T, T, Boolean]((a, b) => a >= b)
       }
       it("<") {
-        test(NumericOperations[T].< _)
+        test[T, T, Boolean]((a, b) => a < b)
       }
       it("<=") {
-        test(NumericOperations[T].<= _)
+        test[T, T, Boolean]((a, b) => a <= b)
       }
     }
   }
