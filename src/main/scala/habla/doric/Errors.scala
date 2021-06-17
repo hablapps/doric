@@ -4,7 +4,7 @@ import cats.data.NonEmptyChain
 
 import org.apache.spark.sql.types.DataType
 
-object ErrorUtils {
+private object ErrorUtils {
   def getSingularOrPlural(nErrors: Long): String =
     if (nErrors > 1) "errors" else "error"
 }
@@ -17,13 +17,16 @@ case class DoricMultiError(
     val length = errors.length
 
     implicit class StringOps(s: String) {
-      def addTabs: String = "\t" + s.replaceAll("\n", "\n\t")
+      private val indentation = "  "
+      def addTabs: String     = indentation + s.replaceAll("\n", s"\n$indentation")
     }
 
     implicit class JoinCases(errors: NonEmptyChain[DoricSingleError]) {
       def collectSide(isLeft: Boolean): Option[DoricMultiError] =
         NonEmptyChain
-          .fromChain(errors.collect { case JoinDoricSingleError(x, true) => x })
+          .fromChain(errors.collect { case JoinDoricSingleError(x, `isLeft`) =>
+            x
+          })
           .map(
             DoricMultiError(
               if (isLeft) "Left dataframe" else "Right dataframe",

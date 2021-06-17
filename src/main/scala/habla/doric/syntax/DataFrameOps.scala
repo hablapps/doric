@@ -99,9 +99,11 @@ trait DataFrameOps {
       (
         elems
           .traverse(_.elem.run(df.toDF()))
-          .leftMap(_.map(JoinDoricSingleError(_, true))),
+          .leftMap(_.map(JoinDoricSingleError(_, isLeft = true))),
         elems.traverse(
-          _.elem.run(df2.toDF()).leftMap(_.map(JoinDoricSingleError(_, false)))
+          _.elem
+            .run(df2.toDF())
+            .leftMap(_.map(JoinDoricSingleError(_, isLeft = false)))
         )
       ).mapN((left, right) => {
         val frameJoined = df.join(

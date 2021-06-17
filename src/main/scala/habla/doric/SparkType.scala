@@ -8,14 +8,28 @@ import cats.implicits._
 import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types.DataType
 
+/**
+  * Typeclass to relate a type T with it's [[org.apache.spark.sql.types.DataType]]
+  * @tparam T the scala type of the instance
+  */
 @implicitNotFound(
-  "Cant use the type ${T} to generate the typed column. Check your imported FromDf[${T}] instances"
+  "Cant use the type ${T} to generate the typed column. Check your imported SparkType[${T}] instances"
 )
 trait SparkType[T] {
 
+  /**
+    * The [[org.apache.spark.sql.types.DataType]]
+    * @return the [[org.apache.spark.sql.types.DataType]]
+    */
   def dataType: DataType
 
-  def validate(colName: String)(implicit location: Location): DoricColumn[T] = {
+  /**
+    * Validates if a column of the in put dataframe exist and is of the [[org.apache.spark.sql.types.DataType]] provided
+    * @param colName name of the column to extract
+    * @param location object that links to the position if an error is created
+    * @return A Doric column that validates al the logic
+    */
+  def validate(colName: String)(implicit location: Location): Doric[Column] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
         val column = df(colName)
@@ -26,7 +40,7 @@ trait SparkType[T] {
       } catch {
         case e: Throwable => SparkErrorWrapper(e).invalidNec
       }
-    }).toDC
+    })
   }
 
   /**
