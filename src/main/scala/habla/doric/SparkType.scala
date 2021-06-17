@@ -9,7 +9,7 @@ import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types.DataType
 
 /**
-  * Typeclass to relate a type T with it's [[org.apache.spark.sql.types.DataType]]
+  * Typeclass to relate a type T with it's spark DataType
   * @tparam T the scala type of the instance
   */
 @implicitNotFound(
@@ -18,13 +18,13 @@ import org.apache.spark.sql.types.DataType
 trait SparkType[T] {
 
   /**
-    * The [[org.apache.spark.sql.types.DataType]]
-    * @return the [[org.apache.spark.sql.types.DataType]]
+    * The spark DataType
+    * @return the spark DataType
     */
   def dataType: DataType
 
   /**
-    * Validates if a column of the in put dataframe exist and is of the [[org.apache.spark.sql.types.DataType]] provided
+    * Validates if a column of the in put dataframe exist and is of the spark DataType provided
     * @param colName name of the column to extract
     * @param location object that links to the position if an error is created
     * @return A Doric column that validates al the logic
