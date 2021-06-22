@@ -1,7 +1,7 @@
 package habla.doric
 package syntax
 
-import habla.doric.syntax.TypeColumnHelper.sparkFunction
+import habla.doric.DoricColumn.sparkFunction
 
 trait BooleanSyntax {
 

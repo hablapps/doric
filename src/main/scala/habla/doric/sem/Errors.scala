@@ -1,13 +1,8 @@
-package habla.doric
+package habla.doric.sem
 
 import cats.data.NonEmptyChain
 
 import org.apache.spark.sql.types.DataType
-
-private object ErrorUtils {
-  def getSingularOrPlural(nErrors: Long): String =
-    if (nErrors > 1) "errors" else "error"
-}
 
 case class DoricMultiError(
     functionType: String,
@@ -18,7 +13,7 @@ case class DoricMultiError(
 
     implicit class StringOps(s: String) {
       private val indentation = "  "
-      def addTabs: String     = indentation + s.replaceAll("\n", s"\n$indentation")
+      def withTabs: String     = indentation + s.replaceAll("\n", s"\n$indentation")
     }
 
     implicit class JoinCases(errors: NonEmptyChain[DoricSingleError]) {
@@ -35,6 +30,9 @@ case class DoricMultiError(
           )
     }
 
+    def getSingularOrPlural(nErrors: Long): String =
+      if (nErrors > 1) "errors" else "error"
+
     val leftErrors  = errors.collectSide(true).map(_.getMessage)
     val rightErrors = errors.collectSide(false).map(_.getMessage)
     val restErrors = NonEmptyChain
@@ -43,9 +41,9 @@ case class DoricMultiError(
       )
       .map(_.map(_.getMessage).iterator.mkString("\n"))
     val stringErrors =
-      List(restErrors, leftErrors, rightErrors).flatten.mkString("\n").addTabs
+      List(restErrors, leftErrors, rightErrors).flatten.mkString("\n").withTabs
 
-    s"""Found $length ${ErrorUtils.getSingularOrPlural(length)} in $functionType
+    s"""Found $length ${getSingularOrPlural(length)} in $functionType
        |$stringErrors
        |""".stripMargin
   }

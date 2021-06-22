@@ -1,7 +1,7 @@
-package habla.doric
-package syntax
+package habla.doric.sem
 
-import cats.implicits._
+import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
+import habla.doric.{BooleanColumn, DoricColumn, DoricJoinColumn, DoricValidated}
 
 import org.apache.spark.sql.{DataFrame, Dataset, Encoder}
 
@@ -119,14 +119,14 @@ trait DataFrameOps {
       df.select(col1).as[T1].collect()
     }
 
-    def collectCols[T1: Encoder, T2: Encoder](
+    def collectCols[T1, T2](
         col1: DoricColumn[T1],
         col2: DoricColumn[T2]
     )(implicit fenc: Encoder[(T1, T2)]): Array[(T1, T2)] = {
       df.select(col1, col2).as[(T1, T2)].collect()
     }
 
-    def collectCols[T1: Encoder, T2: Encoder, T3: Encoder](
+    def collectCols[T1, T2, T3](
         col1: DoricColumn[T1],
         col2: DoricColumn[T2],
         col3: DoricColumn[T3]
@@ -134,7 +134,7 @@ trait DataFrameOps {
       df.select(col1, col2, col3).as[(T1, T2, T3)].collect()
     }
 
-    def collectCols[T1: Encoder, T2: Encoder, T3: Encoder, T4: Encoder](
+    def collectCols[T1, T2, T3, T4](
         col1: DoricColumn[T1],
         col2: DoricColumn[T2],
         col3: DoricColumn[T3],

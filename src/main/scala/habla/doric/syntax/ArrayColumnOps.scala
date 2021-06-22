@@ -51,8 +51,10 @@ trait ArrayColumnOps {
         .mapN((a, f) => new Column(ArrayFilter(a.expr, lam1(f.expr))))
         .toDC
 
-    private def x[A]: DoricColumn[A] = DoricColumn[A](new Column(xarg))
-    private def y[A]: DoricColumn[A] = DoricColumn[A](new Column(yarg))
+    private def x[A]: DoricColumn[A] =
+      DoricColumn.unchecked[A](new Column(xarg))
+    private def y[A]: DoricColumn[A] =
+      DoricColumn.unchecked[A](new Column(yarg))
 
     private def lam1(e: Expression) = LambdaFunction(e, Seq(xarg))
     private def lam2(e: Expression) = LambdaFunction(e, Seq(xarg, yarg))

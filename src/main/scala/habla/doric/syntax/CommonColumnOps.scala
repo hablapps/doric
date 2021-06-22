@@ -1,31 +1,19 @@
 package habla.doric
 package syntax
 
-import cats.data.{Kleisli, Validated}
 import cats.implicits._
+import habla.doric.sem.Location
 import habla.doric.types.{Casting, SparkType, UnsafeCasting}
 
-import org.apache.spark.sql.{Column, Dataset}
+import org.apache.spark.sql.Column
 
 trait CommonColumnOps {
 
   implicit class SparkCol(private val column: Column) {
-    def asDoric[T: SparkType](implicit location: Location): DoricColumn[T] =
-      Kleisli[DoricValidated, Dataset[_], Column](df => {
-        try {
-          val head = df.select(column).schema.head
-          if (SparkType[T].isValid(head.dataType))
-            Validated.valid(column)
-          else
-            ColumnTypeError(
-              head.name,
-              SparkType[T].dataType,
-              head.dataType
-            ).invalidNec
-        } catch {
-          case e: Throwable => SparkErrorWrapper(e).invalidNec
-        }
-      }).toDC
+    @inline def asDoric[T: SparkType](implicit
+        location: Location
+    ): DoricColumn[T] =
+      DoricColumn(column)
   }
 
   implicit class BasicCol[T: SparkType](private val column: DoricColumn[T]) {

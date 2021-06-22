@@ -4,6 +4,7 @@ package syntax
 import cats.arrow.FunctionK
 import cats.data.{Kleisli, NonEmptyChain}
 import cats.implicits._
+import habla.doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Location}
 import habla.doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset}

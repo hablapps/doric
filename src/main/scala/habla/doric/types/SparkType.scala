@@ -4,7 +4,8 @@ import scala.annotation.implicitNotFound
 
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
-import habla.doric.{ColumnTypeError, Doric, DoricValidated, DStruct, Location, SparkErrorWrapper}
+import habla.doric.{Doric, DoricValidated, DStruct}
+import habla.doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 

@@ -1,7 +1,7 @@
 package habla.doric
 package syntax
 
-import habla.doric.syntax.TypeColumnHelper.sparkFunction
+import habla.doric.DoricColumn.sparkFunction
 import habla.doric.types.NumericType
 
 trait NumericSyntax {

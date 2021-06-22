@@ -1,6 +1,7 @@
 package habla.doric
 package syntax
 
+import habla.doric.sem.{ChildColumnNotFound, ColumnTypeError}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 

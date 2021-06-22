@@ -2,13 +2,14 @@ package habla
 
 import cats.data.{Kleisli, ValidatedNec}
 import cats.implicits._
+import habla.doric.sem.{DataFrameOps, DoricSingleError}
 import habla.doric.syntax._
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
 import org.apache.spark.sql.{Column, Dataset}
 
-package object doric extends AllSyntax {
+package object doric extends AllSyntax with DataFrameOps {
 
   type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
@@ -29,26 +30,19 @@ package object doric extends AllSyntax {
   type ArrayColumn[A]  = DoricColumn[Array[A]]
   type DStructColumn   = DoricColumn[DStruct]
 
-  implicit class DoricColumnops(elem: Doric[Column]) {
-    def toDC[A]: DoricColumn[A] = DoricColumn(elem)
+  private[doric] implicit class DoricColumnops(elem: Doric[Column]) {
+    @inline def toDC[A]: DoricColumn[A] = DoricColumn(elem)
   }
 
-  case class DoricJoinColumn(elem: DoricJoin[Column]) {
-    def &&(other: DoricJoinColumn): DoricJoinColumn =
-      (elem, other.elem).mapN(_ && _).toDJC
+  private[doric] implicit class DoricJoinColumnOps(elem: DoricJoin[Column]) {
+    @inline def toDJC: DoricJoinColumn = DoricJoinColumn(elem)
   }
 
-  implicit class DoricJoinColumnOps(elem: DoricJoin[Column]) {
-    def toDJC: DoricJoinColumn = DoricJoinColumn(elem)
-  }
-
-  implicit class DoricValidatedErrorHandler[T](dv: DoricValidated[T]) {
-    def asLeftDfError: DoricValidated[T] =
-      dv.leftMap(_.map(JoinDoricSingleError(_, isLeft = true)))
-    def asRigthDfError: DoricValidated[T] =
-      dv.leftMap(_.map(JoinDoricSingleError(_, isLeft = false)))
+  private[doric] implicit class DoricValidatedErrorHandler[T](
+      dv: DoricValidated[T]
+  ) {
     def asSideDfError(isLeft: Boolean): DoricValidated[T] =
-      dv.leftMap(_.map(JoinDoricSingleError(_, isLeft)))
+      dv.leftMap(_.map(sem.JoinDoricSingleError(_, isLeft)))
   }
 
 }

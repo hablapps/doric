@@ -2,6 +2,7 @@ package habla.doric
 package syntax
 
 import habla.doric.implicitConversions._
+import habla.doric.sem.DoricMultiError
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.EitherValues
 

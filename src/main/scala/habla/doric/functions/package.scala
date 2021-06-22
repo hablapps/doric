@@ -4,7 +4,9 @@ import cats.implicits._
 
 import org.apache.spark.sql.{Column, functions => f}
 
-package object functions {
+package object functions extends MapSyntax with ArraySyntax {}
+
+trait MapSyntax {
   def mapFromArrays[K, V](
       keys: DoricColumn[Array[K]],
       values: DoricColumn[Array[V]]
@@ -22,6 +24,9 @@ package object functions {
       )
     list.sequence.map(x => f.map(x: _*)).toDC
   }
+}
+
+trait ArraySyntax {
 
   def concat(cols: DoricColumn[String]*): DoricColumn[String] =
     cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
