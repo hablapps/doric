@@ -3,7 +3,7 @@ package syntax
 
 import doric.control.WhenBuilder
 
-trait ControlSyntax {
+trait ControlStructures {
 
   /**
     * Initialize a when builder

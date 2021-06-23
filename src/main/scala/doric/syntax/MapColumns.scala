@@ -6,7 +6,7 @@ import cats.implicits._
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.functions.{map_keys, map_values}
 
-trait MapColumnSyntax {
+trait MapColumns {
 
   /**
     * Creates a new map column. The array in the first column is used for keys. The array in the

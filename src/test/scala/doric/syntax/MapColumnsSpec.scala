@@ -3,7 +3,7 @@ package syntax
 
 import doric.implicitConversions._
 
-class MapColumnSyntaxSpec extends DoricTestElements with MapColumnSyntax {
+class MapColumnsSpec extends DoricTestElements with MapColumns {
 
   import spark.implicits._
 

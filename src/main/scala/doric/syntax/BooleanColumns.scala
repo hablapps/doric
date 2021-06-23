@@ -3,7 +3,7 @@ package syntax
 
 import doric.DoricColumn.sparkFunction
 
-trait BooleanColumnSyntax {
+trait BooleanColumns {
 
   implicit class BooleanOperationsSyntax(
       column: DoricColumn[Boolean]

@@ -5,7 +5,7 @@ import cats.implicits.toTraverseOps
 
 import org.apache.spark.sql.{functions => f}
 
-trait StringSyntax {
+trait StringColumns {
 
   /**
     * Concatenate string columns to form a single one

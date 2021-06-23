@@ -11,7 +11,7 @@ import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
-trait DStructSyntax {
+trait DStructs {
 
   private type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 

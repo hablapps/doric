@@ -8,7 +8,7 @@ import doric.types.{Casting, SparkType, UnsafeCasting}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.DataType
 
-trait CommonColumnSyntax extends ColGetters[DoricColumn] {
+trait CommonColumns extends ColGetters[DoricColumn] {
 
   /**
     * Returns the spark `DataType` of the provided type
