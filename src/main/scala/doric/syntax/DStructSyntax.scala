@@ -13,7 +13,7 @@ import org.apache.spark.sql.types.StructType
 
 trait DStructSyntax {
 
-  type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
+  private type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
   private val toValidated = new FunctionK[DoricEither, DoricValidated] {
     override def apply[A](fa: DoricEither[A]): DoricValidated[A] =
@@ -23,10 +23,23 @@ trait DStructSyntax {
     override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
   }
 
+  /**
+    * Creates a struct with the columns
+    * @param cols the columns that will form the struct
+    * @return A DStruct DoricColumn.
+    */
   def struct(cols: DoricColumn[_]*): DStructColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
   implicit class DStructOps(private val col: DStructColumn) {
+
+    /**
+      * Retreaves the child row of the Struct column
+      * @param subColumnName the column name expected to find in the struct.
+      * @param location the location if an error is generated
+      * @tparam T the expected type of the child column.
+      * @return a reference to the child column of the provided type.
+      */
     def getChild[T: SparkType](
         subColumnName: String
     )(implicit location: Location): DoricColumn[T] = {

@@ -2,7 +2,7 @@ package doric
 package types
 
 import java.sql.{Date, Timestamp}
-import java.time.Instant
+import java.time.{Instant, LocalDate}
 
 trait DateType[T] {}
 
@@ -12,7 +12,7 @@ object DateType {
 
   implicit val dateCol: DateType[Date] = DateType[Date]
 
-  implicit val localdateOps: DateType[Instant] = DateType[Instant]
+  implicit val localdateOps: DateType[LocalDate] = DateType[LocalDate]
 
   implicit val timestampDateOps: DateType[Timestamp] =
     DateType[Timestamp]

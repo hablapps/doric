@@ -5,6 +5,7 @@ import scala.Predef.{any2stringadd => _}
 
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import doric.implicitConversions._
+import doric.types.SparkType
 import org.scalatest.funspec.AnyFunSpecLike
 
 class WhenBuilderSpec
@@ -47,6 +48,23 @@ class WhenBuilderSpec
 
       colInt("c1") === 100
       assertColEquality(df, "whenResult", "whenExpected")
+    }
+
+    it("case that only returns otherwise null") {
+      val df = spark.range(3)
+
+      def nullOfType[T: SparkType] = {
+        val whenT: DoricColumn[T] = when[T].otherwiseNull
+
+        val whenResultColName = "whenResult"
+        df.withColumn(whenResultColName, whenT)
+          .select(col[T](whenResultColName))
+      }
+
+      nullOfType[Int]
+      nullOfType[Double]
+      nullOfType[DStruct]
+      nullOfType[Array[Int]]
     }
   }
 
