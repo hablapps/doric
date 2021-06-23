@@ -4,7 +4,7 @@ package syntax
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
 
-trait NumericSyntax {
+trait NumericColumnSyntax {
 
   implicit class NumericOperationsSyntax[T: NumericType](
       column: DoricColumn[T]

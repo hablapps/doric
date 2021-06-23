@@ -8,9 +8,10 @@ import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Locati
 import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset}
+import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
-trait DStructOps {
+trait DStructSyntax {
 
   type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
@@ -22,7 +23,10 @@ trait DStructOps {
     override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
   }
 
-  implicit class DStructSyntax(private val col: DStructColumn) {
+  def struct(cols: DoricColumn[_]*): DStructColumn =
+    cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
+
+  implicit class DStructOps(private val col: DStructColumn) {
     def getChild[T: SparkType](
         subColumnName: String
     )(implicit location: Location): DoricColumn[T] = {

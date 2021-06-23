@@ -9,11 +9,7 @@ import org.apache.spark.sql.types.{IntegerType, StringType}
 
 case class User(name: String, surname: String, age: Int)
 
-class DStructOpsSpec
-    extends DoricTestElements
-    with DStructOps
-    with EitherValues
-    with Matchers {
+class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
 
   import spark.implicits._
 
@@ -25,6 +21,15 @@ class DStructOpsSpec
     it("can get values subcolumns") {
       df.validateColumnType(colStruct("col").getChild[String]("name"))
       df.validateColumnType(colStruct("col").getChild[Int]("age"))
+    }
+
+    it("creates a struct from different columns") {
+      val dfd = List((1, "hi"), (2, "bye"))
+        .toDF("num", "str")
+        .select(struct(colInt("num"), colString("str")) as "stru")
+
+      dfd.validateColumnType(colStruct("stru").getChild[String]("str"))
+      dfd.validateColumnType(colStruct("stru").getChild[Int]("num"))
     }
 
     it("generates a error if the sub column doesn't exist") {

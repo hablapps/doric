@@ -1,13 +1,14 @@
 package doric.syntax
 
 trait AllSyntax
-    extends ArrayColumnOps
-    with CommonColumnOps
-    with DStructOps
-    with ColumnExtractors
+    extends ArrayColumnSyntax
+    with CommonColumnSyntax
+    with DStructSyntax
     with LiteralConversions
-    with MapColumnOps
-    with NumericSyntax
-    with DateSyntax
-    with TimestampSyntax
-    with BooleanSyntax
+    with MapColumnSyntax
+    with NumericColumnSyntax
+    with DateColumnSyntax
+    with TimestampColumnSyntax
+    with BooleanColumnSyntax
+    with StringSyntax
+    with ControlSyntax

@@ -1,12 +1,13 @@
 package doric
+package syntax
 
 import cats.implicits._
 
 import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.functions.{map_keys, map_values}
 
-package object functions extends MapSyntax with ArraySyntax {}
+trait MapColumnSyntax {
 
-trait MapSyntax {
   def mapFromArrays[K, V](
       keys: DoricColumn[Array[K]],
       values: DoricColumn[Array[V]]
@@ -24,13 +25,19 @@ trait MapSyntax {
       )
     list.sequence.map(x => f.map(x: _*)).toDC
   }
-}
 
-trait ArraySyntax {
+  implicit class MapColumnOps[K, V](
+      private val map: DoricColumn[Map[K, V]]
+  ) {
 
-  def concat(cols: DoricColumn[String]*): DoricColumn[String] =
-    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
+    def get(key: DoricColumn[K]): DoricColumn[V] =
+      (map.elem, key.elem).mapN(_(_)).toDC
 
-  def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
-    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
+    def keys: DoricColumn[Array[K]] =
+      map.elem.map(map_keys).toDC
+
+    def values: DoricColumn[Array[V]] =
+      map.elem.map(map_values).toDC
+
+  }
 }

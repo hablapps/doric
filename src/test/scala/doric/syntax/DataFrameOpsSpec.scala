@@ -70,7 +70,7 @@ class DataFrameOpsSpec
       .toDF()
       .withColumn(
         "otherColumn",
-        functions.concat(colLong("id").cast[String], "left")
+        concat(colLong("id").cast[String], "left")
       )
       .toDF()
       .filter(colLong("id") > 3L)
@@ -79,7 +79,7 @@ class DataFrameOpsSpec
       .toDF()
       .withColumn(
         "otherColumn",
-        functions.concat(colLong("id").cast[String], "right")
+        concat(colLong("id").cast[String], "right")
       )
       .filter(colLong("id") < 7L)
 

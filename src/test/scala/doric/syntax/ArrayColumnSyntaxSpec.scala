@@ -4,9 +4,9 @@ package syntax
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-class ArrayColumnOpsSpec
+class ArrayColumnSyntaxSpec
     extends DoricTestElements
-    with ArrayColumnOps
+    with ArrayColumnSyntax
     with EitherValues
     with Matchers {
 

@@ -1,5 +1,5 @@
 package doric
-package functions
+package control
 
 import scala.Predef.{any2stringadd => _}
 
@@ -26,7 +26,7 @@ class WhenBuilderSpec
         .toDF("c1", "whenExpected")
         .withColumn(
           "whenResult",
-          WhenBuilder[Int]()
+          when[Int]
             .caseW(colInt("c1") > 10, 1)
             .caseW(colInt("c1") > 5, colInt("c1") + 1000)
             .otherwise(3)
@@ -40,7 +40,7 @@ class WhenBuilderSpec
         .toDF("c1", "whenExpected")
         .withColumn(
           "whenResult",
-          WhenBuilder[Int]()
+          when[Int]
             .caseW(colInt("c1") === lit(100), 1)
             .otherwiseNull
         )

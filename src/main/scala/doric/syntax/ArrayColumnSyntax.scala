@@ -3,11 +3,14 @@ package syntax
 
 import cats.implicits._
 
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
-trait ArrayColumnOps {
+trait ArrayColumnSyntax {
+
+  def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
+    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
 
   implicit class ArrayColumnSyntax[T](private val col: ArrayColumn[T]) {
 

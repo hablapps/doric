@@ -6,8 +6,16 @@ import doric.sem.Location
 import doric.types.{Casting, SparkType, UnsafeCasting}
 
 import org.apache.spark.sql.Column
+import org.apache.spark.sql.types.DataType
 
-trait CommonColumnOps {
+trait CommonColumnSyntax extends ColGetters[DoricColumn] {
+
+  @inline def dataType[T: SparkType]: DataType = SparkType[T].dataType
+
+  override protected def constructSide[T](
+      column: Doric[Column]
+  ): DoricColumn[T] =
+    DoricColumn(column)
 
   implicit class SparkCol(private val column: Column) {
     @inline def asDoric[T: SparkType](implicit

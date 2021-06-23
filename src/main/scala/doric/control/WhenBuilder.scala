@@ -1,14 +1,15 @@
 package doric
-package functions
+package control
 
 import cats.implicits._
 import doric.types.SparkType
 
-import org.apache.spark.sql.functions.{when, lit => sparkLit}
+import org.apache.spark.sql.functions.{lit => sparkLit, when => sparkWhen}
 import org.apache.spark.sql.Column
 
-final case class WhenBuilder[T](
-    private val cases: Vector[(BooleanColumn, DoricColumn[T])] = Vector.empty
+final private[doric] case class WhenBuilder[T](
+    private[doric] val cases: Vector[(BooleanColumn, DoricColumn[T])] =
+      Vector.empty
 ) {
 
   def otherwiseNull(implicit dt: SparkType[T]): DoricColumn[T] =
@@ -23,7 +24,7 @@ final case class WhenBuilder[T](
   private def casesToWhenColumn: Doric[Column] = {
     val first = cases.head
     cases.tail.foldLeft(
-      (first._1.elem, first._2.elem).mapN((c, a) => when(c, a))
+      (first._1.elem, first._2.elem).mapN((c, a) => sparkWhen(c, a))
     )((acc, c) =>
       (acc, c._1.elem, c._2.elem).mapN((a, cond, algo) => a.when(cond, algo))
     )

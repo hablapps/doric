@@ -6,7 +6,7 @@ import doric.types.DateType
 
 import org.apache.spark.sql.functions
 
-trait DateSyntax {
+trait DateColumnSyntax {
   implicit class DateColumnLikeSyntax[T: DateType](
       column: DoricColumn[T]
   ) {
