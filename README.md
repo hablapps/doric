@@ -1,16 +1,34 @@
 # [doric](https://en.wikipedia.org/wiki/Doric_order)
 
-## A type of column for typing columns!!!
+Type-safe columns for DataFrames!
 
 [![CI](https://github.com/hablapps/doric/actions/workflows/ci.yml/badge.svg)](https://github.com/hablapps/doric/actions/workflows/ci.yml)
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/hablapps/doric/HEAD?filepath=Doric%20Infomercial.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/hablapps/doric/HEAD)
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/org.hablapps/doric_2.12?server=https%3A%2F%2Foss.sonatype.org%2F)
 
-This library makes it easier to write Spark code:
+Doric offers type-safety in DataFrame column expressions at a minimum
+cost, without compromising performace. In particular, doric allows you
+to:
 
-* allows for type safe Spark programming
-* provides syntactic sugar for clean Spark code
+* Get rid of malformed column expressions at compile time
+* Avoid implicit type castings
+* Run DataFrames only when it is safe to do so
+* Get all errors at once
+* Modularize your business logic
+
+You'll get all these goodies: 
+
+* Without resorting to Datasets and sacrificing performance, i.e. sticking to DataFrames
+* With minimal learning curve: almost no change in your code with respect to conventional column expressions
+* Without fully committing to a strong static typing discipline throughout all your code
+
+## User guide
+
+Please, check out this [notebook](notebooks/README.ipynb) for examples
+of use and rationale (also available through the
+[binder](https://mybinder.org/v2/gh/hablapps/doric/HEAD?filepath=notebooks/README.ipynb)
+link).
 
 ## Installation
 
@@ -20,52 +38,17 @@ Fetch the JAR from Maven:
 libraryDependencies += "org.hablapps" %% "doric" % "0.0.1"
 ```
 
-`Doric` depends on Spark internals, and it's been tested against the following spark versions.
+`Doric` depends on Spark internals, and it's been tested against the
+following spark versions.
 
 | Spark | Scala | doric  |
 |-------|-------|-------|
 | 3.1.0 | 2.12  | 0.0.1 |
 
-## Typed columns
 
-Spark is a weak typed framework created with a strong type langage as scala. It's true that spark cant be sure about the type of the of the readed columns, but we, as developer can at least expect a type.
-Doric is a thin layer above the spark Column class, that can validate in runtime the type when we ask for a column in the dataframe. Once done this, we can use this columns in a typesafe enviroment preventing invalid functions, and having compile time exceptions of possible problems.
+## Contributing 
 
-How can be use this? Just type in the class you need:
-```scala
-import habla.doric
-```
-
-To extract a column and validate if it's a IntegerColumn?
-```scala
-val c: IntegerColumn = df.get[IntegerColumn]()
-```
-Need a spark column?
-```scala
-val sc: Column = c.sparkColumn
-```
-No magic or relearn spark again
-
-Types you can use at this moment?
-Numeric:
-* IntegerColumn
-* LongColumn
-* FloatColumn
-* DoubleColumn
-Time:
-* DateColumn
-* TimestampColumn
-
-Others:
-* StringColumn
-* BooleanColumn
-
-This is going to make me write more code?
-Not much, just specify the type of the column, but the rest is almost the same as your spark everyday job.
-
-```scala
-val df: Dataframe = ???
-
-val df2 = df.withColumn("newCol", df.get[IntegerColumn]("c1") + df.get[IntegerColumn]("c2"))
-```
-`c1` or c`2 doesn't exist? You get your normal spark error that the column is not above the founded columns, but if "c1" is not ingeter, you get a runtime error that the column type was not the expected.
+Doric is intended to offer a type-safe version of the whole Spark
+Column API. Please, check the list of [open
+issues](https://github.com/hablapps/doric/issues) and help us to
+achieve that goal!
