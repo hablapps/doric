@@ -15,7 +15,9 @@ object DoricColumn extends ColGetters[DoricColumn] {
       column: Doric[Column]
   ): DoricColumn[T] = DoricColumn(column)
 
-  private[doric] def unchecked[T](col: Column): DoricColumn[T] = {
+  private[doric] def uncheckedTypeAndExistence[T](
+      col: Column
+  ): DoricColumn[T] = {
     Kleisli[DoricValidated, Dataset[_], Column]((_: Dataset[_]) => col.valid)
   }.toDC
 
@@ -37,6 +39,17 @@ object DoricColumn extends ColGetters[DoricColumn] {
         case e: Throwable => SparkErrorWrapper(e).invalidNec
       }
     }).toDC
+
+  private[doric] def uncheckedType(column: Column): DoricColumn[_] = {
+    Kleisli[DoricValidated, Dataset[_], Column](df => {
+      try {
+        df.select(column)
+        Validated.valid(column)
+      } catch {
+        case e: Throwable => SparkErrorWrapper(e).invalidNec
+      }
+    }).toDC
+  }
 
   private[doric] def apply[T](
       errors: NonEmptyChain[DoricSingleError]

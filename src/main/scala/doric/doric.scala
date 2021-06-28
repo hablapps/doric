@@ -1,12 +1,12 @@
 import cats.data.{Kleisli, ValidatedNec}
 import cats.implicits._
-import doric.sem.{DataFrameOps, DoricSingleError}
+import doric.sem.DoricSingleError
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
 import org.apache.spark.sql.{Column, Dataset}
 
-package object doric extends syntax.All with DataFrameOps {
+package object doric extends syntax.All with sem.All {
 
   type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
