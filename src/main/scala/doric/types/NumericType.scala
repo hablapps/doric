@@ -1,4 +1,5 @@
-package doric.types
+package doric
+package types
 
 trait NumericType[T]
 

@@ -1,10 +1,10 @@
-package doric.types
+package doric
+package types
 
 import scala.annotation.implicitNotFound
 
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
-import doric.{Doric, DoricValidated, DStruct}
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
