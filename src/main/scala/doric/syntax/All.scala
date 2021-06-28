@@ -1,4 +1,5 @@
-package doric.syntax
+package doric
+package syntax
 
 trait All
     extends ArrayColumns

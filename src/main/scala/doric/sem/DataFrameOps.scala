@@ -1,7 +1,7 @@
-package doric.sem
+package doric
+package sem
 
 import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
-import doric.{BooleanColumn, DoricColumn, DoricJoinColumn, DoricValidated}
 
 import org.apache.spark.sql.{DataFrame, Dataset, Encoder}
 

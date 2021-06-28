@@ -1,6 +1,6 @@
-package doric.syntax
+package doric
+package syntax
 
-import doric.{Doric, DoricColumn, DStruct}
 import doric.sem.Location
 import doric.types.SparkType
 import java.sql.{Date, Timestamp}

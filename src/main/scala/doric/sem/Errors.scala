@@ -1,4 +1,5 @@
-package doric.sem
+package doric
+package sem
 
 import cats.data.NonEmptyChain
 

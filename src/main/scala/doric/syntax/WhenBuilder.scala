@@ -1,7 +1,7 @@
 package doric
-package control
+package syntax
 
-import cats.implicits._
+import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple2Semigroupal, catsSyntaxTuple3Semigroupal}
 import doric.types.SparkType
 
 import org.apache.spark.sql.functions.{lit => sparkLit, when => sparkWhen}

@@ -1,8 +1,6 @@
 package doric
 package syntax
 
-import doric.control.WhenBuilder
-
 trait ControlStructures {
 
   /**
