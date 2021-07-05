@@ -27,7 +27,7 @@ object DoricColumn extends ColGetters[DoricColumn] {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
         val head = df.select(column).schema.head
-        if (SparkType[T].isValid(head.dataType))
+        if (SparkType[T].isEqual(head.dataType))
           Validated.valid(column)
         else
           ColumnTypeError(

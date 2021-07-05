@@ -18,7 +18,7 @@ trait TypedColumnTest {
       val df2              = df.withColumn(colName, column)
       val providedDatatype = df2(colName).expr.dataType
       assert(
-        SparkType[T].isValid(providedDatatype),
+        SparkType[T].isEqual(providedDatatype),
         s"the type of the column '$column' is not ${SparkType[T].dataType} is $providedDatatype"
       )
       if (show) {

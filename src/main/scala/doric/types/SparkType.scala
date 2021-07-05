@@ -37,7 +37,7 @@ trait SparkType[T] {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
         val column = df(colName)
-        if (isValid(column.expr.dataType))
+        if (isEqual(column.expr.dataType))
           Validated.valid(column)
         else
           ColumnTypeError(colName, dataType, column.expr.dataType).invalidNec
@@ -52,7 +52,7 @@ trait SparkType[T] {
     * @param column the datatype to check
     * @return true if the datatype is equal to the one of the typeclass
     */
-  def isValid(column: DataType): Boolean = column == dataType
+  def isEqual(column: DataType): Boolean = column == dataType
 
 }
 
@@ -96,7 +96,7 @@ object SparkType {
   implicit val fromDStruct: SparkType[DStruct] = new SparkType[DStruct] {
     override def dataType: DataType = StructType(Seq.empty)
 
-    override def isValid(column: DataType): Boolean = column match {
+    override def isEqual(column: DataType): Boolean = column match {
       case StructType(_) => true
       case _             => false
     }
@@ -107,9 +107,9 @@ object SparkType {
       override def dataType: DataType =
         MapType(SparkType[K].dataType, SparkType[V].dataType)
 
-      override def isValid(column: DataType): Boolean = column match {
+      override def isEqual(column: DataType): Boolean = column match {
         case MapType(keyType, valueType, _) =>
-          SparkType[K].isValid(keyType) && SparkType[V].isValid(valueType)
+          SparkType[K].isEqual(keyType) && SparkType[V].isEqual(valueType)
         case _ => false
       }
     }
@@ -120,8 +120,8 @@ object SparkType {
         implicitly[SparkType[A]].dataType
       )
 
-      override def isValid(column: DataType): Boolean = column match {
-        case ArrayType(left, _) => SparkType[A].isValid(left)
+      override def isEqual(column: DataType): Boolean = column match {
+        case ArrayType(left, _) => SparkType[A].isEqual(left)
         case _                  => false
       }
     }
