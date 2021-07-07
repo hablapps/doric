@@ -2,8 +2,7 @@ package doric
 package syntax
 
 import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
-import doric.types.Casting.DoubleC
-import doric.types.NumericType
+import doric.types.{DoubleC, NumericType}
 
 import org.apache.spark.sql.{functions => f}
 

@@ -13,8 +13,6 @@ trait Casting[From, To] {
 
 object Casting {
 
-  type DoubleC[T] = Casting[T, Double]
-
   @inline def apply[From, To](implicit
       imp: Casting[From, To]
   ): Casting[From, To] =
