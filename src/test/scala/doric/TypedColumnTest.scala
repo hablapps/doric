@@ -13,20 +13,22 @@ trait TypedColumnTest {
     def validateColumnType[T: SparkType](
         column: DoricColumn[T],
         show: Boolean = false
-    ): Unit = {
+    ): DataFrame = {
       val colName          = "result"
       val df2              = df.withColumn(colName, column)
       val providedDatatype = df2(colName).expr.dataType
       assert(
-        SparkType[T].isValid(providedDatatype),
+        SparkType[T].isEqual(providedDatatype),
         s"the type of the column '$column' is not ${SparkType[T].dataType} is $providedDatatype"
       )
       if (show) {
         df2.show(false)
+        df2
       } else {
         df2.foreach(_ =>
           ()
         ) //force a spark execution to check if in spark runtime the job fails
+        df2
       }
     }
   }

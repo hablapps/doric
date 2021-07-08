@@ -16,7 +16,10 @@ trait ArrayColumns {
     * @return Doric Column with the concatenation.
     */
   def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
-    cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
+    cols.toList.traverse(_.elem).map(f.concat(_: _*)).toDC
+
+  def array[T](cols: DoricColumn[T]*): DoricColumn[Array[T]] =
+    cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
 
   implicit class ArrayColumnSyntax[T](private val col: ArrayColumn[T]) {
 
@@ -99,9 +102,9 @@ trait ArrayColumns {
         .toDC
 
     private def x[A]: DoricColumn[A] =
-      DoricColumn.unchecked[A](new Column(xarg))
+      DoricColumn.uncheckedTypeAndExistence[A](new Column(xarg))
     private def y[A]: DoricColumn[A] =
-      DoricColumn.unchecked[A](new Column(yarg))
+      DoricColumn.uncheckedTypeAndExistence[A](new Column(yarg))
 
     private def lam1(e: Expression) = LambdaFunction(e, Seq(xarg))
     private def lam2(e: Expression) = LambdaFunction(e, Seq(xarg, yarg))

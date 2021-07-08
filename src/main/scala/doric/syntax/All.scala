@@ -13,3 +13,4 @@ trait All
     with BooleanColumns
     with StringColumns
     with ControlStructures
+    with AggregationColumns

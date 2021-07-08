@@ -1,87 +1,33 @@
 package doric
-package syntax
+package sem
 
 import doric.implicitConversions._
-import doric.sem.DoricMultiError
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.EitherValues
 
-class DataFrameOpsSpec
-    extends DoricTestElements
-    with Matchers
-    with EitherValues {
-  describe("Dataframe transformation methods") {
-    it("works withColumn") {
-      val result = spark
-        .range(10)
-        .withColumn("test", colLong("id") * 2L)
+class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
 
-      val errors = intercept[DoricMultiError] {
-        result.withColumn(
-          "error",
-          colString("error").unsafeCast[Long] + colLong("test") + colLong(
-            "test2"
-          )
-        )
-      }
+  import spark.implicits._
 
-      errors.errors.length shouldBe 2
-    }
+  private val left = spark
+    .range(10)
+    .toDF()
+    .withColumn(
+      "otherColumn",
+      concat(colLong("id").cast[String], "left")
+    )
+    .toDF()
+    .filter(colLong("id") > 3L)
+  private val right = spark
+    .range(10)
+    .toDF()
+    .withColumn(
+      "otherColumn",
+      concat(colLong("id").cast[String], "right")
+    )
+    .filter(colLong("id") < 7L)
 
-    it("works filter") {
-      val result = spark
-        .range(10)
-        .toDF()
-        .filter(colLong("id") > 2L)
-
-      val errors = intercept[DoricMultiError] {
-        result.filter(
-          colString("error").unsafeCast[Long] + colLong("id") + colLong(
-            "test2"
-          ) > 3L
-        )
-      }
-
-      errors.errors.length shouldBe 2
-    }
-
-    it("works select") {
-      val result = spark
-        .range(10)
-        .select(
-          colLong("id") > 2L as "mayor",
-          colLong("id").cast[String] as "casted",
-          colLong("id")
-        )
-
-      val errors = intercept[DoricMultiError] {
-        result.select(
-          colInt("id"),
-          colLong("id") + colLong("id"),
-          colLong("id2") + colLong("id3")
-        )
-      }
-
-      errors.errors.length shouldBe 3
-    }
-
-    val left = spark
-      .range(10)
-      .toDF()
-      .withColumn(
-        "otherColumn",
-        concat(colLong("id").cast[String], "left")
-      )
-      .toDF()
-      .filter(colLong("id") > 3L)
-    val right = spark
-      .range(10)
-      .toDF()
-      .withColumn(
-        "otherColumn",
-        concat(colLong("id").cast[String], "right")
-      )
-      .filter(colLong("id") < 7L)
+  describe("join ops") {
 
     it("works with join of same name and type columns") {
       val badRight = right
@@ -133,8 +79,6 @@ class DataFrameOpsSpec
 
     it("should prevent non key ambiguity using colFromDf") {
       val resultDF = left.innerJoinKeepLeftKeys(right, colLong("id"))
-
-      import spark.implicits._
 
       resultDF
         .withColumn("nonKeyColRight", colFromDF[String]("otherColumn", right))

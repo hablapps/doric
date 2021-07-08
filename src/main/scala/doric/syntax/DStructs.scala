@@ -58,7 +58,7 @@ trait DStructs {
                   fatherStructType.names
                 ).leftNec
               )(st =>
-                if (SparkType[T].isValid(st.dataType))
+                if (SparkType[T].isEqual(st.dataType))
                   vcolumn
                     .getItem(subColumnName)
                     .asRight[NonEmptyChain[DoricSingleError]]
