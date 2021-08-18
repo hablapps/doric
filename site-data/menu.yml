@@ -1,0 +1,14 @@
+options:
+  - title: Getting Started
+    url: docs/index
+    section: intro
+
+  - title: Installing doric
+    url: docs/installation
+
+  - title: Doric Typed Columns
+    url: docs/typed
+    section: resources
+
+  - title: Custom Types
+    url: docs/custom

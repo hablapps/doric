@@ -1,3 +1,5 @@
+enablePlugins(MicrositesPlugin)
+
 ThisBuild / organization := "org.hablapps"
 ThisBuild / homepage := Some(url("https://github.com/hablapps/doric"))
 ThisBuild / licenses := List(
@@ -11,6 +13,26 @@ ThisBuild / developers := List(
     url("https://github.com/alfonsorr")
   )
 )
+
+micrositeName := "Doric Website"
+micrositeDescription := "Doric documentation site"
+
+micrositeUrl := "https://hablapps.com"
+micrositeBaseUrl := "/doric"
+
+micrositeGithubOwner := "hablapps"
+micrositeGithubRepo := "doric"
+
+micrositeDataDirectory := baseDirectory.value / "site-data"
+micrositeDocumentationUrl := "/doric/docs"
+micrositeDocumentationLabelDescription := "Documentation"
+micrositeAuthor := "Alfonso Roa"
+micrositeOrganizationHomepage := "https://hablapps.com"
+micrositeHomepage := "https://hablapps.com/doric/"
+
+micrositePushSiteWith := GHPagesPlugin
+
+git.remoteRepo := "git@github.com:hablapps/doric.git"
 
 name := "doric"
 
