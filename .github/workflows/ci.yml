@@ -25,36 +25,3 @@ jobs:
           find $HOME/.ivy2/cache                       -name "ivydata-*.properties" -delete || true
           find $HOME/.cache/coursier/v1                -name "ivydata-*.properties" -delete || true
           find $HOME/.sbt                              -name "*.lock"               -delete || true
-
-  microsite:
-    name: Microsite
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v13
-
-      - name: Coursier cache
-        uses: coursier/cache-action@v6
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-
-      - name: Setup Jekyll
-        run: gem install jekyll -v 4.0.0
-
-      - name: Build the microsite
-        run: sbt publishMicrosite
-
-      - name: Cleaning for cache
-        run: |
-          rm -rf "$HOME/.ivy2/local" || true
-          find $HOME/Library/Caches/Coursier/v1        -name "ivydata-*.properties" -delete || true
-          find $HOME/.ivy2/cache                       -name "ivydata-*.properties" -delete || true
-          find $HOME/.cache/coursier/v1                -name "ivydata-*.properties" -delete || true
-          find $HOME/.sbt                              -name "*.lock"               -delete || true
