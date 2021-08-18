@@ -48,7 +48,7 @@ jobs:
         run: gem install jekyll -v 4.0.0
 
       - name: Build the microsite
-        run: sbt ++${{ matrix.scala }} docs/makeMicrosite
+        run: sbt publishMicrosite
 
       - name: Cleaning for cache
         run: |
