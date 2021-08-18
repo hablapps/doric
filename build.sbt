@@ -23,6 +23,13 @@ micrositeBaseUrl := "/doric"
 micrositeGithubOwner := "hablapps"
 micrositeGithubRepo := "doric"
 
+micrositeDataDirectory := baseDirectory.value / "site-data"
+micrositeDocumentationUrl := "/doric/docs"
+micrositeDocumentationLabelDescription := "Documentation"
+micrositeAuthor := "Alfonso Roa"
+micrositeOrganizationHomepage := "https://hablapps.com"
+micrositeHomepage := "https://hablapps.com/doric/"
+
 micrositePushSiteWith := GHPagesPlugin
 
 git.remoteRepo := "git@github.com:hablapps/doric.git"
