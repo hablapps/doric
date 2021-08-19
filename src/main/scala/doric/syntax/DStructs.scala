@@ -25,8 +25,10 @@ trait DStructs {
 
   /**
     * Creates a struct with the columns
-    * @param cols the columns that will form the struct
-    * @return A DStruct DoricColumn.
+    * @param cols
+    *   the columns that will form the struct
+    * @return
+    *   A DStruct DoricColumn.
     */
   def struct(cols: DoricColumn[_]*): DStructColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
@@ -35,10 +37,14 @@ trait DStructs {
 
     /**
       * Retreaves the child row of the Struct column
-      * @param subColumnName the column name expected to find in the struct.
-      * @param location the location if an error is generated
-      * @tparam T the expected type of the child column.
-      * @return a reference to the child column of the provided type.
+      * @param subColumnName
+      *   the column name expected to find in the struct.
+      * @param location
+      *   the location if an error is generated
+      * @tparam T
+      *   the expected type of the child column.
+      * @return
+      *   a reference to the child column of the provided type.
       */
     def getChild[T: SparkType](
         subColumnName: String

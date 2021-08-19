@@ -14,7 +14,7 @@ case class DoricMultiError(
 
     implicit class StringOps(s: String) {
       private val indentation = "  "
-      def withTabs: String    = indentation + s.replaceAll("\n", s"\n$indentation")
+      def withTabs: String = indentation + s.replaceAll("\n", s"\n$indentation")
     }
 
     implicit class JoinCases(errors: NonEmptyChain[DoricSingleError]) {

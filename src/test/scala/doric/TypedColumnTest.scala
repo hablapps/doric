@@ -38,19 +38,24 @@ trait TypedColumnTest {
     type Cast[To] = Casting[T, To]
 
     /**
-      * Checks that the actual state of the column still has the same type of the representation.
+      * Checks that the actual state of the column still has the same type of
+      * the representation.
       *
-      * @return the provided column
+      * @return
+      *   the provided column
       */
     def withTypeChecked: DoricColumn[T] = {
       withTypeChecked(dataType[T])
     }
 
     /**
-      * Checks that the actual state of the column still has the same type of the representation.
+      * Checks that the actual state of the column still has the same type of
+      * the representation.
       *
-      * @param expectedType the spark datatype expected in this moment
-      * @return the provided column
+      * @param expectedType
+      *   the spark datatype expected in this moment
+      * @return
+      *   the provided column
       */
     def withTypeChecked(expectedType: DataType): DoricColumn[T] = {
       tcolumn.elem
@@ -69,8 +74,10 @@ trait TypedColumnTest {
     /**
       * Cast and checks that the type is correct
       *
-      * @param expectedType the spark datatype expected in this moment
-      * @return the provided column casted to the type if
+      * @param expectedType
+      *   the spark datatype expected in this moment
+      * @return
+      *   the provided column casted to the type if
       */
     def testCastingTo[To: Cast: SparkType: ClassTag](
         expectedType: DataType
