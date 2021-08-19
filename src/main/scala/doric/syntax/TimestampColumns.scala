@@ -11,17 +11,20 @@ trait TimestampColumns {
   ) {
 
     /**
-      * @return the hour of the time.
+      * @return
+      *   the hour of the time.
       */
     def hour: IntegerColumn = column.elem.map(functions.hour).toDC
 
     /**
-      * @return a Date Column without the hour
+      * @return
+      *   a Date Column without the hour
       */
     def toDate: DateColumn = column.elem.map(functions.to_date).toDC
 
     /**
-      * @return a LocalDate Column without the hour
+      * @return
+      *   a LocalDate Column without the hour
       */
     def toLocalDate: LocalDateColumn = column.elem.map(functions.to_date).toDC
   }

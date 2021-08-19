@@ -14,7 +14,8 @@ import org.apache.spark.sql.types._
 
 /**
   * Typeclass to relate a type T with it's spark DataType
-  * @tparam T the scala type of the instance
+  * @tparam T
+  *   the scala type of the instance
   */
 @implicitNotFound(
   "Cant use the type ${T} to generate the typed column. Check your imported SparkType[${T}] instances"
@@ -23,15 +24,20 @@ trait SparkType[T] {
 
   /**
     * The spark DataType
-    * @return the spark DataType
+    * @return
+    *   the spark DataType
     */
   def dataType: DataType
 
   /**
-    * Validates if a column of the in put dataframe exist and is of the spark DataType provided
-    * @param colName name of the column to extract
-    * @param location object that links to the position if an error is created
-    * @return A Doric column that validates al the logic
+    * Validates if a column of the in put dataframe exist and is of the spark
+    * DataType provided
+    * @param colName
+    *   name of the column to extract
+    * @param location
+    *   object that links to the position if an error is created
+    * @return
+    *   A Doric column that validates al the logic
     */
   def validate(colName: String)(implicit location: Location): Doric[Column] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
@@ -48,9 +54,12 @@ trait SparkType[T] {
   }
 
   /**
-    * Checks if the datatype corresponds to the provided datatype, but skipping if can be null
-    * @param column the datatype to check
-    * @return true if the datatype is equal to the one of the typeclass
+    * Checks if the datatype corresponds to the provided datatype, but skipping
+    * if can be null
+    * @param column
+    *   the datatype to check
+    * @return
+    *   true if the datatype is equal to the one of the typeclass
     */
   def isEqual(column: DataType): Boolean = column == dataType
 
@@ -64,7 +73,8 @@ object SparkType {
     /**
       * The spark DataType
       *
-      * @return the spark DataType
+      * @return
+      *   the spark DataType
       */
     override def dataType: DataType = dt
   }

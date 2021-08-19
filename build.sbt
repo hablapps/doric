@@ -1,5 +1,5 @@
 ThisBuild / organization := "org.hablapps"
-ThisBuild / homepage := Some(url("https://github.com/hablapps/doric"))
+ThisBuild / homepage     := Some(url("https://github.com/hablapps/doric"))
 ThisBuild / licenses := List(
   "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 )
