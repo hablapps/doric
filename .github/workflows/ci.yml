@@ -46,13 +46,18 @@ jobs:
           ruby-version: 2.7
 
       - name: Setup Jekyll
-        run: gem install jekyll -v 4.0.0
+        run: gem install jekyll -v 4.2.0
 
       - name: Build the microsite
         run: |
+          sbt publishMicrosite
+      - name: Publish microsite
+        if: ${{ failure() }}
+        run: |
           git config --global user.name "gh-actions"
           git config --global user.email "actions@github.com"
-          sbt publishMicrosite
+          cd ~/.sbt/ghpages/*/org.hablapps/doric
+          git push
 
       - name: Cleaning for cache
         run: |
