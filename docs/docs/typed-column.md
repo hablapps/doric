@@ -1,6 +1,5 @@
 ---
 title: Typed columns in doric
-permalink: docs/typed
-toc: true
+permalink: docs/typed/
 ---
 Not yet sorry

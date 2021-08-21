@@ -8,3 +8,7 @@ docs:
         url: /docs/structure/
       - title: "Custom types"
         url: /docs/custom/
+
+main:
+  - title: "Documentation"
+    url: /docs/
