@@ -1,5 +1,5 @@
 remote_theme: "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default"
+minimal_mistakes_skin    : "air"
 name                     : "Your Name"
 description              : "Fast development API for spark"
 url                      : "https://hablapps.com"
@@ -36,6 +36,7 @@ defaults:
       type: docs
     values:
       layout: single
+      toc: true
       read_time: false
       author_profile: false
       share: false
