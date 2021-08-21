@@ -5,3 +5,7 @@ features:
 - second: ["Typed columns", "Implemented typed columns", "typed"]
 - third:  ["Custom types", "Create your own doric types", "custom"]
 ---
+
+```scala mdoc
+1 + 1
+```
