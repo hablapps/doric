@@ -6,5 +6,5 @@ docs:
         url: /docs/installation/
       - title: "Type Columns"
         url: /docs/structure/
-      - title: "Installation"
+      - title: "Custom types"
         url: /docs/custom/
