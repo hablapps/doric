@@ -33,30 +33,35 @@ jobs:
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          path: src
+
       - name: Setup Java and Scala
         uses: olafurpg/setup-scala@v13
 
       - name: Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-
-      - name: Setup Jekyll
-        run: gem install jekyll -v 4.2.0
-
       - name: Build the microsite
         run: |
-          sbt publishMicrosite
-      - name: Publish microsite
-        if: ${{ failure() }}
+          cd src
+          sbt docs/mdoc
+
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: docs
+
+      - name: Copy site to gh-pages branch
         run: |
           git config --global user.name "gh-actions"
           git config --global user.email "actions@github.com"
-          cd ~/.sbt/ghpages/*/org.hablapps/doric
+          cd ../docs
+          git rm -r .
+          cp ../src/.gitignore .gitignore
+          cp ../src/target/mdoc/* .
+          git add -A
+          git commit -a -m "Update site"
           git push
 
       - name: Cleaning for cache

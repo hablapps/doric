@@ -26,3 +26,5 @@ derby.log
 # Notebooks
 .ipynb_checkpoints
 /docs/.jekyll-cache/
+
+docs/
