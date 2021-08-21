@@ -1,5 +1,4 @@
 ---
-layout: docs
 title: Custom types in doric
 permalink: docs/custom
 ---
