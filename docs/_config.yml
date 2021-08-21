@@ -1,5 +1,5 @@
 remote_theme: "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "air"
+minimal_mistakes_skin    : "default"
 name                     : "Your Name"
 description              : "Fast development API for spark"
 url                      : "https://hablapps.com"
@@ -28,6 +28,20 @@ masthead_title           : "Doric"
 #    discussion_term      : # "pathname" (default), "url", "title", "og:title"
 #    reactions_enabled    : # '1' for enabled (default), '0' for disabled
 #    theme                : # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
+
+defaults:
+  # _docs
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "docs"
 
 plugins:
   - jekyll-paginate
