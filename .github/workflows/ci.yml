@@ -59,7 +59,7 @@ jobs:
           cd docs
           ls -lh
           pwd
-          git rm -r ./*
+          #git rm -r ./*
           cp -a ../src/.gitignore .gitignore
           ls -lh
           cp ../src/target/mdoc/* ./*
