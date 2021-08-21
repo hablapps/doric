@@ -59,9 +59,10 @@ jobs:
           pwd
           ls -lh
           cd docs
+          ls -lh
           git rm -r .
           cp -a ../src/.gitignore .gitignore
-          cp ../src/target/mdoc/* .
+          cp ../src/target/mdoc/* ./*
           git add -A
           git commit -a -m "Update site"
           git push
