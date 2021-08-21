@@ -62,7 +62,7 @@ jobs:
           #git rm -r *
           cp -a ../src/.gitignore .gitignore
           ls -lh
-          cp ../src/target/mdoc/* .
+          cp -p ../src/target/mdoc/* .
           git add -A
           git commit -a -m "Update site"
           git push
