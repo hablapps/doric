@@ -60,9 +60,10 @@ jobs:
           ls -lh
           pwd
           #git rm -r *
-          yes | cp -a ../src/.gitignore .gitignore
+          cp -a ../src/.gitignore .gitignore
           ls -lh
-          yes | cp -p ../src/target/mdoc/* .
+          cp -ar ../src/target/mdoc/* .
+          ls -lhr
           git add -A
           git commit -a -m "Update site"
           git push
