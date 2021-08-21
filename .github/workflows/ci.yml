@@ -60,7 +60,7 @@ jobs:
           ls -lh
           cd docs
           git rm -r .
-          cp ../src/.gitignore .gitignore
+          cp -a ../src/.gitignore .gitignore
           cp ../src/target/mdoc/* .
           git add -A
           git commit -a -m "Update site"
