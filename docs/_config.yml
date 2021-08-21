@@ -32,7 +32,7 @@ masthead_title           : "Doric"
 defaults:
   # _docs
   - scope:
-      path: "docs"
+      path: ""
     values:
       layout: single
       toc: true
