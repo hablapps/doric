@@ -1,0 +1,10 @@
+docs:
+  - title: Learn Doric
+    url: /docs/
+    children:
+      - title: "Installation"
+        url: /docs/installation/
+      - title: "Type Columns"
+        url: /docs/structure/
+      - title: "Installation"
+        url: /docs/custom/
