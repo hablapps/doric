@@ -4,8 +4,8 @@ docs:
     children:
       - title: "Installation"
         url: /docs/installation/
-      - title: "Type Columns"
-        url: /docs/structure/
+      - title: "Typed Columns"
+        url: /docs/typed/
       - title: "Custom types"
         url: /docs/custom/
 
