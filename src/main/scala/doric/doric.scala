@@ -13,6 +13,7 @@ package object doric extends syntax.All with sem.All {
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
 
   // Basic types
+  type UnknownColumn   = DoricColumn[Any]
   type BooleanColumn   = DoricColumn[Boolean]
   type StringColumn    = DoricColumn[String]
   type IntegerColumn   = DoricColumn[Int]
