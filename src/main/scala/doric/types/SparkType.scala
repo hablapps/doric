@@ -79,6 +79,21 @@ object SparkType {
     override def dataType: DataType = dt
   }
 
+  implicit val fromAny: SparkType[Any] = new SparkType[Any] {
+
+    /**
+      * The spark DataType
+      *
+      * @return
+      *   the spark DataType
+      */
+    override private[doric] def dataType: DataType =
+      throw new Exception("Doric Column with Any type doesn't have a dataType")
+    // Any can't be asked for its datatype
+
+    override def isEqual(column: DataType): Boolean = true
+  }
+
   implicit val fromBoolean: SparkType[Boolean] = SparkType[Boolean](BooleanType)
 
   implicit val fromStringDf: SparkType[String] = SparkType[String](StringType)
