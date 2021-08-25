@@ -15,16 +15,18 @@ package object doric extends syntax.All with sem.All {
 
   object Doric {
     def apply[T](a: T): Doric[T] =
-      Kleisli[DoricValidated, Dataset[_], T]{
-        _ => a.valid
+      Kleisli[DoricValidated, Dataset[_], T] { _ =>
+        a.valid
       }
   }
 
   private type DoricEither[A] = EitherNec[DoricSingleError, A]
-  private type Foo[F] = Kleisli[DoricEither, Dataset[_], F]
+  private type Foo[F]         = Kleisli[DoricEither, Dataset[_], F]
 
-  implicit private[doric] class SeqPar[A](a: Doric[A])(implicit P: Parallel.Aux[Foo, Doric]){
-    def seqFlatMap[B](f: A => Doric[B]): Doric[B] =  {
+  implicit private[doric] class SeqPar[A](a: Doric[A])(implicit
+      P: Parallel.Aux[Foo, Doric]
+  ) {
+    def seqFlatMap[B](f: A => Doric[B]): Doric[B] = {
       P.parallel(P.flatMap.flatMap(P.sequential(a))(x => P.sequential(f(x))))
     }
   }

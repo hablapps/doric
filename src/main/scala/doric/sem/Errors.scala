@@ -69,13 +69,14 @@ case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
 }
 
 case class ColumnMultyTypeError(
-                                 expectedTypes: List[DataType],
-                                 foundType: DataType
-                          )(implicit
-                            val location: Location
-                          ) extends DoricSingleError(None) {
+    expectedTypes: List[DataType],
+    foundType: DataType
+)(implicit
+    val location: Location
+) extends DoricSingleError(None) {
   override def message: String =
-    s"The matched column is of type $foundType and it was expected to be one of ${expectedTypes.mkString("[",", ","]")}"
+    s"The matched column is of type $foundType and it was expected to be one of ${expectedTypes
+      .mkString("[", ", ", "]")}"
 }
 
 case class ColumnTypeError(
