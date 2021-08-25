@@ -53,12 +53,14 @@ trait SparkType[T] {
     })
   }
 
-  def validateType(column: Column)(implicit location: Location): Doric[Column] = {
+  def validateType(
+      column: Column
+  )(implicit location: Location): Doric[Column] = {
     Kleisli[DoricValidated, Dataset[_], Column](_ => {
-        if (isEqual(column.expr.dataType))
-          Validated.valid(column)
-        else
-          ColumnTypeError("colName", dataType, column.expr.dataType).invalidNec
+      if (isEqual(column.expr.dataType))
+        Validated.valid(column)
+      else
+        ColumnTypeError("colName", dataType, column.expr.dataType).invalidNec
     })
   }
 
