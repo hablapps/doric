@@ -53,6 +53,15 @@ trait SparkType[T] {
     })
   }
 
+  def validateType(column: Column)(implicit location: Location): Doric[Column] = {
+    Kleisli[DoricValidated, Dataset[_], Column](_ => {
+        if (isEqual(column.expr.dataType))
+          Validated.valid(column)
+        else
+          ColumnTypeError("colName", dataType, column.expr.dataType).invalidNec
+    })
+  }
+
   /**
     * Checks if the datatype corresponds to the provided datatype, but skipping
     * if can be null
@@ -87,7 +96,7 @@ object SparkType {
       * @return
       *   the spark DataType
       */
-    override private[doric] def dataType: DataType =
+    override def dataType: DataType =
       throw new Exception("Doric Column with Any type doesn't have a dataType")
     // Any can't be asked for its datatype
 
