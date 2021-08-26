@@ -14,18 +14,14 @@ excerpt: "Fast development API for Apache Spark"
 intro:
 - excerpt: "Develop faster by having more information of each element of your ETL"
 feature_row:
-  - image_path: /assets/images/Logos_doric_0.png
+  - image_path: assets/images/Logos_doric_0.png
     alt: "placeholder image 1"
     title: "Fast development API"
     excerpt: "Type safe columns keepeng the dataframe we all love"
-  - image_path: /assets/images/Logos_doric_1.png
-    #image_caption: "Image courtesy of [Unsplash](https://unsplash.com/)"
+  - image_path: assets/images/Logos_doric_1.png
     alt: "placeholder image 2"
     title: "Placeholder 2"
     excerpt: "Full control of all your transformations. No more black magic implicit conversions"
-    url: "#test-link"
-    btn_label: "Read More"
-    btn_class: "btn--primary"
   - image_path: /assets/images/Logos_doric_2.png
     title: "Placeholder 3"
     excerpt: "Find more errors in each run. Doric will aggregate all wrong elements in each tranformation marking the like of code that creates it"
