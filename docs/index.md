@@ -12,9 +12,10 @@ header:
 excerpt: "Fast development API for Apache Spark"
 
 intro:
-- excerpt: "Develop faster by having more information of each element of your ETL"
+  - excerpt: "Develop faster by having more information of each element of your ETL"
+
 feature_row:
-  - image_path: assets/images/Logos_doric_0.png
+  - image_path: assets/images/Logos_doric_0.svg
     alt: "placeholder image 1"
     title: "Fast development API"
     excerpt: "Type safe columns keepeng the dataframe we all love"
@@ -29,3 +30,5 @@ feature_row:
 
 
 {% include feature_row id="intro" type="center" %}
+
+{% include feature_row %}
