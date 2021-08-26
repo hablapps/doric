@@ -16,15 +16,16 @@ intro:
 
 feature_row:
   - image_path: assets/images/Logos_doric_0.svg
-    alt: "placeholder image 1"
+    alt: "Fast development API"
     title: "Fast development API"
-    excerpt: "Type safe columns keepeng the dataframe we all love"
-  - image_path: assets/images/Logos_doric_1.png
-    alt: "placeholder image 2"
-    title: "Placeholder 2"
-    excerpt: "Full control of all your transformations. No more black magic implicit conversions"
-  - image_path: /assets/images/Logos_doric_2.png
-    title: "Placeholder 3"
+    excerpt: "Safer API keeping all the knowledge you already have about Dataframes"
+  - image_path: assets/images/Logos_doric_1.svg
+    alt: "Type safe columns"
+    title: "Type safe columns"
+    excerpt: "Expect more than an unknown type column, take full control of your ETL logic"
+  - image_path: /assets/images/Logos_doric_2.svg
+    alt: "Better error handling"
+    title: "Better error handling"
     excerpt: "Find more errors in each run. Doric will aggregate all wrong elements in each tranformation marking the like of code that creates it"
 ---
 
