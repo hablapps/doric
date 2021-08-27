@@ -40,6 +40,7 @@ updateOptions := updateOptions.value.withLatestSnapshots(false)
 lazy val core = project
   .in(file("core"))
   .settings(
+    name := "doric",
     run / fork := true,
     libraryDependencies ++= Seq(
       "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
