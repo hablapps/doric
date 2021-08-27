@@ -15,7 +15,7 @@ jobs:
       - name: Coursier cache
         uses: coursier/cache-action@v6
       - name: Test
-        run: sbt core / test
+        run: sbt core/test
       - name: Code Quality
         run: sbt scalafmtCheckAll
       - name: Cleaning for cache
