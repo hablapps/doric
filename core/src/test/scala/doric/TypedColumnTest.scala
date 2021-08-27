@@ -1,6 +1,6 @@
 package doric
 
-import scala.reflect.{ClassTag, _}
+import scala.reflect._
 
 import doric.types.{Casting, SparkType}
 
