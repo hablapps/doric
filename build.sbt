@@ -1,7 +1,3 @@
-
-
-enablePlugins(MdocPlugin)
-
 ThisBuild / organization := "org.hablapps"
 ThisBuild / homepage     := Some(url("https://github.com/hablapps/doric"))
 ThisBuild / licenses := List(
@@ -16,18 +12,7 @@ ThisBuild / developers := List(
   )
 )
 
-name := "doric"
-
-scalaVersion := "2.12.15"
-
-libraryDependencies ++= Seq(
-  "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
-  "org.typelevel"       %% "cats-core"        % "2.6.1",
-  "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
-  "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
-  "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
-  "org.scalatest"       %% "scalatest"        % "3.2.10" % "test"
-)
+Global / scalaVersion := "2.12.15"
 
 // scaladoc settings
 Compile / doc / scalacOptions ++= Seq("-groups")
@@ -52,9 +37,29 @@ scmInfo := Some(
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
-lazy val docs = project
-  .in(file(""))
+lazy val core = project
+  .in(file("core"))
   .settings(
+    run / fork := true,
+    libraryDependencies ++= Seq(
+      "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
+      "org.typelevel"       %% "cats-core"        % "2.6.1",
+      "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
+      "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
+      "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
+      "org.scalatest"       %% "scalatest"        % "3.2.10" % "test"
+    )
+  )
+
+lazy val docs = project
+  .in(file("docs"))
+  .dependsOn(core)
+  .settings(
+    run / fork := true,
+    mdocIn := baseDirectory.value / "docs",
+    libraryDependencies ++= Seq(
+      "org.apache.spark"    %% "spark-sql"        % "3.1.2"
+    ),
     mdocVariables := Map("VERSION" -> version.value),
     mdocExtraArguments := Seq(
       "--clean-target"
@@ -62,7 +67,7 @@ lazy val docs = project
   )
   .enablePlugins(MdocPlugin)
 
-scalacOptions ++= Seq(
+Global / scalacOptions ++= Seq(
   "-encoding",
   "utf8",             // Option and arguments on same line
   "-Xfatal-warnings", // New lines for each options

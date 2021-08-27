@@ -6,6 +6,8 @@ docs:
         url: /docs/installation/
       - title: "Typed Columns"
         url: /docs/typed/
+      - title: Error location
+        url: /docs/errors/
       - title: "Custom types"
         url: /docs/custom/
 
