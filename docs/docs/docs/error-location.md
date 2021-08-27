@@ -1,6 +1,6 @@
 ---
 title: Pingpointing the error place
-permalink: docs/errors
+permalink: docs/errors/
 ---
 
 # Errors in doric
