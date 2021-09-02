@@ -1,5 +1,6 @@
 ---
-title: Doric Documentation permalink: docs/
+title: Doric Documentation
+permalink: docs/
 ---
 
 # Introduction to doric
@@ -175,5 +176,5 @@ This conversion will transform any pure scala value, to it's representation in a
 colInt("int") + 1f //an integer with a float value cant be directly added in doric
 ```
 ```scala mdoc:fail
-concat("hi", 5)
+concat("hi", 5) // expects only strings and a integer is found
 ```
