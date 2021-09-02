@@ -3,7 +3,7 @@ package doric
 import doric.types.{Casting, SparkType}
 
 package object implicitConversions {
-  implicit def literalConversion[L](litv: L): DoricColumn[L] = {
+  implicit def literalConversion[L: SparkType](litv: L): DoricColumn[L] = {
     litv.lit
   }
 

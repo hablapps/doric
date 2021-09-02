@@ -8,7 +8,7 @@ import doric.types.{Casting, SparkType, UnsafeCasting}
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.types.DataType
 
-trait CommonColumns extends ColGetters[DoricColumn] {
+private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
 
   /**
     * Returns the spark `DataType` of the provided type
@@ -56,13 +56,18 @@ trait CommonColumns extends ColGetters[DoricColumn] {
       DoricColumn(column)
   }
 
+  /**
+    * Extension methods for any kind of column
+    * @group All Types
+    */
   implicit class BasicCol[T: SparkType](private val column: DoricColumn[T]) {
 
-    type CastToT[To]  = Casting[T, To]
-    type WCastToT[To] = UnsafeCasting[T, To]
+    private type CastToT[To]  = Casting[T, To]
+    private type WCastToT[To] = UnsafeCasting[T, To]
 
     /**
       * Gives the column an alias.
+      * @group All Types
       * @param colName
       *   the alias to set the column.
       * @return
@@ -72,6 +77,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Type safe equals between Columns
+      * @group All Types
       * @param other
       *   the column to compare
       * @return
@@ -92,6 +98,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Pipes the column with the provided transformation
+      * @group All Types
       * @param f
       *   the function to apply to the column.
       * @tparam O
@@ -103,6 +110,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Cast the column.
+      * @group All Types
       * @tparam To
       *   the type to cast to.
       * @return
@@ -114,6 +122,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
     /**
       * Allows to cast to posible wrong or with unexpected behaviour type, like
       * casting String to Int, that can be resulted in null types.
+      * @group All Types
       * @tparam To
       *   the type to cast to.
       * @return
@@ -124,6 +133,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Checks if the element is equal to any of the provided literals.
+      * @group All Types
       * @param elems
       *   literals to compare to
       * @return
@@ -133,6 +143,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Checks if the value of the column is null
+      * @group All Types
       * @return
       *   Boolean DoricColumn
       */
@@ -140,6 +151,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Checks if the value of the column is not null
+      * @group All Types
       * @return
       *   Boolean DoricColumn
       */
@@ -147,6 +159,7 @@ trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Checks if the value of the column is not a number
+      * @group All Types
       * @return
       *   Boolean DoricColumn
       */

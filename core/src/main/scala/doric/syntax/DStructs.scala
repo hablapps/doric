@@ -11,7 +11,7 @@ import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
-trait DStructs {
+private[syntax] trait DStructs {
 
   private type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
@@ -25,6 +25,7 @@ trait DStructs {
 
   /**
     * Creates a struct with the columns
+    * @group Struct Type
     * @param cols
     *   the columns that will form the struct
     * @return
@@ -37,6 +38,7 @@ trait DStructs {
 
     /**
       * Retreaves the child row of the Struct column
+      * @group Struct Type
       * @param subColumnName
       *   the column name expected to find in the struct.
       * @param location

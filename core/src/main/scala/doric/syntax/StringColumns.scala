@@ -5,12 +5,13 @@ import cats.implicits.{catsSyntaxTuple2Semigroupal, catsSyntaxTuple3Semigroupal,
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.{Column, functions => f}
 
-trait StringColumns {
+private[syntax] trait StringColumns {
 
   /**
     * Concatenate string columns to form a single one
     *
     * @group string_type
+    * @group String Type
     * @param cols
     *   the String DoricColumns to concatenate
     * @return

@@ -7,10 +7,11 @@ import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
-trait ArrayColumns {
+private[syntax] trait ArrayColumns {
 
   /**
     * Concatenates multiple array columns together into a single column.
+    * @group Array Type
     * @param cols
     *   the array columns, must be Arrays of the same type.
     * @tparam T
@@ -21,14 +22,22 @@ trait ArrayColumns {
   def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
     cols.toList.traverse(_.elem).map(f.concat(_: _*)).toDC
 
+  /**
+    * @group Array Type
+    */
   def array[T](cols: DoricColumn[T]*): DoricColumn[Array[T]] =
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
 
+  /**
+    * Extension methods for arrays
+    * @group Array Type
+    */
   implicit class ArrayColumnSyntax[T](private val col: ArrayColumn[T]) {
 
     /**
       * Selects the nth element of the array, returns null value if the length
       * is shorter than n.
+      * @group Array Type
       * @param n
       *   the index of the element to retreave.
       * @return
@@ -39,6 +48,7 @@ trait ArrayColumns {
 
     /**
       * Transform each element with the provided function.
+      * @group Array Type
       * @param fun
       *   lambda with the transformation to apply.
       * @tparam A
@@ -56,6 +66,7 @@ trait ArrayColumns {
     /**
       * Transform each element of the array with the provided function that
       * provides the index of the element in the array.
+      * @group Array Type
       * @param fun
       *   the lambda that takes in account the element of the array and the
       *   index and returns a new element.
@@ -74,6 +85,7 @@ trait ArrayColumns {
     /**
       * Aggregates (reduce) the array with the provided functions, similar to
       * scala fold left in collections, with a final transformation.
+      * @group Array Type
       * @param zero
       *   zero value
       * @param merge
@@ -99,6 +111,7 @@ trait ArrayColumns {
     /**
       * Aggregates (reduce) the array with the provided functions, similar to
       * scala fold left in collections.
+      * @group Array Type
       * @param zero
       *   zero value.
       * @param merge
@@ -119,6 +132,7 @@ trait ArrayColumns {
 
     /**
       * Filters the array elements using the provided condition.
+      * @group Array Type
       * @param p
       *   the condition to filter.
       * @return

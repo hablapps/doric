@@ -5,7 +5,7 @@ import doric.{DoricColumn, DoricJoinColumn}
 
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-trait JoinOps {
+private[sem] trait JoinOps {
   implicit class DataframeJoinSyntax[A](df: Dataset[A]) {
 
     /**
@@ -17,6 +17,7 @@ trait JoinOps {
       *   df1.join(df2,"outer", colString("dfKey"))
       * }}}
       *
+      * @group Join operation
       * @param df2
       *   Right side of the join.
       * @param joinType
@@ -62,6 +63,7 @@ trait JoinOps {
       *   df1.join(df2, joinColumn, "outer")
       * }}}
       *
+      * @group Join operation
       * @param df2
       *   Right side of the join.
       * @param colum
@@ -93,6 +95,7 @@ trait JoinOps {
       *   df1.innerJoinKeepLeftKeys(df2, colString("dfKey"))
       * }}}
       *
+      * @group Join operation
       * @param df2
       *   Right side of the join.
       * @param column

@@ -4,13 +4,15 @@ package sem
 import org.apache.spark.sql.{DataFrame, Dataset, RelationalGroupedDataset}
 import org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface
 
-trait AggregationOps extends RelationalGroupedDatasetDoricInterface {
+private[sem] trait AggregationOps
+    extends RelationalGroupedDatasetDoricInterface {
 
   implicit class DataframeAggSyntax(df: Dataset[_]) {
 
     /**
       * Groups the Dataset using the specified columns, so we can run
       * aggregation on them. See
+      * @group Group Dataframe operation
       */
     def groupBy(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkGroupBy(df.toDF(), cols: _*).returnOrThrow("groupBy")
@@ -19,6 +21,7 @@ trait AggregationOps extends RelationalGroupedDatasetDoricInterface {
     /**
       * Create a multi-dimensional cube for the current Dataset using the
       * specified columns, so we can run aggregation on them.
+      * @group Group Dataframe operation
       */
     def cube(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkCube(df.toDF(), cols: _*).returnOrThrow("cube")
@@ -27,6 +30,7 @@ trait AggregationOps extends RelationalGroupedDatasetDoricInterface {
     /**
       * Create a multi-dimensional rollup for the current Dataset using the
       * specified columns, so we can run aggregation on them.
+      * @group Group Dataframe operation
       */
     def rollup(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkRollup(df.toDF(), cols: _*).returnOrThrow("rollup")
@@ -40,6 +44,7 @@ trait AggregationOps extends RelationalGroupedDatasetDoricInterface {
       * that this function by default retains the grouping columns in its
       * output. To not retain grouping columns, set
       * `spark.sql.retainGroupColumns` to false.
+      * @group Group Dataframe operation
       */
     def agg(col: DoricColumn[_], cols: DoricColumn[_]*): DataFrame =
       sparkAgg(rel, col, cols: _*).returnOrThrow("agg")
@@ -50,6 +55,7 @@ trait AggregationOps extends RelationalGroupedDatasetDoricInterface {
       * the caller to specify the list of distinct values to pivot on, and one
       * that does not. The latter is more concise but less efficient, because
       * Spark needs to first compute the list of distinct values internally.
+      * @group Group Dataframe operation
       * @param expr
       *   doric column to pivot
       * @param values

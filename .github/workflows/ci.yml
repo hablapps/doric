@@ -46,23 +46,26 @@ jobs:
           cd src
           sbt docs/mdoc
 
+      - name: Build the scaladocs
+        run: |
+          cd src
+          sbt core/doc
+
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
         with:
           ref: gh-pages
           path: docs
 
-      - name: Copy site to gh-pages branch
+      - name: Copy sit and docs to gh-pages branch
         run: |
           git config --global user.name "gh-actions"
           git config --global user.email "actions@github.com"
           cd docs
-          ls -lh
-          pwd
-          #git rm -r *
+          git rm -r *
           cp -a ../src/.gitignore .gitignore
-          ls -lh
           cp -ar ../src/docs/target/mdoc/* .
+          cp -ar ../src/core/target/scala-2.12/api/* ./api/latest/
           ls -lhr
           git add -A
           git commit -a -m "Update site"

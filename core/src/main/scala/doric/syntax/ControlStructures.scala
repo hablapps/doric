@@ -1,10 +1,11 @@
 package doric
 package syntax
 
-trait ControlStructures {
+private[syntax] trait ControlStructures {
 
   /**
     * Initialize a when builder
+    * @group Control structure
     * @tparam T
     *   the type of the returnign DoricColumn
     * @return

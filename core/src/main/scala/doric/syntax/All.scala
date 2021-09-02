@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-trait All
+private[doric] trait All
     extends ArrayColumns
     with TypeMatcher
     with CommonColumns

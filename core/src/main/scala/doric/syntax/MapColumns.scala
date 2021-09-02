@@ -6,12 +6,13 @@ import cats.implicits._
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.functions.{map_keys, map_values}
 
-trait MapColumns {
+private[syntax] trait MapColumns {
 
   /**
     * Creates a new map column. The array in the first column is used for keys.
     * The array in the second column is used for values. All elements in the
     * array for key should not be null.
+    * @group Map Type
     * @param keys
     *   the array to create the keys.
     * @param values
@@ -33,6 +34,7 @@ trait MapColumns {
   /**
     * Creates a new map column. The input is formed by tuples of key and the
     * corresponding value.
+    * @group Map Type
     * @param first
     *   a pair of key value DoricColumns
     * @param rest
@@ -55,12 +57,17 @@ trait MapColumns {
     list.sequence.map(x => f.map(x: _*)).toDC
   }
 
+  /**
+    * Extension methods for Map Columns
+    * @group Map Type
+    */
   implicit class MapColumnOps[K, V](
       private val map: DoricColumn[Map[K, V]]
   ) {
 
     /**
       * Returns the value if exist of the key
+      * @group Map Type
       * @param key
       *   the required key
       * @return
@@ -71,6 +78,7 @@ trait MapColumns {
       (map.elem, key.elem).mapN(_(_)).toDC
 
     /**
+      * @group Map Type
       * @return
       *   the DoricColumn of the Array of keys
       */
@@ -78,6 +86,7 @@ trait MapColumns {
       map.elem.map(map_keys).toDC
 
     /**
+      * @group Map Type
       * @return
       *   the DoricColumn of the Array of values
       */

@@ -6,7 +6,7 @@ import cats.implicits.toTraverseOps
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.doric.DataFrameExtras
 
-trait TransformOps {
+private[sem] trait TransformOps {
 
   implicit class DataframeTransformationSyntax[A](df: Dataset[A]) {
 
@@ -18,6 +18,7 @@ trait TransformOps {
       * Dataset. It is an error to add a column that refers to some other
       * Dataset.
       *
+      * @group Dataframe Transformation operation
       * @note
       *   this method introduces a projection internally. Therefore, calling it
       *   multiple times, for instance, via loops in order to add multiple
@@ -74,6 +75,7 @@ trait TransformOps {
       *   peopleDs.where(colInt("age") > 15)
       * }}}
       *
+      * @group Dataframe Transformation operation
       * @param condition
       *   BooleanColumn that let pass elements that are true
       */
@@ -92,6 +94,7 @@ trait TransformOps {
       *   peopleDs.where(colInt("age") > 15)
       * }}}
       *
+      * @group Dataframe Transformation operation
       * @param condition
       *   BooleanColumn that let pass elements that are true
       */
@@ -107,6 +110,7 @@ trait TransformOps {
       * {{{
       *   ds.select(colString("colA"), colInt("colB") + 1.lit)
       * }}}
+      * @group Dataframe Transformation operation
       */
     def select(col: DoricColumn[_]*): DataFrame = {
       col.toList

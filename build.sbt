@@ -1,3 +1,5 @@
+import sbt.Compile
+
 ThisBuild / organization := "org.hablapps"
 ThisBuild / homepage     := Some(url("https://github.com/hablapps/doric"))
 ThisBuild / licenses := List(
@@ -49,6 +51,16 @@ lazy val core = project
       "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.10" % "test"
+      "org.scalatest"       %% "scalatest"        % "3.2.9" % "test"
+    ),
+    //docs
+    run / fork := true,
+    Compile / doc / autoAPIMappings := true,
+    Compile / doc / scalacOptions ++= Seq(
+      "-groups",
+      "-implicits",
+      "-skip-packages",
+      "org.apache.spark"
     )
   )
 
@@ -56,10 +68,9 @@ lazy val docs = project
   .in(file("docs"))
   .dependsOn(core)
   .settings(
-    run / fork := true,
     mdocIn := baseDirectory.value / "docs",
     libraryDependencies ++= Seq(
-      "org.apache.spark"    %% "spark-sql"        % "3.1.2"
+      "org.apache.spark" %% "spark-sql" % "3.1.2"
     ),
     mdocVariables := Map("VERSION" -> version.value),
     mdocExtraArguments := Seq(

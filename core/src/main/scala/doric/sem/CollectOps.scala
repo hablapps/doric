@@ -3,12 +3,13 @@ package sem
 
 import org.apache.spark.sql.{Dataset, Encoder}
 
-trait CollectOps {
+private[sem] trait CollectOps {
 
   implicit class CollectSyntax[A](df: Dataset[A]) {
 
     /**
       * Collects the provided columns of the dataframe
+      * @group Action operation
       * @param col1
       *   the Doric column to collect from the dataframe
       * @tparam T1
@@ -22,6 +23,7 @@ trait CollectOps {
 
     /**
       * Collects the provided columns of the dataframe
+      * @group Action operation
       * @param col1
       *   the Doric column to collect from the dataframe
       * @param col2
@@ -42,6 +44,7 @@ trait CollectOps {
 
     /**
       * Collects the provided columns of the dataframe
+      * @group Action operation
       * @param col1
       *   the Doric column to collect from the dataframe
       * @param col2
@@ -67,6 +70,7 @@ trait CollectOps {
 
     /**
       * Collects the provided columns of the dataframe
+      * @group Action operation
       * @param col1
       *   the Doric column to collect from the dataframe
       * @param col2

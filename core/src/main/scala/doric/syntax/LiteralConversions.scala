@@ -2,10 +2,11 @@ package doric
 package syntax
 
 import cats.implicits.catsSyntaxApplicativeId
+import doric.types.SparkType
 
 import org.apache.spark.sql.functions
 
-trait LiteralConversions {
+private[syntax] trait LiteralConversions {
 
   /**
     * Creates a literal with the provided value.
@@ -17,9 +18,10 @@ trait LiteralConversions {
     *   A doric column that represent the literal value and the same type as the
     *   value.
     */
-  def lit[L](litv: L): DoricColumn[L] = functions.lit(litv).pure[Doric].toDC
+  def lit[L: SparkType](litv: L): DoricColumn[L] =
+    functions.lit(litv).pure[Doric].toDC
 
-  implicit class LiteralOps[L](litv: L) {
+  implicit class LiteralOps[L: SparkType](litv: L) {
 
     /**
       * Transforms the original value to a literal.
