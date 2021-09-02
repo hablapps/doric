@@ -65,8 +65,8 @@ jobs:
           git rm -r *
           cp -a ../src/.gitignore .gitignore
           cp -ar ../src/docs/target/mdoc/* .
-          mkdir -p api/latest
-          cp -ar ../src/core/target/scala-2.12/api/* api/latest/
+          mkdir -p docs/api/latest
+          cp -ar ../src/core/target/scala-2.12/api/* docs/api/latest/
           ls -lhr
           git add -A
           git commit -a -m "Update site"

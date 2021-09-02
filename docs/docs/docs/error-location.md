@@ -12,7 +12,7 @@ import org.apache.spark.sql.{SparkSession, DataFrame}
 
 val spark = SparkSession
       .builder()
-      .master("local")
+      .master("local[1]")
       .config("spark.driver.bindAddress", "127.0.0.1")
       .appName("spark session")
       .getOrCreate()

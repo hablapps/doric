@@ -39,13 +39,14 @@ scmInfo := Some(
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
+val sparkVersion = "3.1.2"
 lazy val core = project
   .in(file("core"))
   .settings(
     name := "doric",
     run / fork := true,
     libraryDependencies ++= Seq(
-      "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
+      "org.apache.spark"    %% "spark-sql"        % sparkVersion % "provided",
       "org.typelevel"       %% "cats-core"        % "2.6.1",
       "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
       "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
@@ -68,11 +69,15 @@ lazy val docs = project
   .in(file("docs"))
   .dependsOn(core)
   .settings(
+    run / fork := true,
     mdocIn := baseDirectory.value / "docs",
     libraryDependencies ++= Seq(
-      "org.apache.spark" %% "spark-sql" % "3.1.2"
+      "org.apache.spark" %% "spark-sql" % sparkVersion
     ),
-    mdocVariables := Map("VERSION" -> version.value),
+    mdocVariables := Map(
+      "VERSION" -> version.value,
+      "SPARK_VERSION" -> sparkVersion
+    ),
     mdocExtraArguments := Seq(
       "--clean-target"
     )
