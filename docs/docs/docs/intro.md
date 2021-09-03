@@ -20,7 +20,6 @@ val spark = SparkSession
       .config("spark.driver.bindAddress", "127.0.0.1")
       .appName("spark session")
       .getOrCreate()
-      
 ```
 
 ```scala mdoc
@@ -45,7 +44,7 @@ val df = List("hi", "welcome", "to", "doric").toDF("str")
 df.select(stringCol).show()
 ```
 
-Doric adds a extra layer of knowledge to your column assigning a type, that is checked against the spark datatype in the
+Doric adds an extra layer of knowledge to your column assigning a type, that is checked against the spark datatype in the
 dataframe. As in the case of a dataframe that we ask the wrong column name, doric will also detect that the type is not
 the expected.
 
@@ -88,7 +87,7 @@ Also, if you don't want to use doric to transform a column, you can transform a 
 df.select(f.col("str").asDoric[String]).show()
 ```
 
-But we recomend to use always the columns selectors from doric to prevent errors that doric can detect in compile time
+But we recommend to use always the columns selectors from doric to prevent errors that doric can detect in compile time
 ```scala mdoc:crash
 val sparkToDoricColumn = (f.col("str") + f.lit(true)).asDoric[String]
 df.select(sparkToDoricColumn).show
@@ -101,14 +100,14 @@ col[String]("str") + true.lit
 
 ## Sweet doric syntax sugar
 ### Column selector alias
-We know that doric can be seen as an extra boilerplate to get the columns, that's why we provide some extra methods to aquire the columns.
+We know that doric can be seen as an extra boilerplate to get the columns, that's why we provide some extra methods to acquire the columns.
 ```scala mdoc
 colString("str") // similar to col[String]("str")
 colInt("int") // similar to col[Int]("int")
 colArray[Int]("int") // similar to col[Array[Int]]("int")
 ```
 ### Readable syntax
-Doric tries to be less SQL verbose, and adopt a more object oriented API, allowing the developer to view with the dot notation of scala the methods that can be used.
+Doric tries to be less SQL verbose, and adopt a more object-oriented API, allowing the developer to view with the dot notation of scala the methods that can be used.
 ```scala mdoc
 val dfArrays = List(("string", Array(1,2,3))).toDF("str", "arr")
 ```
@@ -147,7 +146,7 @@ dfArrays.select(complexCol as "complexTransformation").show
 ```
 
 ### Literal conversions
-Some times spark allows to add direct literal values to simplify code
+Sometimes spark allows adding direct literal values to simplify code
 ```scala mdoc
 
 val intDF = List(1,2,3).toDF("int")
@@ -163,7 +162,7 @@ val colD = colInt("int") + 1.lit
 intDF.select(colD).show
 ```
 
-This is de basic flavor to work with doric, but this obvious transformations can be suggarice if we import an implicit conversion
+This is de basic flavor to work with doric, but this obvious transformations can be simplified if we import an implicit conversion
 ```scala mdoc
 import doric.implicitConversions.literalConversion
 val colSugarD = colInt("int") + 1
