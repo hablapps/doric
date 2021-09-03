@@ -107,7 +107,7 @@ colString("str") // similar to col[String]("str")
 colInt("int") // similar to col[Int]("int")
 colArray[Int]("int") // similar to col[Array[Int]]("int")
 ```
-
+### Readable syntax
 Doric tries to be less SQL verbose, and adopt a more object oriented API, allowing the developer to view with the dot notation of scala the methods that can be used.
 ```scala mdoc
 val dfArrays = List(("string", Array(1,2,3))).toDF("str", "arr")
