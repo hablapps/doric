@@ -70,6 +70,7 @@ lazy val docs = project
   .dependsOn(core)
   .settings(
     run / fork := true,
+    run / javaOptions += "-XX:MaxJavaStackTraceDepth=10",
     mdocIn := baseDirectory.value / "docs",
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion

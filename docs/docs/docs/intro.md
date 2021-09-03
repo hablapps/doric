@@ -3,7 +3,8 @@ title: Doric Documentation
 permalink: docs/
 ---
 
-# Introduction to doric
+# Introduction to Doric
+## First steps with Doric
 
 Doric is very easy to work with, follow the [installation guide]({{ site.baseurl }}{% link docs/installation.md %})
 first.
@@ -26,7 +27,7 @@ val spark = SparkSession
 import doric._
 ```
 
-If you have basic knowlege of spark you have to change the way to reference to columns, only adding the expected type of
+If you have basic knowledge of spark you have to change the way to reference to columns, only adding the expected type of
 the column.
 
 ```scala mdoc
@@ -71,7 +72,7 @@ val stringPlusInt = col[Int]("int") + col[String]("str")
 ```
  This way we won't have any kind of unexpected behaviour in our process.
  
-## Doric doesn't force you to use it all the time
+## Mix doric and spark
 Doric only adds method to your everyday Spark Dataframe, you can mix spark selects and doric.
 
 ```scala mdoc
@@ -87,7 +88,7 @@ Also, if you don't want to use doric to transform a column, you can transform a 
 df.select(f.col("str").asDoric[String]).show()
 ```
 
-But we recomend to use allways the columns selectors from doric to prevent errors that doric can detect in compile time
+But we recomend to use always the columns selectors from doric to prevent errors that doric can detect in compile time
 ```scala mdoc:crash
 val sparkToDoricColumn = (f.col("str") + f.lit(true)).asDoric[String]
 df.select(sparkToDoricColumn).show
@@ -155,7 +156,7 @@ val colS = f.col("int") + 1
 intDF.select(colS).show
 ```
 
-Doric is a little more strict, forcing to transform this values to literal columns
+Doric is a little stricter, forcing to transform this values to literal columns
 ```scala mdoc
 val colD = colInt("int") + 1.lit
 
@@ -171,7 +172,7 @@ val columConcatLiterals = concat("this", "is","doric") // concat expects DoricCo
 intDF.select(colSugarD, columConcatLiterals).show
 ```
 
-This conversion will transform any pure scala value, to it's representation in a doric column, only if the type is valid
+This conversion will transform any pure scala value, to its representation in a doric column, only if the type is valid
 ```scala mdoc:fail
 colInt("int") + 1f //an integer with a float value cant be directly added in doric
 ```
