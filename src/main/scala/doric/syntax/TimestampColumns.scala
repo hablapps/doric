@@ -6,6 +6,7 @@ import doric.types.TimestampType
 import org.apache.spark.sql.functions
 
 trait TimestampColumns {
+
   implicit class TimestampColumnLikeSyntax[T: TimestampType](
       column: DoricColumn[T]
   ) {

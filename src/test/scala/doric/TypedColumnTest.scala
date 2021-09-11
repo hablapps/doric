@@ -2,6 +2,8 @@ package doric
 
 import scala.reflect.{ClassTag, _}
 import scala.reflect.runtime.universe._
+import scala.reflect._
+
 import doric.types.{Casting, SparkType}
 import org.apache.spark.sql.types.DataType
 import org.apache.spark.sql.{Column, DataFrame, Encoder}
@@ -218,6 +220,7 @@ trait TypedColumnTest extends Matchers {
         )
       }
     }
+
 
     def validateColumnType[T: SparkType](
         column: DoricColumn[T],

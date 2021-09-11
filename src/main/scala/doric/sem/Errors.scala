@@ -9,6 +9,7 @@ case class DoricMultiError(
     functionType: String,
     errors: NonEmptyChain[DoricSingleError]
 ) extends Throwable(errors.head.getCause) {
+
   override def getMessage: String = {
     val length = errors.length
 
@@ -69,13 +70,15 @@ case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
 }
 
 case class ColumnMultyTypeError(
+    columnName: String,
     expectedTypes: List[DataType],
     foundType: DataType
 )(implicit
     val location: Location
 ) extends DoricSingleError(None) {
+
   override def message: String =
-    s"The matched column is of type $foundType and it was expected to be one of ${expectedTypes
+    s"The matched column with name '$columnName' is of type $foundType and it was expected to be one of ${expectedTypes
       .mkString("[", ", ", "]")}"
 }
 
@@ -86,6 +89,7 @@ case class ColumnTypeError(
 )(implicit
     val location: Location
 ) extends DoricSingleError(None) {
+
   override def message: String =
     s"The column with name '$columnName' is of type $foundType and it was expected to be $expectedType"
 }
@@ -96,6 +100,7 @@ case class ChildColumnNotFound(
 )(implicit
     val location: Location
 ) extends DoricSingleError(None) {
+
   override def message: String =
     s"No such struct field $columnName among nested columns ${validColumns
       .mkString("(", ", ", ")")}"
@@ -108,6 +113,7 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
 }
 
 object Location {
+
   implicit def location(implicit
       line: sourcecode.Line,
       file: sourcecode.FileName

@@ -18,6 +18,7 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
     )
     .toDF()
     .filter(colLong("id") > 3L)
+
   private val right = spark
     .range(10)
     .toDF()

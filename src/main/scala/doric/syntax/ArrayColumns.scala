@@ -131,6 +131,7 @@ trait ArrayColumns {
 
     private def x[A]: DoricColumn[A] =
       DoricColumn.uncheckedTypeAndExistence[A](new Column(xarg))
+
     private def y[A]: DoricColumn[A] =
       DoricColumn.uncheckedTypeAndExistence[A](new Column(yarg))
 

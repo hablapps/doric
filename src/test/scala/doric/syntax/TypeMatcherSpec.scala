@@ -4,9 +4,9 @@ package syntax
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-class AnyColumnsSpec
+class TypeMatcherSpec
     extends DoricTestElements
-    with AnyColumns
+    with TypeMatcher
     with ArrayColumns
     with EitherValues
     with Matchers {
@@ -17,8 +17,7 @@ class AnyColumnsSpec
     describe("matchTo") {
       val df = List((List(1, 2, 3), 1)).toDF("colArr", "int")
       it("should check the first valid match") {
-        val testColumn = col[Any]("colArr")
-          .matchTo[Int]
+        val testColumn = matchToType[Int]("colArr")
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[Int]](_.getIndex(0) + col("int"))
@@ -31,8 +30,7 @@ class AnyColumnsSpec
       }
 
       it("should return the default parameter") {
-        val testColumn = col[Any]("colArr")
-          .matchTo[Int]
+        val testColumn = matchToType[Int]("colArr")
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[String]](_.getIndex(0).unsafeCast)
@@ -45,8 +43,7 @@ class AnyColumnsSpec
       }
 
       it("should return an error in case of valid match has an error") {
-        val testColumn = col[Any]("colArr")
-          .matchTo[Int]
+        val testColumn = matchToType[Int]("colArr")
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[Int]](_.getIndex(0) + col("int2"))
@@ -60,8 +57,7 @@ class AnyColumnsSpec
       it(
         "should return an error if no mach used and the default case has an error"
       ) {
-        val testColumn = col[Any]("colArr")
-          .matchTo[Int]
+        val testColumn = matchToType[Int]("colArr")
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .inOtherCase(col("int3"))
@@ -74,15 +70,14 @@ class AnyColumnsSpec
       it(
         "should return an error if no mach used and no default case added"
       ) {
-        val testColumn = col[Any]("colArr")
-          .matchTo[Int]
+        val testColumn = matchToType[Int]("colArr")
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .inOtherCaseError
 
         val errors = testColumn.elem.run(df).toEither.left.value
         errors.length shouldBe 1
-        errors.head.message shouldBe "The matched column is of type IntegerType and it was expected to be one of [StringType, IntegerType]"
+        errors.head.message shouldBe "The matched column with name 'colArr' is of type IntegerType and it was expected to be one of [StringType, IntegerType]"
       }
     }
   }

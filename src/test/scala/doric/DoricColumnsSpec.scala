@@ -16,6 +16,7 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
     col[T]("column").elem.run(df).toEither.value
   }
+
   def testValueNullable[T: SparkType](
       example: T
   )(implicit enc: Encoder[Option[T]]): Unit = {
@@ -84,20 +85,6 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
       col[String]("col.0").elem.run(df).toEither.value
       col[String]("col.1").elem.run(df).toEither.value
       col[String]("col.2").elem.run(df).toEither.value
-    }
-    it("works for any with any spark type") {
-      val df = List(("hola", 13, List("hola"), ("val1", "val2"))).toDF(
-        "str",
-        "int",
-        "list_str",
-        "tuple"
-      )
-      col[Any]("str").elem.run(df).toEither.value
-      col[Any]("int").elem.run(df).toEither.value
-      col[Any]("list_str").elem.run(df).toEither.value
-      col[Any]("tuple").elem.run(df).toEither.value
-      col[Any]("tuple._1").elem.run(df).toEither.value
-      col[DStruct]("tuple").getChild[Any]("_1").elem.run(df).toEither.value
     }
   }
 

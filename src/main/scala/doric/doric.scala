@@ -14,10 +14,14 @@ package object doric extends syntax.All with sem.All {
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
 
   object Doric {
+
     def apply[T](a: T): Doric[T] =
       Kleisli[DoricValidated, Dataset[_], T] { _ =>
         a.valid
       }
+
+    private[doric] def unchecked(colName: String): Doric[Column] =
+      Doric(org.apache.spark.sql.functions.col(colName))
   }
 
   private type DoricEither[A] = EitherNec[DoricSingleError, A]
@@ -26,6 +30,7 @@ package object doric extends syntax.All with sem.All {
   implicit private[doric] class SeqPar[A](a: Doric[A])(implicit
       P: Parallel.Aux[Foo, Doric]
   ) {
+
     def seqFlatMap[B](f: A => Doric[B]): Doric[B] = {
       P.parallel(P.flatMap.flatMap(P.sequential(a))(x => P.sequential(f(x))))
     }
@@ -58,6 +63,7 @@ package object doric extends syntax.All with sem.All {
   private[doric] implicit class DoricValidatedErrorHandler[T](
       dv: DoricValidated[T]
   ) {
+
     def asSideDfError(isLeft: Boolean): DoricValidated[T] =
       dv.leftMap(_.map(sem.JoinDoricSingleError(_, isLeft)))
   }

@@ -14,6 +14,9 @@ trait AggregationColumns {
   def count(col: DoricColumn[_]): LongColumn =
     col.elem.map(f.count).toDC
 
+  def count(colName: String): LongColumn =
+    Doric.unchecked(colName).map(f.count).toDC
+
   def first[T](col: DoricColumn[T]): DoricColumn[T] =
     col.elem.map(f.first).toDC
 

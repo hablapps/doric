@@ -4,6 +4,7 @@ package sem
 class AggregationOpsSpec extends DoricTestElements {
 
   import spark.implicits._
+
   describe("Aggregate") {
     val df =
       List((1, "5", 1), (3, "5", 2), (2, "3", 3))

@@ -11,6 +11,7 @@ import org.apache.spark.sql.{Column, Dataset}
 case class DoricColumn[T](elem: Doric[Column])
 
 object DoricColumn extends ColGetters[DoricColumn] {
+
   override protected def constructSide[T](
       column: Doric[Column]
   ): DoricColumn[T] = DoricColumn(column)
