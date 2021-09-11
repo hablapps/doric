@@ -14,7 +14,6 @@ private[syntax] trait DateColumns {
     /**
       * Sets the moment to the last day of the same month.
       * @group Date Type
-      * @return
       */
     def endOfMonth: DoricColumn[T] = column.elem.map(functions.last_day).toDC
 
