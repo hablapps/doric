@@ -14,7 +14,7 @@ ThisBuild / developers := List(
 
 name := "doric"
 
-scalaVersion := "2.12.14"
+scalaVersion := "2.12.15"
 
 libraryDependencies ++= Seq(
   "org.apache.spark"    %% "spark-sql"        % "3.1.2" % "provided",
