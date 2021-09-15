@@ -24,11 +24,11 @@ package object doric extends syntax.All with sem.All {
       Doric(org.apache.spark.sql.functions.col(colName))
   }
 
-  private type DoricEither[A] = EitherNec[DoricSingleError, A]
-  private type Foo[F]         = Kleisli[DoricEither, Dataset[_], F]
+  private type DoricEither[A]   = EitherNec[DoricSingleError, A]
+  private type SequenceDoric[F] = Kleisli[DoricEither, Dataset[_], F]
 
   implicit private[doric] class SeqPar[A](a: Doric[A])(implicit
-      P: Parallel.Aux[Foo, Doric]
+      P: Parallel.Aux[SequenceDoric, Doric]
   ) {
 
     def seqFlatMap[B](f: A => Doric[B]): Doric[B] = {
@@ -37,7 +37,6 @@ package object doric extends syntax.All with sem.All {
   }
 
   // Basic types
-  type UnknownColumn   = DoricColumn[Any]
   type BooleanColumn   = DoricColumn[Boolean]
   type StringColumn    = DoricColumn[String]
   type IntegerColumn   = DoricColumn[Int]
