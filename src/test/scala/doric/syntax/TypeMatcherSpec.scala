@@ -15,18 +15,28 @@ class TypeMatcherSpec
 
   describe("Any column Ops") {
     describe("matchTo") {
-      val df = List((List(1, 2, 3), 1)).toDF("colArr", "int")
+      val df = List((List(1, 2, 3), 1, "1200")).toDF("colArr", "int", "str")
       it("should check the first valid match") {
-        val testColumn = matchToType[Int]("colArr")
+        val testColumn: String => IntegerColumn = matchToType[Int](_)
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[Int]](_.getIndex(0) + col("int"))
           .inOtherCase(12.lit)
 
-        df.withColumn("result", testColumn)
+        df.withColumn("result", testColumn("colArr"))
           .select("result")
           .as[Int]
           .head() shouldBe 2
+
+        df.withColumn("result", testColumn("int"))
+          .select("result")
+          .as[Int]
+          .head() shouldBe 1
+
+        df.withColumn("result", testColumn("str"))
+          .select("result")
+          .as[Int]
+          .head() shouldBe 1200
       }
 
       it("should return the default parameter") {
