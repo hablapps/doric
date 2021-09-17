@@ -61,7 +61,7 @@ class TypeMatcherSpec
 
         val errors = testColumn.elem.run(df).toEither.left.value
         errors.length shouldBe 1
-        errors.head.message shouldBe "Cannot resolve column name \"int2\" among (colArr, int)"
+        errors.head.message shouldBe "Cannot resolve column name \"int2\" among (colArr, int, str)"
       }
 
       it(
@@ -74,7 +74,7 @@ class TypeMatcherSpec
 
         val errors = testColumn.elem.run(df).toEither.left.value
         errors.length shouldBe 1
-        errors.head.message shouldBe "Cannot resolve column name \"int3\" among (colArr, int)"
+        errors.head.message shouldBe "Cannot resolve column name \"int3\" among (colArr, int, str)"
       }
 
       it(
