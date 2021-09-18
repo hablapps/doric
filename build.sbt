@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
   "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
   "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
-  "org.scalatest"       %% "scalatest"        % "3.2.9" % "test"
+  "org.scalatest"       %% "scalatest"        % "3.2.10" % "test"
 )
 
 // scaladoc settings
