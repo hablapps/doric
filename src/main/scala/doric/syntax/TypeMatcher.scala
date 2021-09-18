@@ -16,8 +16,9 @@ private[doric] case class MatchType(
 )
 
 private[doric] case class EmptyTypeMatcher[A: SparkType](
-                                                      columnName: String
-                                                    ) {
+    columnName: String
+) {
+
   /**
     * If the column matches de type, applies the transformation
     * @param f
@@ -28,19 +29,21 @@ private[doric] case class EmptyTypeMatcher[A: SparkType](
     *   The builder to continue to configure
     */
   def caseType[B: SparkType](
-                              f: DoricColumn[B] => DoricColumn[A]
-                            ): NonEmptyTypeMatcher[A] = {
+      f: DoricColumn[B] => DoricColumn[A]
+  ): NonEmptyTypeMatcher[A] = {
     val validated: Doric[Column] =
       col[B](columnName).elem
 
     val transformed = f(validated.toDC)
     NonEmptyTypeMatcher(
       columnName = columnName,
-      transformations = List(MatchType(
-        validated,
-        transformed,
-        SparkType[B].dataType
-      ))
+      transformations = List(
+        MatchType(
+          validated,
+          transformed,
+          SparkType[B].dataType
+        )
+      )
     )
   }
 }
