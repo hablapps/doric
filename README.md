@@ -8,7 +8,7 @@ Type-safe columns for DataFrames!
 ![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)
 
 Doric offers type-safety in DataFrame column expressions at a minimum
-cost, without compromising performace. In particular, doric allows you
+cost, without compromising performance. In particular, doric allows you
 to:
 
 * Get rid of malformed column expressions at compile time

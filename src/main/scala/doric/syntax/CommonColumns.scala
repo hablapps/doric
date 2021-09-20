@@ -5,7 +5,7 @@ import cats.implicits._
 import doric.sem.Location
 import doric.types.{Casting, SparkType, UnsafeCasting}
 
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.types.DataType
 
 trait CommonColumns extends ColGetters[DoricColumn] {
@@ -18,6 +18,21 @@ trait CommonColumns extends ColGetters[DoricColumn] {
     *   the spark `DataType`
     */
   @inline def dataType[T: SparkType]: DataType = SparkType[T].dataType
+
+  /**
+    * Returns the first column that is not null, or null if all inputs are null.
+    *
+    * For example, `coalesce(a, b, c)` will return a if a is not null, or b if a
+    * is null and b is not null, or c if both a and b are null but c is not
+    * null.
+    *
+    * @param cols
+    *   the String DoricColumns to coalesce
+    * @return
+    *   the first column that is not null, or null if all inputs are null.
+    */
+  def coalesce[T](cols: DoricColumn[T]*): DoricColumn[T] =
+    cols.map(_.elem).toList.sequence.map(f.coalesce(_: _*)).toDC
 
   override protected def constructSide[T](
       column: Doric[Column]
@@ -60,10 +75,20 @@ trait CommonColumns extends ColGetters[DoricColumn] {
       * @param other
       *   the column to compare
       * @return
-      *   a reference to a Boolean DoricColumn whit the comparation
+      *   a reference to a Boolean DoricColumn with the comparation
       */
     def ===(other: DoricColumn[T]): BooleanColumn =
       (column.elem, other.elem).mapN(_ === _).toDC
+
+    /**
+      * Type safe distinct between Columns
+      * @param other
+      *   the column to compare
+      * @return
+      *   a reference to a Boolean DoricColumn with the comparation
+      */
+    def =!=(other: DoricColumn[T]): BooleanColumn =
+      (column.elem, other.elem).mapN(_ =!= _).toDC
 
     /**
       * Pipes the column with the provided transformation

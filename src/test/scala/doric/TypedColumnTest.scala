@@ -1,15 +1,224 @@
 package doric
 
 import scala.reflect.{ClassTag, _}
-
+import scala.reflect.runtime.universe._
 import doric.types.{Casting, SparkType}
-
 import org.apache.spark.sql.types.DataType
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{Column, DataFrame, Encoder}
+import org.scalactic._
+import org.scalatest.matchers.should.Matchers
 
-trait TypedColumnTest {
+trait TypedColumnTest extends Matchers {
 
   implicit class ValidateColumnType(df: DataFrame) {
+
+    private lazy val doricCol = "dcol"
+    private lazy val sparkCol = "scol"
+
+    /**
+      * @param column1
+      *   literal or column name
+      * @param dcolumn
+      *   function to get doric column
+      * @param scolumn
+      *   function to get spark column
+      * @param expected
+      *   list of values
+      * @tparam I1
+      *   literal or column type
+      * @tparam T
+      *   Comparing column type
+      */
+    def testColumns[I1, T: SparkType: TypeTag: Equality](
+        column1: I1
+    )(
+        dcolumn: I1 => DoricColumn[T],
+        scolumn: I1 => Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val result = df.select(
+        dcolumn(column1).as(doricCol),
+        scolumn(column1).asDoric[T].as(sparkCol)
+      )
+
+      compareDifferences(result, expected)
+    }
+
+    /**
+      * @param column1
+      *   literal or column name
+      * @param column2
+      *   literal or column name
+      * @param dcolumn
+      *   function to get doric column
+      * @param scolumn
+      *   function to get spark column
+      * @param expected
+      *   list of values
+      * @tparam I1
+      *   literal or column type
+      * @tparam I2
+      *   literal or column type
+      * @tparam T
+      *   Comparing column type
+      */
+    def testColumns2[I1, I2, T: SparkType: TypeTag: Equality](
+        column1: I1,
+        column2: I2
+    )(
+        dcolumn: (I1, I2) => DoricColumn[T],
+        scolumn: (I1, I2) => Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val result = df.select(
+        dcolumn(column1, column2).as(doricCol),
+        scolumn(column1, column2).asDoric[T].as(sparkCol)
+      )
+
+      compareDifferences(result, expected)
+    }
+
+    /**
+      * @param column1
+      *   literal or column name
+      * @param column2
+      *   literal or column name
+      * @param column3
+      *   literal or column name
+      * @param dcolumn
+      *   function to get doric column
+      * @param scolumn
+      *   function to get spark column
+      * @param expected
+      *   list of values
+      * @tparam I1
+      *   literal or column type
+      * @tparam I2
+      *   literal or column type
+      * @tparam I3
+      *   literal or column type
+      * @tparam T
+      *   Comparing column type
+      */
+    def testColumns3[I1, I2, I3, T: SparkType: TypeTag: Equality](
+        column1: I1,
+        column2: I2,
+        column3: I3
+    )(
+        dcolumn: (I1, I2, I3) => DoricColumn[T],
+        scolumn: (I1, I2, I3) => Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val result = df.select(
+        dcolumn(column1, column2, column3).as(doricCol),
+        scolumn(column1, column2, column3).asDoric[T].as(sparkCol)
+      )
+
+      compareDifferences(result, expected)
+    }
+
+    /**
+      * @param column1
+      *   literal or column name
+      * @param column2
+      *   literal or column name
+      * @param column3
+      *   literal or column name
+      * @param column4
+      *   literal or column name
+      * @param dcolumn
+      *   function to get doric column
+      * @param scolumn
+      *   function to get spark column
+      * @param expected
+      *   list of values
+      * @tparam I1
+      *   literal or column type
+      * @tparam I2
+      *   literal or column type
+      * @tparam I3
+      *   literal or column type
+      * @tparam I4
+      *   literal or column type
+      * @tparam T
+      *   Comparing column type
+      */
+    def testColumns4[I1, I2, I3, I4, T: SparkType: TypeTag: Equality](
+        column1: I1,
+        column2: I2,
+        column3: I3,
+        column4: I4
+    )(
+        dcolumn: (I1, I2, I3, I4) => DoricColumn[T],
+        scolumn: (I1, I2, I3, I4) => Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val result = df.select(
+        dcolumn(column1, column2, column3, column4).as(doricCol),
+        scolumn(column1, column2, column3, column4).asDoric[T].as(sparkCol)
+      )
+
+      compareDifferences(result, expected)
+    }
+
+    /**
+      * @param df
+      *   Spark dataFrame
+      * @param expected
+      *   list of values
+      * @tparam T
+      *   Comparing column type
+      */
+    private def compareDifferences[T: SparkType: TypeTag: Equality](
+        df: DataFrame,
+        expected: List[Option[T]]
+    ): Unit = {
+
+      val equalsColumn = "equals"
+      val result = df
+        .withColumn(
+          equalsColumn,
+          (
+            col[T](doricCol) === col(sparkCol)
+              or (
+                col(doricCol).isNull
+                  and col(sparkCol).isNull
+              )
+          ).as(equalsColumn)
+        )
+        .na
+        .fill(Map(equalsColumn -> false))
+
+      implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
+        result.sparkSession.implicits
+          .newProductEncoder[(Option[T], Option[T], Boolean)]
+      val rows = result.as[(Option[T], Option[T], Boolean)].collect().toList
+
+      val doricColumns   = rows.map(_._1)
+      val sparkColumns   = rows.map(_._2)
+      val boolResColumns = rows.map(_._3)
+
+      assert(
+        boolResColumns.reduce(_ && _),
+        s"\nDoric function & Spark function return different values\n" +
+          s"Doric   : $doricColumns\n" +
+          s"Spark   : $sparkColumns}" +
+          s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
+      )
+
+      if (expected.nonEmpty) {
+        import Equalities._
+        assert(
+          doricColumns === expected,
+          s"\nDoric and Spark functions return different values than expected"
+        )
+      }
+    }
+
     def validateColumnType[T: SparkType](
         column: DoricColumn[T],
         show: Boolean = false
