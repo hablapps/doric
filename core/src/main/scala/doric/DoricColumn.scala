@@ -8,7 +8,7 @@ import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset}
 
-case class DoricColumn[T](elem: Doric[Column])
+case class DoricColumn[T](private[doric] val elem: Doric[Column])
 
 object DoricColumn extends ColGetters[DoricColumn] {
   override protected def constructSide[T](

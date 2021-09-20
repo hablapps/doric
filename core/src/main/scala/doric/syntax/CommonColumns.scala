@@ -88,6 +88,7 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
 
     /**
       * Type safe distinct between Columns
+      * @group All Types
       * @param other
       *   the column to compare
       * @return
