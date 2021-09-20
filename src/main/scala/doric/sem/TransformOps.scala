@@ -52,6 +52,22 @@ trait TransformOps {
     }
 
     /**
+      * Returns a new dataset by adding all columns, or replacing the existing
+      * columns that has the same name. If a column name is twice in the same
+      * 'withColumns' this method will throw an exception.
+      *
+      * @param namesAndCols
+      *   tuples of name and column expression
+      */
+    def withColumns(
+        namesAndCols: Map[String, DoricColumn[_]]
+    ): DataFrame = {
+      if (namesAndCols.isEmpty) df.toDF
+      else
+        withColumns(namesAndCols.toList: _*)
+    }
+
+    /**
       * Filters rows using the given condition.
       * {{{
       *   // The following are equivalent:

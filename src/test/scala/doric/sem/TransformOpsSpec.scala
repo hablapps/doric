@@ -75,7 +75,20 @@ class TransformOpsSpec
           "e" -> colLong("id")
         )
         .columns
-      colNames.length shouldBe 6
+
+      val x = Map(
+        "a" -> colLong("id"),
+        "b" -> colLong("id"),
+        "c" -> colLong("id"),
+        "d" -> colLong("id"),
+        "e" -> colLong("id")
+      )
+
+      val colNames2 = spark
+        .range(10)
+        .withColumns(x)
+        .columns
+      colNames2.length shouldBe 6
     }
 
     it("throws an error if names are repeated") {
