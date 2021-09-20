@@ -64,7 +64,6 @@ object Casting {
 }
 
 trait SparkCasting[From, To] extends Casting[From, To] {
-
   override def cast(column: DoricColumn[From])(implicit
       fromType: SparkType[From],
       toType: SparkType[To]
