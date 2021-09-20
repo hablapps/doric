@@ -63,5 +63,32 @@ class TransformOpsSpec
 
       errors.errors.length shouldBe 3
     }
+
+    it("acept multiple withColumns") {
+      val colNames = spark
+        .range(10)
+        .withColumns(
+          "a" -> colLong("id"),
+          "b" -> colLong("id"),
+          "c" -> colLong("id"),
+          "d" -> colLong("id"),
+          "e" -> colLong("id")
+        ).columns
+      colNames.length shouldBe 6
+    }
+
+    it("throws an error if names are repeated") {
+      val error = intercept[Exception] {
+        spark
+          .range(10)
+          .withColumns(
+            "a" -> colLong("id"),
+            "a" -> colLong("id"),
+            "b" -> colLong("id"),
+            "b" -> colLong("id")
+          )
+      }
+      error.getMessage shouldBe "Found duplicate column(s) in given column names: `a`, `b`"
+    }
   }
 }

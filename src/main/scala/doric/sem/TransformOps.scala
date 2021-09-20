@@ -4,6 +4,7 @@ package sem
 import cats.implicits.toTraverseOps
 
 import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.doric.DataFrameExtras
 
 trait TransformOps {
 
@@ -23,11 +24,23 @@ trait TransformOps {
       *   columns can generate big plans which can cause performance issues and
       *   even `StackOverflowException`.
       */
-    def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
+    def withColumn(colName: String, col: DoricColumn[_]): DataFrame = {
       col.elem
         .run(df.toDF())
         .map(df.withColumn(colName, _))
         .returnOrThrow("withColumn")
+    }
+
+    def withColumns(
+        namesAndCols: (String, DoricColumn[_])*
+    ): DataFrame = {
+      if (namesAndCols.isEmpty) df.toDF
+      else
+        namesAndCols.toList
+          .traverse(_._2.elem)
+          .run(df)
+          .map(DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1), _))
+          .returnOrThrow("withColumns")
     }
 
     /**
