@@ -4,6 +4,7 @@ package sem
 import cats.implicits.toTraverseOps
 
 import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.doric.DataFrameExtras
 
 trait TransformOps {
 
@@ -23,11 +24,46 @@ trait TransformOps {
       *   columns can generate big plans which can cause performance issues and
       *   even `StackOverflowException`.
       */
-    def withColumn[T](colName: String, col: DoricColumn[T]): DataFrame = {
+    def withColumn(colName: String, col: DoricColumn[_]): DataFrame = {
       col.elem
         .run(df.toDF())
         .map(df.withColumn(colName, _))
         .returnOrThrow("withColumn")
+    }
+
+    /**
+      * Returns a new dataset by adding all columns, or replacing the existing
+      * columns that has the same name. If a column name is twice in the same
+      * 'withColumns' this method will throw an exception.
+      *
+      * @param namesAndCols
+      *   tuples of name and column expression
+      */
+    def withColumns(
+        namesAndCols: (String, DoricColumn[_])*
+    ): DataFrame = {
+      if (namesAndCols.isEmpty) df.toDF
+      else
+        namesAndCols.toList
+          .traverse(_._2.elem)
+          .run(df)
+          .map(DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1), _))
+          .returnOrThrow("withColumns")
+    }
+
+    /**
+      * Returns a new dataset by adding all columns, or replacing the existing
+      * columns that has the same name.
+      *
+      * @param namesAndCols
+      *   tuples of name and column expression
+      */
+    def withColumns(
+        namesAndCols: Map[String, DoricColumn[_]]
+    ): DataFrame = {
+      if (namesAndCols.isEmpty) df.toDF
+      else
+        withColumns(namesAndCols.toList: _*)
     }
 
     /**
