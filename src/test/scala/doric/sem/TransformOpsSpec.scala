@@ -73,7 +73,8 @@ class TransformOpsSpec
           "c" -> colLong("id"),
           "d" -> colLong("id"),
           "e" -> colLong("id")
-        ).columns
+        )
+        .columns
       colNames.length shouldBe 6
     }
 
