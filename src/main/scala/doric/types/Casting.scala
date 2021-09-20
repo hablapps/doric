@@ -5,7 +5,6 @@ import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
 trait Casting[From, To] {
-
   def cast(column: DoricColumn[From])(implicit
       fromType: SparkType[From],
       toType: SparkType[To]

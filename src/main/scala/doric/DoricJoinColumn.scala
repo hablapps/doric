@@ -6,13 +6,11 @@ import doric.syntax.ColGetters
 import org.apache.spark.sql.Column
 
 case class DoricJoinColumn(elem: DoricJoin[Column]) {
-
   def &&(other: DoricJoinColumn): DoricJoinColumn =
     (elem, other.elem).mapN(_ && _).toDJC
 }
 
 object LeftDF extends ColGetters[LeftDoricColumn] {
-
   @inline override protected def constructSide[T](
       column: Doric[Column]
   ): LeftDoricColumn[T] =
@@ -23,7 +21,6 @@ object LeftDF extends ColGetters[LeftDoricColumn] {
 }
 
 object RightDF extends ColGetters[RightDoricColumn] {
-
   @inline override protected def constructSide[T](
       column: Doric[Column]
   ): RightDoricColumn[T] =

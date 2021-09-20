@@ -16,11 +16,9 @@ trait DStructs {
   private type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
 
   private val toValidated = new FunctionK[DoricEither, DoricValidated] {
-
     override def apply[A](fa: DoricEither[A]): DoricValidated[A] =
       fa.toValidated
   }
-
   private val toEither = new FunctionK[DoricValidated, DoricEither] {
     override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
   }

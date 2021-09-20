@@ -62,7 +62,6 @@ package object doric extends syntax.All with sem.All {
   private[doric] implicit class DoricValidatedErrorHandler[T](
       dv: DoricValidated[T]
   ) {
-
     def asSideDfError(isLeft: Boolean): DoricValidated[T] =
       dv.leftMap(_.map(sem.JoinDoricSingleError(_, isLeft)))
   }

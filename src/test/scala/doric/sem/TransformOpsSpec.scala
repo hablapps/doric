@@ -9,7 +9,6 @@ class TransformOpsSpec
     extends DoricTestElements
     with Matchers
     with EitherValues {
-
   describe("Dataframe transformation methods") {
     it("works withColumn") {
       val result = spark

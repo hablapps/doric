@@ -10,14 +10,12 @@ package types
   *   The destiny type of the data
   */
 trait UnsafeCasting[From, To] {
-
   def cast(column: DoricColumn[From])(implicit
       constructor: SparkType[To]
   ): DoricColumn[To]
 }
 
 private[doric] object UnsafeCasting {
-
   @inline def apply[From, To](implicit
       imp: UnsafeCasting[From, To]
   ): UnsafeCasting[From, To] =
@@ -62,7 +60,6 @@ private[doric] object UnsafeCasting {
   *   The destiny type of the data
   */
 trait SparkUnsafeCasting[From, To] extends UnsafeCasting[From, To] {
-
   override def cast(column: DoricColumn[From])(implicit
       constructor: SparkType[To]
   ): DoricColumn[To] =
@@ -70,7 +67,6 @@ trait SparkUnsafeCasting[From, To] extends UnsafeCasting[From, To] {
 }
 
 object SparkUnsafeCasting {
-
   def apply[From, To]: UnsafeCasting[From, To] =
     new SparkUnsafeCasting[From, To] {}
 }

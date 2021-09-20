@@ -53,17 +53,6 @@ trait SparkType[T] {
     })
   }
 
-  def validateType(
-      column: Column
-  )(implicit location: Location): Doric[Column] = {
-    Kleisli[DoricValidated, Dataset[_], Column](_ => {
-      if (isEqual(column.expr.dataType))
-        Validated.valid(column)
-      else
-        ColumnTypeError("colName", dataType, column.expr.dataType).invalidNec
-    })
-  }
-
   /**
     * Checks if the datatype corresponds to the provided datatype, but skipping
     * if can be null
@@ -125,7 +114,6 @@ object SparkType {
 
   implicit def fromMap[K: SparkType, V: SparkType]: SparkType[Map[K, V]] =
     new SparkType[Map[K, V]] {
-
       override def dataType: DataType =
         MapType(SparkType[K].dataType, SparkType[V].dataType)
 
@@ -138,7 +126,6 @@ object SparkType {
 
   implicit def fromArray[A: SparkType]: SparkType[Array[A]] =
     new SparkType[Array[A]] {
-
       override def dataType: DataType = ArrayType(
         implicitly[SparkType[A]].dataType
       )

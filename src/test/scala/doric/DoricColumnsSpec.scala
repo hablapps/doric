@@ -16,7 +16,6 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
     col[T]("column").elem.run(df).toEither.value
   }
-
   def testValueNullable[T: SparkType](
       example: T
   )(implicit enc: Encoder[Option[T]]): Unit = {

@@ -6,7 +6,6 @@ import doric.{DoricColumn, DoricJoinColumn}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 trait JoinOps {
-
   implicit class DataframeJoinSyntax[A](df: Dataset[A]) {
 
     /**

@@ -9,7 +9,6 @@ sealed abstract class JoinSideDoricColumn[T] protected (
     val elem: Doric[Column]
 ) {
   type OtherSide <: JoinSideDoricColumn[T]
-
   def ===(otherElem: OtherSide): DoricJoinColumn = {
     val isLeft = this.isInstanceOf[LeftDoricColumn[T]]
 
