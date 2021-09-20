@@ -5,9 +5,9 @@ import org.apache.spark.sql.{Column, DataFrame, Dataset}
 object DataFrameExtras {
 
   def withColumnsE[T](
-      df: Dataset[T],
+      ds: Dataset[T],
       colNames: Seq[String],
       cols: Seq[Column]
   ): DataFrame =
-    df.withColumns(colNames, cols)
+    ds.withColumns(colNames, cols)
 }

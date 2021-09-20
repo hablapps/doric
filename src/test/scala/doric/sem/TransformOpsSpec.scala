@@ -64,7 +64,7 @@ class TransformOpsSpec
       errors.errors.length shouldBe 3
     }
 
-    it("acept multiple withColumns") {
+    it("accepts multiple withColumns") {
       val colNames = spark
         .range(10)
         .withColumns(
