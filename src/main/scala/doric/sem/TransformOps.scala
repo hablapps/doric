@@ -53,8 +53,7 @@ trait TransformOps {
 
     /**
       * Returns a new dataset by adding all columns, or replacing the existing
-      * columns that has the same name. If a column name is twice in the same
-      * 'withColumns' this method will throw an exception.
+      * columns that has the same name.
       *
       * @param namesAndCols
       *   tuples of name and column expression
