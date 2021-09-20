@@ -3,6 +3,7 @@ package syntax
 
 trait All
     extends ArrayColumns
+    with TypeMatcher
     with CommonColumns
     with DStructs
     with LiteralConversions

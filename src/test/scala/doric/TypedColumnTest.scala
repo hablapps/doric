@@ -1,12 +1,14 @@
 package doric
 
-import scala.reflect.{ClassTag, _}
+import scala.reflect._
 import scala.reflect.runtime.universe._
+
 import doric.types.{Casting, SparkType}
-import org.apache.spark.sql.types.DataType
-import org.apache.spark.sql.{Column, DataFrame, Encoder}
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
+
+import org.apache.spark.sql.{Column, DataFrame, Encoder}
+import org.apache.spark.sql.types.DataType
 
 trait TypedColumnTest extends Matchers {
 
