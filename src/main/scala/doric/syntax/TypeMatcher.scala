@@ -78,7 +78,7 @@ private[doric] case class NonEmptyTypeMatcher[A: SparkType](
     )
   }
 
-  def getFirstValid(df: Dataset[_]): Option[DoricValidated[Column]] =
+  private def getFirstValid(df: Dataset[_]): Option[DoricValidated[Column]] =
     transformations.reverse
       .collectFirst {
         case MatchType(v, t, _) if v.run(df).isValid => t.elem.run(df)
