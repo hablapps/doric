@@ -2,15 +2,15 @@ package doric
 package syntax
 
 import cats.implicits.{catsSyntaxTuple2Semigroupal, catsSyntaxTuple3Semigroupal, catsSyntaxTuple4Semigroupal, toTraverseOps}
-import org.apache.spark.sql.catalyst.expressions._
+
 import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.catalyst.expressions._
 
 private[syntax] trait StringColumns {
 
   /**
     * Concatenate string columns to form a single one
     *
-    * @group string_type
     * @group String Type
     * @param cols
     *   the String DoricColumns to concatenate
@@ -25,7 +25,7 @@ private[syntax] trait StringColumns {
     * Formats the arguments in printf-style and returns the result as a string
     * column.
     *
-    * @group string_type
+    * @group String Type
     * @param format
     *   Printf format
     * @param arguments
@@ -62,7 +62,7 @@ private[syntax] trait StringColumns {
       * Computes the numeric value of the first character of the string column,
       * and returns the result as an int column.
       *
-      * @group string_type
+      * @group String Type
       */
     def ascii: IntegerColumn = s.elem.map(f.ascii).toDC
 
@@ -72,7 +72,7 @@ private[syntax] trait StringColumns {
       *
       * For example, "hello world" will become "Hello World".
       *
-      * @group string_type
+      * @group String Type
       */
     def initcap: StringColumn = s.elem.map(f.initcap).toDC
 
@@ -80,7 +80,7 @@ private[syntax] trait StringColumns {
       * Locate the position of the first occurrence of substr column in the
       * given string. Returns null if either of the arguments are null.
       *
-      * @group string_type
+      * @group String Type
       * @note
       *   The position is not zero based, but 1 based index. Returns 0 if substr
       *   could not be found in str.
@@ -97,14 +97,14 @@ private[syntax] trait StringColumns {
       * binary string. The length of character strings include the trailing
       * spaces. The length of binary strings includes binary zeros.
       *
-      * @group string_type
+      * @group String Type
       */
     def length: IntegerColumn = s.elem.map(f.length).toDC
 
     /**
       * Computes the Levenshtein distance of the two given string columns.
       *
-      * @group string_type
+      * @group String Type
       */
     def levenshtein(dc: StringColumn): IntegerColumn =
       (s.elem, dc.elem).mapN(f.levenshtein).toDC
@@ -113,7 +113,7 @@ private[syntax] trait StringColumns {
       * Locate the position of the first occurrence of substr in a string
       * column, after position pos.
       *
-      * @group string_type
+      * @group String Type
       * @note
       *   The position is not zero based, but 1 based index. returns 0 if substr
       *   could not be found in str.
@@ -131,7 +131,7 @@ private[syntax] trait StringColumns {
     /**
       * Converts a string column to lower case.
       *
-      * @group string_type
+      * @group String Type
       */
     def lower: StringColumn = s.elem.map(f.lower).toDC
 
@@ -140,7 +140,7 @@ private[syntax] trait StringColumns {
       * column is longer than len, the return value is shortened to len
       * characters.
       *
-      * @group string_type
+      * @group String Type
       */
     def lpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
@@ -152,7 +152,7 @@ private[syntax] trait StringColumns {
     /**
       * Trim the spaces from left end for the specified string value.
       *
-      * @group string_type
+      * @group String Type
       */
     def ltrim: StringColumn = s.elem.map(f.ltrim).toDC
 
@@ -160,7 +160,7 @@ private[syntax] trait StringColumns {
       * Trim the specified character string from left end for the specified
       * string column.
       *
-      * @group string_type
+      * @group String Type
       */
     def ltrim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -173,7 +173,7 @@ private[syntax] trait StringColumns {
       * Overlay the specified portion of `src` with `replace`, starting from
       * byte position `pos` of `src` and proceeding for `len` bytes.
       *
-      * @group string_type
+      * @group String Type
       */
     def overlay(
         replace: StringColumn,
@@ -189,7 +189,7 @@ private[syntax] trait StringColumns {
       * exceeds the group count of regex, an IllegalArgumentException will be
       * thrown.
       *
-      * @group string_type
+      * @group String Type
       */
     def regexpExtract(
         exp: StringColumn,
@@ -205,7 +205,7 @@ private[syntax] trait StringColumns {
       * Replace all substrings of the specified string value that match regexp
       * with replacement.
       *
-      * @group string_type
+      * @group String Type
       */
     def regexpReplace(
         pattern: StringColumn,
@@ -216,7 +216,7 @@ private[syntax] trait StringColumns {
     /**
       * Repeats a string column n times, and returns it as a new string column.
       *
-      * @group string_type
+      * @group String Type
       */
     def repeat(n: IntegerColumn): StringColumn = (s.elem, n.elem)
       .mapN((str, times) => new Column(StringRepeat(str.expr, times.expr)))
@@ -227,7 +227,7 @@ private[syntax] trait StringColumns {
       * column is longer than len, the return value is shortened to len
       * characters.
       *
-      * @group string_type
+      * @group String Type
       */
     def rpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
@@ -237,7 +237,7 @@ private[syntax] trait StringColumns {
     /**
       * Trim the spaces from right end for the specified string value.
       *
-      * @group string_type
+      * @group String Type
       */
     def rtrim: StringColumn = s.elem.map(f.rtrim).toDC
 
@@ -245,7 +245,7 @@ private[syntax] trait StringColumns {
       * Trim the specified character string from right end for the specified
       * string column.
       *
-      * @group string_type
+      * @group String Type
       */
     def rtrim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -255,7 +255,7 @@ private[syntax] trait StringColumns {
     /**
       * Returns the soundex code for the specified expression.
       *
-      * @group string_type
+      * @group String Type
       */
     def soundex: StringColumn = s.elem.map(f.soundex).toDC
 
@@ -266,7 +266,7 @@ private[syntax] trait StringColumns {
       *   a string representing a regular expression. The regex string should be
       *   a Java regular expression.
       *
-      * @group string_type
+      * @group String Type
       */
     def split(pattern: StringColumn): ArrayColumn[String] =
       split(pattern, (-1).lit)
@@ -274,7 +274,7 @@ private[syntax] trait StringColumns {
     /**
       * Splits str around matches of the given pattern.
       *
-      * @group string_type
+      * @group String Type
       * @param pattern
       *   a string representing a regular expression. The regex string should be
       *   a Java regular expression.
@@ -299,7 +299,7 @@ private[syntax] trait StringColumns {
       * or returns the slice of byte array that starts at `pos` in byte and is
       * of length `len` when str is Binary type
       *
-      * @group string_type
+      * @group String Type
       * @note
       *   The position is not zero based, but 1 based index.
       */
@@ -316,7 +316,7 @@ private[syntax] trait StringColumns {
       * returned. substring_index performs a case-sensitive match when searching
       * for delim.
       *
-      * @group string_type
+      * @group String Type
       */
     def substringIndex(
         delim: StringColumn,
@@ -334,7 +334,7 @@ private[syntax] trait StringColumns {
       * matchingString. The translate will happen when any character in the
       * string matches the character in the `matchingString`.
       *
-      * @group string_type
+      * @group String Type
       */
     def translate(
         matchingString: StringColumn,
@@ -349,7 +349,7 @@ private[syntax] trait StringColumns {
     /**
       * Trim the spaces from both ends for the specified string column.
       *
-      * @group string_type
+      * @group String Type
       */
     def trim: StringColumn = s.elem.map(f.trim).toDC
 
@@ -357,7 +357,7 @@ private[syntax] trait StringColumns {
       * Trim the specified character from both ends for the specified string
       * column (literal).
       *
-      * @group string_type
+      * @group String Type
       */
     def trim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -369,7 +369,7 @@ private[syntax] trait StringColumns {
     /**
       * Converts a string column to upper case.
       *
-      * @group string_type
+      * @group String Type
       */
     def upper: StringColumn = s.elem.map(f.upper).toDC
 
@@ -382,7 +382,7 @@ private[syntax] trait StringColumns {
       * Contains the other element. Returns a boolean column based on a string
       * match.
       *
-      * @group string_type
+      * @group String Type
       */
     def contains(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.contains(_)).toDC
@@ -390,7 +390,7 @@ private[syntax] trait StringColumns {
     /**
       * String ends with. Returns a boolean column based on a string match.
       *
-      * @group string_type
+      * @group String Type
       */
     def endsWith(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.endsWith(_)).toDC
@@ -398,7 +398,7 @@ private[syntax] trait StringColumns {
     /**
       * SQL like expression. Returns a boolean column based on a SQL LIKE match.
       *
-      * @group string_type
+      * @group String Type
       */
     def like(literal: StringColumn): BooleanColumn =
       (s.elem, literal.elem)
@@ -409,7 +409,7 @@ private[syntax] trait StringColumns {
       * SQL RLIKE expression (LIKE with Regex). Returns a boolean column based
       * on a regex match.
       *
-      * @group string_type
+      * @group String Type
       */
     def rLike(literal: StringColumn): BooleanColumn =
       (s.elem, literal.elem)
@@ -419,7 +419,7 @@ private[syntax] trait StringColumns {
     /**
       * String starts with. Returns a boolean column based on a string match.
       *
-      * @group string_type
+      * @group String Type
       */
     def startsWith(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.startsWith(_)).toDC
@@ -430,7 +430,7 @@ private[syntax] trait StringColumns {
       * SQL RLIKE expression (LIKE with Regex). Returns a boolean column based
       * on a regex match.
       *
-      * @group string_type
+      * @group String Type
       */
     def matchRegex(literal: StringColumn): BooleanColumn = rLike(literal)
 
@@ -442,7 +442,7 @@ private[syntax] trait StringColumns {
     /**
       * Similar to concat doric function, but only with two columns
       *
-      * @group string_type
+      * @group String Type
       */
     def +(s2: StringColumn): StringColumn = concat(s, s2)
 
@@ -453,7 +453,7 @@ private[syntax] trait StringColumns {
       * href="https://spark.apache.org/docs/latest/sql-ref-datetime-pattern.html">
       * Datetime Patterns</a> for valid date and time format patterns
       *
-      * @group string_type
+      * @group String Type
       * @param format
       *   A date time pattern detailing the format of `e` when `e`is a string
       * @return
@@ -474,7 +474,7 @@ private[syntax] trait StringColumns {
       * href="https://spark.apache.org/docs/latest/sql-ref-datetime-pattern.html">
       * Datetime Patterns</a> for valid date and time format patterns
       *
-      * @group string_type
+      * @group String Type
       * @param format
       *   A date time pattern detailing the format of `s` when `s` is a string
       * @return
