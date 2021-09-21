@@ -74,7 +74,7 @@ jobs:
           ls -lhr
           git add -A
           git commit -a -m "Update site"
-          git push -u
+          git push --set-upstream origin doc-temp
 
 
       - name: Cleaning for cache
