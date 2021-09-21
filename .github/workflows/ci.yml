@@ -70,7 +70,8 @@ jobs:
           ls -lhr
           git add -A
           git commit -a -m "Update site"
-          git push
+          git push -u https://${{secrets.PAT_ALF}}@github.com/hablapps/doric.git
+
 
       - name: Cleaning for cache
         run: |
