@@ -32,8 +32,6 @@ jobs:
     steps:
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
-        with:
-          path: src
 
       - name: Setup Java and Scala
         uses: olafurpg/setup-scala@v13
@@ -43,38 +41,22 @@ jobs:
 
       - name: Build the microsite
         run: |
-          cd src
           sbt docs/mdoc
 
       - name: Build the scaladocs
         run: |
-          cd src
           sbt core/doc
-
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-          path: docs
 
       - name: Copy sit and docs to gh-pages branch
         run: |
-          git config --global user.name "gh-actions"
-          git config --global user.email "actions@github.com"
-          cd docs
-          git status
-          git branch doc-temp
-          git checkout doc-temp
-          git status
-          git rm -r *
-          cp -a ../src/.gitignore .gitignore
-          cp -ar ../src/docs/target/mdoc/* .
-          mkdir -p docs/api/latest
-          cp -ar ../src/core/target/scala-2.12/api/* docs/api/latest/
-          ls -lhr
-          git add -A
-          git commit -a -m "Update site"
-          git push --set-upstream origin doc-temp
+          mkdir -p docs/target/mdoc/docs/api/latest
+          cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
+
+      - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@4.1.5
+          with:
+            branch: gh-pages # The branch the action should deploy to.
+            folder: docs/target/mdoc # The folder the action should deploy.
 
 
       - name: Cleaning for cache
