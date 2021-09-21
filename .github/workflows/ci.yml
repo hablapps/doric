@@ -61,9 +61,11 @@ jobs:
         run: |
           git config --global user.name "gh-actions"
           git config --global user.email "actions@github.com"
+          cd docs
+          git status
           git branch doc-temp
           git checkout doc-temp
-          cd docs
+          git status
           git rm -r *
           cp -a ../src/.gitignore .gitignore
           cp -ar ../src/docs/target/mdoc/* .
