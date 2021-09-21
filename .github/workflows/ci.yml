@@ -61,6 +61,8 @@ jobs:
         run: |
           git config --global user.name "gh-actions"
           git config --global user.email "actions@github.com"
+          git branch doc-temp
+          git checkout doc-temp
           cd docs
           git rm -r *
           cp -a ../src/.gitignore .gitignore
@@ -70,7 +72,7 @@ jobs:
           ls -lhr
           git add -A
           git commit -a -m "Update site"
-          git push -u https://${{secrets.PAT_ALF}}@github.com/hablapps/doric.git
+          git push -u
 
 
       - name: Cleaning for cache
