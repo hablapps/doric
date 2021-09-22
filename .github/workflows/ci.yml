@@ -6,7 +6,6 @@ on:
       - gh-pages
   pull_request:
     branches-ignore:
-      - main
       - gh-pages
 
 jobs:
