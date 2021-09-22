@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  microsite:
+    name: Microsite Update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v2
+
+      - name: Setup Java and Scala
+        uses: olafurpg/setup-scala@v13
+
+      - name: Coursier cache
+        uses: coursier/cache-action@v6
+
+      - name: Build the microsite
+        run: |
+          sbt docs/mdoc
+
+      - name: Build the scaladocs
+        run: |
+          sbt core/doc
+
+      - name: Copy sit and docs to gh-pages branch
+        run: |
+          mkdir -p docs/target/mdoc/docs/api/latest
+          cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: docs/target/mdoc # The folder the action should deploy.
+
+
+      - name: Cleaning for cache
+        run: |
+          rm -rf "$HOME/.ivy2/local" || true
+          find $HOME/Library/Caches/Coursier/v1        -name "ivydata-*.properties" -delete || true
+          find $HOME/.ivy2/cache                       -name "ivydata-*.properties" -delete || true
+          find $HOME/.cache/coursier/v1                -name "ivydata-*.properties" -delete || true
+          find $HOME/.sbt                              -name "*.lock"               -delete || true
