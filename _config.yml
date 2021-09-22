@@ -1,0 +1,64 @@
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin    : "default"
+name                     : "Your Name"
+description              : "Fast development API for spark"
+url                      : "https://hablapps.com"
+baseurl                  : "/doric"
+repository               : "hablapps/doric"
+#teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+#logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+masthead_title           : "Doric"
+#words_per_minute         : 200
+#comments:
+#  provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
+#  disqus:
+#    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+#  discourse:
+#    server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
+#    appid                :
+#    num_posts            : # 5 (default)
+#    colorscheme          : # "light" (default), "dark"
+#  utterances:
+#    theme                : # "github-light" (default), "github-dark"
+#    issue_term           : # "pathname" (default)
+#  giscus:
+#    repo_id              : # Shown during giscus setup at https://giscus.app
+#    category_name        : # Full text name of the category
+#    category_id          : # Shown during giscus setup at https://giscus.app
+#    discussion_term      : # "pathname" (default), "url", "title", "og:title"
+#    reactions_enabled    : # '1' for enabled (default), '0' for disabled
+#    theme                : # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
+
+defaults:
+  # _docs
+  - scope:
+      path: ""
+    values:
+      layout: single
+      toc: true
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      classes: wide
+      sidebar:
+        nav: "docs"
+
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
+whitelist:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "UA-140060849-1"

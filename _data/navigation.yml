@@ -1,0 +1,18 @@
+docs:
+  - title: Learn Doric
+    url: /docs/
+    children:
+      - title: "Installation"
+        url: /docs/installation/
+      - title: "Typed Columns"
+        url: /docs/typed/
+      - title: Error location
+        url: /docs/errors/
+      - title: "Custom types"
+        url: /docs/custom/
+
+main:
+  - title: "Documentation"
+    url: /docs/
+  - title: "API"
+    url: /docs/api/latest/
