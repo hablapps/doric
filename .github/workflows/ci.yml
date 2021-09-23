@@ -3,7 +3,10 @@ on:
   push:
     branches-ignore:
       - main
+      - gh-pages
   pull_request:
+    branches-ignore:
+      - gh-pages
 
 jobs:
   build:
@@ -14,7 +17,7 @@ jobs:
       - name: Coursier cache
         uses: coursier/cache-action@v6
       - name: Test
-        run: sbt test
+        run: sbt core/test
       - name: Code Quality
         run: sbt scalafmtCheckAll
       - name: Cleaning for cache
@@ -24,3 +27,7 @@ jobs:
           find $HOME/.ivy2/cache                       -name "ivydata-*.properties" -delete || true
           find $HOME/.cache/coursier/v1                -name "ivydata-*.properties" -delete || true
           find $HOME/.sbt                              -name "*.lock"               -delete || true
+      - name: Check the microsite
+        run: sbt docs/mdoc
+      - name: Check the scaladocs
+        run: sbt core/doc
