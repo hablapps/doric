@@ -16,15 +16,15 @@ val df = List(("hi", 31)).toDF("str", "int")
 // df: DataFrame = [str: string, int: int]
 val col1 = colInt("str")
 // col1: DoricColumn[Int] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@3b25709e)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@40013051)
 // )
 val col2 = colString("int")
 // col2: DoricColumn[String] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@6b64429e)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@45849604)
 // )
 val col3 = colInt("unknown")
 // col3: DoricColumn[Int] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@48aa0813)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@6cbbfe29)
 // )
 ```
 ```scala
@@ -76,15 +76,15 @@ Us as developers want to abstract from this suffix and focus only in the unique 
 ```scala
 colString("name_user")
 // res2: DoricColumn[String] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@3c3cd13a)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@2f61de04)
 // )
 colInt("age_user")
 // res3: DoricColumn[Int] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@56b751b1)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@5f5a33ed)
 // )
 colString("city_user")
 // res4: DoricColumn[String] = DoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$2701/669129774@2f61de04)
+//   Kleisli(doric.types.SparkType$$Lambda$2701/910656502@5b59c3d)
 // )
 ```
 So we can make a function to simplify it:
