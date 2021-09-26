@@ -20,7 +20,7 @@ package object doric extends syntax.All with sem.All {
         a.valid
       }
 
-    def apply[T](f: Dataset[_] => DoricValidated[T] ):Doric[T] =
+    def apply[T](f: Dataset[_] => DoricValidated[T]): Doric[T] =
       Kleisli[DoricValidated, Dataset[_], T](f)
 
     private[doric] def unchecked(colName: String): Doric[Column] =

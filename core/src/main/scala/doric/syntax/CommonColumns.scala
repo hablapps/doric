@@ -117,7 +117,9 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
       * @return
       *   the DoricColumn of the provided type.
       */
-    def cast[To: CastToT: SparkType](implicit x: SparkType[T]): DoricColumn[To] =
+    def cast[To: CastToT: SparkType](implicit
+        x: SparkType[T]
+    ): DoricColumn[To] =
       Casting[T, To].cast(column)
 
     /**

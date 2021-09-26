@@ -30,9 +30,12 @@ case class DoricValidations[T] private (doric: DoricColumn[T]) {
         sum(when[Long].caseW(x, 1L.lit).otherwise(0L.lit))
       )
       val validationsValues = df
-        .select(count("*") :: validatedColumn: _*).head
+        .select(count("*") :: validatedColumn: _*)
+        .head
       val validationsNameAndCount =
-        df.select(validationsList:_*).columns.zipWithIndex
+        df.select(validationsList: _*)
+          .columns
+          .zipWithIndex
           .map(x => (x._1, validationsValues.getLong(x._2 + 1)))
           .toList
       val total = validationsValues.getLong(0)
