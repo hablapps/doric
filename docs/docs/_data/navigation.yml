@@ -8,6 +8,8 @@ docs:
         url: /docs/typed/
       - title: Error location
         url: /docs/errors/
+      - title: Actions
+        url: /docs/actions/
       - title: "Custom types"
         url: /docs/custom/
 

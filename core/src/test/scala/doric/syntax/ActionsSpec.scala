@@ -19,7 +19,10 @@ class ActionsSpec
         import doric.implicitConversions.literalConversion
         df
           .select(
-            colLong("id").action.validation.all(_ <= 10L) === col("id")
+            colLong("id").action.validate.all(
+              _ <= 10L,
+              _ > 0L
+            ) === col("id")
           )
           .as[Boolean]
           .collect()
@@ -28,21 +31,27 @@ class ActionsSpec
       it("should return error if the validation is not passed") {
         import doric.implicitConversions.literalConversion
         df.testErrorColumn(
-          colLong("id").action.validation
-            .all(_ > 100L),
-          "Validation error: Not all rows passed the validation (id > 100) (0 of 3 were valid)"
+          colLong("id").action.validate
+            .all(
+              _ > 100L,
+              _ > 1L
+            ),
+          "Validation error: Not all rows passed the validation (id > 100) (0 of 3 were valid)",
+          "Validation error: Not all rows passed the validation (id > 1) (2 of 3 were valid)"
         )
       }
       it("should validate if any is null") {
-        val noneNullCol = colLong("id").action.validation.noneNull
+        val noneNullCol = colLong("id").action.validate.noneNull
         noneNullCol.elem
           .run(df)
           .toEither
           .value
-        List(Some(1L), None).toDF("id").testErrorColumn(
-          noneNullCol,
-          "Validation error: Not all rows passed the validation (id IS NOT NULL) (1 of 2 were valid)"
-        )
+        List(Some(1L), None)
+          .toDF("id")
+          .testErrorColumn(
+            noneNullCol,
+            "Validation error: Not all rows passed the validation (id IS NOT NULL) (1 of 2 were valid)"
+          )
       }
     }
   }
