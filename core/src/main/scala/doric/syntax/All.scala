@@ -15,3 +15,4 @@ private[doric] trait All
     with StringColumns
     with ControlStructures
     with AggregationColumns
+    with Actions

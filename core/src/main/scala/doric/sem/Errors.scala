@@ -110,6 +110,13 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
   override def message: String = sparkCause.getMessage
 }
 
+case class ColumnValidationError(
+    validationMessage: String
+)(implicit val location: Location)
+    extends DoricSingleError(None) {
+  override def message: String = s"Validation error: " + validationMessage
+}
+
 object Location {
   implicit def location(implicit
       line: sourcecode.Line,

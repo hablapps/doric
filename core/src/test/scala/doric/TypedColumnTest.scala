@@ -3,14 +3,16 @@ package doric
 import scala.reflect._
 import scala.reflect.runtime.universe._
 
+import cats.implicits.toFoldableOps
 import doric.types.{Casting, SparkType}
 import org.scalactic._
+import org.scalatest.{Assertion, EitherValues}
 import org.scalatest.matchers.should.Matchers
 
 import org.apache.spark.sql.{Column, DataFrame, Encoder}
 import org.apache.spark.sql.types.DataType
 
-trait TypedColumnTest extends Matchers {
+trait TypedColumnTest extends Matchers with EitherValues{
 
   implicit class ValidateColumnType(df: DataFrame) {
 
@@ -242,6 +244,9 @@ trait TypedColumnTest extends Matchers {
         df2
       }
     }
+
+    def testErrorColumn(column: DoricColumn[_], errors: String *): Assertion =
+      column.elem.run(df).toEither.left.value.toList.map(_.message) shouldBe errors.toList
   }
 
   implicit class TestColumn[T: ClassTag: SparkType](tcolumn: DoricColumn[T]) {
