@@ -43,18 +43,18 @@ val sparkVersion = "3.1.2"
 lazy val core = project
   .in(file("core"))
   .settings(
-    name := "doric",
+    name       := "doric",
     run / fork := true,
     libraryDependencies ++= Seq(
       "org.apache.spark"    %% "spark-sql"        % sparkVersion % "provided",
       "org.typelevel"       %% "cats-core"        % "2.6.1",
       "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
-      "com.github.mrpowers" %% "spark-daria"      % "1.0.0" % "test",
-      "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test",
-      "org.scalatest"       %% "scalatest"        % "3.2.10" % "test"
+      "com.github.mrpowers" %% "spark-daria"      % "1.0.0"      % "test",
+      "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0"      % "test",
+      "org.scalatest"       %% "scalatest"        % "3.2.10"     % "test"
     ),
     //docs
-    run / fork := true,
+    run / fork                      := true,
     Compile / doc / autoAPIMappings := true,
     Compile / doc / scalacOptions ++= Seq(
       "-groups",
@@ -75,7 +75,7 @@ lazy val docs = project
       "org.apache.spark" %% "spark-sql" % sparkVersion
     ),
     mdocVariables := Map(
-      "VERSION" -> version.value,
+      "VERSION"       -> version.value,
       "SPARK_VERSION" -> sparkVersion
     ),
     mdocExtraArguments := Seq(
