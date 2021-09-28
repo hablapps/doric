@@ -81,7 +81,9 @@ private[sem] trait TransformOps {
     ): DataFrame = {
       if (namedColumns.isEmpty) df.toDF
       else
-        withColumns(namedColumns.iterator.map(x => (x.name, x)).toList: _*)
+        withColumns(
+          namedColumns.iterator.map(x => (x.columnName, x)).toList: _*
+        )
     }
 
     /**

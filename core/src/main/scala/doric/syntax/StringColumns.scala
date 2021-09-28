@@ -96,7 +96,7 @@ private[syntax] trait StringColumns {
     * @param s
     *   Doric String column
     */
-  implicit class StringOperationsSyntax(s: StringColumn) {
+  implicit class StringOperationsSyntax(s: DoricColumn[String]) {
 
     /**
       * ********************************************************

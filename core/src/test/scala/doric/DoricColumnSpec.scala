@@ -6,23 +6,24 @@ import doric.types.SparkType
 
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
-import org.apache.spark.sql.{Encoder, functions => f}
+import org.apache.spark.sql.{Encoder, Row, functions => f}
 
 class DoricColumnSpec extends DoricTestElements with EitherValues {
 
-  import doric.implicitConversions.stringCname
   import spark.implicits._
 
-  def testValue[T: SparkType: Encoder](example: T): Unit = {
-    val df = List(example).toDF("column")
+  private val column = c"column"
 
-    col[T]("column").elem.run(df).toEither.value
+  def testValue[T: SparkType: Encoder](example: T): Unit = {
+    val df = List(example).toDF(column.value)
+
+    col[T](column).elem.run(df).toEither.value
   }
   def testValueNullable[T: SparkType](
       example: T
   )(implicit enc: Encoder[Option[T]]): Unit = {
-    val df = List(Some(example), None).toDF("column")
-    col[T]("column").elem.run(df).toEither.value
+    val df = List(Some(example), None).toDF(column.value)
+    col[T](column).elem.run(df).toEither.value
   }
 
   describe("each column should represent their datatype") {
@@ -63,29 +64,31 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
       testValueNullable[Map[Timestamp, Int]](Map(timestamp -> 10))
     }
     it("works for DStruct") {
-      val df = List(((1, "hola"), 1)).toDF("column", "extra").select("column")
-      col[DStruct]("column").elem.run(df).toEither.value
+      val df =
+        List(((1, "hola"), 1)).toDF(column.value, "extra").selectCName(column)
+      col[Row](column).elem.run(df).toEither.value
+
       val df2 = List((Some((1, "hola")), 1), (None, 1))
-        .toDF("column", "extra")
-        .select("column")
-      col[DStruct]("column").elem.run(df2).toEither.value
+        .toDF(column.value, "extra")
+        .selectCName(column)
+      col[Row](column).elem.run(df2).toEither.value
     }
     it("works for structs if accessed directly") {
       val df = List((User("John", "doe", 34), 1))
         .toDF("col", "delete")
         .select("col")
 
-      col[String]("col.name").elem.run(df).toEither.value
-      col[Int]("col.age").elem.run(df).toEither.value
+      col[String](c"col.name").elem.run(df).toEither.value
+      col[Int](c"col.age").elem.run(df).toEither.value
     }
     it("works for arrays if accessed directly an index") {
       val df = List((List("hola", "adios"), 1))
-        .toDF("col", "delete")
-        .select("col")
+        .toDF(column.value, "delete")
+        .selectCName(column)
 
-      col[String]("col.0").elem.run(df).toEither.value
-      col[String]("col.1").elem.run(df).toEither.value
-      col[String]("col.2").elem.run(df).toEither.value
+      col[String](column / c"0").elem.run(df).toEither.value
+      col[String](column / c"1").elem.run(df).toEither.value
+      col[String](column / c"2").elem.run(df).toEither.value
     }
   }
 

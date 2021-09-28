@@ -8,6 +8,8 @@ import doric.implicitConversions._
 import doric.types.SparkType
 import org.scalatest.funspec.AnyFunSpecLike
 
+import org.apache.spark.sql.Row
+
 class WhenBuilderSpec
     extends AnyFunSpecLike
     with SparkSessionTestWrapper
@@ -64,7 +66,7 @@ class WhenBuilderSpec
 
       nullOfType[Int]
       nullOfType[Double]
-      nullOfType[DStruct]
+      nullOfType[Row]
       nullOfType[Array[Int]]
     }
   }

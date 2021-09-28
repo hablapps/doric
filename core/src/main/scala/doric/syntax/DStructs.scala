@@ -31,10 +31,10 @@ private[syntax] trait DStructs {
     * @return
     *   A DStruct DoricColumn.
     */
-  def struct(cols: DoricColumn[_]*): DStructColumn =
+  def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  implicit class DStructOps(private val col: DStructColumn) {
+  implicit class DStructOps(private val col: RowColumn) {
 
     /**
       * Retreaves the child row of the Struct column

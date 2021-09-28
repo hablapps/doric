@@ -77,6 +77,7 @@ lazy val docs = project
     ),
     mdocVariables := Map(
       "VERSION"       -> version.value,
+      "STABLE_VERSION" -> "0.0.1",
       "SPARK_VERSION" -> sparkVersion
     ),
     mdocExtraArguments := Seq(

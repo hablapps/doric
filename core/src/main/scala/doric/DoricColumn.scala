@@ -1,12 +1,14 @@
 package doric
 
 import cats.data.{Kleisli, NonEmptyChain, Validated}
-import cats.implicits.{catsSyntaxTuple2Semigroupal, catsSyntaxValidatedId, catsSyntaxValidatedIdBinCompat0}
+import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple2Semigroupal, catsSyntaxValidatedId, catsSyntaxValidatedIdBinCompat0}
 import doric.sem.{ColumnTypeError, DoricSingleError, Location, SparkErrorWrapper}
 import doric.syntax.ColGetters
-import doric.types.SparkType
+import doric.types.{LiteralSparkType, SparkType}
 
 import org.apache.spark.sql.{Column, Dataset}
+import org.apache.spark.sql.catalyst.CatalystTypeConverters
+import org.apache.spark.sql.catalyst.expressions.Literal
 
 sealed trait DoricColumn[T] {
   val elem: Doric[Column]
@@ -14,16 +16,42 @@ sealed trait DoricColumn[T] {
 
 case class NamedDoricColumn[T] private[doric] (
     override val elem: Doric[Column],
-    name: CName
+    columnName: CName
 ) extends DoricColumn[T]
+
+object NamedDoricColumn {
+  def apply[T](column: DoricColumn[T], columnName: CName): NamedDoricColumn[T] =
+    NamedDoricColumn[T](column.elem.map(_.as(columnName.value)), columnName)
+}
 
 case class TransformationDoricColumn[T] private[doric] (
     override val elem: Doric[Column]
 ) extends DoricColumn[T]
 
-object NamedDoricColumn {
-  def apply[T](column: DoricColumn[T], name: CName): NamedDoricColumn[T] =
-    NamedDoricColumn[T](column.elem.map(_.as(name.value)), name)
+case class LiteralDoricColumn[T] private[doric] (
+    override val elem: Doric[Column],
+    columnValue: T
+) extends DoricColumn[T]
+
+object LiteralDoricColumn {
+  def apply[T: SparkType: LiteralSparkType](value: T): LiteralDoricColumn[T] = {
+    val colLit: Doric[Column] = new Column(
+      Literal(
+        CatalystTypeConverters.createToCatalystConverter(SparkType[T].dataType)(
+          LiteralSparkType[T].literalTo(value)
+        ),
+        SparkType[T].dataType
+      )
+    ).pure[Doric]
+    LiteralDoricColumn(colLit, value)
+  }
+
+  implicit class LiteralGetter[T](litCol: LiteralDoricColumn[T]) {
+    def getColumnValueAsSparkValue(implicit
+        c: LiteralSparkType[T]
+    ): c.OriginalSparkType =
+      c.literalTo(litCol.columnValue)
+  }
 }
 
 object DoricColumn extends ColGetters[NamedDoricColumn] {

@@ -4,11 +4,13 @@ docs:
     children:
       - title: "Installation"
         url: /docs/installation/
+      - title: "Introduction"
+        url: /docs/
       - title: "Typed Columns"
         url: /docs/typed/
       - title: "Doric column ADT"
-        url: /docs/types-columns/
-      - title: Error location
+        url: /docs/adt-columns/
+      - title: "Error location"
         url: /docs/errors/
       - title: Advance API elements
         url: /docs/advanced

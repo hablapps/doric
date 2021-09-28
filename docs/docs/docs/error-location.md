@@ -8,15 +8,9 @@ permalink: docs/errors/
 Doric is a typesafe API, this means that the compiler will prevent to do transformations that will throw exceptions in runtime.
 The only possible source of errors is in the selection of columns, if the column doesn't exist or if the column contains an unexpected type.
 
-```scala mdoc:invisible
-import org.apache.spark.sql.{SparkSession, DataFrame}
+```scala mdoc:invisible:reset
 
-val spark = SparkSession
-      .builder()
-      .master("local[1]")
-      .config("spark.driver.bindAddress", "127.0.0.1")
-      .appName("spark session")
-      .getOrCreate()
+val spark = doric.DocInit.getSpark
       
 import spark.implicits._
 ```
@@ -77,14 +71,7 @@ userDF.select(userc)
 
 What we really want is to mark as the source the place we are using our `user` method. We can achieve this by adding only an implicit value to the definition:
 ```scala mdoc:invisible:reset
-import org.apache.spark.sql.{SparkSession, DataFrame}
-
-val spark = SparkSession
-      .builder()
-      .master("local[1]")
-      .config("spark.driver.bindAddress", "127.0.0.1")
-      .appName("spark session")
-      .getOrCreate()
+val spark = doric.DocInit.getSpark
       
 import spark.implicits._
 
