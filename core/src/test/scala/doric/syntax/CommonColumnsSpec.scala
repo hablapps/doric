@@ -1,14 +1,17 @@
 package doric
 package syntax
 
-import org.apache.spark.sql.{functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
+
+import org.apache.spark.sql.{functions => f}
 
 class CommonColumnsSpec
     extends DoricTestElements
     with EitherValues
     with Matchers {
+
+  import doric.implicitConversions.stringCname
 
   describe("coalesce doric function") {
     import spark.implicits._

@@ -14,8 +14,8 @@ trait TypedColumnTest extends Matchers {
 
   implicit class ValidateColumnType(df: DataFrame) {
 
-    private lazy val doricCol = "dcol"
-    private lazy val sparkCol = "scol"
+    private lazy val doricCol = "dcol".cname
+    private lazy val sparkCol = "scol".cname
 
     /**
       * @param column1
@@ -180,7 +180,7 @@ trait TypedColumnTest extends Matchers {
         expected: List[Option[T]]
     ): Unit = {
 
-      val equalsColumn = "equals"
+      val equalsColumn = "equals".cname
       val result = df
         .withColumn(
           equalsColumn,
@@ -193,7 +193,7 @@ trait TypedColumnTest extends Matchers {
           ).as(equalsColumn)
         )
         .na
-        .fill(Map(equalsColumn -> false))
+        .fill(Map(equalsColumn.value -> false))
 
       implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
         result.sparkSession.implicits
@@ -225,9 +225,9 @@ trait TypedColumnTest extends Matchers {
         column: DoricColumn[T],
         show: Boolean = false
     ): DataFrame = {
-      val colName          = "result"
+      val colName          = "result".cname
       val df2              = df.withColumn(colName, column)
-      val providedDatatype = df2(colName).expr.dataType
+      val providedDatatype = df2(colName.value).expr.dataType
       assert(
         SparkType[T].isEqual(providedDatatype),
         s"the type of the column '$column' is not ${SparkType[T].dataType} is $providedDatatype"

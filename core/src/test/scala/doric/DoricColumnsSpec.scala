@@ -9,6 +9,7 @@ import org.apache.spark.sql.Encoder
 
 class DoricColumnsSpec extends DoricTestElements with EitherValues {
 
+  import doric.implicitConversions.stringCname
   import spark.implicits._
 
   def testValue[T: SparkType: Encoder](example: T): Unit = {

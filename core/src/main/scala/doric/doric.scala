@@ -13,6 +13,8 @@ package object doric extends syntax.All with sem.All {
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
 
+  type CName = CName.Type
+
   object Doric {
 
     def apply[T](a: T): Doric[T] =
@@ -20,8 +22,8 @@ package object doric extends syntax.All with sem.All {
         a.valid
       }
 
-    private[doric] def unchecked(colName: String): Doric[Column] =
-      Doric(org.apache.spark.sql.functions.col(colName))
+    private[doric] def unchecked(colName: CName): Doric[Column] =
+      Doric(org.apache.spark.sql.functions.col(colName.value))
   }
 
   private type DoricEither[A]   = EitherNec[DoricSingleError, A]

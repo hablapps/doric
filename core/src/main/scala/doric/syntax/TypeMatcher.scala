@@ -16,7 +16,7 @@ private[doric] case class MatchType(
 )
 
 private[doric] case class EmptyTypeMatcher[A: SparkType](
-    columnName: String
+    columnName: CName
 ) {
 
   /**
@@ -49,7 +49,7 @@ private[doric] case class EmptyTypeMatcher[A: SparkType](
 }
 
 private[doric] case class NonEmptyTypeMatcher[A: SparkType](
-    columnName: String,
+    columnName: CName,
     transformations: List[MatchType] = List.empty
 ) {
 
@@ -119,7 +119,7 @@ private[doric] case class NonEmptyTypeMatcher[A: SparkType](
 
 trait TypeMatcher {
 
-  def matchToType[T: SparkType](colName: String): EmptyTypeMatcher[T] =
+  def matchToType[T: SparkType](colName: CName): EmptyTypeMatcher[T] =
     EmptyTypeMatcher[T](colName)
 
 }

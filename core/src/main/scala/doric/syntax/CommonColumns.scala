@@ -73,7 +73,8 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
       * @return
       *   DoricColumn with the alias
       */
-    def as(colName: String): DoricColumn[T] = column.elem.map(_ as colName).toDC
+    def as(colName: CName): DoricColumn[T] =
+      column.elem.map(_.as(colName.value)).toDC
 
     /**
       * Type safe equals between Columns

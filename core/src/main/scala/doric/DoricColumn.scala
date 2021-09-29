@@ -31,7 +31,7 @@ object DoricColumn extends ColGetters[DoricColumn] {
           Validated.valid(column)
         else
           ColumnTypeError(
-            head.name,
+            head.name.cname,
             SparkType[T].dataType,
             head.dataType
           ).invalidNec

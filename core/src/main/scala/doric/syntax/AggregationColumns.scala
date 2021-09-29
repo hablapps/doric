@@ -20,7 +20,7 @@ private[syntax] trait AggregationColumns {
   def count(col: DoricColumn[_]): LongColumn =
     col.elem.map(f.count).toDC
 
-  def count(colName: String): LongColumn =
+  def count(colName: CName): LongColumn =
     Doric.unchecked(colName).map(f.count).toDC
 
   /**

@@ -10,6 +10,8 @@ import org.apache.spark.sql.DataFrame
 
 trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
+  import doric.implicitConversions.stringCname
+
   def df: DataFrame
 
   def test[T: NumericType: SparkType: ClassTag](): Unit = {

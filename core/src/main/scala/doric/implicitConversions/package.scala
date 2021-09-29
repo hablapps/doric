@@ -11,4 +11,6 @@ package object implicitConversions {
       fromCol: DoricColumn[F]
   )(implicit cast: Casting[F, T]): DoricColumn[T] =
     cast.cast(fromCol)
+
+  implicit def stringCname(colName: String): CName = CName(colName)
 }

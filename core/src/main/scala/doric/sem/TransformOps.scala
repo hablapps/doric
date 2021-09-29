@@ -25,10 +25,10 @@ private[sem] trait TransformOps {
       *   columns can generate big plans which can cause performance issues and
       *   even `StackOverflowException`.
       */
-    def withColumn(colName: String, col: DoricColumn[_]): DataFrame = {
+    def withColumn(colName: CName, col: DoricColumn[_]): DataFrame = {
       col.elem
         .run(df.toDF())
-        .map(df.withColumn(colName, _))
+        .map(df.withColumn(colName.value, _))
         .returnOrThrow("withColumn")
     }
 
@@ -41,14 +41,16 @@ private[sem] trait TransformOps {
       *   tuples of name and column expression
       */
     def withColumns(
-        namesAndCols: (String, DoricColumn[_])*
+        namesAndCols: (CName, DoricColumn[_])*
     ): DataFrame = {
       if (namesAndCols.isEmpty) df.toDF
       else
         namesAndCols.toList
           .traverse(_._2.elem)
           .run(df)
-          .map(DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1), _))
+          .map(
+            DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1.value), _)
+          )
           .returnOrThrow("withColumns")
     }
 
@@ -60,7 +62,7 @@ private[sem] trait TransformOps {
       *   tuples of name and column expression
       */
     def withColumns(
-        namesAndCols: Map[String, DoricColumn[_]]
+        namesAndCols: Map[CName, DoricColumn[_]]
     ): DataFrame = {
       if (namesAndCols.isEmpty) df.toDF
       else
@@ -118,6 +120,10 @@ private[sem] trait TransformOps {
         .run(df.toDF())
         .map(df.select(_: _*))
         .returnOrThrow("select")
+    }
+
+    @inline def selectCName(col: CName, cols: CName*): DataFrame = {
+      df.select(col.value, cols.map(_.value): _*)
     }
   }
 }

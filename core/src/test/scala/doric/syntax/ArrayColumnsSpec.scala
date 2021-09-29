@@ -10,13 +10,15 @@ class ArrayColumnsSpec
     with EitherValues
     with Matchers {
 
+  import doric.implicitConversions.stringCname
   import spark.implicits._
 
   describe("ArrayOps") {
+    val result = "result".cname
     it("should extract a index") {
       val df = List((List(1, 2, 3), 1)).toDF("col", "something").select("col")
-      df.withColumn("result", colArray[Int]("col").getIndex(1))
-        .select("result")
+      df.withColumn(result, colArray[Int]("col").getIndex(1))
+        .selectCName(result)
         .as[Int]
         .head() shouldBe 2
     }
@@ -26,9 +28,9 @@ class ArrayColumnsSpec
     ) {
       val df = List((List(1, 2, 3), 7)).toDF("col", "something")
       df.withColumn(
-        "result",
+        result,
         colArrayInt("col").transform(_ + colInt("something"))
-      ).select("result")
+      ).selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(8, 9, 10)
     }
@@ -61,8 +63,8 @@ class ArrayColumnsSpec
     ) {
       val df =
         List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
-      df.withColumn("result", colArrayInt("col").transformWithIndex(_ + _))
-        .select("result")
+      df.withColumn(result, colArrayInt("col").transformWithIndex(_ + _))
+        .selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(10, 21, 32)
     }
@@ -95,8 +97,8 @@ class ArrayColumnsSpec
     ) {
       val df =
         List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
-      df.withColumn("result", colArrayInt("col").aggregate[Int](100.lit)(_ + _))
-        .select("result")
+      df.withColumn(result, colArrayInt("col").aggregate[Int](100.lit)(_ + _))
+        .selectCName(result)
         .as[Int]
         .head() shouldBe 160
     }
@@ -123,13 +125,13 @@ class ArrayColumnsSpec
     ) {
       val df = List((List(10, 20, 30), 7)).toDF("col", "something")
       df.withColumn(
-        "result",
+        result,
         colArrayInt("col")
           .aggregateWT[Int, String](100.lit)(
             _ + _,
             x => (x + col[Int]("something")).cast
           )
-      ).select("result")
+      ).selectCName(result)
         .as[String]
         .head() shouldBe "167"
     }
@@ -158,8 +160,8 @@ class ArrayColumnsSpec
     it("should filter") {
       val df = List((List(10, 20, 30), 25))
         .toDF("col", "val")
-        .withColumn("result", colArrayInt("col").filter(_ < colInt("val")))
-        .select("result")
+        .withColumn(result, colArrayInt("col").filter(_ < colInt("val")))
+        .selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(10, 20)
     }

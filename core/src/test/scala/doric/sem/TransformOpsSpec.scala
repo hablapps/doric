@@ -9,17 +9,21 @@ class TransformOpsSpec
     extends DoricTestElements
     with Matchers
     with EitherValues {
+
   describe("Dataframe transformation methods") {
+    val errorCol = "error".cname
+    val test1    = "test2".cname
     it("works withColumn") {
+      val test = "test".cname
       val result = spark
         .range(10)
-        .withColumn("test", colLong("id") * 2L)
+        .withColumn(test, colLong("id") * 2L)
 
       val errors = intercept[DoricMultiError] {
         result.withColumn(
-          "error",
-          colString("error").unsafeCast[Long] + colLong("test") + colLong(
-            "test2"
+          errorCol,
+          colString(errorCol).unsafeCast[Long] + colLong(test) + colLong(
+            test1
           )
         )
       }
@@ -35,8 +39,8 @@ class TransformOpsSpec
 
       val errors = intercept[DoricMultiError] {
         result.filter(
-          colString("error").unsafeCast[Long] + colLong("id") + colLong(
-            "test2"
+          colString(errorCol).unsafeCast[Long] + colLong("id") + colLong(
+            test1
           ) > 3L
         )
       }
@@ -48,8 +52,8 @@ class TransformOpsSpec
       val result = spark
         .range(10)
         .select(
-          colLong("id") > 2L as "mayor",
-          colLong("id").cast[String] as "casted",
+          colLong("id") > 2L as "mayor".cname,
+          colLong("id").cast[String] as "casted".cname,
           colLong("id")
         )
 
@@ -68,20 +72,20 @@ class TransformOpsSpec
       val colNames = spark
         .range(10)
         .withColumns(
-          "a" -> colLong("id"),
-          "b" -> colLong("id"),
-          "c" -> colLong("id"),
-          "d" -> colLong("id"),
-          "e" -> colLong("id")
+          "a".cname -> colLong("id"),
+          "b".cname -> colLong("id"),
+          "c".cname -> colLong("id"),
+          "d".cname -> colLong("id"),
+          "e".cname -> colLong("id")
         )
         .columns
 
       val x = Map(
-        "a" -> colLong("id"),
-        "b" -> colLong("id"),
-        "c" -> colLong("id"),
-        "d" -> colLong("id"),
-        "e" -> colLong("id")
+        "a".cname -> colLong("id"),
+        "b".cname -> colLong("id"),
+        "c".cname -> colLong("id"),
+        "d".cname -> colLong("id"),
+        "e".cname -> colLong("id")
       )
 
       val colNames2 = spark
@@ -91,15 +95,15 @@ class TransformOpsSpec
       colNames2.length shouldBe 6
     }
 
-    it("throws an error if names are repeated") {
+    it("throws an " + errorCol + " if names are repeated") {
       val error = intercept[Exception] {
         spark
           .range(10)
           .withColumns(
-            "a" -> colLong("id"),
-            "a" -> colLong("id"),
-            "b" -> colLong("id"),
-            "b" -> colLong("id")
+            "a".cname -> colLong("id"),
+            "a".cname -> colLong("id"),
+            "b".cname -> colLong("id"),
+            "b".cname -> colLong("id")
           )
       }
       error.getMessage shouldBe "Found duplicate column(s) in given column names: `a`, `b`"

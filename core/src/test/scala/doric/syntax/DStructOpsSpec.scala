@@ -11,6 +11,7 @@ case class User(name: String, surname: String, age: Int)
 
 class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
 
+  import doric.implicitConversions.stringCname
   import spark.implicits._
 
   private val df = List((User("John", "doe", 34), 1))
