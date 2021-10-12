@@ -22,11 +22,12 @@ class ImplicitConversionsSpec extends DoricTestElements {
     }
 
     it("should allow to do implicit castings for safe casting") {
-      val l = "l".cname
-      val i = "i".cname
+      val l                         = "l".cname
+      val i                         = "i".cname
       val value1: DoricColumn[Long] = l[Long]
-      List((1L, 1), (2L, 2)).toDF(l, i)
-        .withColumn("result".cname, value1 + i[Int] )
+      List((1L, 1), (2L, 2))
+        .toDF(l, i)
+        .withColumn("result".cname, value1 + i[Int])
     }
 
   }

@@ -8,12 +8,32 @@ import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset}
 
-case class DoricColumn[T](elem: Doric[Column])
+sealed trait DoricColumn[T] {
+  val elem: Doric[Column]
+}
 
-object DoricColumn extends ColGetters[DoricColumn] {
+case class NamedDoricColumn[T] private[doric] (
+    override val elem: Doric[Column],
+    name: CName
+) extends DoricColumn[T]
+
+object NamedDoricColumn {
+  def apply[T](column: DoricColumn[T], name: CName): NamedDoricColumn[T] =
+    NamedDoricColumn[T](column.elem.map(_.as(name.value)), name)
+}
+
+object DoricColumn extends ColGetters[NamedDoricColumn] {
+
+  private[doric] def apply[T](dcolumn: Doric[Column]): DoricColumn[T] = {
+    new DoricColumn[T] {
+      override val elem: Doric[Column] = dcolumn
+    }
+  }
+
   override protected def constructSide[T](
-      column: Doric[Column]
-  ): DoricColumn[T] = DoricColumn(column)
+      column: Doric[Column],
+      colName: CName
+  ): NamedDoricColumn[T] = NamedDoricColumn(column, colName)
 
   private[doric] def uncheckedTypeAndExistence[T](
       col: Column

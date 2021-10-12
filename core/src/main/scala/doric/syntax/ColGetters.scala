@@ -9,7 +9,10 @@ import java.time.{Instant, LocalDate}
 import org.apache.spark.sql.{Column, Dataset}
 
 private[doric] trait ColGetters[F[_]] {
-  @inline protected def constructSide[T](column: Doric[Column]): F[T]
+  @inline protected def constructSide[T](
+      column: Doric[Column],
+      colName: CName
+  ): F[T]
 
   /**
     * Retreaves a column with the provided name and the provided type.
@@ -25,7 +28,7 @@ private[doric] trait ColGetters[F[_]] {
   def col[T: SparkType](colName: CName)(implicit
       location: Location
   ): F[T] =
-    constructSide(SparkType[T].validate(colName))
+    constructSide(SparkType[T].validate(colName), colName)
 
   /**
     * Retreaves a column with the provided name expecting it to be of string
@@ -211,6 +214,6 @@ private[doric] trait ColGetters[F[_]] {
       .fold(DoricColumn[T], DoricColumn[T](_))
       .elem
 
-    constructSide[T](doricColumn)
+    constructSide[T](doricColumn, colName)
   }
 }

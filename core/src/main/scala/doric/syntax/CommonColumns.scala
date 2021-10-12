@@ -35,7 +35,8 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
     cols.map(_.elem).toList.sequence.map(f.coalesce(_: _*)).toDC
 
   override protected def constructSide[T](
-      column: Doric[Column]
+      column: Doric[Column],
+      colName: CName
   ): DoricColumn[T] =
     DoricColumn(column)
 
@@ -73,8 +74,8 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
       * @return
       *   DoricColumn with the alias
       */
-    def as(colName: CName): DoricColumn[T] =
-      column.elem.map(_.as(colName.value)).toDC
+    def as(colName: CName): NamedDoricColumn[T] =
+      NamedDoricColumn[T](column, colName)
 
     /**
       * Type safe equals between Columns

@@ -70,6 +70,21 @@ private[sem] trait TransformOps {
     }
 
     /**
+      * Returns a new dataset by adding all columns, or replacing the existing
+      * columns that has the same name.
+      *
+      * @param namedColumns
+      *   tuples of name and column expression
+      */
+    def withNamedColumns(
+        namedColumns: NamedDoricColumn[_]*
+    ): DataFrame = {
+      if (namedColumns.isEmpty) df.toDF
+      else
+        withColumns(namedColumns.iterator.map(x => (x.name, x)).toList: _*)
+    }
+
+    /**
       * Filters rows using the given condition.
       * {{{
       *   // The following are equivalent:

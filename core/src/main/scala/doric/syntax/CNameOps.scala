@@ -11,7 +11,9 @@ trait CNameOps {
   }
 
   implicit class CNameOps(colName: CName) {
-    @inline def apply[T: SparkType](implicit location: Location): DoricColumn[T] =
+    @inline def apply[T: SparkType](implicit
+        location: Location
+    ): DoricColumn[T] =
       col[T](colName)
   }
 
