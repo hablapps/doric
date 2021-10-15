@@ -18,6 +18,36 @@ trait TypedColumnTest extends Matchers {
     private lazy val sparkCol = "scol"
 
     /**
+      * Tests doric & spark functions without parameters or columns
+      *
+      * @param dcolumn
+      *   doric column
+      * @param scolumn
+      *   spark column
+      * @param expected
+      *   list of values
+      * @tparam I1
+      *   literal or column type
+      * @tparam T
+      *   Comparing column type
+      */
+    def testColumn[I1, T: SparkType: TypeTag: Equality](
+        dcolumn: DoricColumn[T],
+        scolumn: Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val result = df.select(
+        dcolumn.as(doricCol),
+        scolumn.asDoric[T].as(sparkCol)
+      )
+
+      compareDifferences(result, expected)
+    }
+
+    /**
+      * Tests doric & spark function from a column or literal
+      *
       * @param column1
       *   literal or column name
       * @param dcolumn
@@ -48,6 +78,8 @@ trait TypedColumnTest extends Matchers {
     }
 
     /**
+      * Tests doric & spark function from two columns or literals
+      *
       * @param column1
       *   literal or column name
       * @param column2
@@ -83,6 +115,8 @@ trait TypedColumnTest extends Matchers {
     }
 
     /**
+      * Tests doric & spark function from three columns or literals
+      *
       * @param column1
       *   literal or column name
       * @param column2
@@ -123,6 +157,8 @@ trait TypedColumnTest extends Matchers {
     }
 
     /**
+      * Tests doric & spark function from four columns or literals
+      *
       * @param column1
       *   literal or column name
       * @param column2
