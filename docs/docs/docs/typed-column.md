@@ -21,5 +21,5 @@ Doric provides out of the box some basic types that have a correspondence in dat
 |Array[T]|ArrayType|
 |Map[K,V]|MapType|
 
-With this types you will always track the type of your columns and know what transformations are allowed in each moment.
+With these types you will always track the type of your columns and know what transformations are allowed in each moment.
 To know all possible transformations, you can take a look at the [DoricColumn API doc](docs/api/latest/doric/DoricColumn.html).

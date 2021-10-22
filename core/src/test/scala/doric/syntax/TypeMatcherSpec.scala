@@ -19,23 +19,23 @@ class TypeMatcherSpec
       val df     = List((List(1, 2, 3), 1, "1200")).toDF("colArr", "int", "str")
       val result = "result".cname
       it("should check the first valid match") {
-        val testColumn: String => IntegerColumn = matchToType[Int](_)
+        val testColumn: CName => IntegerColumn = matchToType[Int](_)
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[Int]](_.getIndex(0) + col("int"))
           .inOtherCase(12.lit)
 
-        df.withColumn(result, testColumn("colArr"))
+        df.withColumn(result, testColumn(c"colArr"))
           .selectCName(result)
           .as[Int]
           .head() shouldBe 2
 
-        df.withColumn(result, testColumn("int"))
+        df.withColumn(result, testColumn(c"int"))
           .selectCName(result)
           .as[Int]
           .head() shouldBe 1
 
-        df.withColumn(result, testColumn("str"))
+        df.withColumn(result, testColumn(c"str"))
           .selectCName(result)
           .as[Int]
           .head() shouldBe 1200

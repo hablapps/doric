@@ -8,7 +8,7 @@ import doric.types.{Casting, SparkType, UnsafeCasting}
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.types.DataType
 
-private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
+private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
 
   /**
     * Returns the spark `DataType` of the provided type
@@ -37,8 +37,8 @@ private[syntax] trait CommonColumns extends ColGetters[DoricColumn] {
   override protected def constructSide[T](
       column: Doric[Column],
       colName: CName
-  ): DoricColumn[T] =
-    DoricColumn(column)
+  ): NamedDoricColumn[T] =
+    NamedDoricColumn(column, colName)
 
   implicit class SparkCol(private val column: Column) {
 

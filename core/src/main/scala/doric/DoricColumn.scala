@@ -17,6 +17,10 @@ case class NamedDoricColumn[T] private[doric] (
     name: CName
 ) extends DoricColumn[T]
 
+case class TransformationDoricColumn[T] private[doric] (
+    override val elem: Doric[Column]
+) extends DoricColumn[T]
+
 object NamedDoricColumn {
   def apply[T](column: DoricColumn[T], name: CName): NamedDoricColumn[T] =
     NamedDoricColumn[T](column.elem.map(_.as(name.value)), name)
@@ -24,11 +28,14 @@ object NamedDoricColumn {
 
 object DoricColumn extends ColGetters[NamedDoricColumn] {
 
-  private[doric] def apply[T](dcolumn: Doric[Column]): DoricColumn[T] = {
-    new DoricColumn[T] {
-      override val elem: Doric[Column] = dcolumn
-    }
-  }
+  private[doric] def apply[T](dcolumn: Doric[Column]): DoricColumn[T] =
+    TransformationDoricColumn(dcolumn)
+
+  private[doric] def withName[T](
+      dcolumn: Doric[Column],
+      name: CName
+  ): NamedDoricColumn[T] =
+    NamedDoricColumn[T](dcolumn, name)
 
   override protected def constructSide[T](
       column: Doric[Column],

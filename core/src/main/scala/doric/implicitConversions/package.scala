@@ -15,9 +15,4 @@ package object implicitConversions {
   implicit def stringCname(colName: String): CName =
     CName(colName)
 
-  implicit def cnameString(colName: CName): String =
-    colName.value
-
-  implicit def columnByName[T: SparkType](colName: CName): DoricColumn[T] =
-    col(colName)
 }

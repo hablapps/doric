@@ -10,14 +10,14 @@ class ArrayColumnsSpec
     with EitherValues
     with Matchers {
 
-  import doric.implicitConversions.stringCname
   import spark.implicits._
 
   describe("ArrayOps") {
     val result = "result".cname
+    val testColumn = c"col"
     it("should extract a index") {
-      val df = List((List(1, 2, 3), 1)).toDF("col", "something").select("col")
-      df.withColumn(result, colArray[Int]("col").getIndex(1))
+      val df = List((List(1, 2, 3), 1)).toDF(testColumn.value, "something").select("col")
+      df.withColumn(result, colArray[Int](testColumn).getIndex(1))
         .selectCName(result)
         .as[Int]
         .head() shouldBe 2
@@ -26,19 +26,19 @@ class ArrayColumnsSpec
     it(
       "should transform the elements of the array with the provided function"
     ) {
-      val df = List((List(1, 2, 3), 7)).toDF("col", "something")
+      val df = List((List(1, 2, 3), 7)).toDF(testColumn.value, "something")
       df.withColumn(
         result,
-        colArrayInt("col").transform(_ + colInt("something"))
+        colArrayInt(testColumn).transform(_ + colInt(c"something"))
       ).selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(8, 9, 10)
     }
 
     it("should capture the error if anything in the lambda is wrong") {
-      val df = List((List(1, 2, 3), 7)).toDF("col", "something")
-      colArrayInt("col")
-        .transform(_ + colInt("something2"))
+      val df = List((List(1, 2, 3), 7)).toDF(testColumn.value, "something")
+      colArrayInt(c"col")
+        .transform(_ + colInt(c"something2"))
         .elem
         .run(df)
         .toEither
@@ -47,8 +47,8 @@ class ArrayColumnsSpec
         .head
         .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
 
-      colArrayInt("col")
-        .transform(_ => colString("something"))
+      colArrayInt(c"col")
+        .transform(_ => colString(c"something"))
         .elem
         .run(df)
         .toEither
@@ -62,17 +62,17 @@ class ArrayColumnsSpec
       "should transform with index the elements of the array with the provided function"
     ) {
       val df =
-        List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
-      df.withColumn(result, colArrayInt("col").transformWithIndex(_ + _))
+        List((List(10, 20, 30), 7)).toDF(testColumn.value, "something").select("col")
+      df.withColumn(result, colArrayInt(testColumn).transformWithIndex(_ + _))
         .selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(10, 21, 32)
     }
 
     it("should capture errors in transform with index") {
-      val df = List((List(10, 20, 30), "7")).toDF("col", "something")
-      colArrayInt("col")
-        .transformWithIndex(_ + _ + colInt("something"))
+      val df = List((List(10, 20, 30), "7")).toDF(testColumn.value, "something")
+      colArrayInt(testColumn)
+        .transformWithIndex(_ + _ + colInt(c"something"))
         .elem
         .run(df)
         .toEither
@@ -81,8 +81,8 @@ class ArrayColumnsSpec
         .head
         .message shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType"
 
-      colArrayInt("col")
-        .transformWithIndex(_ + _ + colInt("something2"))
+      colArrayInt(testColumn)
+        .transformWithIndex(_ + _ + colInt(c"something2"))
         .elem
         .run(df)
         .toEither
@@ -96,17 +96,17 @@ class ArrayColumnsSpec
       "should aggregate the elements of the array with the provided function"
     ) {
       val df =
-        List((List(10, 20, 30), 7)).toDF("col", "something").select("col")
-      df.withColumn(result, colArrayInt("col").aggregate[Int](100.lit)(_ + _))
+        List((List(10, 20, 30), 7)).toDF(testColumn.value, "something").select("col")
+      df.withColumn(result, colArrayInt(testColumn).aggregate[Int](100.lit)(_ + _))
         .selectCName(result)
         .as[Int]
         .head() shouldBe 160
     }
 
     it("should capture errors in aggregate") {
-      val df = List((List(10, 20, 30), "7")).toDF("col", "something")
-      val errors = colArrayInt("col")
-        .aggregate(colInt("something2"))(_ + _ + colInt("something"))
+      val df = List((List(10, 20, 30), "7")).toDF(testColumn.value, "something")
+      val errors = colArrayInt(testColumn)
+        .aggregate(colInt(c"something2"))(_ + _ + colInt(c"something"))
         .elem
         .run(df)
         .toEither
@@ -123,13 +123,13 @@ class ArrayColumnsSpec
     it(
       "should aggregate the elements of the array with the provided function with final transform"
     ) {
-      val df = List((List(10, 20, 30), 7)).toDF("col", "something")
+      val df = List((List(10, 20, 30), 7)).toDF(testColumn.value, "something")
       df.withColumn(
         result,
-        colArrayInt("col")
+        colArrayInt(testColumn)
           .aggregateWT[Int, String](100.lit)(
             _ + _,
-            x => (x + col[Int]("something")).cast
+            x => (x + col[Int](c"something")).cast
           )
       ).selectCName(result)
         .as[String]
@@ -137,11 +137,11 @@ class ArrayColumnsSpec
     }
 
     it("should capture errors in aggregate with final transform") {
-      val df = List((List(10, 20, 30), "7")).toDF("col", "something")
-      val errors = colArrayInt("col")
-        .aggregateWT[Int, String](colInt("something2"))(
-          _ + _ + colInt("something"),
-          x => (x + colInt("something3")).cast
+      val df = List((List(10, 20, 30), "7")).toDF(testColumn.value, "something")
+      val errors = colArrayInt(testColumn)
+        .aggregateWT[Int, String](colInt(c"something2"))(
+          _ + _ + colInt(c"something"),
+          x => (x + colInt(c"something3")).cast
         )
         .elem
         .run(df)
@@ -158,9 +158,9 @@ class ArrayColumnsSpec
     }
 
     it("should filter") {
-      val df = List((List(10, 20, 30), 25))
-        .toDF("col", "val")
-        .withColumn(result, colArrayInt("col").filter(_ < colInt("val")))
+      List((List(10, 20, 30), 25))
+        .toDF(testColumn.value, "val")
+        .withColumn(result, colArrayInt(c"col").filter(_ < c"val"[Int]))
         .selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(10, 20)

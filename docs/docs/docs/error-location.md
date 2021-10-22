@@ -25,9 +25,9 @@ Let's see an example of an error
 import doric._
 
 val df = List(("hi", 31)).toDF("str", "int")
-val col1 = colInt("str")
-val col2 = colString("int")
-val col3 = colInt("unknown")
+val col1 = colInt(c"str")
+val col2 = colString(c"int")
+val col3 = colInt(c"unknown")
 ```
 ```scala mdoc:crash
 df.select(col1, col2, col3)
@@ -56,22 +56,22 @@ userDF.printSchema
 
 Us as developers want to abstract from this suffix and focus only in the unique part of the name:
 ```scala mdoc
-colString("name_user")
-colInt("age_user")
-colString("city_user")
+colString(c"name_user")
+colInt(c"age_user")
+colString(c"city_user")
 //and many more
 ```
 So we can make a function to simplify it:
 ```scala mdoc
 import doric.types.SparkType
-def user[T: SparkType](colName: String): DoricColumn[T] = {
+def user[T: SparkType](colName: CName): DoricColumn[T] = {
   col[T](colName + "_user")
 }
 ```
 In valid cases it works ok, bug when an error is produce because one of these references, it will point to the line `col[T](colName + "_user")` that is not the real problem.
 
 ```scala mdoc:crash
-val userc = user[Int]("name") //wrong type :S
+val userc = user[Int](c"name") //wrong type :S
 userDF.select(userc)
 ```
 
@@ -101,13 +101,13 @@ import doric._
 import doric.sem.Location
 import doric.types.SparkType
 
-def user[T: SparkType](colName: String)(implicit location: Location): DoricColumn[T] = {
+def user[T: SparkType](colName: CName)(implicit location: Location): DoricColumn[T] = {
   col[T](colName + "_user")
 }
 ```
 Now if we repeat the same error we will be pointed to the real problem
 ```scala mdoc:crash
-val age = user[Int]("name")
-val team = user[String]("team")
+val age = user[Int](c"name")
+val team = user[String](c"team")
 userDF.select(age, team)
 ```
