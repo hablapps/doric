@@ -13,10 +13,12 @@ class ArrayColumnsSpec
   import spark.implicits._
 
   describe("ArrayOps") {
-    val result = "result".cname
+    val result     = "result".cname
     val testColumn = c"col"
     it("should extract a index") {
-      val df = List((List(1, 2, 3), 1)).toDF(testColumn.value, "something").select("col")
+      val df = List((List(1, 2, 3), 1))
+        .toDF(testColumn.value, "something")
+        .select("col")
       df.withColumn(result, colArray[Int](testColumn).getIndex(1))
         .selectCName(result)
         .as[Int]
@@ -62,7 +64,9 @@ class ArrayColumnsSpec
       "should transform with index the elements of the array with the provided function"
     ) {
       val df =
-        List((List(10, 20, 30), 7)).toDF(testColumn.value, "something").select("col")
+        List((List(10, 20, 30), 7))
+          .toDF(testColumn.value, "something")
+          .select("col")
       df.withColumn(result, colArrayInt(testColumn).transformWithIndex(_ + _))
         .selectCName(result)
         .as[List[Int]]
@@ -96,9 +100,13 @@ class ArrayColumnsSpec
       "should aggregate the elements of the array with the provided function"
     ) {
       val df =
-        List((List(10, 20, 30), 7)).toDF(testColumn.value, "something").select("col")
-      df.withColumn(result, colArrayInt(testColumn).aggregate[Int](100.lit)(_ + _))
-        .selectCName(result)
+        List((List(10, 20, 30), 7))
+          .toDF(testColumn.value, "something")
+          .select("col")
+      df.withColumn(
+        result,
+        colArrayInt(testColumn).aggregate[Int](100.lit)(_ + _)
+      ).selectCName(result)
         .as[Int]
         .head() shouldBe 160
     }
@@ -160,7 +168,7 @@ class ArrayColumnsSpec
     it("should filter") {
       List((List(10, 20, 30), 25))
         .toDF(testColumn.value, "val")
-        .withColumn(result, colArrayInt(c"col").filter(_ < c"val"[Int]))
+        .withColumn(result, colArrayInt(c"col").filter(_ < c"val"))
         .selectCName(result)
         .as[List[Int]]
         .head() shouldBe List(10, 20)
