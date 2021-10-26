@@ -1524,6 +1524,42 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
+    </li><li name="doric.syntax.DateColumns#currentDate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Date Type">
+      <a id="currentDate():doric.DateColumn"></a><a id="currentDate():DateColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#currentDate():doric.DateColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">currentDate</span><span class="params">()</span><span class="result">: <a href="#DateColumn=doric.DoricColumn[java.sql.Date]" class="extmbr" name="doric.DateColumn">DateColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the current date at the start of query evaluation as a date column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current date at the start of query evaluation as a date column.
+All calls of current_date within the same query return the same value.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateColumns</dd></dl></div>
+    </li><li name="doric.syntax.TimestampColumns#currentTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
+      <a id="currentTimestamp():doric.TimestampColumn"></a><a id="currentTimestamp():TimestampColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#currentTimestamp():doric.TimestampColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">currentTimestamp</span><span class="params">()</span><span class="result">: <a href="#TimestampColumn=doric.DoricColumn[java.sql.Timestamp]" class="extmbr" name="doric.TimestampColumn">TimestampColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the current timestamp at the start of query evaluation as a timestamp column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current timestamp at the start of query evaluation as a timestamp column.
+All calls of current_timestamp within the same query return the same value.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>TimestampColumns</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns#dataType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dataType[T](implicitevidence$1:doric.types.SparkType[T]):org.apache.spark.sql.types.DataType"></a><a id="dataType[T](SparkType[T]):DataType"></a>
       <span class="permalink">
@@ -2090,6 +2126,9 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
             </div><div class="group" name="Control structure">
               <h3>Control structure</h3>
               
+            </div><div class="group" name="Date Type">
+              <h3>Date Type</h3>
+              
             </div><div class="group" name="Map Type">
               <h3>Map Type</h3>
               
@@ -2098,6 +2137,9 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
               
             </div><div class="group" name="Struct Type">
               <h3>Struct Type</h3>
+              
+            </div><div class="group" name="Timestamp Type">
+              <h3>Timestamp Type</h3>
               
             </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>
