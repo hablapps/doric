@@ -42,7 +42,7 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional cube for the current Dataset using the specified columns,
       * so we can run aggregation on them.
-      * See [[RelationalGroupedDataset]] for all the available aggregate functions.
+      * See [[DRelationalGroupedDataset]] for all the available aggregate functions.
       *
       * This is a variant of cube that can only group by existing columns using column names
       * (i.e. cannot construct expressions).
@@ -75,7 +75,7 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional rollup for the current Dataset using the specified columns,
       * so we can run aggregation on them.
-      * See [[RelationalGroupedDataset]] for all the available aggregate functions.
+      * See [[DRelationalGroupedDataset]] for all the available aggregate functions.
       *
       * This is a variant of rollup that can only group by existing columns using column names
       * (i.e. cannot construct expressions).
