@@ -1,18 +1,20 @@
 package doric
 package syntax
 
-import Equalities._
-import org.apache.spark.sql.{functions => f}
+import doric.Equalities._
+import java.time.{Instant, LocalDate, ZoneId}
+import java.time.format.DateTimeFormatter
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-import java.time.format.DateTimeFormatter
-import java.time.{Instant, LocalDate, ZoneId}
+import org.apache.spark.sql.{functions => f}
 
 class StringColumnsSpec
     extends DoricTestElements
     with EitherValues
     with Matchers {
+
+  import doric.implicitConversions.stringCname
 
   describe("concat doric function") {
     import spark.implicits._
@@ -152,8 +154,9 @@ class StringColumnsSpec
   }
 
   describe("locate doric function") {
-    import org.apache.spark.sql.functions.{locate => sparkLocate}
     import spark.implicits._
+
+    import org.apache.spark.sql.functions.{locate => sparkLocate}
 
     val df = List("hello world", "abcde hello hello", "other words", null)
       .toDF("col1")
@@ -343,8 +346,9 @@ class StringColumnsSpec
 
     it("should raise an error if group > regex group result") {
       intercept[java.lang.IllegalArgumentException] {
+        val res = "res".cname
         df.withColumn(
-          "res",
+          res,
           colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
         ).collect()
       }

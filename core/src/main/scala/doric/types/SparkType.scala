@@ -39,10 +39,10 @@ trait SparkType[T] {
     * @return
     *   A Doric column that validates al the logic
     */
-  def validate(colName: String)(implicit location: Location): Doric[Column] = {
+  def validate(colName: CName)(implicit location: Location): Doric[Column] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
-        val column = df(colName)
+        val column = df(colName.value)
         if (isEqual(column.expr.dataType))
           Validated.valid(column)
         else

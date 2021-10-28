@@ -6,8 +6,12 @@ docs:
         url: /docs/installation/
       - title: "Typed Columns"
         url: /docs/typed/
+      - title: "Doric column ADT"
+        url: /docs/types-columns/
       - title: Error location
         url: /docs/errors/
+      - title: Advance API elements
+        url: /docs/advanced
       - title: "Custom types"
         url: /docs/custom/
 

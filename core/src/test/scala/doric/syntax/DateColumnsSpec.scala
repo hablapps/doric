@@ -1,18 +1,20 @@
 package doric
 package syntax
 
-import Equalities._
-import org.apache.spark.sql.{functions => f}
+import doric.Equalities._
+import java.sql.{Date, Timestamp}
+import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-import java.sql.{Date, Timestamp}
-import java.time.{Instant, LocalDate}
+import org.apache.spark.sql.{functions => f}
 
 class DateColumnsSpec
     extends DoricTestElements
     with EitherValues
     with Matchers {
+
+  import doric.implicitConversions.stringCname
 
   describe("currentDate doric function") {
     import spark.implicits._
@@ -139,7 +141,7 @@ class DateColumnsSpec
 
     it("should throw an exception if malformed format") {
       intercept[java.lang.IllegalArgumentException] {
-        df.withColumn("test", colDate("dateCol").format("nnn".lit))
+        df.withColumn(c"test", colDate("dateCol").format("nnn".lit))
           .collect()
       }
     }

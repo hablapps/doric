@@ -69,7 +69,7 @@ case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
 }
 
 case class ColumnMultyTypeError(
-    columnName: String,
+    columnName: CName,
     expectedTypes: List[DataType],
     foundType: DataType
 )(implicit
@@ -82,7 +82,7 @@ case class ColumnMultyTypeError(
 }
 
 case class ColumnTypeError(
-    columnName: String,
+    columnName: CName,
     expectedType: DataType,
     foundType: DataType
 )(implicit
@@ -90,11 +90,11 @@ case class ColumnTypeError(
 ) extends DoricSingleError(None) {
 
   override def message: String =
-    s"The column with name '$columnName' is of type $foundType and it was expected to be $expectedType"
+    s"The column with name '${columnName.value}' is of type $foundType and it was expected to be $expectedType"
 }
 
 case class ChildColumnNotFound(
-    columnName: String,
+    columnName: CName,
     validColumns: Seq[String]
 )(implicit
     val location: Location

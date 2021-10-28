@@ -9,86 +9,91 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
 
   import spark.implicits._
 
+  private val id          = "id".cname
+  private val otherColumn = "otherColumn".cname
   private val left = spark
     .range(10)
     .toDF()
     .withColumn(
-      "otherColumn",
-      concat(colLong("id").cast[String], "left")
+      otherColumn,
+      concat(colLong(id).cast[String], "left")
     )
     .toDF()
-    .filter(colLong("id") > 3L)
+    .filter(colLong(id) > 3L)
   private val right = spark
     .range(10)
     .toDF()
     .withColumn(
-      "otherColumn",
-      concat(colLong("id").cast[String], "right")
+      otherColumn,
+      concat(colLong(id).cast[String], "right")
     )
-    .filter(colLong("id") < 7L)
+    .filter(colLong(id) < 7L)
 
   describe("join ops") {
 
     it("works with join of same name and type columns") {
       val badRight = right
-        .withColumn("id", colLong("id").cast[String])
+        .withColumn(id, colLong(id).cast[String])
 
-      left.join(right, "left", colLong("id"))
-      left.join(right, "right", colLong("id"))
-      left.join(right, "inner", colLong("id"))
-      left.join(right, "outer", colLong("id"))
+      left.join(right, "left", colLong(id))
+      left.join(right, "right", colLong(id))
+      left.join(right, "inner", colLong(id))
+      left.join(right, "outer", colLong(id))
 
       val errors = intercept[DoricMultiError] {
-        val value1 = colLong("id")
+        val value1 = colLong(id)
         left.join(badRight, "left", value1)
       }
 
       errors.errors.length shouldBe 1
-      errors.errors.head.message shouldBe "The column with name 'id' is of type StringType and it was expected to be LongType"
+      errors.errors.head.message shouldBe "The column with name '" + id + "' is of type StringType and it was expected to be LongType"
     }
 
     it("should join typesafety") {
 
       val joinFunction: DoricJoinColumn =
-        LeftDF.colLong("id") === RightDF.colLong("id")
+        LeftDF.colLong(id) === RightDF.colLong(id)
 
       left.join(right, joinFunction, "inner")
 
       val badJoinFunction: DoricJoinColumn =
-        LeftDF.colString("id") ===
-          RightDF.colString("identifier")
+        LeftDF.colString(id) ===
+          RightDF.colString(id + "entifier")
 
       val errors = intercept[DoricMultiError] {
         left.join(right, badJoinFunction, "inner")
       }
 
       errors.errors.length shouldBe 2
-      errors.errors.head.message shouldBe "The column with name 'id' is of type LongType and it was expected to be StringType"
+      errors.errors.head.message shouldBe "The column with name '" + id + "' is of type LongType and it was expected to be StringType"
       errors.errors.toChain
         .get(1)
         .get
-        .message shouldBe "Cannot resolve column name \"identifier\" among (id, otherColumn)"
+        .message shouldBe "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
     }
 
     it("should prevent key ambiguity with innerJoinDropRightKey") {
-      val resultDF = left.innerJoinKeepLeftKeys(right, colLong("id"))
+      val resultDF = left.innerJoinKeepLeftKeys(right, colLong(id))
 
-      resultDF.withColumn("keyAsString", colLong("id").cast[String])
+      val keyAsString = "keyAsString".cname
+      resultDF.withColumn(keyAsString, colLong(id).cast[String])
       resultDF.schema.length shouldBe 3
     }
 
     it("should prevent non key ambiguity using colFromDf") {
-      val resultDF = left.innerJoinKeepLeftKeys(right, colLong("id"))
+      val resultDF = left.innerJoinKeepLeftKeys(right, colLong(id))
 
+      val nonKeyColRight = "nonKeyColRight".cname
+      val nonKeyColLeft  = "nonKeyColLeft".cname
       resultDF
-        .withColumn("nonKeyColRight", colFromDF[String]("otherColumn", right))
-        .withColumn("nonKeyColLeft", colFromDF[String]("otherColumn", left))
+        .withColumn(nonKeyColRight, colFromDF[String](otherColumn, right))
+        .withColumn(nonKeyColLeft, colFromDF[String](otherColumn, left))
         .collectCols(
           (colString(
-            "nonKeyColRight"
-          ) === colFromDF[String]("otherColumn", right)) && (colString(
-            "nonKeyColLeft"
-          ) === colFromDF[String]("otherColumn", left))
+            nonKeyColRight
+          ) === colFromDF[String](otherColumn, right)) && (colString(
+            nonKeyColLeft
+          ) === colFromDF[String](otherColumn, left))
         )
         .forall(identity) shouldBe true
       resultDF.schema.length shouldBe 3

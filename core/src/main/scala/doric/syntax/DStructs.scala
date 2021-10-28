@@ -49,7 +49,7 @@ private[syntax] trait DStructs {
       *   a reference to the child column of the provided type.
       */
     def getChild[T: SparkType](
-        subColumnName: String
+        subColumnName: CName
     )(implicit location: Location): DoricColumn[T] = {
       col.elem
         .mapK(toEither)
@@ -59,7 +59,7 @@ private[syntax] trait DStructs {
             val fatherStructType = fatherColumn.dataType
               .asInstanceOf[StructType]
             fatherStructType
-              .find(_.name == subColumnName)
+              .find(_.name == subColumnName.value)
               .fold[DoricEither[Column]](
                 ChildColumnNotFound(
                   subColumnName,

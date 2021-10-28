@@ -9,7 +9,10 @@ import java.time.{Instant, LocalDate}
 import org.apache.spark.sql.{Column, Dataset}
 
 private[doric] trait ColGetters[F[_]] {
-  @inline protected def constructSide[T](column: Doric[Column]): F[T]
+  @inline protected def constructSide[T](
+      column: Doric[Column],
+      colName: CName
+  ): F[T]
 
   /**
     * Retreaves a column with the provided name and the provided type.
@@ -22,10 +25,10 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the column reference
     */
-  def col[T: SparkType](colName: String)(implicit
+  def col[T: SparkType](colName: CName)(implicit
       location: Location
   ): F[T] =
-    constructSide(SparkType[T].validate(colName))
+    constructSide(SparkType[T].validate(colName), colName)
 
   /**
     * Retreaves a column with the provided name expecting it to be of string
@@ -37,7 +40,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the string column reference
     */
-  def colString(colName: String)(implicit
+  def colString(colName: CName)(implicit
       location: Location
   ): F[String] =
     col[String](colName)
@@ -52,7 +55,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the integer column reference
     */
-  def colInt(colName: String)(implicit
+  def colInt(colName: CName)(implicit
       location: Location
   ): F[Int] =
     col[Int](colName)
@@ -66,7 +69,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the long column reference
     */
-  def colLong(colName: String)(implicit
+  def colLong(colName: CName)(implicit
       location: Location
   ): F[Long] =
     col[Long](colName)
@@ -81,7 +84,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the instant column reference
     */
-  def colInstant(colName: String)(implicit
+  def colInstant(colName: CName)(implicit
       location: Location
   ): F[Instant] =
     col[Instant](colName)
@@ -96,7 +99,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the LocalDate column reference
     */
-  def colLocalDate(colName: String)(implicit
+  def colLocalDate(colName: CName)(implicit
       location: Location
   ): F[LocalDate] =
     col[LocalDate](colName)
@@ -111,7 +114,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the Timestamp column reference
     */
-  def colTimestamp(colName: String)(implicit
+  def colTimestamp(colName: CName)(implicit
       location: Location
   ): F[Timestamp] =
     col[Timestamp](colName)
@@ -125,7 +128,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the Date column reference
     */
-  def colDate(colName: String)(implicit location: Location): F[Date] =
+  def colDate(colName: CName)(implicit location: Location): F[Date] =
     col[Date](colName)
 
   /**
@@ -140,7 +143,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the array of T column reference.
     */
-  def colArray[T: SparkType](colName: String)(implicit
+  def colArray[T: SparkType](colName: CName)(implicit
       location: Location
   ): F[Array[T]] =
     col[Array[T]](colName)
@@ -155,7 +158,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the array of integers column reference.
     */
-  def colArrayInt(colName: String)(implicit
+  def colArrayInt(colName: CName)(implicit
       location: Location
   ): F[Array[Int]] =
     col[Array[Int]](colName)
@@ -170,7 +173,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the array of string column reference.
     */
-  def colArrayString(colName: String)(implicit
+  def colArrayString(colName: CName)(implicit
       location: Location
   ): F[Array[String]] =
     col[Array[String]](colName)
@@ -185,7 +188,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the struct column reference.
     */
-  def colStruct(colName: String)(implicit location: Location): F[DStruct] =
+  def colStruct(colName: CName)(implicit location: Location): F[DStruct] =
     col[DStruct](colName)
 
   /**
@@ -202,7 +205,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the column of type T column reference.
     */
-  def colFromDF[T: SparkType](colName: String, originDF: Dataset[_])(implicit
+  def colFromDF[T: SparkType](colName: CName, originDF: Dataset[_])(implicit
       location: Location
   ): F[T] = {
     val doricColumn: Doric[Column] = SparkType[T]
@@ -211,6 +214,6 @@ private[doric] trait ColGetters[F[_]] {
       .fold(DoricColumn[T], DoricColumn[T](_))
       .elem
 
-    constructSide[T](doricColumn)
+    constructSide[T](doricColumn, colName)
   }
 }

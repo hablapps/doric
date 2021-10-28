@@ -13,6 +13,8 @@ package object doric extends syntax.All with sem.All {
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
 
+  type CName = CName.Type
+
   object Doric {
 
     def apply[T](a: T): Doric[T] =
@@ -20,8 +22,8 @@ package object doric extends syntax.All with sem.All {
         a.valid
       }
 
-    private[doric] def unchecked(colName: String): Doric[Column] =
-      Doric(org.apache.spark.sql.functions.col(colName))
+    private[doric] def unchecked(colName: CName): Doric[Column] =
+      Doric(org.apache.spark.sql.functions.col(colName.value))
   }
 
   private type DoricEither[A]   = EitherNec[DoricSingleError, A]
@@ -60,10 +62,20 @@ package object doric extends syntax.All with sem.All {
   }
 
   private[doric] implicit class DoricValidatedErrorHandler[T](
-      dv: DoricValidated[T]
-  ) {
-    def asSideDfError(isLeft: Boolean): DoricValidated[T] =
+      val dv: DoricValidated[T]
+  ) extends AnyVal {
+    final def asSideDfError(isLeft: Boolean): DoricValidated[T] =
       dv.leftMap(_.map(sem.JoinDoricSingleError(_, isLeft)))
+  }
+
+  implicit class StringIntCNameOps(val sc: StringContext) extends AnyVal {
+    final def c(args: Any*): CName =
+      CName(
+        sc.parts.iterator
+          .zipAll(args.iterator.map(_.toString), "", "")
+          .map { case (a, b) => a + b }
+          .mkString
+      )
   }
 
 }

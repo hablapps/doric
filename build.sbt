@@ -49,6 +49,7 @@ lazy val core = project
       "org.apache.spark"    %% "spark-sql"        % sparkVersion % "provided",
       "org.typelevel"       %% "cats-core"        % "2.6.1",
       "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
+      "io.monix"            %% "newtypes-core"    % "0.0.1",
       "com.github.mrpowers" %% "spark-daria"      % "1.0.0"      % "test",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0"      % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.10"     % "test"

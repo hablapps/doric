@@ -11,30 +11,32 @@ class TypeMatcherSpec
     with EitherValues
     with Matchers {
 
+  import doric.implicitConversions.stringCname
   import spark.implicits._
 
   describe("Any column Ops") {
     describe("matchTo") {
-      val df = List((List(1, 2, 3), 1, "1200")).toDF("colArr", "int", "str")
+      val df     = List((List(1, 2, 3), 1, "1200")).toDF("colArr", "int", "str")
+      val result = "result".cname
       it("should check the first valid match") {
-        val testColumn: String => IntegerColumn = matchToType[Int](_)
+        val testColumn: CName => IntegerColumn = matchToType[Int](_)
           .caseType[Int](identity)
           .caseType[String](_.unsafeCast)
           .caseType[Array[Int]](_.getIndex(0) + col("int"))
           .inOtherCase(12.lit)
 
-        df.withColumn("result", testColumn("colArr"))
-          .select("result")
+        df.withColumn(result, testColumn(c"colArr"))
+          .selectCName(result)
           .as[Int]
           .head() shouldBe 2
 
-        df.withColumn("result", testColumn("int"))
-          .select("result")
+        df.withColumn(result, testColumn(c"int"))
+          .selectCName(result)
           .as[Int]
           .head() shouldBe 1
 
-        df.withColumn("result", testColumn("str"))
-          .select("result")
+        df.withColumn(result, testColumn(c"str"))
+          .selectCName(result)
           .as[Int]
           .head() shouldBe 1200
       }
@@ -46,8 +48,8 @@ class TypeMatcherSpec
           .caseType[Array[String]](_.getIndex(0).unsafeCast)
           .inOtherCase(12.lit)
 
-        df.withColumn("result", testColumn)
-          .select("result")
+        df.withColumn(result, testColumn)
+          .selectCName(result)
           .as[Int]
           .head() shouldBe 12
       }
