@@ -726,9 +726,9 @@ if can be null</p></div><dl class="paramcmts block"><dt class="param">column</dt
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="doric.types.SparkType#validate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="validate(colName:String)(implicitlocation:doric.sem.Location):doric.Doric[org.apache.spark.sql.Column]"></a><a id="validate(String)(Location):Doric[Column]"></a>
+      <a id="validate(colName:doric.CName)(implicitlocation:doric.sem.Location):doric.Doric[org.apache.spark.sql.Column]"></a><a id="validate(CName)(Location):Doric[Column]"></a>
       <span class="permalink">
-      <a href="../../doric/types/SparkType.html#validate(colName:String)(implicitlocation:doric.sem.Location):doric.Doric[org.apache.spark.sql.Column]" title="Permalink">
+      <a href="../../doric/types/SparkType.html#validate(colName:doric.CName)(implicitlocation:doric.sem.Location):doric.Doric[org.apache.spark.sql.Column]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -737,7 +737,7 @@ if can be null</p></div><dl class="paramcmts block"><dt class="param">column</dt
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">validate</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../index.html#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>
+        <span class="name">validate</span><span class="params">(<span name="colName">colName: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../index.html#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Validates if a column of the in put dataframe exist and is of the spark
