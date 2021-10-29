@@ -27,6 +27,12 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       it("*") {
         test[T, T, T]((a, b) => a * b)
       }
+      it("/") {
+        test[T, T, Double]((a, b) => a / b)
+      }
+      it("%") {
+        test[T, T, T]((a,b) => a % b)
+      }
       it(">") {
         test[T, T, Boolean]((a, b) => a > b)
       }
@@ -61,9 +67,10 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   import spark.implicits._
 
   def df: DataFrame =
-    List((1, 2f, 3L)).toDF(getName[Int](), getName[Float](), getName[Long]())
+    List((1, 2f, 3L, 4.toDouble)).toDF(getName[Int](), getName[Float](), getName[Long](), getName[Double]())
 
   test[Int]()
   test[Float]()
   test[Long]()
+  test[Double]()
 }
