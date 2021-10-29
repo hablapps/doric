@@ -54,7 +54,7 @@ lazy val core = project
       "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0"      % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.10"     % "test"
     ),
-    //docs
+    // docs
     run / fork                      := true,
     Compile / doc / autoAPIMappings := true,
     Compile / doc / scalacOptions ++= Seq(

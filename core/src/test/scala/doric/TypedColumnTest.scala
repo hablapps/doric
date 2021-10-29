@@ -274,7 +274,7 @@ trait TypedColumnTest extends Matchers {
       } else {
         df2.foreach(_ =>
           ()
-        ) //force a spark execution to check if in spark runtime the job fails
+        ) // force a spark execution to check if in spark runtime the job fails
         df2
       }
     }
