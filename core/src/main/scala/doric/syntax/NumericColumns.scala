@@ -29,6 +29,18 @@ private[syntax] trait NumericColumns {
       sparkFunction(column, other, _ * _)
 
     /**
+      * @group Numeric Type
+      */
+    def /(other: DoricColumn[T]): DoricColumn[Double] =
+      sparkFunction(column, other, _ / _)
+
+    /**
+      * @group Numeric Type
+      */
+    def %(other: DoricColumn[T]): DoricColumn[T] =
+      sparkFunction(column, other, _ % _)
+
+    /**
       * @group Comparable Type
       */
     def >(other: DoricColumn[T]): BooleanColumn =
