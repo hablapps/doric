@@ -155,4 +155,70 @@ class BinaryColumnsSpec
     }
   }
 
+  describe("base64 doric function") {
+    import spark.implicits._
+
+    it("should work as spark base64 function with strings") {
+      val df = List("this is a string", null)
+        .toDF("col1")
+
+      df.testColumns("col1")(
+        c => colString(c).base64,
+        c => f.base64(f.col(c)),
+        List(
+          Some("dGhpcyBpcyBhIHN0cmluZw=="),
+          None
+        )
+      )
+    }
+
+    it("should work as spark base64 function with array of bytes") {
+      val df = List(Array[Byte](1, 2, 3, 4, 5))
+        .toDF("col1")
+
+      df.testColumns("col1")(
+        c => colBinary(c).base64,
+        c => f.base64(f.col(c)),
+        List(
+          Some("AQIDBAU=")
+        )
+      )
+    }
+  }
+
+  describe("decode doric function") {
+    import spark.implicits._
+
+    it("should work as spark decode function with strings") {
+      val df = List("this is a string", null)
+        .toDF("col1")
+
+      df.testColumns2("col1", "UTF-8")(
+        (c, charset) => colString(c).decode(charset.lit),
+        (c, charset) => f.decode(f.col(c), charset),
+        List(
+          Some("this is a string"),
+          None
+        )
+      )
+    }
+
+    it("should work as spark decode function with array of bytes") {
+      val df = List(
+        Array[Byte](116, 104, 105, 115, 32, 105, 115, 32, 97, 32, 115, 116, 114,
+          105, 110, 103),
+        null
+      ).toDF("col1")
+
+      df.testColumns2("col1", "UTF-8")(
+        (c, charset) => colBinary(c).decode(charset.lit),
+        (c, charset) => f.decode(f.col(c), charset),
+        List(
+          Some("this is a string"),
+          None
+        )
+      )
+    }
+  }
+
 }

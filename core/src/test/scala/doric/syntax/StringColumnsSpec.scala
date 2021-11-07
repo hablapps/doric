@@ -834,4 +834,44 @@ class StringColumnsSpec
       doricErr.getMessage shouldBe sparkErr.getMessage
     }
   }
+
+  describe("encode doric function") {
+    import spark.implicits._
+
+    it("should work as spark encode function") {
+      val df = List("this is a string", null)
+        .toDF("col1")
+
+      df.testColumns2("col1", "UTF-8")(
+        (c, charset) => colString(c).encode(charset.lit),
+        (c, charset) => f.encode(f.col(c), charset),
+        List(
+          Some(
+            Array[Byte](116, 104, 105, 115, 32, 105, 115, 32, 97, 32, 115, 116,
+              114, 105, 110, 103)
+          ),
+          None
+        )
+      )
+    }
+  }
+
+  describe("unbase64 doric function") {
+    import spark.implicits._
+
+    it("should work as spark unbase64 function") {
+      val df = List("AQIDBAU=", null)
+        .toDF("col1")
+
+      df.testColumns("col1")(
+        c => colString(c).unbase64,
+        c => f.unbase64(f.col(c)),
+        List(
+          Some(Array[Byte](1, 2, 3, 4, 5)),
+          None
+        )
+      )
+    }
+  }
+
 }

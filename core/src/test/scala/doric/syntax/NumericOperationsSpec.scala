@@ -6,6 +6,7 @@ import scala.reflect.{classTag, ClassTag}
 import doric.types.{NumericType, SparkType}
 import org.scalatest.funspec.AnyFunSpecLike
 
+import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.DataFrame
 
 trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
@@ -78,4 +79,19 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Float]()
   test[Long]()
   test[Double]()
+
+  describe("formatNumber doric function") {
+    import spark.implicits._
+
+    it("should work as spark format_number function") {
+      val df = List(Some(123.567), Some(1.0001), None)
+        .toDF("col1")
+
+      df.testColumns2("col1", 1)(
+        (c, d) => colDouble(c.cname).formatNumber(d.lit),
+        (c, d) => f.format_number(f.col(c), d),
+        List(Some("123.6"), Some("1.0"), None)
+      )
+    }
+  }
 }
