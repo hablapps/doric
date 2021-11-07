@@ -1,8 +1,12 @@
 package doric
 package syntax
 
+import cats.implicits.catsSyntaxTuple2Semigroupal
+
 import doric.types.{BinaryType, SparkType}
-import org.apache.spark.sql.{functions => f}
+
+import org.apache.spark.sql.catalyst.expressions.Decode
+import org.apache.spark.sql.{Column, functions => f}
 
 private[syntax] trait BinaryColumns {
 
@@ -42,6 +46,28 @@ private[syntax] trait BinaryColumns {
       * @group Binary Type
       */
     def crc32: LongColumn = column.elem.map(f.crc32).toDC
+
+    /**
+      * Computes the BASE64 encoding of a binary column and returns it as a string column.
+      * This is the reverse of unbase64.
+      *
+      * @group Binary Type
+      */
+    def base64: StringColumn = column.elem.map(f.base64).toDC
+
+    /**
+      * Computes the first argument into a string from a binary using the provided character set
+      * (one of 'US-ASCII', 'ISO-8859-1', 'UTF-8', 'UTF-16BE', 'UTF-16LE', 'UTF-16').
+      * If either argument is null, the result will also be null.
+      *
+      * @group Binary Type
+      */
+    def decode(charset: StringColumn): StringColumn =
+      (column.elem, charset.elem)
+        .mapN((col, char) => {
+          new Column(Decode(col.expr, char.expr))
+        })
+        .toDC
   }
 
 }

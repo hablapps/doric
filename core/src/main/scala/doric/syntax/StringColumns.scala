@@ -436,6 +436,28 @@ private[syntax] trait StringColumns {
     def matchRegex(literal: StringColumn): BooleanColumn = rLike(literal)
 
     /**
+      * Computes the first argument into a binary from a string using the provided character set
+      * (one of 'US-ASCII', 'ISO-8859-1', 'UTF-8', 'UTF-16BE', 'UTF-16LE', 'UTF-16').
+      * If either argument is null, the result will also be null.
+      *
+      * @group String Type
+      */
+    def encode(charset: StringColumn): BinaryColumn =
+      (s.elem, charset.elem)
+        .mapN((col, char) => {
+          new Column(Encode(col.expr, char.expr))
+        })
+        .toDC
+
+    /**
+      * Decodes a BASE64 encoded string column and returns it as a binary column.
+      * This is the reverse of base64.
+      *
+      * @group String Type
+      */
+    def unbase64: BinaryColumn = s.elem.map(f.unbase64).toDC
+
+    /**
       * ********************************************************
       *                     DORIC FUNCTIONS
       * ********************************************************
