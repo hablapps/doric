@@ -46,6 +46,7 @@ package object doric extends syntax.All with sem.All {
   type LongColumn      = DoricColumn[Long]
   type FloatColumn     = DoricColumn[Float]
   type DoubleColumn    = DoricColumn[Double]
+  type BinaryColumn    = DoricColumn[Array[Byte]]
   type DateColumn      = DoricColumn[Date]
   type LocalDateColumn = DoricColumn[LocalDate]
   type TimestampColumn = DoricColumn[Timestamp]

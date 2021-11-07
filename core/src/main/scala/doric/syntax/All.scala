@@ -16,3 +16,4 @@ private[doric] trait All
     with ControlStructures
     with AggregationColumns
     with CNameOps
+    with BinaryColumns

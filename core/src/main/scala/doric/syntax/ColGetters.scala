@@ -199,6 +199,22 @@ private[doric] trait ColGetters[F[_]] {
 
   /**
     * Retrieves a column with the provided name expecting it to be of array of
+    * bytes type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @return
+    *   the binary column reference.
+    */
+  def colBinary(colName: CName)(implicit
+      location: Location
+  ): F[Array[Byte]] =
+    col[Array[Byte]](colName)
+
+  /**
+    * Retrieves a column with the provided name expecting it to be of array of
     * string type.
     * @param colName
     *   the name of the column to find.
