@@ -105,6 +105,9 @@ object SparkType {
 
   implicit val fromDouble: SparkType[Double] = SparkType[Double](DoubleType)
 
+  implicit val fromBinary: SparkType[Array[Byte]] =
+    SparkType[Array[Byte]](org.apache.spark.sql.types.BinaryType)
+
   implicit val fromDStruct: SparkType[DStruct] = new SparkType[DStruct] {
     override def dataType: DataType = StructType(Seq.empty)
 
