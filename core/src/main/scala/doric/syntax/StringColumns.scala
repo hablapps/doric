@@ -53,8 +53,8 @@ private[syntax] trait StringColumns {
   implicit class StringOperationsSyntax(s: StringColumn) {
 
     /**
-      * ******************************************************** SPARK SQL
-      * EQUIVALENT FUNCTIONS
+      * ********************************************************
+      *             SPARK SQL EQUIVALENT FUNCTIONS
       * ********************************************************
       */
 
@@ -374,8 +374,9 @@ private[syntax] trait StringColumns {
     def upper: StringColumn = s.elem.map(f.upper).toDC
 
     /**
-      * ******************************************************** COLUMN
-      * FUNCTIONS ********************************************************
+      * ********************************************************
+      *                     COLUMN FUNCTIONS
+      * ********************************************************
       */
 
     /**
@@ -435,7 +436,8 @@ private[syntax] trait StringColumns {
     def matchRegex(literal: StringColumn): BooleanColumn = rLike(literal)
 
     /**
-      * ******************************************************** DORIC FUNCTIONS
+      * ********************************************************
+      *                     DORIC FUNCTIONS
       * ********************************************************
       */
 

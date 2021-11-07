@@ -79,6 +79,8 @@ object SparkType {
     override def dataType: DataType = dt
   }
 
+  implicit val fromNull: SparkType[Null] = SparkType[Null](NullType)
+
   implicit val fromBoolean: SparkType[Boolean] = SparkType[Boolean](BooleanType)
 
   implicit val fromStringDf: SparkType[String] = SparkType[String](StringType)

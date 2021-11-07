@@ -61,6 +61,9 @@ object Casting {
 
   implicit val timestampCastToLocalDate: Casting[Timestamp, LocalDate] =
     SparkCasting[Timestamp, LocalDate]
+
+  implicit def nullCasting[A: SparkType]: Casting[Null, A] =
+    SparkCasting[Null, A]
 }
 
 trait SparkCasting[From, To] extends Casting[From, To] {

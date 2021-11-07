@@ -15,7 +15,8 @@ private[doric] trait ColGetters[F[_]] {
   ): F[T]
 
   /**
-    * Retreaves a column with the provided name and the provided type.
+    * Retrieves a column with the provided name and the provided type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -31,8 +32,8 @@ private[doric] trait ColGetters[F[_]] {
     constructSide(SparkType[T].validate(colName), colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of string
-    * type.
+    * Retrieves a column with the provided name expecting it to be of string type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -46,8 +47,23 @@ private[doric] trait ColGetters[F[_]] {
     col[String](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of integer
-    * type.
+    * Retrieves a column with the provided name expecting it to be of null type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @return
+    *   the null column reference
+    */
+  def colNull(colName: CName)(implicit
+      location: Location
+  ): F[Null] =
+    col[Null](colName)
+
+  /**
+    * Retrieves a column with the provided name expecting it to be of integer type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -61,7 +77,8 @@ private[doric] trait ColGetters[F[_]] {
     col[Int](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of long type.
+    * Retrieves a column with the provided name expecting it to be of long type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -75,8 +92,23 @@ private[doric] trait ColGetters[F[_]] {
     col[Long](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of instant
-    * type.
+    * Retrieves a column with the provided name expecting it to be of double type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @return
+    *   the double column reference
+    */
+  def colDouble(colName: CName)(implicit
+      location: Location
+  ): F[Double] =
+    col[Double](colName)
+
+  /**
+    * Retrieves a column with the provided name expecting it to be of instant type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -90,8 +122,8 @@ private[doric] trait ColGetters[F[_]] {
     col[Instant](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of LocalDate
-    * type.
+    * Retrieves a column with the provided name expecting it to be of LocalDate type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -105,8 +137,8 @@ private[doric] trait ColGetters[F[_]] {
     col[LocalDate](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of Timestamp
-    * type.
+    * Retrieves a column with the provided name expecting it to be of Timestamp type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -120,7 +152,8 @@ private[doric] trait ColGetters[F[_]] {
     col[Timestamp](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of Date type.
+    * Retrieves a column with the provided name expecting it to be of Date type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -132,8 +165,8 @@ private[doric] trait ColGetters[F[_]] {
     col[Date](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of array of T
-    * type.
+    * Retrieves a column with the provided name expecting it to be of array of T type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -149,8 +182,9 @@ private[doric] trait ColGetters[F[_]] {
     col[Array[T]](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of array of
+    * Retrieves a column with the provided name expecting it to be of array of
     * integers type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -164,7 +198,7 @@ private[doric] trait ColGetters[F[_]] {
     col[Array[Int]](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of array of
+    * Retrieves a column with the provided name expecting it to be of array of
     * string type.
     * @param colName
     *   the name of the column to find.
@@ -179,8 +213,8 @@ private[doric] trait ColGetters[F[_]] {
     col[Array[String]](colName)
 
   /**
-    * Retreaves a column with the provided name expecting it to be of struct
-    * type.
+    * Retrieves a column with the provided name expecting it to be of struct type.
+    *
     * @param colName
     *   the name of the column to find.
     * @param location
@@ -192,8 +226,9 @@ private[doric] trait ColGetters[F[_]] {
     col[DStruct](colName)
 
   /**
-    * Retreaves a column of the provided dataframe. Useful to prevent column
+    * Retrieves a column of the provided dataframe. Useful to prevent column
     * ambiguity errors.
+    *
     * @param colName
     *   the name of the column to find.
     * @param originDF

@@ -39,6 +39,7 @@ package object doric extends syntax.All with sem.All {
   }
 
   // Basic types
+  type NullColumn      = DoricColumn[Null]
   type BooleanColumn   = DoricColumn[Boolean]
   type StringColumn    = DoricColumn[String]
   type IntegerColumn   = DoricColumn[Int]
