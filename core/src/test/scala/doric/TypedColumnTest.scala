@@ -2,20 +2,77 @@ package doric
 
 import scala.reflect._
 import scala.reflect.runtime.universe._
-
 import doric.types.{Casting, SparkType}
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
+import org.apache.spark.sql.{Column, DataFrame, Encoder, functions => f}
+import org.apache.spark.sql.types._
 
-import org.apache.spark.sql.{Column, DataFrame, Encoder}
-import org.apache.spark.sql.types.DataType
+import doric.implicitConversions.stringCname
 
 trait TypedColumnTest extends Matchers {
 
-  implicit class ValidateColumnType(df: DataFrame) {
+  private lazy val doricCol = "dcol".cname
+  private lazy val sparkCol = "scol".cname
 
-    private lazy val doricCol = "dcol".cname
-    private lazy val sparkCol = "scol".cname
+  /**
+    * Compare two columns (doric & spark).
+    * If `expected` is defined is also compared
+    *
+    * @param df
+    *   Spark dataFrame
+    * @param expected
+    *   list of values
+    * @tparam T
+    *   Comparing column type
+    */
+  def compareDifferences[T: SparkType: TypeTag: Equality](
+      df: DataFrame,
+      expected: List[Option[T]]
+  ): Unit = {
+
+    val equalsColumn = "equals".cname
+    val result = df
+      .withColumn(
+        equalsColumn,
+        (
+          col[T](doricCol) === col(sparkCol)
+            or (
+              col(doricCol).isNull
+                and col(sparkCol).isNull
+            )
+        ).as(equalsColumn)
+      )
+      .na
+      .fill(Map(equalsColumn.value -> false))
+
+    implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
+      result.sparkSession.implicits
+        .newProductEncoder[(Option[T], Option[T], Boolean)]
+    val rows = result.as[(Option[T], Option[T], Boolean)].collect().toList
+
+    val doricColumns   = rows.map(_._1)
+    val sparkColumns   = rows.map(_._2)
+    val boolResColumns = rows.map(_._3)
+
+    assert(
+      boolResColumns.reduce(_ && _),
+      s"\nDoric function & Spark function return different values\n" +
+        s"Doric   : $doricColumns\n" +
+        s"Spark   : $sparkColumns}" +
+        s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
+    )
+
+    if (expected.nonEmpty) {
+      import Equalities._
+      assert(
+        doricColumns === expected,
+        s"\nDoric and Spark functions return different values than expected"
+      )
+    }
+  }
+
+  implicit class ValidateColumnType(df: DataFrame) {
 
     /**
       * Tests doric & spark functions without parameters or columns
@@ -203,58 +260,37 @@ trait TypedColumnTest extends Matchers {
       compareDifferences(result, expected)
     }
 
-    /**
-      * @param df
-      *   Spark dataFrame
-      * @param expected
-      *   list of values
-      * @tparam T
-      *   Comparing column type
-      */
-    private def compareDifferences[T: SparkType: TypeTag: Equality](
-        df: DataFrame,
-        expected: List[Option[T]]
+    def testColumnsN[T: SparkType: TypeTag: Equality](
+        struct: StructType
+    )(
+        dcolumn: Seq[DoricColumn[_]] => DoricColumn[T],
+        scolumn: Seq[Column] => Column,
+        expected: List[Option[T]] = List.empty
     ): Unit = {
 
-      val equalsColumn = "equals".cname
-      val result = df
-        .withColumn(
-          equalsColumn,
-          (
-            col[T](doricCol) === col(sparkCol)
-              or (
-                col(doricCol).isNull
-                  and col(sparkCol).isNull
-              )
-          ).as(equalsColumn)
-        )
-        .na
-        .fill(Map(equalsColumn.value -> false))
+      val doricColumns: Seq[DoricColumn[_]] = struct.map {
+        case StructField(name, dataType, _, _) =>
+          dataType match {
+            case StringType    => colString(name)
+            case IntegerType   => colInt(name)
+            case LongType      => colLong(name)
+            case DoubleType    => colDouble(name)
+            case BooleanType   => colBoolean(name)
+            case DateType      => colDate(name)
+            case TimestampType => colTimestamp(name)
+            // TODO
+//          case ArrayType => colArray(name.cname)
+//          case StructType => colStruct(name.cname)
+//          case MapType => colMap(name.cname)
+          }
+      }
 
-      implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
-        result.sparkSession.implicits
-          .newProductEncoder[(Option[T], Option[T], Boolean)]
-      val rows = result.as[(Option[T], Option[T], Boolean)].collect().toList
-
-      val doricColumns   = rows.map(_._1)
-      val sparkColumns   = rows.map(_._2)
-      val boolResColumns = rows.map(_._3)
-
-      assert(
-        boolResColumns.reduce(_ && _),
-        s"\nDoric function & Spark function return different values\n" +
-          s"Doric   : $doricColumns\n" +
-          s"Spark   : $sparkColumns}" +
-          s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
+      val result = df.select(
+        dcolumn(doricColumns).as(doricCol),
+        scolumn(struct.map(x => f.col(x.name))).asDoric[T].as(sparkCol)
       )
 
-      if (expected.nonEmpty) {
-        import Equalities._
-        assert(
-          doricColumns === expected,
-          s"\nDoric and Spark functions return different values than expected"
-        )
-      }
+      compareDifferences(result, expected)
     }
 
     def validateColumnType[T: SparkType](

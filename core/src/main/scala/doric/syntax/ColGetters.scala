@@ -107,6 +107,21 @@ private[doric] trait ColGetters[F[_]] {
     col[Double](colName)
 
   /**
+    * Retrieves a column with the provided name expecting it to be of double type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @return
+    *   the long column reference
+    */
+  def colBoolean(colName: CName)(implicit
+      location: Location
+  ): F[Boolean] =
+    col[Boolean](colName)
+
+  /**
     * Retrieves a column with the provided name expecting it to be of instant type.
     *
     * @param colName

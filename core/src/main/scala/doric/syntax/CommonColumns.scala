@@ -26,13 +26,31 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
     * is null and b is not null, or c if both a and b are null but c is not
     * null.
     *
+    * @group All Types
     * @param cols
-    *   the String DoricColumns to coalesce
+    *   the DoricColumns to coalesce
     * @return
     *   the first column that is not null, or null if all inputs are null.
     */
   def coalesce[T](cols: DoricColumn[T]*): DoricColumn[T] =
     cols.map(_.elem).toList.sequence.map(f.coalesce(_: _*)).toDC
+
+  /**
+    * Calculates the hash code of given columns, and returns the result as an integer column.
+    *
+    * @group All Types
+    */
+  def hash(cols: DoricColumn[_]*): IntegerColumn =
+    cols.map(_.elem).toList.sequence.map(f.hash(_: _*)).toDC
+
+  /**
+    * Calculates the hash code of given columns using the 64-bit
+    * variant of the xxHash algorithm, and returns the result as a long column.
+    *
+    * @group All Types
+    */
+  def xxhash64(cols: DoricColumn[_]*): LongColumn =
+    cols.map(_.elem).toList.sequence.map(f.xxhash64(_: _*)).toDC
 
   override protected def constructSide[T](
       column: Doric[Column],
@@ -49,7 +67,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * @tparam T
       *   The expected type that should have the column.
       * @return
-      *   A DoricColumn referece of the provided type T
+      *   A DoricColumn reference of the provided type T
       */
     @inline def asDoric[T: SparkType](implicit
         location: Location
