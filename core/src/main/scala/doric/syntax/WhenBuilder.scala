@@ -2,8 +2,7 @@ package doric
 package syntax
 
 import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple2Semigroupal, catsSyntaxTuple3Semigroupal}
-import doric.types.SparkType
-
+import doric.types.{Casting, SparkType}
 import org.apache.spark.sql.functions.{lit => sparkLit, when => sparkWhen}
 import org.apache.spark.sql.Column
 
@@ -19,10 +18,13 @@ final private[doric] case class WhenBuilder[T](
     * @return
     *   The doric column with the provided logic in the builder
     */
-  def otherwiseNull(implicit dt: SparkType[T]): DoricColumn[T] =
-    if (cases.isEmpty)
-      sparkLit(null).cast(dataType[T]).pure[Doric].toDC
-    else
+  def otherwiseNull(implicit
+      dt: SparkType[T],
+      C: Casting[Null, T]
+  ): DoricColumn[T] =
+    if (cases.isEmpty) {
+      lit(null).cast[T]
+    } else
       casesToWhenColumn.toDC
 
   /**
