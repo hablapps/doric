@@ -489,5 +489,18 @@ private[syntax] trait StringColumns {
           new Column(new ParseToTimestamp(str.expr, tsFormat.expr))
         )
         .toDC
+
+    /**
+      * ********************************************************
+      *                     MISC FUNCTIONS
+      * ********************************************************
+      */
+
+    /**
+      * Throws an exception with the provided error message.
+      *
+      * @group String Type
+      */
+    def raiseError: NullColumn = s.elem.map(f.raise_error).toDC
   }
 }
