@@ -458,6 +458,32 @@ private[syntax] trait StringColumns {
     def unbase64: BinaryColumn = s.elem.map(f.unbase64).toDC
 
     /**
+      * Converts date/timestamp to Unix timestamp (in seconds),
+      * using the default timezone and the default locale.
+      *
+      * @return
+      *   A long
+      *
+      * @group String Type
+      */
+    def unixTimestamp: LongColumn = s.elem.map(f.unix_timestamp).toDC
+
+    /**
+      * Converts date/timestamp with given pattern to Unix timestamp (in seconds).
+      *
+      * @return
+      *   A long, or null if the input was a string not of the correct format
+      *
+      * @group String Type
+      */
+    def unixTimestamp(pattern: StringColumn): LongColumn =
+      (s.elem, pattern.elem)
+        .mapN((c, p) => {
+          new Column(UnixTimestamp(c.expr, p.expr))
+        })
+        .toDC
+
+    /**
       * ********************************************************
       *                     DORIC FUNCTIONS
       * ********************************************************

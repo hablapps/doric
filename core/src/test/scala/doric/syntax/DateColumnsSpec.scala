@@ -356,24 +356,38 @@ class DateColumnsSpec
     }
   }
 
-  describe("trunc doric function with literal") {
+  describe("truncate doric function with literal") {
     import spark.implicits._
 
     val df = List(Date.valueOf("2021-10-05"), null).toDF("dateCol")
 
-    it("should work as spark date_format function with literal") {
+    it("should work as spark trunc function with dates") {
       df.testColumns2("dateCol", "yyyy")(
-        (d, m) => colDate(d).trunc(m.lit),
+        (d, m) => colDate(d).truncate(m.lit),
         (d, m) => f.trunc(f.col(d), m),
         List(Date.valueOf("2021-01-01"), null).map(Option(_))
       )
     }
 
     it("should return null if malformed format") {
-      df.testColumns2("dateCol", "yabcd")(
-        (d, m) => colDate(d).trunc(m.lit),
+      df.testColumns2("dateCol", "second")(
+        (d, m) => colDate(d).truncate(m.lit),
         (d, m) => f.trunc(f.col(d), m),
         List(null, null).map(Option(_))
+      )
+    }
+  }
+
+  describe("date unixTimestamp doric function") {
+    import spark.implicits._
+
+    val df = List(Date.valueOf("2021-10-05"), null).toDF("dateCol")
+
+    it("should work as spark unix_timestamp function") {
+      df.testColumns("dateCol")(
+        d => colDate(d).unixTimestamp,
+        d => f.unix_timestamp(f.col(d)),
+        List(Some(1633392000L), None)
       )
     }
   }

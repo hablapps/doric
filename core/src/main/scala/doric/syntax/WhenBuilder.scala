@@ -30,7 +30,7 @@ final private[doric] case class WhenBuilder[T](
   /**
     * ads a case that if the condition is matched, the value is returned
     * @param cond
-    *   BooleanColumn with the condition to satify
+    *   BooleanColumn with the condition to satisfy
     * @param elem
     *   the returned element if the condition is true
     * @return

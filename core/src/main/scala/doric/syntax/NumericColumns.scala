@@ -5,9 +5,14 @@ import cats.implicits.catsSyntaxTuple2Semigroupal
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
 import org.apache.spark.sql.Column
-import org.apache.spark.sql.catalyst.expressions.FormatNumber
+import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime}
 
 private[syntax] trait NumericColumns {
+
+  def unixTimestamp(): LongColumn = {
+    DoricColumn(f.unix_timestamp())
+  }
 
   implicit class NumericOperationsSyntax[T: NumericType](
       column: DoricColumn[T]
@@ -80,6 +85,46 @@ private[syntax] trait NumericColumns {
       (column.elem, decimals.elem)
         .mapN((c, d) => {
           new Column(FormatNumber(c.expr, d.expr))
+        })
+        .toDC
+
+    /**
+      * Creates timestamp from the number of seconds since UTC epoch.
+      *
+      * @group Numeric Type
+      */
+    def timestampSeconds: TimestampColumn =
+      column.elem.map(f.timestamp_seconds).toDC
+
+  }
+
+  implicit class LongOperationsSyntax(
+      column: LongColumn
+  ) {
+
+    /**
+      * Converts the number of seconds from unix epoch (1970-01-01 00:00:00 UTC) to a string
+      * representing the timestamp of that moment in the current system time zone in the
+      * yyyy-MM-dd HH:mm:ss format.
+      *
+      * @group Numeric Type
+      */
+    def fromUnixTime: StringColumn = column.elem.map(f.from_unixtime).toDC
+
+    /**
+      * Converts the number of seconds from unix epoch (1970-01-01 00:00:00 UTC) to a string
+      * representing the timestamp of that moment in the current system time zone in the given
+      * format.
+      *
+      * @note
+      *   An IllegalArgumentException will be thrown if invalid pattern
+      *
+      * @group Numeric Type
+      */
+    def fromUnixTime(format: StringColumn): StringColumn =
+      (column.elem, format.elem)
+        .mapN((c, f) => {
+          new Column(FromUnixTime(c.expr, f.expr))
         })
         .toDC
 

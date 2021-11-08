@@ -874,4 +874,36 @@ class StringColumnsSpec
     }
   }
 
+  describe("string unixTimestamp doric function") {
+    import spark.implicits._
+
+    val df = List("2021-10-05", "20211005", null).toDF("dateCol")
+
+    it("should work as spark unix_timestamp function") {
+      val dfString = List("2021-10-05 01:02:03", "20211005", null)
+        .toDF("dateCol")
+
+      dfString.testColumns("dateCol")(
+        d => colString(d).unixTimestamp,
+        d => f.unix_timestamp(f.col(d)),
+        List(Some(1633395723L), None, None)
+      )
+    }
+
+    it("should work as spark unix_timestamp(pattern) function") {
+      df.testColumns2("dateCol", "yyyy-mm-dd")(
+        (d, m) => colString(d).unixTimestamp(m.lit),
+        (d, m) => f.unix_timestamp(f.col(d), m),
+        List(Some(1609805400L), None, None)
+      )
+    }
+
+    it("should fail if malformed format") {
+      intercept[IllegalArgumentException](
+        df.select(colString("dateCol").unixTimestamp("yabcd".lit))
+          .collect()
+      )
+    }
+  }
+
 }
