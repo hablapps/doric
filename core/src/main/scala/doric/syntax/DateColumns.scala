@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.{DateType, SparkType}
-import org.apache.spark.sql.catalyst.expressions.{DateFormatClass, MonthsBetween, NextDay, TruncDate}
+import org.apache.spark.sql.catalyst.expressions.{DateFormatClass, MonthsBetween, NextDay, TruncDate, TruncTimestamp, UnixTimestamp}
 import org.apache.spark.sql.{Column, functions => f}
 
 import java.sql.Date
@@ -30,7 +30,8 @@ private[syntax] trait DateColumns {
       *   the number of months to add, can be negative to subtract.
       * @return
       *   Date column after adding months
-      * @note Timestamp columns will be truncated to Date column
+      * @note
+      *   Timestamp columns will be truncated to Date column
       */
     def addMonths(nMonths: IntegerColumn): DateColumn =
       (column.elem, nMonths.elem).mapN(f.add_months).toDC
@@ -38,9 +39,11 @@ private[syntax] trait DateColumns {
     /**
       * Returns the date that is `days` days after date column
       *
-      * @param days A column of the number of days to add to date column, can be negative to subtract days
+      * @param days
+      *   A column of the number of days to add to date column, can be negative to subtract days
+      * @note
+      *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @note Timestamp columns will be truncated to Date column
       */
     def addDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_add).toDC
@@ -49,9 +52,11 @@ private[syntax] trait DateColumns {
       * Converts a date to a value of string in the format specified by the date
       * format given by the second argument.
       *
-      * @param format A pattern `dd.MM.yyyy` would return a string like `18.03.1993`
-      * @note Use specialized functions like 'year' whenever possible as they benefit from a
-      *       specialized implementation.
+      * @param format
+      *   A pattern `dd.MM.yyyy` would return a string like `18.03.1993`
+      * @note
+      *   Use specialized functions like 'year' whenever possible as they benefit from a
+      *   specialized implementation.
       * @group Date & Timestamp Type
       */
     def format(format: StringColumn): StringColumn =
@@ -64,10 +69,11 @@ private[syntax] trait DateColumns {
     /**
       * Returns the date that is `days` days before date column
       *
-      * @param days A column of the number of days to subtract from date column, can be negative to add
-      *             days
+      * @param days
+      *   A column of the number of days to subtract from date column, can be negative to add days
+      * @note
+      *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @note Timestamp columns will be truncated to Date column
       */
     def subDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_sub).toDC
@@ -75,7 +81,8 @@ private[syntax] trait DateColumns {
     /**
       * Returns the number of days from date column to `dateCol`.
       *
-      * @param dateCol A Date or Timestamp column
+      * @param dateCol
+      *   A Date or Timestamp column
       * @group Date & Timestamp Type
       */
     def diff(dateCol: DoricColumn[T]): IntegerColumn =
@@ -141,7 +148,8 @@ private[syntax] trait DateColumns {
       * Timestamp("2017-06-01 00:00:00").monthsBetween(Timestamp("2017-06-16 12:00:00"))  // returns -0.5
       * }}}
       *
-      * @param dateCol Date or Timestamp column
+      * @param dateCol
+      *   Date or Timestamp column
       * @group Date & Timestamp Type
       */
     def monthsBetween(dateCol: DoricColumn[T]): DoubleColumn =
@@ -150,9 +158,11 @@ private[syntax] trait DateColumns {
     /**
       * Returns number of months between dates `dateCol` and date column.
       *
-      * @param dateCol Date or Timestamp column
-      * @param roundOff If `roundOff` is set to true, the result is rounded off to 8 digits;
-      *                 it is not rounded otherwise.
+      * @param dateCol
+      *   Date or Timestamp column
+      * @param roundOff
+      *   If `roundOff` is set to true, the result is rounded off to 8 digits;
+      *   it is not rounded otherwise.
       * @group Date & Timestamp Type
       */
     def monthsBetween(
@@ -172,9 +182,11 @@ private[syntax] trait DateColumns {
       * For example, `Date("2015-07-27").nextDay("Sunday")` returns Date("2015-08-02") because
       * that is the first Sunday after 2015-07-27.
       *
-      * @param dayOfWeek Case insensitive, and accepts: "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+      * @param dayOfWeek
+      *   Case insensitive, and accepts: "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+      * @note
+      *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @note Timestamp columns will be truncated to Date column
       */
     def nextDay(dayOfWeek: StringColumn): DateColumn =
       (column.elem, dayOfWeek.elem)
@@ -195,18 +207,43 @@ private[syntax] trait DateColumns {
       *
       * For example, `Timestamp("2018-11-19 12:01:19").trunc("year")` returns Date("2018-01-01")
       *
-      * @param format 'year', 'yyyy', 'yy' to truncate by year,
-      *               or 'month', 'mon', 'mm' to truncate by month
-      *               Other options are: 'week', 'quarter'
+      * @param format
+      *   if date:
+      *     * 'year', 'yyyy', 'yy' to truncate by year,
+      *     * 'month', 'mon', 'mm' to truncate by month
+      *     Other options are: 'week', 'quarter'
+      *   if timestamp:
+      *     * 'year', 'yyyy', 'yy' to truncate by year,
+      *     * 'month', 'mon', 'mm' to truncate by month,
+      *     * 'day', 'dd' to truncate by day,
+      *     Other options are:
+      *     * 'microsecond', 'millisecond', 'second', 'minute', 'hour', 'week', 'quarter'
+      * @note
+      *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @note Timestamp columns will be truncated to Date column
       */
-    def trunc(format: StringColumn): DateColumn =
+    def truncate(format: StringColumn): DoricColumn[T] =
       (column.elem, format.elem)
         .mapN((c, fmt) => {
-          new Column(TruncDate(c.expr, fmt.expr))
+          new Column(SparkType[T].dataType match {
+            case org.apache.spark.sql.types.DateType =>
+              TruncDate(c.expr, fmt.expr)
+            case org.apache.spark.sql.types.TimestampType =>
+              TruncTimestamp(fmt.expr, c.expr)
+          })
         })
         .toDC
+
+    /**
+      * Converts date/timestamp to Unix timestamp (in seconds),
+      * using the default timezone and the default locale.
+      *
+      * @return
+      *   A long
+      *
+      * @group Date & Timestamp Type
+      */
+    def unixTimestamp: LongColumn = column.elem.map(f.unix_timestamp).toDC
 
     /**
       * Extracts the week number as an integer from a given date.

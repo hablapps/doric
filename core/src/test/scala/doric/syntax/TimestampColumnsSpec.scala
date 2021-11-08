@@ -53,6 +53,50 @@ class TimestampColumnsSpec
     }
   }
 
+  describe("fromUtc doric function") {
+    import spark.implicits._
+
+    val df = List(Timestamp.valueOf("2017-07-14 02:40:00"), null)
+      .toDF("timestampCol")
+
+    it("should work as spark from_utc_timestamp function") {
+      df.testColumns2("timestampCol", "GMT+1")(
+        (d, m) => colTimestamp(d).fromUtc(m.lit),
+        (d, m) => f.from_utc_timestamp(f.col(d), m),
+        List(Timestamp.valueOf("2017-07-14 03:40:00"), null).map(Option(_))
+      )
+    }
+
+    it("should fail if invalid timeZone") {
+      intercept[java.time.DateTimeException](
+        df.select(colTimestamp("timestampCol").fromUtc("wrong timeZone".lit))
+          .collect()
+      )
+    }
+  }
+
+  describe("toUtc doric function") {
+    import spark.implicits._
+
+    val df = List(Timestamp.valueOf("2017-07-14 02:40:00"), null)
+      .toDF("timestampCol")
+
+    it("should work as spark to_utc_timestamp function") {
+      df.testColumns2("timestampCol", "GMT+1")(
+        (d, m) => colTimestamp(d).toUtc(m.lit),
+        (d, m) => f.to_utc_timestamp(f.col(d), m),
+        List(Timestamp.valueOf("2017-07-14 01:40:00"), null).map(Option(_))
+      )
+    }
+
+    it("should fail if invalid timeZone") {
+      intercept[java.time.DateTimeException](
+        df.select(colTimestamp("timestampCol").toUtc("wrong timeZone".lit))
+          .collect()
+      )
+    }
+  }
+
   describe("addMonths doric function with column") {
     import spark.implicits._
 
@@ -384,21 +428,21 @@ class TimestampColumnsSpec
   describe("trunc doric function with literal") {
     import spark.implicits._
 
-    val df =
-      List(Timestamp.valueOf("2021-10-05 00:00:00"), null).toDF("timestampCol")
+    val df = List(Timestamp.valueOf("2021-10-05 00:00:00"), null)
+      .toDF("timestampCol")
 
-    it("should work as spark trunc function with literal") {
+    it("should work as spark date_trunc function with literal") {
       df.testColumns2("timestampCol", "yyyy")(
-        (d, m) => colTimestamp(d).trunc(m.lit),
-        (d, m) => f.trunc(f.col(d), m),
-        List(Date.valueOf("2021-01-01"), null).map(Option(_))
+        (d, m) => colTimestamp(d).truncate(m.lit),
+        (d, m) => f.date_trunc(m, f.col(d)),
+        List(Timestamp.valueOf("2021-01-01 00:00:00"), null).map(Option(_))
       )
     }
 
     it("should return null if malformed format") {
       df.testColumns2("timestampCol", "yabcd")(
-        (d, m) => colTimestamp(d).trunc(m.lit),
-        (d, m) => f.trunc(f.col(d), m),
+        (d, m) => colTimestamp(d).truncate(m.lit),
+        (d, m) => f.date_trunc(m, f.col(d)),
         List(null, null).map(Option(_))
       )
     }
