@@ -34,29 +34,33 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   ): Unit = {
     import Equalities._
 
+    val eqCond: BooleanColumn = SparkType[T].dataType.typeName match {
+      case "map" =>
+        val compare: (Column => Column) => BooleanColumn = sparkFun => {
+          sparkFun(f.col(doricCol.value)) === sparkFun(f.col(sparkCol.value))
+        }.asDoric[Boolean]
+
+        compare(f.map_keys) and compare(f.map_values)
+      case _ => col[T](doricCol) === col(sparkCol)
+    }
+
+    val bothNull = col(doricCol).isNull and col(sparkCol).isNull
+
     val equalsColumn = "equals"
     val result = df
-      .withColumn(
-        equalsColumn,
-        (
-          col[T](doricCol) === col(sparkCol)
-            or (
-              col(doricCol).isNull
-                and col(sparkCol).isNull
-            )
-        ).as(equalsColumn)
-      )
+      .withColumn(equalsColumn, eqCond or bothNull)
       .na
       .fill(Map(equalsColumn -> false))
 
     implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
       result.sparkSession.implicits
         .newProductEncoder[(Option[T], Option[T], Boolean)]
-    val rows = result.as[(Option[T], Option[T], Boolean)].collect().toList
 
-    val doricColumns   = rows.map(_._1)
-    val sparkColumns   = rows.map(_._2)
-    val boolResColumns = rows.map(_._3)
+    val (doricColumns, sparkColumns, boolResColumns) = result
+      .as[(Option[T], Option[T], Boolean)]
+      .collect()
+      .toList
+      .unzip3
 
     assert(
       boolResColumns.reduce(_ && _),

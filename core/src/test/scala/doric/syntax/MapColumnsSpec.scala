@@ -69,10 +69,9 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
     ).toDF("col1", "col2")
 
     it("should work as spark map_concat function") {
-      // TODO failing comparison
       df.testColumns2("col1", "col2")(
         (c1, c2) =>
-          concatMaps(colMap[String, String](c1), colMap[String, String](c2)),
+          concatMaps(colMapString[String](c1), colMapString[String](c2)),
         (c1, c2) => f.map_concat(f.col(c1), f.col(c2)),
         List(Map("k1" -> "v1", "k2" -> "v2"), null, null, null).map(Option(_))
       )
@@ -86,7 +85,7 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
 
     it("should retrieve the element at the provided key") {
       df.testColumns2("col1", "k1")(
-        (c, k) => colMap[String, String](c).get(k.lit),
+        (c, k) => colMapString[String](c).get(k.lit),
         (c, k) => f.col(c)(k),
         List("v1", null).map(Option(_))
       )
@@ -104,7 +103,7 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
 
     it("should work as spark map_keys function") {
       df.testColumns("col1")(
-        c => colMap[String, String](c).keys,
+        c => colMapString[String](c).keys,
         c => f.map_keys(f.col(c)),
         List(Array("k1", "k2"), Array.empty[String], null).map(Option(_))
       )
@@ -122,7 +121,7 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
 
     it("should work as spark map_values function") {
       df.testColumns("col1")(
-        c => colMap[String, String](c).values,
+        c => colMapString[String](c).values,
         c => f.map_values(f.col(c)),
         List(Array("v1", "v2"), Array.empty[String], null).map(Option(_))
       )
@@ -140,9 +139,128 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
 
     it("should work as spark element_at function") {
       df.testColumns2("col1", "k2")(
-        (c, p) => colMap[String, String](c).elementAt(p.lit),
+        (c, p) => colMapString[String](c).elementAt(p.lit),
         (c, p) => f.element_at(f.col(c), p),
         List("v2", null, null).map(Option(_))
+      )
+    }
+  }
+
+  // TODO explode function tests
+
+  describe("size doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as spark size function") {
+      df.testColumns("col1")(
+        c => colMapString[String](c).size,
+        c => f.size(f.col(c)),
+        List(Some(2), Some(0), Some(-1))
+      )
+    }
+  }
+
+  // TODO mapEntries
+
+  describe("filter doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as map_filter size function") {
+      df.testColumns("col1")(
+        c => colMapString[String](c).filter((k, _) => k.contains("1")),
+        c => f.map_filter(f.col(c), (k, _) => k.contains("1")),
+        List(
+          Map("k1" -> "v1"),
+          Map.empty[String, String],
+          null
+        ).map(Option(_))
+      )
+    }
+  }
+
+  describe("zipWith doric function") {
+    import spark.implicits._
+
+    val df = List(
+      (Map("k1" -> "v11", "k2" -> "v2"), Map("k1" -> "v12", "k3" -> "v3")),
+      (Map.empty[String, String], Map("k1" -> "v1", "k2" -> "v2")),
+      (null, Map("k1" -> "v1", "k2" -> "v2")),
+      (Map("k1" -> "v1", "k2" -> "v2"), null),
+      (null, null)
+    ).toDF("col1", "col2")
+
+    it("should work as map_zip_with size function") {
+      df.testColumns2("col1", "col2")(
+        (c1, c2) =>
+          colMapString[String](c1).zipWith[String, String](
+            colMapString[String](c2),
+            (_, v1, v2) => v1 + v2
+          ),
+        (c1, c2) =>
+          f.map_zip_with(f.col(c1), f.col(c2), (_, v1, v2) => f.concat(v1, v2)),
+        List(
+          Map("k1" -> "v11v12", "k2" -> null, "k3" -> null),
+          Map("k1" -> null, "k2"     -> null),
+          null,
+          null,
+          null
+        ).map(Option(_))
+      )
+    }
+  }
+
+  describe("transformKeys doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as transform_keys size function") {
+      df.testColumns2("col1", "_key")(
+        (c, l) => colMapString[String](c).transformKeys((k, _) => k + l.lit),
+        (c, l) => f.transform_keys(f.col(c), (k, _) => f.concat(k, f.lit(l))),
+        List(
+          Map("k1_key" -> "v1", "k2_key" -> "v2"),
+          Map.empty[String, String],
+          null
+        ).map(Option(_))
+      )
+    }
+  }
+
+  describe("transformValues doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as transform_values size function") {
+      df.testColumns("col1")(
+        c => colMapString[String](c).transformValues((k, v) => k + v),
+        c => f.transform_values(f.col(c), (k, v) => f.concat(k, v)),
+        List(
+          Map("k1" -> "k1v1", "k2" -> "k2v2"),
+          Map.empty[String, String],
+          null
+        ).map(Option(_))
       )
     }
   }
