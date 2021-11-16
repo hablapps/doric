@@ -1,14 +1,30 @@
 package doric
 package syntax
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
-
+import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
 import doric.types.{BinaryType, SparkType}
-
 import org.apache.spark.sql.catalyst.expressions.Decode
 import org.apache.spark.sql.{Column, functions => f}
 
 private[syntax] trait BinaryColumns {
+
+  /**
+    * Concatenates multiple binary columns together into a single column.
+    *
+    * @group Binary Type
+    * @param col
+    *   the first binary column
+    * @param cols
+    *   the binary columns
+    * @return
+    *   Doric Column with the concatenation.
+    * @see [[org.apache.spark.sql.functions.concat]]
+    */
+  def concatBinary(
+      col: BinaryColumn,
+      cols: BinaryColumn*
+  ): BinaryColumn =
+    (col +: cols).toList.traverse(_.elem).map(f.concat(_: _*)).toDC
 
   implicit class BinaryOperationsSyntax[T: BinaryType: SparkType](
       column: DoricColumn[T]

@@ -936,4 +936,18 @@ class StringColumnsSpec
     }
   }
 
+  describe("reverse doric function") {
+    import spark.implicits._
+
+    val df = List("hello world", "12345", null).toDF("col1")
+
+    it("should work as spark reverse function") {
+      df.testColumns("col1")(
+        str => colString(str).reverse,
+        str => f.reverse(f.col(str)),
+        List("dlrow olleh", "54321", null).map(Option(_))
+      )
+    }
+  }
+
 }

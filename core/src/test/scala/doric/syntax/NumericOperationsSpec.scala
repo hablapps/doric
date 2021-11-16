@@ -326,4 +326,30 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
     }
   }
 
+  describe("sequence doric function") {
+    import spark.implicits._
+
+    it("should work as spark sequence function") {
+      val df = List(Some(1), None)
+        .toDF("col1")
+
+      df.testColumns2("col1", 4)(
+        (c, d) => colInt(c).sequence(d.lit),
+        (c, d) => f.sequence(f.col(c), f.lit(d)),
+        List(Some(Array(1, 2, 3, 4)), None)
+      )
+    }
+
+    it("should work as spark sequence function with step argument") {
+      val df = List(Some(1), None)
+        .toDF("col1")
+
+      df.testColumns3("col1", 4, 2)(
+        (c, d, s) => colInt(c).sequence(d.lit, s.lit),
+        (c, d, s) => f.sequence(f.col(c), f.lit(d), f.lit(s)),
+        List(Some(Array(1, 3)), None)
+      )
+    }
+  }
+
 }

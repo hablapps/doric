@@ -241,4 +241,23 @@ class CommonColumnsSpec
     }
   }
 
+  describe("repeat doric function") {
+    import spark.implicits._
+
+    it("should work as spark array_repeat function") {
+      val df = List("this is a string", null).toDF("col1")
+
+      df.testColumns2("col1", 3)(
+        (col, times) => colString(col).repeatArray(times.lit),
+        (col, times) => f.array_repeat(f.col(col), times),
+        List(
+          Some(
+            Array("this is a string", "this is a string", "this is a string")
+          ),
+          Some(Array[String](null, null, null))
+        )
+      )
+    }
+  }
+
 }

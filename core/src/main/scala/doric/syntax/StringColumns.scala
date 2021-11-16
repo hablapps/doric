@@ -421,6 +421,14 @@ private[syntax] trait StringColumns {
     def upper: StringColumn = s.elem.map(f.upper).toDC
 
     /**
+      * Returns a reversed string.
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.reverse]]
+      */
+    def reverse: StringColumn = reverseAbstract(s)
+
+    /**
       * ********************************************************
       *                     COLUMN FUNCTIONS
       * ********************************************************

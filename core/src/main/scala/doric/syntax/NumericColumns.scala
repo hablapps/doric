@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
+import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
 import org.apache.spark.sql.Column
@@ -220,6 +220,30 @@ private[syntax] trait NumericColumns {
         })
         .toDC
 
+  }
+
+  implicit class IntegerOperationsSyntax(
+      column: IntegerColumn
+  ) {
+
+    /**
+      * Generate a sequence of integers from start to stop, incrementing by step.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sequence]]
+      */
+    def sequence(to: IntegerColumn, step: IntegerColumn): ArrayColumn[Int] =
+      (column.elem, to.elem, step.elem).mapN(f.sequence).toDC
+
+    /**
+      * Generate a sequence of integers from start to stop, incrementing by 1
+      * if start is less than or equal to stop, otherwise -1.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sequence]]
+      */
+    def sequence(to: IntegerColumn): ArrayColumn[Int] =
+      (column.elem, to.elem).mapN(f.sequence).toDC
   }
 
 }
