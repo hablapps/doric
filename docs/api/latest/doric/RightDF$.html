@@ -159,6 +159,10 @@
                         <a href="BasicCol.html" title="Extension methods for any kind of column">BasicCol</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="class" href="BinaryOperationsSyntax.html" title=""></a>
+                        <a href="BinaryOperationsSyntax.html" title="">BinaryOperationsSyntax</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="BooleanOperationsSyntax.html" title=""></a>
                         <a href="BooleanOperationsSyntax.html" title="">BooleanOperationsSyntax</a>
                       </li><li class="current-entities indented1">
@@ -225,6 +229,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LiteralOps.html" title=""></a>
                         <a href="LiteralOps.html" title="">LiteralOps</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="LongOperationsSyntax.html" title=""></a>
+                        <a href="LongOperationsSyntax.html" title="">LongOperationsSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="MapColumnOps.html" title="Extension methods for Map Columns"></a>
@@ -477,7 +485,8 @@
         <span class="name">col</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.col.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.col.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name and the provided type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name and the provided type.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name and the provided type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name and the provided type.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
   the expected type of the column</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
@@ -497,9 +506,8 @@
         <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of array of T
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of array of T
-type.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of T type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of T type.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
   the type of the elements of the array.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
@@ -519,9 +527,10 @@ type.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="c
         <span class="name">colArrayInt</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of array of
-integers type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of array of
-integers type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of
+integers type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of
+integers type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the array of integers column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -540,12 +549,54 @@ integers type.</p></div><dl class="paramcmts block"><dt class="param">colName</d
         <span class="name">colArrayString</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of array of
-string type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of array of
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of
+string type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of
 string type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the array of string column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colBinary" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colBinary(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Array[Byte]]"></a><a id="colBinary(CName)(Location):RightDoricColumn[Array[Byte]]"></a>
+      <span class="permalink">
+      <a href="../doric/RightDF$.html#colBinary(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Array[Byte]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colBinary</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Byte.html#scala.Byte" class="extype" name="scala.Byte">Byte</a>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of
+bytes type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of
+bytes type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the binary column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colBoolean" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colBoolean(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Boolean]"></a><a id="colBoolean(CName)(Location):RightDoricColumn[Boolean]"></a>
+      <span class="permalink">
+      <a href="../doric/RightDF$.html#colBoolean(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colBoolean</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of double type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of double type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colDate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colDate(colName:doric.CName)(implicitlocation:doric.sem.Location):F[java.sql.Date]"></a><a id="colDate(CName)(Location):RightDoricColumn[Date]"></a>
       <span class="permalink">
@@ -561,10 +612,31 @@ string type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt>
         <span class="name">colDate</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="java.sql.Date">Date</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of Date type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of Date type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of Date type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of Date type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the Date column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colDouble" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colDouble(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Double]"></a><a id="colDouble(CName)(Location):RightDoricColumn[Double]"></a>
+      <span class="permalink">
+      <a href="../doric/RightDF$.html#colDouble(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Double]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colDouble</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of double type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of double type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the double column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colFromDF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colFromDF[T](colName:doric.CName,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$3:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a><a id="colFromDF[T](CName,Dataset[_])(SparkType[T],Location):RightDoricColumn[T]"></a>
       <span class="permalink">
@@ -580,8 +652,9 @@ string type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt>
         <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="originDF">originDF: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column of the provided dataframe.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column of the provided dataframe. Useful to prevent column
-ambiguity errors.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column of the provided dataframe.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column of the provided dataframe. Useful to prevent column
+ambiguity errors.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
   the type of the doric column.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">originDF</dt><dd class="cmt"><p>
   the dataframe to force the column.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
@@ -602,9 +675,8 @@ ambiguity errors.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt>
         <span class="name">colInstant</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="java.time.Instant">Instant</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of instant
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of instant
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of instant type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of instant type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the instant column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -623,9 +695,8 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colInt</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of integer
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of integer
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of integer type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of integer type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the integer column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -644,9 +715,8 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colLocalDate</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="java.time.LocalDate">LocalDate</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of LocalDate
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of LocalDate
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of LocalDate type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of LocalDate type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the LocalDate column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -665,10 +735,31 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colLong</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of long type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of long type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of long type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of long type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colNull" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colNull(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Null]"></a><a id="colNull(CName)(Location):RightDoricColumn[Null]"></a>
+      <span class="permalink">
+      <a href="../doric/RightDF$.html#colNull(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Null]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colNull</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="scala.Null">Null</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of null type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of null type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the null column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colString(colName:doric.CName)(implicitlocation:doric.sem.Location):F[String]"></a><a id="colString(CName)(Location):RightDoricColumn[String]"></a>
       <span class="permalink">
@@ -684,9 +775,8 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colString</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of string
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of string
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of string type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of string type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the string column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -705,9 +795,8 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of struct
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of struct
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of struct type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of struct type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the struct column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
@@ -726,9 +815,8 @@ type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd cla
         <span class="name">colTimestamp</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Retreaves a column with the provided name expecting it to be of Timestamp
-type.</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves a column with the provided name expecting it to be of Timestamp
-type.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of Timestamp type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of Timestamp type.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
   the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the Timestamp column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
