@@ -41,6 +41,21 @@ class StringColumnsSpec
     }
   }
 
+  describe("concatWs doric function") {
+    import spark.implicits._
+
+    val df = List(("1", "1"), (null, "2"), ("3", null), (null, null))
+      .toDF("col1", "col2")
+
+    it("should work as spark concat_ws function") {
+      df.testColumns3("-", "col1", "col2")(
+        (sep, col1, col2) => concatWs(sep.lit, col(col1), col(col2)),
+        (sep, col1, col2) => f.concat_ws(sep, f.col(col1), f.col(col2)),
+        List("1-1", "2", "3", "").map(Option(_))
+      )
+    }
+  }
+
   describe("formatString doric function") {
     import spark.implicits._
 
