@@ -16,10 +16,18 @@ jobs:
       - uses: olafurpg/setup-scala@v13
       - name: Coursier cache
         uses: coursier/cache-action@v6
-      - name: Test
-        run: sbt core/test
-      - name: Code Quality
+      - name: Code Format
         run: sbt scalafmtCheckAll
+      - name: Test & coverage
+        run: sbt coverage core/test coverageReport
+      - uses: codecov/codecov-action@v2
+        with:
+          # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./core/target/scala-2.12/scoverage-report/scoverage.xml
+          # flags: unittests # optional
+          name: codecov-doric
+          fail_ci_if_error: true
+          verbose: true
       - name: Cleaning for cache
         run: |
           rm -rf "$HOME/.ivy2/local" || true

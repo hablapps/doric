@@ -98,3 +98,8 @@ Global / scalacOptions ++= Seq(
   "-Ypartial-unification",
   "-Ywarn-numeric-widen"
 )
+
+// Scoverage settings
+Global / coverageEnabled := false
+Global / coverageFailOnMinimum := false
+Global / coverageHighlighting := true
