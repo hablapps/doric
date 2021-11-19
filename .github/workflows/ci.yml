@@ -24,7 +24,6 @@ jobs:
         with:
           # files: ./core/target/scala-2.12/scoverage-report/scoverage.xml
           files: ./target/scala-2.12/scoverage-report/scoverage.xml
-          name: codecov-doric
           fail_ci_if_error: true
           verbose: true
       - name: Cleaning for cache
