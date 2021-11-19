@@ -613,7 +613,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">DateColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="java.sql.Date">Date</span>]</span>
+        <span class="name">DateColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Date.html#java.sql.Date" class="extype" name="java.sql.Date">Date</a>]</span>
       </span>
       
       
@@ -645,7 +645,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">Doric</span><span class="tparams">[<span name="T">T</span>]</span><span class="result alias"> = <a href="http://typelevel.org/cats/api/cats/data/Kleisli.html#cats.data.Kleisli" class="extype" name="cats.data.Kleisli">Kleisli</a>[<a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>, <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_], <span class="extype" name="doric.Doric.T">T</span>]</span>
+        <span class="name">Doric</span><span class="tparams">[<span name="T">T</span>]</span><span class="result alias"> = <a href="http://typelevel.org/cats/api/cats/data/Kleisli.html#cats.data.Kleisli" class="extype" name="cats.data.Kleisli">Kleisli</a>[<a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>, <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_], <span class="extype" name="doric.Doric.T">T</span>]</span>
       </span>
       
       
@@ -677,7 +677,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">DoricJoin</span><span class="tparams">[<span name="T">T</span>]</span><span class="result alias"> = <a href="http://typelevel.org/cats/api/cats/data/Kleisli.html#cats.data.Kleisli" class="extype" name="cats.data.Kleisli">Kleisli</a>[<a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>, (<span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_], <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]), <span class="extype" name="doric.DoricJoin.T">T</span>]</span>
+        <span class="name">DoricJoin</span><span class="tparams">[<span name="T">T</span>]</span><span class="result alias"> = <a href="http://typelevel.org/cats/api/cats/data/Kleisli.html#cats.data.Kleisli" class="extype" name="cats.data.Kleisli">Kleisli</a>[<a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>, (<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_], <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]), <span class="extype" name="doric.DoricJoin.T">T</span>]</span>
       </span>
       
       
@@ -693,7 +693,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="DoricJoinColumn.html"><span class="name">DoricJoinColumn</span></a><span class="params">(<span name="elem">elem: <a href="#DoricJoin[T]=cats.data.Kleisli[doric.package.DoricValidated,(org.apache.spark.sql.Dataset[_],org.apache.spark.sql.Dataset[_]),T]" class="extmbr" name="doric.DoricJoin">DoricJoin</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>)</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="" href="DoricJoinColumn.html"><span class="name">DoricJoinColumn</span></a><span class="params">(<span name="elem">elem: <a href="#DoricJoin[T]=cats.data.Kleisli[doric.package.DoricValidated,(org.apache.spark.sql.Dataset[_],org.apache.spark.sql.Dataset[_]),T]" class="extmbr" name="doric.DoricJoin">DoricJoin</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>)</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -757,7 +757,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">InstantColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="java.time.Instant">Instant</span>]</span>
+        <span class="name">InstantColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html#java.time.Instant" class="extype" name="java.time.Instant">Instant</a>]</span>
       </span>
       
       
@@ -805,7 +805,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="LeftDoricColumn.html"><span class="name">LeftDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="elem">elem: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>)</span><span class="result"> extends <a href="JoinSideDoricColumn.html" class="extype" name="doric.JoinSideDoricColumn">JoinSideDoricColumn</a>[<span class="extype" name="doric.LeftDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="" href="LeftDoricColumn.html"><span class="name">LeftDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="elem">elem: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>)</span><span class="result"> extends <a href="JoinSideDoricColumn.html" class="extype" name="doric.JoinSideDoricColumn">JoinSideDoricColumn</a>[<span class="extype" name="doric.LeftDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -837,7 +837,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">LocalDateColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="java.time.LocalDate">LocalDate</span>]</span>
+        <span class="name">LocalDateColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html#java.time.LocalDate" class="extype" name="java.time.LocalDate">LocalDate</a>]</span>
       </span>
       
       
@@ -981,7 +981,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="RightDoricColumn.html"><span class="name">RightDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="elem">elem: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>)</span><span class="result"> extends <a href="JoinSideDoricColumn.html" class="extype" name="doric.JoinSideDoricColumn">JoinSideDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="" href="RightDoricColumn.html"><span class="name">RightDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="elem">elem: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>)</span><span class="result"> extends <a href="JoinSideDoricColumn.html" class="extype" name="doric.JoinSideDoricColumn">JoinSideDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -1063,7 +1063,7 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">TimestampColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>
+        <span class="name">TimestampColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Timestamp.html#java.sql.Timestamp" class="extype" name="java.sql.Timestamp">Timestamp</a>]</span>
       </span>
       
       
@@ -1148,7 +1148,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">constructSide</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="column">column: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<span class="extype" name="org.apache.spark.sql.Column">Column</span>]</span>, <span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.constructSide.T">T</span>]</span>
+        <span class="name">constructSide</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="column">column: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>, <span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.constructSide.T">T</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ColGetters</dd><dt>Annotations</dt><dd>
@@ -1417,7 +1417,7 @@ bytes type.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colDate</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="java.sql.Date">Date</span>]</span>
+        <span class="name">colDate</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Date.html#java.sql.Date" class="extype" name="java.sql.Date">Date</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of Date type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of Date type.
@@ -1457,7 +1457,7 @@ bytes type.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="originDF">originDF: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
+        <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="originDF">originDF: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column of the provided dataframe.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column of the provided dataframe. Useful to prevent column
@@ -1480,7 +1480,7 @@ ambiguity errors.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colInstant</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="java.time.Instant">Instant</span>]</span>
+        <span class="name">colInstant</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html#java.time.Instant" class="extype" name="java.time.Instant">Instant</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of instant type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of instant type.
@@ -1520,7 +1520,7 @@ ambiguity errors.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colLocalDate</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="java.time.LocalDate">LocalDate</span>]</span>
+        <span class="name">colLocalDate</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html#java.time.LocalDate" class="extype" name="java.time.LocalDate">LocalDate</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of LocalDate type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of LocalDate type.
@@ -1620,7 +1620,7 @@ ambiguity errors.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colTimestamp</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>
+        <span class="name">colTimestamp</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Timestamp.html#java.sql.Timestamp" class="extype" name="java.sql.Timestamp">Timestamp</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of Timestamp type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of Timestamp type.
@@ -1700,6 +1700,36 @@ ambiguity errors.
   The type of the elements of the arrays.</p></dd><dt class="param">cols</dt><dd class="cmt"><p>
   the array columns, must be Arrays of the same type.</p></dd><dt>returns</dt><dd class="cmt"><p>
   Doric Column with the concatenation.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
+    </li><li name="doric.syntax.StringColumns#concatWs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
+      <a id="concatWs(sep:doric.StringColumn,cols:doric.StringColumn*):doric.StringColumn"></a><a id="concatWs(StringColumn,StringColumn*):StringColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#concatWs(sep:doric.StringColumn,cols:doric.StringColumn*):doric.StringColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">concatWs</span><span class="params">(<span name="sep">sep: <a href="#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="cols">cols: <a href="#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a>*</span>)</span><span class="result">: <a href="#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Concatenates multiple input string columns together into a single string column,
+using the given separator.</p><div class="fullcomment"><div class="comment cmt"><p>Concatenates multiple input string columns together into a single string column,
+using the given separator.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>df.withColumn(<span class="lit">"res"</span>, concatWs(<span class="lit">"-"</span>.lit, col(<span class="lit">"col1"</span>), col(<span class="lit">"col2"</span>)))
+  .show(<span class="kw">false</span>)
+    +----+----+----+
+    |col1|col2| res|
+    +----+----+----+
+    |   <span class="num">1</span>|   <span class="num">1</span>| <span class="num">1</span>-<span class="num">1</span>|
+    |<span class="kw">null</span>|   <span class="num">2</span>|   <span class="num">2</span>|
+    |   <span class="num">3</span>|<span class="kw">null</span>|   <span class="num">3</span>|
+    |<span class="kw">null</span>|<span class="kw">null</span>|    |
+    +----+----+----+</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>even if <code>cols</code> contain null columns, it prints remaining string columns (or empty string).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#concat_ws(sep:%3C?%3E,exprs:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.concat_ws</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#corr" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
       <a id="corr(col1:doric.DoubleColumn,col2:doric.DoubleColumn):doric.DoubleColumn"></a><a id="corr(DoubleColumn,DoubleColumn):DoubleColumn"></a>
       <span class="permalink">
@@ -1844,7 +1874,7 @@ All calls of current_timestamp within the same query return the same value.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dataType</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.CommonColumns.dataType.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.DataType">DataType</span></span>
+        <span class="name">dataType</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.CommonColumns.dataType.T">T</span>]</span>)</span><span class="result">: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/types/DataType.html#org.apache.spark.sql.types.DataType" class="extype" name="org.apache.spark.sql.types.DataType">DataType</a></span>
       </span>
       
       <p class="shortcomment cmt">Returns the spark <code>DataType</code> of the provided type</p><div class="fullcomment"><div class="comment cmt"><p>Returns the spark <code>DataType</code> of the provided type</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
@@ -2146,7 +2176,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sparkAgg</span><span class="params">(<span name="relationalGroupedDataset">relationalGroupedDataset: <span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span></span>, <span name="expr">expr: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="exprs">exprs: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span>]</span>
+        <span class="name">sparkAgg</span><span class="params">(<span name="relationalGroupedDataset">relationalGroupedDataset: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a></span>, <span name="expr">expr: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="exprs">exprs: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
@@ -2162,7 +2192,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sparkCube</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span>]</span>
+        <span class="name">sparkCube</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
@@ -2178,7 +2208,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sparkGroupBy</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span>]</span>
+        <span class="name">sparkGroupBy</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
@@ -2194,7 +2224,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sparkPivot</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="relationalGroupedDataset">relationalGroupedDataset: <span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span></span>, <span name="expr">expr: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface.sparkPivot.T">T</span>]</span>, <span name="values">values: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface.sparkPivot.T">T</span>]</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span>]</span>
+        <span class="name">sparkPivot</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="relationalGroupedDataset">relationalGroupedDataset: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a></span>, <span name="expr">expr: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface.sparkPivot.T">T</span>]</span>, <span name="values">values: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface.sparkPivot.T">T</span>]</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
@@ -2210,7 +2240,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sparkRollup</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<span class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</span>]</span>
+        <span class="name">sparkRollup</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
@@ -2313,7 +2343,7 @@ variant of the xxHash algorithm, and returns the result as a long column.
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="CName$.html"><span class="name">CName</span></a><span class="result"> extends <span class="extype" name="monix.newtypes.NewtypeWrapped">NewtypeWrapped</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <a title="" href="CName$.html"><span class="name">CName</span></a><span class="result"> extends <a href="https://javadoc.io/page/io.monix/newtypes-core_2.12/0.0.1/monix/newtypes/NewtypeWrapped.html#monix.newtypes.NewtypeWrapped" class="extype" name="monix.newtypes.NewtypeWrapped">NewtypeWrapped</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       
