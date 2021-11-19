@@ -33,10 +33,11 @@ jobs:
       - name: Build the scaladocs
         run: |
           sbt core/doc
-      - name: Copy sit and docs to gh-pages branch
+      - name: Copy site and docs to gh-pages branch
         run: |
           mkdir -p docs/target/mdoc/docs/api/latest
           cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
+          git add docs/target/mdoc/docs/api/latest/*
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
