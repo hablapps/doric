@@ -28,6 +28,10 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
         )
     }
 
+    it("can be retrieved as map column") {
+      df.validateColumnType(colMap[String, Int]("col"))
+    }
+
     it("mapFromArrays") {
       List((List("hola", "adios"), List(1, 2)))
         .toDF("key", "value")
