@@ -37,9 +37,8 @@ jobs:
         run: |
           mkdir -p docs/target/mdoc/docs/api/latest
           cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
-          git add docs/target/mdoc/docs/api/latest/*
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@4.1.6
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: docs/target/mdoc # The folder the action should deploy.
