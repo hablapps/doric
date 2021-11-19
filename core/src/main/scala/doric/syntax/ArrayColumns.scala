@@ -54,7 +54,7 @@ private[syntax] trait ArrayColumns {
   def zipArrays[T](
       col: ArrayColumn[T],
       cols: ArrayColumn[T]*
-  ): ArrayColumn[T] /*ArrayColumn[DStructColumn]*/ =
+  ): ArrayColumn[DStruct] =
     (col +: cols).toList.traverse(_.elem).map(f.arrays_zip(_: _*)).toDC
 
   /**
