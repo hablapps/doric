@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.{DateType, SparkType}
-import org.apache.spark.sql.catalyst.expressions.{DateFormatClass, MonthsBetween, NextDay, TruncDate, TruncTimestamp, UnixTimestamp}
+import org.apache.spark.sql.catalyst.expressions.{DateFormatClass, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
 import org.apache.spark.sql.{Column, functions => f}
 
 import java.sql.Date

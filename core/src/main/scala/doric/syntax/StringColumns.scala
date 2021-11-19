@@ -22,6 +22,36 @@ private[syntax] trait StringColumns {
     cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
 
   /**
+    * Concatenates multiple input string columns together into a single string column,
+    * using the given separator.
+    *
+    * @note even if `cols` contain null columns, it prints remaining string columns (or empty string).
+    * @example {{{
+    * df.withColumn("res", concatWs("-".lit, col("col1"), col("col2")))
+    *   .show(false)
+    *     +----+----+----+
+    *     |col1|col2| res|
+    *     +----+----+----+
+    *     |   1|   1| 1-1|
+    *     |null|   2|   2|
+    *     |   3|null|   3|
+    *     |null|null|    |
+    *     +----+----+----+
+    * }}}
+    * @group String Type
+    * @see [[org.apache.spark.sql.functions.concat_ws]]
+    */
+  def concatWs(sep: StringColumn, cols: StringColumn*): StringColumn =
+    (sep +: cols)
+      .map(_.elem)
+      .toList
+      .sequence
+      .map(l => {
+        new Column(ConcatWs(l.map(_.expr)))
+      })
+      .toDC
+
+  /**
     * Formats the arguments in printf-style and returns the result as a string
     * column.
     *

@@ -1,8 +1,10 @@
-name: Release
+name: Publish temp site
 on:
   push:
-    branches: [main]
-    tags: ["*"]
+    branches-ignore:
+      - main
+      - gh-pages
+
 jobs:
   publish:
     runs-on: ubuntu-20.04
@@ -13,20 +15,6 @@ jobs:
       - uses: olafurpg/setup-scala@v13
       - name: Coursier cache
         uses: coursier/cache-action@v6
-      - run: sbt ci-release
-        env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-      - name: Test & coverage # TODO running tests twice
-        run: sbt coverage core/test coverageReport coverageAggregate
-      - uses: codecov/codecov-action@v2
-        with:
-          # files: ./core/target/scala-2.12/scoverage-report/scoverage.xml
-          files: ./target/scala-2.12/scoverage-report/scoverage.xml
-          fail_ci_if_error: true
-          verbose: true
       - name: Build the microsite
         run: |
           sbt docs/mdoc
