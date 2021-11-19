@@ -48,8 +48,10 @@ package object syntax {
     DoricColumn.uncheckedTypeAndExistence[A](new Column(zarg))
 
   @inline def lam1(e: Expression): LambdaFunction = LambdaFunction(e, Seq(xarg))
-  @inline def lam2(e: Expression): LambdaFunction = LambdaFunction(e, Seq(xarg, yarg))
-  @inline def lam3(e: Expression): LambdaFunction = LambdaFunction(e, Seq(xarg, yarg, zarg))
+  @inline def lam2(e: Expression): LambdaFunction =
+    LambdaFunction(e, Seq(xarg, yarg))
+  @inline def lam3(e: Expression): LambdaFunction =
+    LambdaFunction(e, Seq(xarg, yarg, zarg))
 
   private val xarg = UnresolvedNamedLambdaVariable(Seq("x"))
   private val yarg = UnresolvedNamedLambdaVariable(Seq("y"))

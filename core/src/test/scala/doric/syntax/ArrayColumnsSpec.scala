@@ -190,7 +190,7 @@ class ArrayColumnsSpec
 
       df.testColumns2("col1", "col2")(
         (c1, c2) => zipArrays(colArrayString(c1), colArrayString(c2)),
-        (c1, c2) => f.arrays_zip(f.col(c1), f.col(c2))/*,
+        (c1, c2) => f.arrays_zip(f.col(c1), f.col(c2)) /*,
         List(Some(Array(("a", "b"))), None, None)*/
       )
     }

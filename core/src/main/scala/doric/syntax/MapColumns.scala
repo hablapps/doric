@@ -131,7 +131,7 @@ private[syntax] trait MapColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.explode]]
       */
-      // TODO
+    // TODO
     def explode: DoricColumn[(K, V)] = map.elem.map(f.explode).toDC
 
     /**
@@ -141,7 +141,7 @@ private[syntax] trait MapColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.explode_outer]]
       */
-      // TODO
+    // TODO
     def explodeOuter: DoricColumn[(K, V)] = map.elem.map(f.explode_outer).toDC
 
     /**
@@ -162,7 +162,7 @@ private[syntax] trait MapColumns {
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.map_entries]]
       */
-      // TODO
+    // TODO
     def mapEntries: ArrayColumn[(K, V)] = map.elem.map(f.map_entries).toDC
 
     /**

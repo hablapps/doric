@@ -51,7 +51,10 @@ private[syntax] trait ArrayColumns {
     * @group Array Type
     * @see [[org.apache.spark.sql.functions.arrays_zip]]
     */
-  def zipArrays[T](col: ArrayColumn[T], cols: ArrayColumn[T]*): ArrayColumn[T]/*ArrayColumn[DStructColumn]*/ =
+  def zipArrays[T](
+      col: ArrayColumn[T],
+      cols: ArrayColumn[T]*
+  ): ArrayColumn[T] /*ArrayColumn[DStructColumn]*/ =
     (col +: cols).toList.traverse(_.elem).map(f.arrays_zip(_: _*)).toDC
 
   /**
