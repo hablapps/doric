@@ -10,6 +10,15 @@ import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime, Ra
 
 private[syntax] trait NumericColumns {
 
+  /**
+    * Returns the current Unix timestamp (in seconds) as a long.
+    *
+    * @note All calls of `unix_timestamp` within the same query return the same value
+    * (i.e. the current timestamp is calculated at the start of query evaluation).
+    *
+    * @group Numeric Type
+    * @see [[org.apache.spark.sql.functions.unix_timestamp()* org.apache.spark.sql.functions.unix_timestamp]]
+    */
   def unixTimestamp(): LongColumn = {
     DoricColumn(f.unix_timestamp())
   }
@@ -152,6 +161,7 @@ private[syntax] trait NumericColumns {
       * If d is less than 0, the result will be null.
       *
       * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.format_number]]
       */
     def formatNumber(decimals: IntegerColumn): StringColumn =
       (column.elem, decimals.elem)
@@ -164,6 +174,7 @@ private[syntax] trait NumericColumns {
       * Creates timestamp from the number of seconds since UTC epoch.
       *
       * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.timestamp_seconds]]
       */
     def timestampSeconds: TimestampColumn =
       column.elem.map(f.timestamp_seconds).toDC
@@ -180,6 +191,7 @@ private[syntax] trait NumericColumns {
       * yyyy-MM-dd HH:mm:ss format.
       *
       * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.from_unixtime(ut:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.from_unixtime]]
       */
     def fromUnixTime: StringColumn = column.elem.map(f.from_unixtime).toDC
 
@@ -192,6 +204,7 @@ private[syntax] trait NumericColumns {
       *   An IllegalArgumentException will be thrown if invalid pattern
       *
       * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.from_unixtime(ut:org\.apache\.spark\.sql\.Column,f* org.apache.spark.sql.functions.from_unixtime]]
       */
     def fromUnixTime(format: StringColumn): StringColumn =
       (column.elem, format.elem)
