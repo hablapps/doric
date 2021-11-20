@@ -75,6 +75,22 @@ private[syntax] trait StringColumns {
       .toDC
 
   /**
+    * Creates a string column for the file name of the current Spark task.
+    *
+    * @group String Type
+    * @see [[org.apache.spark.sql.functions.input_file_name]]
+    */
+  def inputFileName(): StringColumn = DoricColumn(f.input_file_name)
+
+  /**
+    * Creates a string column for the file name of the current Spark task.
+    *
+    * @group String Type
+    * @see [[inputFileName]]
+    */
+  @inline def sparkTaskName(): StringColumn = inputFileName()
+
+  /**
     * Unique column operations
     *
     * @param s
