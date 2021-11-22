@@ -100,6 +100,6 @@ Global / scalacOptions ++= Seq(
 )
 
 // Scoverage settings
-Global / coverageEnabled := false
+Global / coverageEnabled       := false
 Global / coverageFailOnMinimum := false
-Global / coverageHighlighting := true
+Global / coverageHighlighting  := true
