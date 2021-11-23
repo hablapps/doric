@@ -107,6 +107,21 @@ private[doric] trait ColGetters[F[_]] {
     col[Double](colName)
 
   /**
+    * Retrieves a column with the provided name expecting it to be of float type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @return
+    *   the float column reference
+    */
+  def colFloat(colName: CName)(implicit
+      location: Location
+  ): F[Float] =
+    col[Float](colName)
+
+  /**
     * Retrieves a column with the provided name expecting it to be of double type.
     *
     * @param colName

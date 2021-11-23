@@ -271,6 +271,7 @@ trait TypedColumnTest extends Matchers {
       val doricColumns: Seq[DoricColumn[_]] = struct.map {
         case StructField(name, dataType, _, _) =>
           dataType match {
+            case NullType      => colNull(name)
             case StringType    => colString(name)
             case IntegerType   => colInt(name)
             case LongType      => colLong(name)

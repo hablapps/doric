@@ -181,6 +181,19 @@ private[syntax] trait NumericColumns {
 
   }
 
+  implicit class NumericDecimalsOpsSyntax[T: NumericType](
+      column: DoricColumn[T]
+  ) {
+
+    /**
+      * Checks if the value of the column is not a number
+      * @group All Types
+      * @return
+      *   Boolean DoricColumn
+      */
+    def isNaN: BooleanColumn = column.elem.map(_.isNaN).toDC
+  }
+
   implicit class LongOperationsSyntax(
       column: LongColumn
   ) {
