@@ -109,4 +109,52 @@ class CommonColumnsSpec
     }
   }
 
+  describe("least doric function") {
+    import spark.implicits._
+
+    it("should work as spark least function") {
+      val df = List(
+        ("this is a string", "123"),
+        (null, "123"),
+        ("this is a string", null),
+        (null, null)
+      ).toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => least(colString(col1), colString(col2)),
+        (col1, col2) => f.least(f.col(col1), f.col(col2)),
+        List(
+          Some("123"),
+          Some("123"),
+          Some("this is a string"),
+          None
+        )
+      )
+    }
+  }
+
+  describe("greatest doric function") {
+    import spark.implicits._
+
+    it("should work as spark greatest function") {
+      val df = List(
+        ("this is a string", "123"),
+        (null, "123"),
+        ("this is a string", null),
+        (null, null)
+      ).toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => greatest(colString(col1), colString(col2)),
+        (col1, col2) => f.greatest(f.col(col1), f.col(col2)),
+        List(
+          Some("this is a string"),
+          Some("123"),
+          Some("this is a string"),
+          None
+        )
+      )
+    }
+  }
+
 }

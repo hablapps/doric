@@ -13,6 +13,30 @@ class BooleanColumnsSpec
     with EitherValues
     with Matchers {
 
+  describe("Boolean columns") {
+    import spark.implicits._
+    val df = Seq(Some(true), Some(false), None)
+      .toDF("col1")
+
+    object BoolF extends BooleanColumns
+
+    it("should be inverted by not") {
+      df.testColumns("col1")(
+        c => BoolF.not(colBoolean(c)),
+        c => f.not(f.col(c)),
+        List(Some(false), Some(true), None)
+      )
+    }
+
+    it("should be inverted by !") {
+      df.testColumns("col1")(
+        c => BoolF.!(colBoolean(c)),
+        c => f.not(f.col(c)),
+        List(Some(false), Some(true), None)
+      )
+    }
+  }
+
   describe("and doric function") {
     import spark.implicits._
 

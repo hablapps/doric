@@ -80,6 +80,105 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Long]()
   test[Double]()
 
+  describe("unixTimestamp doric function") {
+    import spark.implicits._
+
+    it("should work as spark unix_timestamp function") {
+      val df = List(Some(123.567), Some(1.0001), None)
+        .toDF("col1")
+
+      df.testColumns("col1")(
+        _ => unixTimestamp(),
+        _ => f.unix_timestamp()
+      )
+    }
+  }
+
+  describe("random doric function") {
+    import spark.implicits._
+
+    it("should work as spark rand function") {
+      val df = List(Some(123.567), None)
+        .toDF("col1")
+
+      df.validateColumnType(random())
+
+      val res = df.select(random()).as[Double].collect().toList
+      val exp = df.select(f.rand()).as[Double].collect().toList
+
+      res.size shouldBe exp.size
+
+      every(res) should (be >= 0.0 and be < 1.0)
+      every(exp) should (be >= 0.0 and be < 1.0)
+    }
+
+    it("should work as spark rand(seed) function") {
+      val df = List(Some(123.567), Some(1.0001), None)
+        .toDF("col1")
+
+      df.testColumns(1L)(
+        seed => random(seed.lit),
+        seed => f.rand(seed)
+      )
+    }
+  }
+
+  describe("randomN doric function") {
+    import spark.implicits._
+
+    it("should work as spark randn function") {
+      val df = List(Some(123.567), None)
+        .toDF("col1")
+
+      df.validateColumnType(randomN())
+
+      val res = df.select(randomN()).as[Double].collect().toList
+      val exp = df.select(f.randn()).as[Double].collect().toList
+
+      res.size shouldBe exp.size
+    }
+
+    it("should work as spark randn(seed) function") {
+      val df = List(Some(123.567), Some(1.0001), None)
+        .toDF("col1")
+
+      df.testColumns(1L)(
+        seed => randomN(seed.lit),
+        seed => f.randn(seed)
+      )
+    }
+  }
+
+  describe("sparkPartitionId doric function") {
+    import spark.implicits._
+
+    it("should work as spark spark_partition_id function") {
+      val df = List(Some(123.567), None)
+        .toDF("col1")
+
+      df.testColumns("")(
+        _ => sparkPartitionId(),
+        _ => f.spark_partition_id(),
+        List(Some(0), Some(0))
+      )
+    }
+  }
+
+  describe("monotonicallyIncreasingId doric function") {
+    import spark.implicits._
+
+    it("should work as spark monotonically_increasing_id function") {
+      val df = List(Some(123.567), None)
+        .toDF("col1")
+
+      df.testColumns("")(
+        _ => monotonicallyIncreasingId(),
+        _ => f.monotonically_increasing_id(),
+        List(Some(0L), Some(1L))
+      )
+    }
+  }
+
   describe("formatNumber doric function") {
     import spark.implicits._
 

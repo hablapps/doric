@@ -52,6 +52,28 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
   def xxhash64(cols: DoricColumn[_]*): LongColumn =
     cols.map(_.elem).toList.sequence.map(f.xxhash64(_: _*)).toDC
 
+  /**
+    * Returns the least value of the list of values, skipping null values.
+    * This function takes at least 2 parameters. It will return null iff all parameters are null.
+    *
+    * @note skips null values
+    * @group All Types
+    * @see [[org.apache.spark.sql.functions.least(exprs* org.apache.spark.sql.functions.least]]
+    */
+  def least[T](col: DoricColumn[T], cols: DoricColumn[T]*): DoricColumn[T] =
+    (col +: cols).map(_.elem).toList.sequence.map(f.least(_: _*)).toDC
+
+  /**
+    * Returns the greatest value of the list of values, skipping null values.
+    * This function takes at least 2 parameters. It will return null iff all parameters are null.
+    *
+    * @note skips null values
+    * @group All Types
+    * @see [[org.apache.spark.sql.functions.greatest(exprs* org.apache.spark.sql.functions.greatest]]
+    */
+  def greatest[T](col: DoricColumn[T], cols: DoricColumn[T]*): DoricColumn[T] =
+    (col +: cols).map(_.elem).toList.sequence.map(f.greatest(_: _*)).toDC
+
   override protected def constructSide[T](
       column: Doric[Column],
       colName: CName

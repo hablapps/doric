@@ -84,6 +84,25 @@ class StringColumnsSpec
     }
   }
 
+  describe("inputFileName doric function") {
+    import spark.implicits._
+    val df = List("abc", null).toDF("col1")
+
+    it("should work as spark input_file_name function") {
+      df.testColumns("col1")(
+        _ => inputFileName(),
+        _ => f.input_file_name()
+      )
+    }
+
+    it("should work as spark input_file_name function using sparkTaskName") {
+      df.testColumns("col1")(
+        _ => sparkTaskName(),
+        _ => f.input_file_name()
+      )
+    }
+  }
+
   describe("ascii doric function") {
     import spark.implicits._
 
