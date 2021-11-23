@@ -1161,7 +1161,27 @@
         <div class="values members">
               <h3>Concrete Value Members</h3>
               <ol>
-                <li name="doric.syntax.AggregationColumns#aproxCountDistinct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
+                <li name="doric.syntax.BooleanColumns#!" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Boolean Type">
+      <a id="!(col:doric.BooleanColumn):doric.BooleanColumn"></a><a id="!(BooleanColumn):BooleanColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#!(col:doric.BooleanColumn):doric.BooleanColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang" class="name">!</span><span class="params">(<span name="col">col: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Inversion of boolean expression, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Inversion of boolean expression, i.e. NOT.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BooleanColumns</dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd><dt>See also</dt><dd><span class="cmt"><p><a href="#not(col:doric.BooleanColumn):doric.BooleanColumn" class="extmbr" name="doric#not">not</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#aproxCountDistinct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
       <a id="aproxCountDistinct(colName:String):doric.LongColumn"></a><a id="aproxCountDistinct(String):LongColumn"></a>
       <span class="permalink">
       <a href="../doric/index.html#aproxCountDistinct(colName:String):doric.LongColumn" title="Permalink">
@@ -1938,6 +1958,24 @@ column.
   the String DoricColumns to format</p></dd><dt>returns</dt><dd class="cmt"><p>
   Formats the arguments in printf-style and returns the result as a string
   column.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns#greatest" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
+      <a id="greatest[T](col:doric.DoricColumn[T],cols:doric.DoricColumn[T]*):doric.DoricColumn[T]"></a><a id="greatest[T](DoricColumn[T],DoricColumn[T]*):DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#greatest[T](col:doric.DoricColumn[T],cols:doric.DoricColumn[T]*):doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">greatest</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.greatest.T">T</span>]</span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.greatest.T">T</span>]*</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.greatest.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the greatest value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the greatest value of the list of values, skipping null values.
+This function takes at least 2 parameters. It will return null iff all parameters are null.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#greatest(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.greatest</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns#hash" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="hash(cols:doric.DoricColumn[_]*):doric.IntegerColumn"></a><a id="hash(DoricColumn[_]*):IntegerColumn"></a>
       <span class="permalink">
@@ -1955,6 +1993,23 @@ column.
       
       <p class="shortcomment cmt">Calculates the hash code of given columns, and returns the result as an integer column.</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the hash code of given columns, and returns the result as an integer column.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd></dl></div>
+    </li><li name="doric.syntax.StringColumns#inputFileName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
+      <a id="inputFileName():doric.StringColumn"></a><a id="inputFileName():StringColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#inputFileName():doric.StringColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">inputFileName</span><span class="params">()</span><span class="result">: <a href="#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a string column for the file name of the current Spark task.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a string column for the file name of the current Spark task.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#input_file_name():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.input_file_name</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#kurtosis" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Double Type">
       <a id="kurtosis(col:doric.DoubleColumn):doric.DoubleColumn"></a><a id="kurtosis(DoubleColumn):DoubleColumn"></a>
       <span class="permalink">
@@ -2003,6 +2058,24 @@ column.
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns#least" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
+      <a id="least[T](col:doric.DoricColumn[T],cols:doric.DoricColumn[T]*):doric.DoricColumn[T]"></a><a id="least[T](DoricColumn[T],DoricColumn[T]*):DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#least[T](col:doric.DoricColumn[T],cols:doric.DoricColumn[T]*):doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">least</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.least.T">T</span>]</span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.least.T">T</span>]*</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.least.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the least value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the least value of the list of values, skipping null values.
+This function takes at least 2 parameters. It will return null iff all parameters are null.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#least(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.least</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L]):doric.DoricColumn[L]"></a><a id="lit[L](L)(SparkType[L]):DoricColumn[L]"></a>
       <span class="permalink">
@@ -2132,6 +2205,46 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#monotonicallyIncreasingId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="monotonicallyIncreasingId():doric.LongColumn"></a><a id="monotonicallyIncreasingId():LongColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#monotonicallyIncreasingId():doric.LongColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">monotonicallyIncreasingId</span><span class="params">()</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">A column expression that generates monotonically increasing 64-bit integers.</p><div class="fullcomment"><div class="comment cmt"><p>A column expression that generates monotonically increasing 64-bit integers.</p><p>The generated ID is guaranteed to be monotonically increasing and unique, but not consecutive.
+The current implementation puts the partition ID in the upper 31 bits, and the record number
+within each partition in the lower 33 bits. The assumption is that the data frame has
+less than 1 billion partitions, and each partition has less than 8 billion records.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><div class="block">Example:
+               <ol><li class="cmt"><p>consider a <code>DataFrame</code> with two partitions, each with 3 records.
+This expression would return the following IDs:</p><pre><span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">8589934592</span> (<span class="num">1</span>L &lt;&lt; <span class="num">33</span>), <span class="num">8589934593</span>, <span class="num">8589934594.</span></pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#monotonically_increasing_id():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.monotonically_increasing_id</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.BooleanColumns#not" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Boolean Type">
+      <a id="not(col:doric.BooleanColumn):doric.BooleanColumn"></a><a id="not(BooleanColumn):BooleanColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#not(col:doric.BooleanColumn):doric.BooleanColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">not</span><span class="params">(<span name="col">col: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Inversion of boolean expression, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Inversion of boolean expression, i.e. NOT.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BooleanColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#not(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.not</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#percentile_approx" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation DoubleC Type">
       <a id="percentile_approx[T](col:doric.DoubleColumn,percentage:Double,accuracy:Int)(implicitevidence$5:doric.types.DoubleC[T]):doric.DoricColumn[T]"></a><a id="percentile_approx[T](DoubleColumn,Double,Int)(DoubleC[T]):DoricColumn[T]"></a>
       <span class="permalink">
@@ -2164,6 +2277,82 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#random" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="random(seed:doric.LongColumn):doric.DoubleColumn"></a><a id="random(LongColumn):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#random(seed:doric.LongColumn):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">random</span><span class="params">(<span name="seed">seed: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Generate a random column with independent and identically distributed (i.i.d.) samples
+uniformly distributed in [0.0, 1.0).</p><div class="fullcomment"><div class="comment cmt"><p>Generate a random column with independent and identically distributed (i.i.d.) samples
+uniformly distributed in [0.0, 1.0).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#rand(seed:Long):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.rand</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#random" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="random():doric.DoubleColumn"></a><a id="random():DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#random():doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">random</span><span class="params">()</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Generate a random column with independent and identically distributed (i.i.d.) samples
+uniformly distributed in [0.0, 1.0).</p><div class="fullcomment"><div class="comment cmt"><p>Generate a random column with independent and identically distributed (i.i.d.) samples
+uniformly distributed in [0.0, 1.0).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#rand():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.rand</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#randomN" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="randomN(seed:doric.LongColumn):doric.DoubleColumn"></a><a id="randomN(LongColumn):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#randomN(seed:doric.LongColumn):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">randomN</span><span class="params">(<span name="seed">seed: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Generate a column with independent and identically distributed (i.i.d.) samples from
+the standard normal distribution.</p><div class="fullcomment"><div class="comment cmt"><p>Generate a column with independent and identically distributed (i.i.d.) samples from
+the standard normal distribution.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#randn(seed:Long):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.randn</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#randomN" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="randomN():doric.DoubleColumn"></a><a id="randomN():DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#randomN():doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">randomN</span><span class="params">()</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Generate a column with independent and identically distributed (i.i.d.) samples from
+the standard normal distribution.</p><div class="fullcomment"><div class="comment cmt"><p>Generate a column with independent and identically distributed (i.i.d.) samples from
+the standard normal distribution.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#randn():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.randn</a></p></span></dd></dl></div>
     </li><li name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface#sparkAgg" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sparkAgg(relationalGroupedDataset:org.apache.spark.sql.RelationalGroupedDataset,expr:doric.DoricColumn[_],exprs:doric.DoricColumn[_]*):doric.DoricValidated[org.apache.spark.sql.DataFrame]"></a><a id="sparkAgg(RelationalGroupedDataset,DoricColumn[_],DoricColumn[_]*):DoricValidated[DataFrame]"></a>
       <span class="permalink">
@@ -2212,6 +2401,23 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns#sparkPartitionId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="sparkPartitionId():doric.IntegerColumn"></a><a id="sparkPartitionId():IntegerColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#sparkPartitionId():doric.IntegerColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sparkPartitionId</span><span class="params">()</span><span class="result">: <a href="#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Partition ID.</p><div class="fullcomment"><div class="comment cmt"><p>Partition ID.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>This is non-deterministic because it depends on data partitioning and task scheduling.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#spark_partition_id():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.spark_partition_id</a></p></span></dd></dl></div>
     </li><li name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface#sparkPivot" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sparkPivot[T](relationalGroupedDataset:org.apache.spark.sql.RelationalGroupedDataset,expr:doric.DoricColumn[T],values:Seq[T]):doric.DoricValidated[org.apache.spark.sql.RelationalGroupedDataset]"></a><a id="sparkPivot[T](RelationalGroupedDataset,DoricColumn[T],Seq[T]):DoricValidated[RelationalGroupedDataset]"></a>
       <span class="permalink">
@@ -2244,6 +2450,26 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetDoricInterface</dd></dl></div>
+    </li><li name="doric.syntax.StringColumns#sparkTaskName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
+      <a id="sparkTaskName():doric.StringColumn"></a><a id="sparkTaskName():StringColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#sparkTaskName():doric.StringColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sparkTaskName</span><span class="params">()</span><span class="result">: <a href="#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a string column for the file name of the current Spark task.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a string column for the file name of the current Spark task.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd><dt>See also</dt><dd><span class="cmt"><p><a href="#inputFileName():doric.StringColumn" class="extmbr" name="doric#inputFileName">inputFileName</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.DStructs#struct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Struct Type">
       <a id="struct(cols:doric.DoricColumn[_]*):doric.DStructColumn"></a><a id="struct(DoricColumn[_]*):DStructColumn"></a>
       <span class="permalink">
@@ -2278,7 +2504,7 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
-    </li><li name="doric.syntax.NumericColumns#unixTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="doric.syntax.NumericColumns#unixTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="unixTimestamp():doric.LongColumn"></a><a id="unixTimestamp():LongColumn"></a>
       <span class="permalink">
       <a href="../doric/index.html#unixTimestamp():doric.LongColumn" title="Permalink">
@@ -2293,7 +2519,9 @@ array for key should not be null.</p></div><dl class="paramcmts block"><dt class
         <span class="name">unixTimestamp</span><span class="params">()</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd></dl></div>
+      <p class="shortcomment cmt">Returns the current Unix timestamp (in seconds) as a long.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current Unix timestamp (in seconds) as a long.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>All calls of <code>unix_timestamp</code> within the same query return the same value
+(i.e. the current timestamp is calculated at the start of query evaluation).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#unix_timestamp():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.unix_timestamp</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ControlStructures#when" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Control structure">
       <a id="when[T]:doric.syntax.WhenBuilder[T]"></a><a id="when[T]:WhenBuilder[T]"></a>
       <span class="permalink">
@@ -2521,6 +2749,9 @@ variant of the xxHash algorithm, and returns the result as a long column.
               
             </div><div class="group" name="Map Type">
               <h3>Map Type</h3>
+              
+            </div><div class="group" name="Numeric Type">
+              <h3>Numeric Type</h3>
               
             </div><div class="group" name="String Type">
               <h3>String Type</h3>
