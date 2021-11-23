@@ -108,12 +108,21 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
       res shouldBe List(Some(false), Some(true), Some(false))
     }
 
-    it("should not work with other types") {
+    it("should not work with other numeric types") {
       """"
-        |val df = List(Some(5.0), Some(Double.NaN), None)
+        |val df = List(Some(1), Some(2), None)
         |        .toDF("col1")
         |
-        |df.select(colDouble("col1").cast[String].isNaN)
+        |df.select(colInt("col1").isNaN)
+        |""".stripMargin shouldNot compile
+    }
+
+    it("should not work with other types") {
+      """"
+        |val df = List(Some("hola"), Some("doric"), None)
+        |        .toDF("col1")
+        |
+        |df.select(colString("col1").isNaN)
         |""".stripMargin shouldNot compile
     }
   }

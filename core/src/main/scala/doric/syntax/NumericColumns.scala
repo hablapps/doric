@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits.catsSyntaxTuple2Semigroupal
 import doric.DoricColumn.sparkFunction
-import doric.types.NumericType
+import doric.types.{NumericDecimalsType, NumericType}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime, Rand, Randn}
@@ -181,7 +181,7 @@ private[syntax] trait NumericColumns {
 
   }
 
-  implicit class NumericDecimalsOpsSyntax[T: NumericType](
+  implicit class NumericDecimalsOpsSyntax[T: NumericDecimalsType](
       column: DoricColumn[T]
   ) {
 

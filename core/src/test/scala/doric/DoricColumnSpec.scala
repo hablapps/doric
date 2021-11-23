@@ -1,13 +1,14 @@
 package doric
 
+import doric.sem.SparkErrorWrapper
 import doric.syntax.User
 import doric.types.SparkType
+
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
+import org.apache.spark.sql.{Encoder, functions => f}
 
-import org.apache.spark.sql.Encoder
-
-class DoricColumnsSpec extends DoricTestElements with EitherValues {
+class DoricColumnSpec extends DoricTestElements with EitherValues {
 
   import doric.implicitConversions.stringCname
   import spark.implicits._
@@ -85,6 +86,41 @@ class DoricColumnsSpec extends DoricTestElements with EitherValues {
       col[String]("col.0").elem.run(df).toEither.value
       col[String]("col.1").elem.run(df).toEither.value
       col[String]("col.2").elem.run(df).toEither.value
+    }
+  }
+
+  describe("DoricColumn") {
+    val df = Seq("val1", "val2").toDF("myColumn")
+
+    it("should create a column using uncheckedTypeAndExistence") {
+      val unchecked = DoricColumn.uncheckedTypeAndExistence(f.col("myColumn"))
+
+      unchecked.elem.run(df).toEither shouldBe Right(f.col("myColumn"))
+    }
+
+    it("should not fail creating a column using uncheckedTypeAndExistence") {
+      val unchecked =
+        DoricColumn.uncheckedTypeAndExistence(f.col("nonExistentCol"))
+
+      unchecked.elem.run(df).toEither shouldBe Right(f.col("nonExistentCol"))
+    }
+
+    it("should create an uncheckedType") {
+      val dCol: DoricColumn[_] = DoricColumn.uncheckedType(f.col("myColumn"))
+
+      dCol.elem.run(df).toEither shouldBe Right(f.col("myColumn"))
+    }
+
+    it("should fail creating an uncheckedType if not valid") {
+      val dCol: DoricColumn[_] =
+        DoricColumn.uncheckedType(f.col("nonExistentCol"))
+
+      val error = dCol.elem.run(df).toEither.left.value.head
+
+      error shouldBe an[SparkErrorWrapper]
+      error.getMessage should include(
+        "cannot resolve '`nonExistentCol`' given input columns"
+      )
     }
   }
 
