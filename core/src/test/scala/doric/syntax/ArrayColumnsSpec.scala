@@ -6,7 +6,6 @@ import org.scalatest.matchers.should.Matchers
 
 class ArrayColumnsSpec
     extends DoricTestElements
-    with ArrayColumns
     with EitherValues
     with Matchers {
 

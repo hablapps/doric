@@ -933,7 +933,7 @@ class StringColumnsSpec
     }
 
     it("should fail if malformed format") {
-      intercept[IllegalArgumentException](
+      intercept[java.lang.IllegalArgumentException](
         df.select(colString("dateCol").unixTimestamp("yabcd".lit))
           .collect()
       )

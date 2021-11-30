@@ -54,6 +54,7 @@ private[syntax] trait DateColumns {
       *
       * @param format
       *   A pattern `dd.MM.yyyy` would return a string like `18.03.1993`
+      * @throws java.lang.IllegalArgumentException if malformed format
       * @note
       *   Use specialized functions like 'year' whenever possible as they benefit from a
       *   specialized implementation.

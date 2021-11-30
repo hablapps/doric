@@ -34,6 +34,7 @@ private[syntax] trait BinaryColumns {
       * Calculates the SHA-2 family of hash functions of a binary column and
       * returns the value as a hex string.
       *
+      * @throws java.lang.IllegalArgumentException if numBits is not in the permitted values
       * @group Binary Type
       */
     def sha2(numBits: Int): StringColumn =

@@ -65,6 +65,7 @@ private[syntax] trait BooleanColumns {
     /**
       * Returns null if the condition is true, and throws an exception otherwise.
       *
+      * @throws java.lang.RuntimeException if the condition is false
       * @group Boolean Type
       */
     def assertTrue: NullColumn = column.elem.map(f.assert_true).toDC
@@ -72,6 +73,7 @@ private[syntax] trait BooleanColumns {
     /**
       * Returns null if the condition is true; throws an exception with the error message otherwise.
       *
+      * @throws java.lang.RuntimeException if the condition is false
       * @group Boolean Type
       */
     def assertTrue(msg: StringColumn): NullColumn =

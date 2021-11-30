@@ -213,8 +213,7 @@ private[syntax] trait NumericColumns {
       * representing the timestamp of that moment in the current system time zone in the given
       * format.
       *
-      * @note
-      *   An IllegalArgumentException will be thrown if invalid pattern
+      * @throws java.lang.IllegalArgumentException if invalid format
       *
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.from_unixtime(ut:org\.apache\.spark\.sql\.Column,f* org.apache.spark.sql.functions.from_unixtime]]

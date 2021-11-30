@@ -319,7 +319,7 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
       val df = List(Some(123L), Some(1L), None)
         .toDF("col1")
 
-      intercept[IllegalArgumentException](
+      intercept[java.lang.IllegalArgumentException](
         df.select(colLong("col1").fromUnixTime("wrong pattern".lit))
           .collect()
       )
