@@ -47,7 +47,7 @@ lazy val core = project
     run / fork := true,
     libraryDependencies ++= Seq(
       "org.apache.spark"    %% "spark-sql"        % sparkVersion % "provided",
-      "org.typelevel"       %% "cats-core"        % "2.6.1",
+      "org.typelevel"       %% "cats-core"        % "2.7.0",
       "com.lihaoyi"         %% "sourcecode"       % "0.2.7",
       "io.monix"            %% "newtypes-core"    % "0.0.1",
       "com.github.mrpowers" %% "spark-daria"      % "1.0.0"      % "test",
