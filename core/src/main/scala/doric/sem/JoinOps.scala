@@ -66,7 +66,7 @@ private[sem] trait JoinOps {
       * @group Join operation
       * @param df2
       *   Right side of the join.
-      * @param colum
+      * @param column
       *   Doric join column that must be in both dataframes.
       * @param joinType
       *   Type of join to perform. Default `inner`. Must be one of: `inner`,
@@ -76,10 +76,10 @@ private[sem] trait JoinOps {
       */
     def join(
         df2: Dataset[_],
-        colum: DoricJoinColumn,
-        joinType: String
+        joinType: String,
+        column: DoricJoinColumn
     ): DataFrame = {
-      colum.elem
+      column.elem
         .run((df, df2))
         .map(df.join(df2, _, joinType))
         .returnOrThrow("join")

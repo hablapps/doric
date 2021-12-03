@@ -7,7 +7,7 @@ import org.apache.spark.sql.{DataFrame, RelationalGroupedDataset}
 import org.apache.spark.sql.RelationalGroupedDataset.GroupType
 
 /**
-  * Interface to allow doric to acces to some privet sql elements
+  * Interface to allow doric to access to some privet sql elements
   */
 trait RelationalGroupedDatasetDoricInterface {
 

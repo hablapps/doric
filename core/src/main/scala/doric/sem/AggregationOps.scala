@@ -11,8 +11,10 @@ private[sem] trait AggregationOps
 
     /**
       * Groups the Dataset using the specified columns, so we can run
-      * aggregation on them. See
+      * aggregation on them.
+      *
       * @group Group Dataframe operation
+      * @see [[org.apache.spark.sql.Dataset.groupBy(cols:* org.apache.spark.sql.Dataset.groupBy]]
       */
     def groupBy(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkGroupBy(df.toDF(), cols: _*).returnOrThrow("groupBy")
@@ -20,10 +22,12 @@ private[sem] trait AggregationOps
 
     /**
       * Groups the Dataset using the specified column names, so we can run
-      * aggregation on them. See
+      * aggregation on them.
+      *
       * @group Group Dataframe operation
+      * @see [[org.apache.spark.sql.Dataset.groupBy(col1:* org.apache.spark.sql.Dataset.groupBy]]
       */
-    @inline def groupByCname(
+    @inline def groupByCName(
         col: CName,
         cols: CName*
     ): RelationalGroupedDataset = {
@@ -33,7 +37,9 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional cube for the current Dataset using the
       * specified columns, so we can run aggregation on them.
+      *
       * @group Group Dataframe operation
+      * @see [[org.apache.spark.sql.Dataset.cube(cols:* org.apache.spark.sql.Dataset.cube]]
       */
     def cube(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkCube(df.toDF(), cols: _*).returnOrThrow("cube")
@@ -42,12 +48,11 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional cube for the current Dataset using the specified columns,
       * so we can run aggregation on them.
-      * See [[DRelationalGroupedDataset]] for all the available aggregate functions.
       *
       * This is a variant of cube that can only group by existing columns using column names
       * (i.e. cannot construct expressions).
       *
-      * {{{
+      * @example {{{
       *   // Compute the average for all numeric columns cubed by department and group.
       *   ds.cube("department".cname, "group".cname).avg()
       *
@@ -57,6 +62,8 @@ private[sem] trait AggregationOps
       *     "age" -> "max"
       *   ))
       * }}}
+      * @see [[doric.doc.DRelationalGroupedDataset]] for all the available aggregate functions.
+      * @see [[org.apache.spark.sql.Dataset.cube(col1:* org.apache.spark.sql.Dataset.cube]]
       * @group Group Dataframe operation
       */
     @inline def cube(col: CName, cols: CName*): RelationalGroupedDataset = {
@@ -66,7 +73,9 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional rollup for the current Dataset using the
       * specified columns, so we can run aggregation on them.
+      *
       * @group Group Dataframe operation
+      * @see [[org.apache.spark.sql.Dataset.rollup(cols:* org.apache.spark.sql.Dataset.rollup]]
       */
     def rollup(cols: DoricColumn[_]*): RelationalGroupedDataset = {
       sparkRollup(df.toDF(), cols: _*).returnOrThrow("rollup")
@@ -75,12 +84,11 @@ private[sem] trait AggregationOps
     /**
       * Create a multi-dimensional rollup for the current Dataset using the specified columns,
       * so we can run aggregation on them.
-      * See [[DRelationalGroupedDataset]] for all the available aggregate functions.
       *
       * This is a variant of rollup that can only group by existing columns using column names
       * (i.e. cannot construct expressions).
       *
-      * {{{
+      * @example {{{
       *   // Compute the average for all numeric columns rolled up by department and group.
       *   ds.rollup("department".cname, "group".cname).avg()
       *
@@ -90,6 +98,9 @@ private[sem] trait AggregationOps
       *     "age" -> "max"
       *   ))
       * }}}
+      * @todo this example is not from doric
+      * @see [[doric.doc.DRelationalGroupedDataset]] for all the available aggregate functions.
+      * @see [[org.apache.spark.sql.Dataset.rollup(col1:* org.apache.spark.sql.Dataset.rollup]]
       * @group Group Dataframe operation
       */
     @inline def rollup(col: CName, cols: CName*): RelationalGroupedDataset = {
@@ -100,21 +111,24 @@ private[sem] trait AggregationOps
   implicit class RelationalGroupedDatasetSem(rel: RelationalGroupedDataset) {
 
     /**
-      * Compute aggregates by specifying a series of aggregate columns. Note
-      * that this function by default retains the grouping columns in its
-      * output. To not retain grouping columns, set
-      * `spark.sql.retainGroupColumns` to false.
+      * Compute aggregates by specifying a series of aggregate columns.
+      *
+      * @note this function by default retains the grouping columns in its output.
+      *       To not retain grouping columns, set `spark.sql.retainGroupColumns` to false.
       * @group Group Dataframe operation
+      * @see [[org.apache.spark.sql.Dataset.agg(expr:* org.apache.spark.sql.Dataset.agg]]
       */
     def agg(col: DoricColumn[_], cols: DoricColumn[_]*): DataFrame =
       sparkAgg(rel, col, cols: _*).returnOrThrow("agg")
 
     /**
       * Pivots a column of the current `DataFrame` and performs the specified
-      * aggregation. There are two versions of pivot function: one that requires
-      * the caller to specify the list of distinct values to pivot on, and one
-      * that does not. The latter is more concise but less efficient, because
-      * Spark needs to first compute the list of distinct values internally.
+      * aggregation. There are two versions of pivot function:
+      *   1. one that requires the caller to specify the list of distinct values
+      *   to pivot on, and one that does not.
+      *   1. The latter is more concise but less efficient, because Spark needs to
+      *   first compute the list of distinct values internally.
+      *
       * @group Group Dataframe operation
       * @param expr
       *   doric column to pivot
@@ -122,6 +136,7 @@ private[sem] trait AggregationOps
       *   the values of the column to extract
       * @tparam T
       *   The type of the column and parameters
+      * @see [[org.apache.spark.sql.RelationalGroupedDataset.pivot(pivotColumn:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.RelationalGroupedDataset.pivot]]
       */
     def pivot[T](expr: DoricColumn[T])(
         values: Seq[T]

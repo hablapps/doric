@@ -1,7 +1,6 @@
 package doric
 package syntax
 
-import doric.Equalities._
 import org.apache.spark.sql.types.NullType
 
 import java.time.{Instant, LocalDate, ZoneId}

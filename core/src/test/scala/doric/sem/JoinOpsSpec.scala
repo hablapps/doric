@@ -54,14 +54,14 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
       val joinFunction: DoricJoinColumn =
         LeftDF.colLong(id) === RightDF.colLong(id)
 
-      left.join(right, joinFunction, "inner")
+      left.join(right, "inner", joinFunction)
 
       val badJoinFunction: DoricJoinColumn =
         LeftDF.colString(id) ===
           RightDF.colString(id + "entifier")
 
       val errors = intercept[DoricMultiError] {
-        left.join(right, badJoinFunction, "inner")
+        left.join(right, "inner", badJoinFunction)
       }
 
       errors.errors.length shouldBe 2

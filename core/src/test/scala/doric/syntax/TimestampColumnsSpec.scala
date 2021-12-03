@@ -1,7 +1,6 @@
 package doric
 package syntax
 
-import doric.Equalities._
 import java.sql.{Date, Timestamp}
 import java.time.{LocalDate, LocalDateTime}
 import org.scalatest.EitherValues
