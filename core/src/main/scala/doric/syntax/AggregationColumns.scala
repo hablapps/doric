@@ -315,4 +315,128 @@ private[syntax] trait AggregationColumns {
       .map(f.percentile_approx(_, f.lit(percentage), f.lit(accuracy)))
       .toDC
   }
+
+  /**
+    * Aggregate function: returns the skewness of the values in a group.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.skewness(e:* org.apache.spark.sql.functions.skewness]]
+    */
+  def skewness[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.skewness).toDC
+
+  /**
+    * Aggregate function: alias for `stddev_samp`.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.stddev(e:* org.apache.spark.sql.functions.stddev]]
+    */
+  def stdDev[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.stddev).toDC
+
+  /**
+    * Aggregate function: returns the sample standard deviation of the expression in a group.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.stddev_samp(e:* org.apache.spark.sql.functions.stddev_samp]]
+    */
+  def stdDevSamp[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.stddev_samp).toDC
+
+  /**
+    * Aggregate function: returns the population standard deviation of the expression in a group.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.stddev_pop(e:* org.apache.spark.sql.functions.stddev_pop]]
+    */
+  def stdDevPop[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.stddev_pop).toDC
+
+  /**
+    * Aggregate function: returns the sum of distinct values in the expression.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.sumDistinct(e:* org.apache.spark.sql.functions.sumDistinct]]
+    */
+  def sumDistinct[T](col: DoricColumn[T])(implicit
+      nt: NumericType[T]
+  ): DoricColumn[nt.Sum] =
+    col.elem.map(f.sumDistinct).toDC
+
+  /**
+    * Aggregate function: alias for `var_samp`.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.variance(e:* org.apache.spark.sql.functions.variance]]
+    */
+  def variance[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.variance).toDC
+
+  /**
+    * Aggregate function: returns the unbiased variance of the values in a group.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.var_samp(e:* org.apache.spark.sql.functions.var_samp]]
+    */
+  def varSamp[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.var_samp).toDC
+
+  /**
+    * Aggregate function: returns the population variance of the values in a group.
+    *
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.var_pop(e:* org.apache.spark.sql.functions.var_pop]]
+    */
+  def varPop[T: NumericType](col: DoricColumn[T]): DoubleColumn =
+    col.elem.map(f.var_pop).toDC
+
+  /**
+    * Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+    * or not, returns 1 for aggregated or 0 for not aggregated in the result set.
+    *
+    * @group Aggregation Any Type
+    * @see [[org.apache.spark.sql.functions.grouping(e:* org.apache.spark.sql.functions.grouping]]
+    */
+  def grouping(col: DoricColumn[_]): ByteColumn =
+    col.elem.map(f.grouping).toDC
+
+  /**
+    * Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+    * or not, returns 1 for aggregated or 0 for not aggregated in the result set.
+    *
+    * @group Aggregation Any Type
+    * @see [[org.apache.spark.sql.functions.grouping(columnName:* org.apache.spark.sql.functions.grouping]]
+    */
+  def grouping(columnName: CName): ByteColumn =
+    Doric.unchecked(columnName).map(f.grouping).toDC
+
+  /**
+    * Aggregate function: returns the level of grouping, equals to
+    *
+    * @example {{{
+    *   (grouping(c1) <<; (n-1)) + (grouping(c2) <<; (n-2)) + ... + grouping(cn)
+    * }}}
+    *
+    * @note The list of columns should match with grouping columns exactly, or empty (means all the
+    * grouping columns).
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.grouping_id(cols:* org.apache.spark.sql.functions.grouping_id]]
+    */
+  def groupingId(col: DoricColumn[_], cols: DoricColumn[_]*): LongColumn =
+    (col +: cols).map(_.elem).toList.sequence.map(f.grouping_id(_: _*)).toDC
+
+  /**
+    * Aggregate function: returns the level of grouping, equals to
+    *
+    * @example {{{
+    *   (grouping(c1) <<; (n-1)) + (grouping(c2) <<; (n-2)) + ... + grouping(cn)
+    * }}}
+    *
+    * @note The list of columns should match with grouping columns exactly, or empty (means all the
+    * grouping columns).
+    * @group Aggregation Numeric Type
+    * @see [[org.apache.spark.sql.functions.grouping_id(cols:* org.apache.spark.sql.functions.grouping_id]]
+    */
+  def groupingId(colName: CName, colNames: CName*): LongColumn =
+    Doric(f.grouping_id(colName.value, colNames.map(_.value): _*)).toDC
 }

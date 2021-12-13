@@ -617,4 +617,271 @@ class AggregationColumnsSpec
       msg.getMessage shouldBe s"requirement failed: The accuracy provided must be a literal between (0, ${Int.MaxValue}] (current value = -1)"
     }
   }
+
+  describe("skewness doric function") {
+    import spark.implicits._
+
+    it("should work as skewness spark function") {
+      val df = List(
+        ("k1", -10.0, 2.0),
+        ("k1", -20.0, 3.0),
+        ("k1", 100.0, 3.0),
+        ("k1", 1000.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        skewness(colDouble("col1")),
+        f.skewness(f.col("col1")),
+        List(Some(1.1135657469022011), None)
+      )
+    }
+  }
+
+  describe("stdDev & stdDevSamp doric functions") {
+    import spark.implicits._
+
+    it("should work as stddev spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        stdDev(colDouble("col1")),
+        f.stddev(f.col("col1")),
+        List(Some(1.0), None)
+      )
+    }
+
+    it("should work as stddev_samp spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        stdDevSamp(colDouble("col1")),
+        f.stddev_samp(f.col("col1")),
+        List(Some(1.0), None)
+      )
+    }
+  }
+
+  describe("stdDevPop doric function") {
+    import spark.implicits._
+
+    it("should work as stddev_pop spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        stdDevPop(colDouble("col1")),
+        f.stddev_pop(f.col("col1")),
+        List(Some(0.816496580927726), Some(0.0))
+      )
+    }
+  }
+
+  describe("sumDistinct2Long & sumDistinct2Double doric function") {
+    import spark.implicits._
+
+    it("should work as sumDistinct spark function (long)") {
+      val df = List(
+        ("k1", 1L),
+        ("k1", 1L),
+        ("k1", 3L),
+        ("k2", 6L)
+      ).toDF("keyCol", "col1")
+
+      df.testAggregation(
+        "keyCol",
+        sumDistinct(colLong("col1")),
+        f.sumDistinct(f.col("col1")),
+        List(Some(4L), Some(6L))
+      )
+    }
+
+    it("should work as sumDistinct spark function (double)") {
+      val df = List(
+        ("k1", 1.0),
+        ("k1", 1.0),
+        ("k1", 3.0),
+        ("k2", 6.0)
+      ).toDF("keyCol", "col1")
+
+      df.testAggregation(
+        "keyCol",
+        sumDistinct(colDouble("col1")),
+        f.sumDistinct(f.col("col1")),
+        List(Some(4.0), Some(6.0))
+      )
+    }
+  }
+
+  describe("variance & varSamp doric functions") {
+    import spark.implicits._
+
+    they("") {}
+
+    it("should work as variance spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        variance(colDouble("col1")),
+        f.variance(f.col("col1")),
+        List(Some(1.0), None)
+      )
+    }
+
+    it("should work as var_samp spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        varSamp(colDouble("col1")),
+        f.var_samp(f.col("col1")),
+        List(Some(1.0), None)
+      )
+    }
+  }
+
+  describe("varPop doric function") {
+    import spark.implicits._
+
+    it("should work as var_pop spark function") {
+      val df = List(
+        ("k1", 1.0, 2.0),
+        ("k1", 2.0, 3.0),
+        ("k1", 3.0, 3.0),
+        ("k2", 6.0, 4.0)
+      ).toDF("keyCol", "col1", "col2")
+
+      df.testAggregation(
+        "keyCol",
+        varPop(colDouble("col1")),
+        f.var_pop(f.col("col1")),
+        List(Some(0.6666666666666666), Some(0.0))
+      )
+    }
+  }
+
+  describe("grouping doric function") {
+    import spark.implicits._
+
+    it("should work as grouping spark function") {
+      val df = List(
+        ("k1", 1),
+        ("k2", 6)
+      ).toDF("keyCol", "col1")
+
+      df.cube(colString("keyCol"), colInt("col1"))
+        .testGrouped(
+          grouping(colInt("col1")),
+          f.grouping(f.col("col1")),
+          List(
+            Some(0.toByte),
+            Some(0.toByte),
+            Some(1.toByte),
+            Some(1.toByte),
+            Some(0.toByte),
+            Some(0.toByte),
+            Some(1.toByte)
+          )
+        )
+    }
+
+    it("should work as grouping spark function (CName)") {
+      val df = List(
+        ("k1", 1),
+        ("k2", 6)
+      ).toDF("keyCol", "col1")
+
+      df.cube(colString("keyCol"), colInt("col1"))
+        .testGrouped(
+          grouping("col1"),
+          f.grouping("col1"),
+          List(
+            Some(0.toByte),
+            Some(0.toByte),
+            Some(1.toByte),
+            Some(1.toByte),
+            Some(0.toByte),
+            Some(0.toByte),
+            Some(1.toByte)
+          )
+        )
+    }
+  }
+
+  describe("groupingId doric function") {
+    import spark.implicits._
+
+    it("should work as grouping_id spark function") {
+      val df = List(
+        ("k1", 1),
+        ("k2", 6)
+      ).toDF("keyCol", "col1")
+
+      df.cube(colString("keyCol"), colInt("col1"))
+        .testGrouped(
+          groupingId(colString("keyCol"), colInt("col1")),
+          f.grouping_id(f.col("keyCol"), f.col("col1")),
+          List(
+            Some(2L),
+            Some(0L),
+            Some(1L),
+            Some(3L),
+            Some(2L),
+            Some(0L),
+            Some(1L)
+          )
+        )
+    }
+
+    it("should work as grouping_id spark function (CName)") {
+      val df = List(
+        ("k1", 1),
+        ("k2", 6)
+      ).toDF("keyCol", "col1")
+
+      df.cube(colString("keyCol"), colInt("col1"))
+        .testGrouped(
+          groupingId("keyCol", "col1"),
+          f.grouping_id("keyCol", "col1"),
+          List(
+            Some(2L),
+            Some(0L),
+            Some(1L),
+            Some(3L),
+            Some(2L),
+            Some(0L),
+            Some(1L)
+          )
+        )
+    }
+  }
 }
