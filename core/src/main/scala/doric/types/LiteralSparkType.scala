@@ -9,6 +9,16 @@ abstract class LiteralSparkType[T] {
   type OriginalSparkType
 
   val literalTo: T => OriginalSparkType
+
+  def customType[O](
+      f: O => T
+  )(implicit ost: SparkType[O]): LiteralSparkType[O] {
+    type OriginalSparkType = LiteralSparkType.this.OriginalSparkType
+  } =
+    new LiteralSparkType[O]() {
+      override type OriginalSparkType = self.OriginalSparkType
+      override val literalTo: O => OriginalSparkType = f andThen self.literalTo
+    }
 }
 
 object LiteralSparkType {

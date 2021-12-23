@@ -31,23 +31,27 @@ But we don't want to represent it in spark as a struct, it will be better to rep
 this is super simple, just type this code:
 
 ```scala mdoc
-import doric.types.SparkType
+import doric.types.{SparkType, LiteralSparkType}
 
 implicit val userSparkType = SparkType[String].customType[User](
-        x => s"${x.name}#${x.surname}",
         x => {
           val name :: surname :: Nil = x.split("#").toList
           User(name, surname)
         }
       )
+      
+implicit val userLiteralSparkType =
+  LiteralSparkType[String].customType[User](x => s"${x.name}#${x.surname}")
 ```
 
 Let's take a closer look, first we are creating an implicit `SparkType` for `User`. And the way to do this is invoking
 the implicit SparkType of the original datatype we want to use, in our case calling `SparkType[String]`. Once we have
-it, we can call the method `customType`. This method needs two lambdas, the first one will transform from our custom
-type to the base type, in our case we create a single string with the character `#` as a separator, the second one is
-the opposite function, will transform from `String` to our custom `User`, in our case, split the String by the
-character `#`  and reconstruct the `User` class.
+it, we can call the method `customType`. This method needs the function that will transform from `String` to our
+custom `User`, in our case, split the String by the character `#`  and reconstruct the `User` class. Also, to allow to
+use the `User` class as a literal value, we need to create a LiteralSparkType, that starting with the original type that
+we created it, we call the method `customType` and passing the type of our `User`
+and we have to provide the opposite function to the one for the `SparkType`, in our case how to create the `String` from
+our `User`.
 
 Now we have a valid SparkType, we can use it for everything:
 
@@ -126,7 +130,8 @@ val stateToSpark: UserState => Int = {
   case Married => 3
 }
 
-implicit val userStateSparkType = SparkType[Int].customType(stateToSpark, stateFromSpark)
+implicit val userStateSparkType = SparkType[Int].customType(stateFromSpark)
+implicit val userLiteralStateSparkType = LiteralSparkType[Int].customType(stateToSpark)
 ```
 
 Now let's do some complex logic, increase a score depending on the state of the user.
@@ -159,7 +164,10 @@ we insert something in our column it can be repeated. This is as simple as creat
 
 ```scala mdoc
 implicit def setSparkType[T: SparkType] =
-  SparkType[List[T]].customType[Set[T]](_.toList, _.toSet)
+  SparkType[List[T]].customType[Set[T]](_.toSet)
+  
+implicit def setLiteralSparkType[T: LiteralSparkType](implicit lst: SparkType[Set[T]]) =
+  LiteralSparkType[List[T]].customType[Set[T]](_.toList)
 ```
 
 All set up, let's enjoy our new type

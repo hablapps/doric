@@ -16,5 +16,5 @@ object User {
   implicit val userlst: LiteralSparkType[User] {
     type OriginalSparkType = String
   } =
-    LiteralSparkType.customType[String, User](x => s"${x.name}#${x.surname}")
+    LiteralSparkType[String].customType[User](x => s"${x.name}#${x.surname}")
 }
