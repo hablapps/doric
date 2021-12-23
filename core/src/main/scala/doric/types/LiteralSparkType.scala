@@ -37,6 +37,10 @@ object LiteralSparkType {
     override val literalTo: T => OriginalSparkType = identity
   }
 
+  implicit val fromNull: LiteralSparkType[Null] {
+    type OriginalSparkType = Null
+  } = createBasic[Null]
+
   implicit val fromBoolean: LiteralSparkType[Boolean] {
     type OriginalSparkType = Boolean
   } = createBasic[Boolean]
