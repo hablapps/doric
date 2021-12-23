@@ -2,7 +2,7 @@ package doric
 package syntax
 
 import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
-import doric.types.{DoubleC, NumericDecimalsType, NumericIntegerType, NumericType}
+import doric.types.{DoubleC, NumericType}
 import org.apache.spark.sql.{functions => f}
 
 private[syntax] trait AggregationColumns {
@@ -13,16 +13,9 @@ private[syntax] trait AggregationColumns {
     * @group Aggregation Numeric Type
     * @see [[org.apache.spark.sql.functions.sum(e:* org.apache.spark.sql.functions.sum]]
     */
-  def sum2Long[T: NumericIntegerType](col: DoricColumn[T]): LongColumn =
-    col.elem.map(f.sum).toDC
-
-  /**
-    * Aggregate function: returns the sum of all values in the expression.
-    *
-    * @group Aggregation Numeric Type
-    * @see [[org.apache.spark.sql.functions.sum(e:* org.apache.spark.sql.functions.sum]]
-    */
-  def sum2Double[T: NumericDecimalsType](col: DoricColumn[T]): DoubleColumn =
+  def sum[T](col: DoricColumn[T])(implicit
+      nt: NumericType[T]
+  ): DoricColumn[nt.Sum] =
     col.elem.map(f.sum).toDC
 
   /**

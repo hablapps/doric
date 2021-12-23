@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits.catsSyntaxTuple2Semigroupal
 import doric.DoricColumn.sparkFunction
-import doric.types.{NumericDecimalsType, NumericType}
+import doric.types.NumericType
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime, Rand, Randn}
@@ -179,12 +179,6 @@ private[syntax] trait NumericColumns {
     def timestampSeconds: TimestampColumn =
       column.elem.map(f.timestamp_seconds).toDC
 
-  }
-
-  implicit class NumericDecimalsOpsSyntax[T: NumericDecimalsType](
-      column: DoricColumn[T]
-  ) {
-
     /**
       * Checks if the value of the column is not a number
       * @group All Types
@@ -192,6 +186,7 @@ private[syntax] trait NumericColumns {
       *   Boolean DoricColumn
       */
     def isNaN: BooleanColumn = column.elem.map(_.isNaN).toDC
+
   }
 
   implicit class LongOperationsSyntax(

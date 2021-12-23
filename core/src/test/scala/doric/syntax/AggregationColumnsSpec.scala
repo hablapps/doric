@@ -25,7 +25,7 @@ class AggregationColumnsSpec
 
       df.testAggregation(
         "keyCol",
-        sum2Long(colInt("col1")),
+        sum(colInt("col1")),
         f.sum("col1"),
         List(Some(6L), Some(3L))
       )
@@ -40,7 +40,7 @@ class AggregationColumnsSpec
 
       df.testAggregation(
         "keyCol",
-        sum2Double(colFloat("col1")),
+        sum(colFloat("col1")),
         f.sum("col1"),
         List(Some(6.5), Some(3.0))
       )

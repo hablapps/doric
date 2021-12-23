@@ -17,48 +17,48 @@ class AggregationOpsSpec extends DoricTestElements {
 
     it("can use original spark aggregateFunctions") {
       df.groupByCName(str)
-        .agg(colInt(num).pipe(sum2Long(_)) as sum1)
+        .agg(colInt(num).pipe(sum(_)) as sum1)
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
         df.groupByCName(str)
-          .agg(colLong(num).pipe(sum2Long(_)) as sum1)
+          .agg(colLong(num).pipe(sum(_)) as sum1)
       }
     }
 
     it("groupBy") {
       df.groupBy(concat(col(str), col(str)) as conc)
-        .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+        .agg(col[Int](num).pipe(sum(_)) as sum1)
         .validateColumnType(colString(conc))
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
         df.groupBy(col[String](str2))
-          .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+          .agg(col[Int](num).pipe(sum(_)) as sum1)
       }
     }
 
     it("cube") {
       df.cube(concat(col(str), col(str)) as conc)
-        .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+        .agg(col[Int](num).pipe(sum(_)) as sum1)
         .validateColumnType(colString(conc))
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
         df.cube(col[String](str2))
-          .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+          .agg(col[Int](num).pipe(sum(_)) as sum1)
       }
     }
 
     it("rollup") {
       df.rollup(concat(col(str), col(str)) as conc)
-        .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+        .agg(col[Int](num).pipe(sum(_)) as sum1)
         .validateColumnType(colString(conc))
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
         df.rollup(col[String](str2))
-          .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+          .agg(col[Int](num).pipe(sum(_)) as sum1)
       }
     }
 
@@ -71,7 +71,7 @@ class AggregationOpsSpec extends DoricTestElements {
       df.groupBy(concat(col(str), col(str)) as conc)
         .pivot(colInt(num2))(List(1, 4))
         .agg(
-          col[Int](num).pipe(sum2Long(_)) as sum1,
+          col[Int](num).pipe(sum(_)) as sum1,
           col[Int](num).pipe(first(_)) as firstC
         )
         .validateColumnType(colString(conc))
@@ -83,7 +83,7 @@ class AggregationOpsSpec extends DoricTestElements {
       assertThrows[DoricMultiError] {
         df.groupBy(concat(col(str), col(str)) as conc)
           .pivot(colString(num2))(List("1", "4"))
-          .agg(col[Int](num).pipe(sum2Long(_)) as sum1)
+          .agg(col[Int](num).pipe(sum(_)) as sum1)
       }
     }
   }
