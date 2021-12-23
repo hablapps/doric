@@ -978,7 +978,7 @@ and returns the result as an int column.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#BooleanOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.BooleanOperationsSyntax">doric.BooleanOperationsSyntax</a> performed by method BooleanOperationsSyntax in doric.syntax.BooleanColumns.
             This conversion will take place only if T is Boolean (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>).
-          </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html" class="extype" name="java.lang.RuntimeException"><code>java.lang.RuntimeException</code></a> if the condition is false</p></span></dd></dl></div>
     </li><li name="doric.syntax.BooleanColumns.BooleanOperationsSyntax#assertTrue" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Boolean Type">
       <a id="assertTrue:doric.NullColumn"></a><a id="assertTrue:NullColumn"></a>
       <span class="permalink">
@@ -999,7 +999,7 @@ and returns the result as an int column.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#BooleanOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.BooleanOperationsSyntax">doric.BooleanOperationsSyntax</a> performed by method BooleanOperationsSyntax in doric.syntax.BooleanColumns.
             This conversion will take place only if T is Boolean (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>).
-          </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html" class="extype" name="java.lang.RuntimeException"><code>java.lang.RuntimeException</code></a> if the condition is false</p></span></dd></dl></div>
     </li><li name="doric.syntax.BinaryColumns.BinaryOperationsSyntax#base64" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Binary Type">
       <a id="base64:doric.StringColumn"></a><a id="base64:StringColumn"></a>
       <span class="permalink">
@@ -1487,7 +1487,7 @@ format given by the second argument.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.DateType (T: <a href="types/DateType.html" class="extype" name="doric.types.DateType">DateType</a>) and at the same time T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
-          </dd><dt>Definition Classes</dt><dd>DateColumnLikeSyntax</dd><dt>Note</dt><dd><span class="cmt"><p>
+          </dd><dt>Definition Classes</dt><dd>DateColumnLikeSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if malformed format</p></span></dd><dt>Note</dt><dd><span class="cmt"><p>
   Use specialized functions like 'year' whenever possible as they benefit from a
   specialized implementation.</p></span></dd></dl></div>
     </li><li name="doric.syntax.NumericColumns.NumericOperationsSyntax#formatNumber" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
@@ -1562,8 +1562,7 @@ format.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#LongOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.LongOperationsSyntax">doric.LongOperationsSyntax</a> performed by method LongOperationsSyntax in doric.syntax.NumericColumns.
             This conversion will take place only if T is Long (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a>).
-          </dd><dt>Definition Classes</dt><dd>LongOperationsSyntax</dd><dt>Note</dt><dd><span class="cmt"><p>
-  An IllegalArgumentException will be thrown if invalid pattern</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#from_unixtime(ut:org.apache.spark.sql.Column,f:String):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.from_unixtime</a></p></span></dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>LongOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if invalid format</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#from_unixtime(ut:org.apache.spark.sql.Column,f:String):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.from_unixtime</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.NumericColumns.LongOperationsSyntax#fromUnixTime" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="fromUnixTime:doric.StringColumn"></a><a id="fromUnixTime:StringColumn"></a>
       <span class="permalink">
@@ -1613,7 +1612,7 @@ that time as a timestamp in the given time zone. For example, 'GMT+1' would yiel
             <a href="index.html#TimestampColumnLikeSyntax[T]extendsAnyRef" class="extmbr" name="doric.TimestampColumnLikeSyntax">doric.TimestampColumnLikeSyntax</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] performed by method TimestampColumnLikeSyntax in doric.syntax.TimestampColumns.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.TimestampType (T: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>).
-          </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/time/DateTimeException.html" class="extype" name="java.time.DateTimeException"><code>java.time.DateTimeException</code></a> if invalid timeZone</p></span></dd></dl></div>
     </li><li name="doric.syntax.MapColumns.MapColumnOps#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="get(key:doric.DoricColumn[K]):doric.DoricColumn[V]"></a><a id="get(DoricColumn[K]):DoricColumn[V]"></a>
       <span class="permalink">
@@ -1810,7 +1809,7 @@ given string. Returns null if either of the arguments are null.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="doric.syntax.CommonColumns.BasicCol#isNaN" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
+    </li><li name="doric.syntax.NumericColumns.NumericOperationsSyntax#isNaN" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="isNaN:doric.BooleanColumn"></a><a id="isNaN:BooleanColumn"></a>
       <span class="permalink">
       <a href="../doric/DoricColumn.html#isNaN:doric.BooleanColumn" title="Permalink">
@@ -1828,10 +1827,10 @@ given string. Returns null if either of the arguments are null.
       <p class="shortcomment cmt">Checks if the value of the column is not a number</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the value of the column is not a number</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
   Boolean DoricColumn</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
-            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            <a href="index.html#NumericOperationsSyntax[T]extendsAnyRef" class="extmbr" name="doric.NumericOperationsSyntax">doric.NumericOperationsSyntax</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] performed by method NumericOperationsSyntax in doric.syntax.NumericColumns.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
-        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
-          </dd><dt>Definition Classes</dt><dd>BasicCol</dd></dl></div>
+        context-bounded</a> by doric.types.NumericType (T: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>).
+          </dd><dt>Definition Classes</dt><dd>NumericOperationsSyntax</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#isNotNull" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="isNotNull:doric.BooleanColumn"></a><a id="isNotNull:BooleanColumn"></a>
       <span class="permalink">
@@ -2460,7 +2459,7 @@ on a regex match.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#StringOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.StringOperationsSyntax">doric.StringOperationsSyntax</a> performed by method StringOperationsSyntax in doric.syntax.StringColumns.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
-          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html" class="extype" name="java.lang.RuntimeException"><code>java.lang.RuntimeException</code></a> with the error message</p></span></dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#regexpExtract" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="regexpExtract(exp:doric.StringColumn,groupIdx:doric.IntegerColumn):doric.StringColumn"></a><a id="regexpExtract(StringColumn,IntegerColumn):StringColumn"></a>
       <span class="permalink">
@@ -2486,7 +2485,7 @@ thrown.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#StringOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.StringOperationsSyntax">doric.StringOperationsSyntax</a> performed by method StringOperationsSyntax in doric.syntax.StringColumns.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
-          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if the specified group index exceeds the group count of regex</p></span></dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#regexpReplace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="regexpReplace(pattern:doric.StringColumn,replacement:doric.StringColumn):doric.StringColumn"></a><a id="regexpReplace(StringColumn,StringColumn):StringColumn"></a>
       <span class="permalink">
@@ -2669,7 +2668,7 @@ returns the value as a hex string.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.BinaryType (T: <a href="types/BinaryType.html" class="extype" name="doric.types.BinaryType">BinaryType</a>) and at the same time T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
-          </dd><dt>Definition Classes</dt><dd>BinaryOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>BinaryOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if numBits is not in the permitted values</p></span></dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#soundex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="soundex:doric.StringColumn"></a><a id="soundex:StringColumn"></a>
       <span class="permalink">
@@ -3070,7 +3069,7 @@ zone, and renders that time as a timestamp in UTC. For example, 'GMT+1' would yi
             <a href="index.html#TimestampColumnLikeSyntax[T]extendsAnyRef" class="extmbr" name="doric.TimestampColumnLikeSyntax">doric.TimestampColumnLikeSyntax</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] performed by method TimestampColumnLikeSyntax in doric.syntax.TimestampColumns.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.TimestampType (T: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>).
-          </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/time/DateTimeException.html" class="extype" name="java.time.DateTimeException"><code>java.time.DateTimeException</code></a> if invalid timeZone</p></span></dd></dl></div>
     </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
       <a id="transform[A](fun:doric.DoricColumn[T]=&gt;doric.DoricColumn[A]):doric.DoricColumn[Array[A]]"></a><a id="transform[A]((DoricColumn[T])⇒DoricColumn[A]):DoricColumn[Array[A]]"></a>
       <span class="permalink">
@@ -3265,7 +3264,7 @@ This is the reverse of base64.
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.DoricColumn.T">T</span>] to
             <a href="index.html#StringOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.StringOperationsSyntax">doric.StringOperationsSyntax</a> performed by method StringOperationsSyntax in doric.syntax.StringColumns.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
-          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd></dl></div>
+          </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if invalid pattern</p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#unsafeCast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="unsafeCast[To](implicitevidence$6:BasicCol.this.WCastToT[To],implicitevidence$7:doric.types.SparkType[To]):doric.DoricColumn[To]"></a><a id="unsafeCast[To](UnsafeCasting[T,To],SparkType[To]):DoricColumn[To]"></a>
       <span class="permalink">

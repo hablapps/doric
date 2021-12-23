@@ -1545,10 +1545,10 @@ never used.
                 <span class="name">@varargs</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#groupByCname" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
-      <a id="groupByCname(col:doric.CName,cols:doric.CName*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="groupByCname(CName,CName*):RelationalGroupedDataset"></a>
+    </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#groupByCName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
+      <a id="groupByCName(col:doric.CName,cols:doric.CName*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="groupByCName(CName,CName*):RelationalGroupedDataset"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#groupByCname(col:doric.CName,cols:doric.CName*):org.apache.spark.sql.RelationalGroupedDataset" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#groupByCName(col:doric.CName,cols:doric.CName*):org.apache.spark.sql.RelationalGroupedDataset" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1557,19 +1557,20 @@ never used.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">groupByCname</span><span class="params">(<span name="col">col: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="cols">cols: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a></span>
+        <span class="implicit">groupByCName</span><span class="params">(<span name="col">col: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="cols">cols: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">RelationalGroupedDataset</a></span>
       </span>
       
       <p class="shortcomment cmt">Groups the Dataset using the specified column names, so we can run
 aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Groups the Dataset using the specified column names, so we can run
-aggregation on them. See</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+aggregation on them.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
           </dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
-        </dd></dl></div>
+        </dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#groupBy(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.groupBy</a></p></span></dd></dl></div>
     </li><li name="org.apache.spark.sql.Dataset#groupByKey" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="groupByKey[K](func:org.apache.spark.api.java.function.MapFunction[T,K],encoder:org.apache.spark.sql.Encoder[K]):org.apache.spark.sql.KeyValueGroupedDataset[K,T]"></a><a id="groupByKey[K](MapFunction[T,K],Encoder[K]):KeyValueGroupedDataset[K,T]"></a>
       <span class="permalink">
@@ -3659,23 +3660,25 @@ columns that has the same name.
       
       <p class="shortcomment cmt">Create a multi-dimensional cube for the current Dataset using the specified columns,
 so we can run aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Create a multi-dimensional cube for the current Dataset using the specified columns,
-so we can run aggregation on them.
-See <a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">DRelationalGroupedDataset</a> for all the available aggregate functions.</p><p>This is a variant of cube that can only group by existing columns using column names
-(i.e. cannot construct expressions).</p><pre><span class="cmt">// Compute the average for all numeric columns cubed by department and group.</span>
-ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
-
-<span class="cmt">// Compute the max age and average salary, cubed by department and gender.</span>
-ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
-  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
-  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
-))</pre></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+so we can run aggregation on them.</p><p>This is a variant of cube that can only group by existing columns using column names
+(i.e. cannot construct expressions).
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).cube(col, cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
-        </dd></dl></div>
+        </dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre><span class="cmt">// Compute the average for all numeric columns cubed by department and group.</span>
+ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
+
+<span class="cmt">// Compute the max age and average salary, cubed by department and gender.</span>
+ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
+  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
+  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
+))</pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">doric.doc.DRelationalGroupedDataset</a> for all the available aggregate functions.</p></span><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#cube(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.cube</a></p></span></dd></dl></div>
     </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#cube" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
       <a id="cube(cols:doric.DoricColumn[_]*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="cube(DoricColumn[_]*):RelationalGroupedDataset"></a>
       <span class="permalink">
@@ -3693,11 +3696,12 @@ ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"gender"<
       
       <p class="shortcomment cmt">Create a multi-dimensional cube for the current Dataset using the
 specified columns, so we can run aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Create a multi-dimensional cube for the current Dataset using the
-specified columns, so we can run aggregation on them.</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+specified columns, so we can run aggregation on them.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).cube(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).cube(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#cube(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.cube</a></p></span></dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax#filter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Dataframe Transformation operation">
       <a id="filter(condition:doric.BooleanColumn):org.apache.spark.sql.Dataset[A]"></a><a id="filter(BooleanColumn):Dataset[T]"></a>
       <span class="permalink">
@@ -3738,15 +3742,16 @@ peopleDs.where(colInt(<span class="lit">"age"</span>) &gt; <span class="num">15<
       
       <p class="shortcomment cmt">Groups the Dataset using the specified columns, so we can run
 aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Groups the Dataset using the specified columns, so we can run
-aggregation on them. See</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+aggregation on them.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).groupBy(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).groupBy(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#groupBy(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.groupBy</a></p></span></dd></dl></div>
     </li><li name="doric.sem.JoinOps.DataframeJoinSyntax#join" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Join operation">
-      <a id="join(df2:org.apache.spark.sql.Dataset[_],colum:doric.DoricJoinColumn,joinType:String):org.apache.spark.sql.DataFrame"></a><a id="join(Dataset[_],DoricJoinColumn,String):DataFrame"></a>
+      <a id="join(df2:org.apache.spark.sql.Dataset[_],joinType:String,column:doric.DoricJoinColumn):org.apache.spark.sql.DataFrame"></a><a id="join(Dataset[_],String,DoricJoinColumn):DataFrame"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#join(df2:org.apache.spark.sql.Dataset[_],colum:doric.DoricJoinColumn,joinType:String):org.apache.spark.sql.DataFrame" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#join(df2:org.apache.spark.sql.Dataset[_],joinType:String,column:doric.DoricJoinColumn):org.apache.spark.sql.DataFrame" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3755,23 +3760,23 @@ aggregation on them. See</p></div><dl class="attributes block"> <dt class="impli
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit shadowed">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="colum">colum: <a href="../DoricJoinColumn.html" class="extype" name="doric.DoricJoinColumn">DoricJoinColumn</a></span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="implicit shadowed">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="column">column: <a href="../DoricJoinColumn.html" class="extype" name="doric.DoricJoinColumn">DoricJoinColumn</a></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Join with another <code>DataFrame</code>, using the given doric columns.</p><div class="fullcomment"><div class="comment cmt"><p>Join with another <code>DataFrame</code>, using the given doric columns. The
 following performs a full outer join between <code>df1</code> with key <code>dfKey1</code> and
 <code>df2</code> with key <code>dfKey2</code> that must be string type.</p><pre><span class="kw">val</span> joinColumn = Left.colString(<span class="lit">"dfKey1"</span>) === Right.colString(<span class="lit">"dfKey2"</span>)
 df1.join(df2, joinColumn, <span class="lit">"outer"</span>)</pre></div><dl class="paramcmts block"><dt class="param">df2</dt><dd class="cmt"><p>
-  Right side of the join.</p></dd><dt class="param">colum</dt><dd class="cmt"><p>
-  Doric join column that must be in both dataframes.</p></dd><dt class="param">joinType</dt><dd class="cmt"><p>
+  Right side of the join.</p></dd><dt class="param">joinType</dt><dd class="cmt"><p>
   Type of join to perform. Default <code>inner</code>. Must be one of: <code>inner</code>,
   <code>cross</code>, <code>outer</code>, <code>full</code>, <code>fullouter</code>, <code>full_outer</code>, <code>left</code>,
   <code>leftouter</code>, <code>left_outer</code>, <code>right</code>, <code>rightouter</code>, <code>right_outer</code>,
-  <code>semi</code>, <code>leftsemi</code>, <code>left_semi</code>, <code>anti</code>, <code>leftanti</code>, <code>left_anti</code>.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+  <code>semi</code>, <code>leftsemi</code>, <code>left_semi</code>, <code>anti</code>, <code>leftanti</code>, <code>left_anti</code>.</p></dd><dt class="param">column</dt><dd class="cmt"><p>
+  Doric join column that must be in both dataframes.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeJoinSyntax[A]extendsAnyRef" class="extmbr" name="doric.DataframeJoinSyntax">doric.DataframeJoinSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method DataframeJoinSyntax in doric.sem.JoinOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeJoinSyntax[T]).join(df2, colum, joinType)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeJoinSyntax</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeJoinSyntax[T]).join(df2, joinType, column)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeJoinSyntax</dd></dl></div>
     </li><li name="doric.sem.JoinOps.DataframeJoinSyntax#join" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Join operation">
       <a id="join(df2:org.apache.spark.sql.Dataset[_],joinType:String,col:doric.DoricColumn[_],cols:doric.DoricColumn[_]*):org.apache.spark.sql.DataFrame"></a><a id="join(Dataset[_],String,DoricColumn[_],DoricColumn[_]*):DataFrame"></a>
       <span class="permalink">
@@ -3818,23 +3823,25 @@ following performs a full outer join between <code>df1</code> and <code>df2</cod
       
       <p class="shortcomment cmt">Create a multi-dimensional rollup for the current Dataset using the specified columns,
 so we can run aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Create a multi-dimensional rollup for the current Dataset using the specified columns,
-so we can run aggregation on them.
-See <a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">DRelationalGroupedDataset</a> for all the available aggregate functions.</p><p>This is a variant of rollup that can only group by existing columns using column names
-(i.e. cannot construct expressions).</p><pre><span class="cmt">// Compute the average for all numeric columns rolled up by department and group.</span>
-ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
-
-<span class="cmt">// Compute the max age and average salary, rolled up by department and gender.</span>
-ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
-  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
-  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
-))</pre></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+so we can run aggregation on them.</p><p>This is a variant of rollup that can only group by existing columns using column names
+(i.e. cannot construct expressions).
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).rollup(col, cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
-        </dd></dl></div>
+        </dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre><span class="cmt">// Compute the average for all numeric columns rolled up by department and group.</span>
+ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
+
+<span class="cmt">// Compute the max age and average salary, rolled up by department and gender.</span>
+ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
+  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
+  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
+))</pre></li></ol>
+            </div><dt>To do</dt><dd><span class="cmt"><p>this example is not from doric</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">doric.doc.DRelationalGroupedDataset</a> for all the available aggregate functions.</p></span><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#rollup(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.rollup</a></p></span></dd></dl></div>
     </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#rollup" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
       <a id="rollup(cols:doric.DoricColumn[_]*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="rollup(DoricColumn[_]*):RelationalGroupedDataset"></a>
       <span class="permalink">
@@ -3852,11 +3859,12 @@ ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"gender
       
       <p class="shortcomment cmt">Create a multi-dimensional rollup for the current Dataset using the
 specified columns, so we can run aggregation on them.</p><div class="fullcomment"><div class="comment cmt"><p>Create a multi-dimensional rollup for the current Dataset using the
-specified columns, so we can run aggregation on them.</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+specified columns, so we can run aggregation on them.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#DataframeAggSyntaxextendsAnyRef" class="extmbr" name="doric.DataframeAggSyntax">doric.DataframeAggSyntax</a> performed by method DataframeAggSyntax in doric.sem.AggregationOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).rollup(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeAggSyntax).rollup(cols)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeAggSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#rollup(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.rollup</a></p></span></dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax#select" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Dataframe Transformation operation">
       <a id="select(col:doric.DoricColumn[_]*):org.apache.spark.sql.DataFrame"></a><a id="select(DoricColumn[_]*):DataFrame"></a>
       <span class="permalink">

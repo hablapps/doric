@@ -1029,14 +1029,13 @@ never used.
         <span class="implicit shadowed">agg</span><span class="params">(<span name="col">col: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="cols">cols: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
-      <p class="shortcomment cmt">Compute aggregates by specifying a series of aggregate columns.</p><div class="fullcomment"><div class="comment cmt"><p>Compute aggregates by specifying a series of aggregate columns. Note
-that this function by default retains the grouping columns in its
-output. To not retain grouping columns, set
-<code>spark.sql.retainGroupColumns</code> to false.</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Compute aggregates by specifying a series of aggregate columns.</p><div class="fullcomment"><div class="comment cmt"><p>Compute aggregates by specifying a series of aggregate columns.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DRelationalGroupedDataset">DRelationalGroupedDataset</a> to
             <a href="../index.html#RelationalGroupedDatasetSemextendsAnyRef" class="extmbr" name="doric.RelationalGroupedDatasetSem">doric.RelationalGroupedDatasetSem</a> performed by method RelationalGroupedDatasetSem in doric.sem.AggregationOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dRelationalGroupedDataset: doric.RelationalGroupedDatasetSem).agg(col, cols)</pre></div></dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetSem</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dRelationalGroupedDataset: doric.RelationalGroupedDatasetSem).agg(col, cols)</pre></div></dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetSem</dd><dt>Note</dt><dd><span class="cmt"><p>this function by default retains the grouping columns in its output.
+      To not retain grouping columns, set <code>spark.sql.retainGroupColumns</code> to false.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#agg(expr:org.apache.spark.sql.Column,exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.DataFrame" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.agg</a></p></span></dd></dl></div>
     </li><li name="doric.sem.AggregationOps.RelationalGroupedDatasetSem#pivot" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
       <a id="pivot[T](expr:doric.DoricColumn[T])(values:Seq[T]):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="pivot[T](DoricColumn[T])(Seq[T]):RelationalGroupedDataset"></a>
       <span class="permalink">
@@ -1054,17 +1053,17 @@ output. To not retain grouping columns, set
       
       <p class="shortcomment cmt">Pivots a column of the current <code>DataFrame</code> and performs the specified
 aggregation.</p><div class="fullcomment"><div class="comment cmt"><p>Pivots a column of the current <code>DataFrame</code> and performs the specified
-aggregation. There are two versions of pivot function: one that requires
-the caller to specify the list of distinct values to pivot on, and one
-that does not. The latter is more concise but less efficient, because
-Spark needs to first compute the list of distinct values internally.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+aggregation. There are two versions of pivot function:</p><ol class="decimal"><li>one that requires the caller to specify the list of distinct values
+  to pivot on, and one that does not.</li><li>The latter is more concise but less efficient, because Spark needs to
+  first compute the list of distinct values internally.
+</li></ol></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
   The type of the column and parameters</p></dd><dt class="param">expr</dt><dd class="cmt"><p>
   doric column to pivot</p></dd><dt class="param">values</dt><dd class="cmt"><p>
   the values of the column to extract</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DRelationalGroupedDataset">DRelationalGroupedDataset</a> to
             <a href="../index.html#RelationalGroupedDatasetSemextendsAnyRef" class="extmbr" name="doric.RelationalGroupedDatasetSem">doric.RelationalGroupedDatasetSem</a> performed by method RelationalGroupedDatasetSem in doric.sem.AggregationOps.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dRelationalGroupedDataset: doric.RelationalGroupedDatasetSem).pivot(expr)(values)</pre></div></dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetSem</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dRelationalGroupedDataset: doric.RelationalGroupedDatasetSem).pivot(expr)(values)</pre></div></dd><dt>Definition Classes</dt><dd>RelationalGroupedDatasetSem</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html#pivot(pivotColumn:org.apache.spark.sql.Column):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.RelationalGroupedDataset">org.apache.spark.sql.RelationalGroupedDataset.pivot</a></p></span></dd></dl></div>
     </li></ol>
             </div>
 
