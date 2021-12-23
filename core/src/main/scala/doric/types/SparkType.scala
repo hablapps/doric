@@ -97,6 +97,8 @@ object SparkType {
   implicit val fromInstant: SparkType[Instant] =
     SparkType[Instant](org.apache.spark.sql.types.TimestampType)
 
+  implicit val fromByte: SparkType[Byte] = SparkType[Byte](ByteType)
+
   implicit val fromInt: SparkType[Int] = SparkType[Int](IntegerType)
 
   implicit val fromLong: SparkType[Long] = SparkType[Long](LongType)

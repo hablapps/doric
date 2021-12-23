@@ -1,16 +1,17 @@
 package doric
 
+import com.github.mrpowers.spark.fast.tests.DatasetComparer
+
 import scala.reflect._
 import scala.reflect.runtime.universe._
 import doric.types.{Casting, SparkType}
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
-import org.apache.spark.sql.{Column, DataFrame, Encoder, functions => f}
+import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
 import org.apache.spark.sql.types._
-
 import doric.implicitConversions.stringCname
 
-trait TypedColumnTest extends Matchers {
+trait TypedColumnTest extends Matchers with DatasetComparer {
 
   private lazy val doricCol = "dcol".cname
   private lazy val sparkCol = "scol".cname
@@ -66,6 +67,41 @@ trait TypedColumnTest extends Matchers {
 
     if (expected.nonEmpty)
       doricColumns should contain theSameElementsAs expected
+  }
+
+  implicit class ValidateColumnGroupType(gr: RelationalGroupedDataset) {
+
+    /**
+      * Tests doric and spark aggregation functions
+      *
+      * @param aggDoricCol
+      *   Doric aggregation column
+      * @param aggSparkCol
+      *   Spark aggregation column
+      * @param expected
+      *   list of values
+      * @tparam T
+      *   Comparing column type
+      */
+    def testGrouped[T: SparkType: TypeTag: Equality](
+        aggDoricCol: DoricColumn[T],
+        aggSparkCol: Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+
+      val aggColName = "aggCol"
+      val doricDF    = gr.agg(aggDoricCol.as(aggColName))
+      val sparkDF    = gr.agg(aggSparkCol.as(aggColName))
+
+      assertSmallDatasetEquality(doricDF, sparkDF)
+
+      if (expected.nonEmpty) {
+        implicit val enc: Encoder[Option[T]] =
+          doricDF.sparkSession.implicits.newProductEncoder[Option[T]]
+        val rows = doricDF.select(aggColName).as[Option[T]].collect().toList
+        rows should contain theSameElementsAs expected
+      }
+    }
   }
 
   implicit class ValidateColumnType(df: DataFrame) {
