@@ -109,7 +109,7 @@ class BooleanColumnsSpec
       val df = Seq(true, false, false)
         .toDF("col1")
 
-      intercept[RuntimeException] {
+      intercept[java.lang.RuntimeException] {
         df.select(
           colBoolean("col1").assertTrue
         ).collect()
@@ -122,7 +122,7 @@ class BooleanColumnsSpec
 
       val errorMessage = "this is an error message"
 
-      val exception = intercept[RuntimeException] {
+      val exception = intercept[java.lang.RuntimeException] {
         df.select(
           colBoolean("col1").assertTrue(errorMessage.lit)
         ).collect()

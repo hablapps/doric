@@ -16,12 +16,12 @@ class AggregationOpsSpec extends DoricTestElements {
         .toDF(num.value, str.value, num2.value)
 
     it("can use original spark aggregateFunctions") {
-      df.groupByCname(str)
+      df.groupByCName(str)
         .agg(colInt(num).pipe(sum(_)) as sum1)
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
-        df.groupByCname(str)
+        df.groupByCName(str)
           .agg(colLong(num).pipe(sum(_)) as sum1)
       }
     }

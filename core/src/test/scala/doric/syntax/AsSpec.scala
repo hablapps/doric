@@ -13,7 +13,7 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
 
     val df = List((1, "1")).toDF("int", "str")
 
-    it("should return a doricColum if it passes all validations") {
+    it("should return a doricColumn if it passes all validations") {
       val originalColumn = sparkCol("int")
       originalColumn
         .asDoric[Int]

@@ -235,6 +235,7 @@ private[syntax] trait StringColumns {
       * exceeds the group count of regex, an IllegalArgumentException will be
       * thrown.
       *
+      * @throws java.lang.IllegalArgumentException if the specified group index exceeds the group count of regex
       * @group String Type
       */
     def regexpExtract(
@@ -519,6 +520,7 @@ private[syntax] trait StringColumns {
       *
       * @return
       *   A long, or null if the input was a string not of the correct format
+      * @throws java.lang.IllegalArgumentException if invalid pattern
       *
       * @group String Type
       */
@@ -593,6 +595,7 @@ private[syntax] trait StringColumns {
     /**
       * Throws an exception with the provided error message.
       *
+      * @throws java.lang.RuntimeException with the error message
       * @group String Type
       */
     def raiseError: NullColumn = s.elem.map(f.raise_error).toDC

@@ -179,6 +179,14 @@ private[syntax] trait NumericColumns {
     def timestampSeconds: TimestampColumn =
       column.elem.map(f.timestamp_seconds).toDC
 
+    /**
+      * Checks if the value of the column is not a number
+      * @group All Types
+      * @return
+      *   Boolean DoricColumn
+      */
+    def isNaN: BooleanColumn = column.elem.map(_.isNaN).toDC
+
   }
 
   implicit class LongOperationsSyntax(
@@ -200,8 +208,7 @@ private[syntax] trait NumericColumns {
       * representing the timestamp of that moment in the current system time zone in the given
       * format.
       *
-      * @note
-      *   An IllegalArgumentException will be thrown if invalid pattern
+      * @throws java.lang.IllegalArgumentException if invalid format
       *
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.from_unixtime(ut:org\.apache\.spark\.sql\.Column,f* org.apache.spark.sql.functions.from_unixtime]]

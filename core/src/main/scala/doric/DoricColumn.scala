@@ -31,12 +31,6 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
   private[doric] def apply[T](dcolumn: Doric[Column]): DoricColumn[T] =
     TransformationDoricColumn(dcolumn)
 
-  private[doric] def withName[T](
-      dcolumn: Doric[Column],
-      name: CName
-  ): NamedDoricColumn[T] =
-    NamedDoricColumn[T](dcolumn, name)
-
   override protected def constructSide[T](
       column: Doric[Column],
       colName: CName

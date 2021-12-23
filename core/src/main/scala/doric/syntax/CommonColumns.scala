@@ -200,14 +200,6 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       */
     def isNotNull: BooleanColumn = column.elem.map(_.isNotNull).toDC
 
-    /**
-      * Checks if the value of the column is not a number
-      * @group All Types
-      * @return
-      *   Boolean DoricColumn
-      */
-    def isNaN: BooleanColumn = column.elem.map(_.isNaN).toDC
-
   }
 
 }

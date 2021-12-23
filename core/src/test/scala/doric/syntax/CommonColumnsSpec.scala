@@ -109,6 +109,90 @@ class CommonColumnsSpec
     }
   }
 
+  describe("All columns") {
+    import spark.implicits._
+
+    it("should be comparable as equals") {
+      val df =
+        List(("1", "1"), ("2", "1"), (null, "2"), ("3", null), (null, null))
+          .toDF("col1", "col2")
+
+      val res = df
+        .select(colString("col1") === col("col2"))
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(true), Some(false), None, None, None)
+    }
+
+    it("should be comparable as different") {
+      val df =
+        List(("1", "1"), ("2", "1"), (null, "2"), ("3", null), (null, null))
+          .toDF("col1", "col2")
+
+      val res = df
+        .select(colString("col1") =!= col("col2"))
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(false), Some(true), None, None, None)
+    }
+
+    it("should be transformable") {
+      val df = List("is", "", null)
+        .toDF("col1")
+
+      val res = df
+        .select(colString("col1").pipe(_ + "Piped".lit))
+        .as[String]
+        .collect()
+        .toList
+
+      res shouldBe List("isPiped", "Piped", null)
+    }
+
+    it("should comparable in a list") {
+      val df = List("1", "a", null)
+        .toDF("col1")
+
+      val res = df
+        .select(colString("col1").isIn("a", "b", "c"))
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(false), Some(true), None)
+    }
+
+    it("should comparable as null") {
+      val df = List("1", "a", null)
+        .toDF("col1")
+
+      val res = df
+        .select(colString("col1").isNull)
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(false), Some(false), Some(true))
+    }
+
+    it("should comparable as notNull") {
+      val df = List("1", "a", null)
+        .toDF("col1")
+
+      val res = df
+        .select(colString("col1").isNotNull)
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(true), Some(true), Some(false))
+    }
+  }
+
   describe("least doric function") {
     import spark.implicits._
 

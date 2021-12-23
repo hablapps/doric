@@ -30,6 +30,7 @@ trait TypedColumnTest extends Matchers {
       df: DataFrame,
       expected: List[Option[T]]
   ): Unit = {
+    import Equalities._
 
     val equalsColumn = "equals".cname
     val result = df
@@ -63,16 +64,43 @@ trait TypedColumnTest extends Matchers {
         s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
     )
 
-    if (expected.nonEmpty) {
-      import Equalities._
-      assert(
-        doricColumns === expected,
-        s"\nDoric and Spark functions return different values than expected"
-      )
-    }
+    if (expected.nonEmpty)
+      doricColumns should contain theSameElementsAs expected
   }
 
   implicit class ValidateColumnType(df: DataFrame) {
+
+    /**
+      * Tests doric and spark aggregation functions
+      *
+      * @param keyCol
+      *   CName to group by
+      * @param aggDoricCol
+      *   Doric aggregation column
+      * @param aggSparkCol
+      *   Spark aggregation column
+      * @param expected
+      *   list of values
+      * @tparam T
+      *   Comparing column type
+      */
+    def testAggregation[T: SparkType: TypeTag: Equality](
+        keyCol: CName,
+        aggDoricCol: DoricColumn[T],
+        aggSparkCol: Column,
+        expected: List[Option[T]] = List.empty
+    ): Unit = {
+      val grouped = df.groupByCName(keyCol)
+
+      val result = grouped
+        .agg(
+          aggDoricCol.as(doricCol),
+          aggSparkCol.asDoric[T].as(sparkCol)
+        )
+        .selectCName(doricCol, sparkCol)
+
+      compareDifferences(result, expected)
+    }
 
     /**
       * Tests doric & spark functions without parameters or columns
@@ -271,6 +299,7 @@ trait TypedColumnTest extends Matchers {
       val doricColumns: Seq[DoricColumn[_]] = struct.map {
         case StructField(name, dataType, _, _) =>
           dataType match {
+            case NullType      => colNull(name)
             case StringType    => colString(name)
             case IntegerType   => colInt(name)
             case LongType      => colLong(name)

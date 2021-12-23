@@ -1,7 +1,6 @@
 package doric
 package syntax
 
-import doric.Equalities._
 import org.apache.spark.sql.types.NullType
 
 import java.time.{Instant, LocalDate, ZoneId}
@@ -933,7 +932,7 @@ class StringColumnsSpec
     }
 
     it("should fail if malformed format") {
-      intercept[IllegalArgumentException](
+      intercept[java.lang.IllegalArgumentException](
         df.select(colString("dateCol").unixTimestamp("yabcd".lit))
           .collect()
       )

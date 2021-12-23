@@ -28,6 +28,7 @@ private[syntax] trait TimestampColumns {
       * that time as a timestamp in the given time zone. For example, 'GMT+1' would yield
       * '2017-07-14 03:40:00.0'.
       *
+      * @throws java.time.DateTimeException if invalid timeZone
       * @group Timestamp Type
       */
     def fromUtc(timeZone: StringColumn): TimestampColumn =
@@ -42,6 +43,7 @@ private[syntax] trait TimestampColumns {
       * zone, and renders that time as a timestamp in UTC. For example, 'GMT+1' would yield
       * '2017-07-14 01:40:00.0'.
       *
+      * @throws java.time.DateTimeException if invalid timeZone
       * @group Timestamp Type
       */
     def toUtc(timeZone: StringColumn): TimestampColumn =

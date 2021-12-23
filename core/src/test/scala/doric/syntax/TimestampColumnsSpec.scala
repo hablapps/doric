@@ -1,13 +1,13 @@
 package doric
 package syntax
 
-import doric.Equalities._
 import java.sql.{Date, Timestamp}
 import java.time.{LocalDate, LocalDateTime}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
 import org.apache.spark.sql.{functions => f}
+import Equalities._
 
 class TimestampColumnsSpec
     extends DoricTestElements

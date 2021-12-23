@@ -80,6 +80,53 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Long]()
   test[Double]()
 
+  describe("isNan doric function") {
+
+    it("should work as spark isNaN function (Double)") {
+      val df = List(Some(5.0), Some(Double.NaN), None)
+        .toDF("col1")
+
+      val res = df
+        .select(colDouble("col1").isNaN)
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(false), Some(true), Some(false))
+    }
+
+    it("should work as spark isNaN function (Float)") {
+      val df = List(Some(5.0f), Some(Float.NaN), None)
+        .toDF("col1")
+
+      val res = df
+        .select(colFloat("col1").isNaN)
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(Some(false), Some(true), Some(false))
+    }
+
+    it("should not work with other numeric types") {
+      """"
+        |val df = List(Some(1), Some(2), None)
+        |        .toDF("col1")
+        |
+        |df.select(colInt("col1").isNaN)
+        |""".stripMargin shouldNot compile
+    }
+
+    it("should not work with other types") {
+      """"
+        |val df = List(Some("hola"), Some("doric"), None)
+        |        .toDF("col1")
+        |
+        |df.select(colString("col1").isNaN)
+        |""".stripMargin shouldNot compile
+    }
+  }
+
   describe("unixTimestamp doric function") {
     import spark.implicits._
 
@@ -272,7 +319,7 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
       val df = List(Some(123L), Some(1L), None)
         .toDF("col1")
 
-      intercept[IllegalArgumentException](
+      intercept[java.lang.IllegalArgumentException](
         df.select(colLong("col1").fromUnixTime("wrong pattern".lit))
           .collect()
       )
