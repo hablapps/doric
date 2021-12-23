@@ -473,6 +473,22 @@
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BooleanColumns</dd></dl></div>
+    </li><li name="doric.ByteColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ByteColumn=doric.DoricColumn[Byte]"></a><a id="ByteColumn:ByteColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#ByteColumn=doric.DoricColumn[Byte]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ByteColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Byte.html#scala.Byte" class="extype" name="scala.Byte">Byte</a>]</span>
+      </span>
+      
+      
     </li><li name="doric.CName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="CName=doric.CName.Type"></a><a id="CName:CName"></a>
       <span class="permalink">
@@ -2034,6 +2050,86 @@ column.
       <p class="shortcomment cmt">Returns the greatest value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the greatest value of the list of values, skipping null values.
 This function takes at least 2 parameters. It will return null iff all parameters are null.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#greatest(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.greatest</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#grouping" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
+      <a id="grouping(columnName:doric.CName):doric.ByteColumn"></a><a id="grouping(CName):ByteColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#grouping(columnName:doric.CName):doric.ByteColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">grouping</span><span class="params">(<span name="columnName">columnName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="#ByteColumn=doric.DoricColumn[Byte]" class="extmbr" name="doric.ByteColumn">ByteColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+or not, returns 1 for aggregated or 0 for not aggregated in the result set.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+or not, returns 1 for aggregated or 0 for not aggregated in the result set.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#grouping(columnName:String):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.grouping</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#grouping" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
+      <a id="grouping(col:doric.DoricColumn[_]):doric.ByteColumn"></a><a id="grouping(DoricColumn[_]):ByteColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#grouping(col:doric.DoricColumn[_]):doric.ByteColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">grouping</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>)</span><span class="result">: <a href="#ByteColumn=doric.DoricColumn[Byte]" class="extmbr" name="doric.ByteColumn">ByteColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+or not, returns 1 for aggregated or 0 for not aggregated in the result set.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
+or not, returns 1 for aggregated or 0 for not aggregated in the result set.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#grouping(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.grouping</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#groupingId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="groupingId(colName:doric.CName,colNames:doric.CName*):doric.LongColumn"></a><a id="groupingId(CName,CName*):LongColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#groupingId(colName:doric.CName,colNames:doric.CName*):doric.LongColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">groupingId</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="colNames">colNames: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the level of grouping, equals to
+</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the level of grouping, equals to
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>(grouping(c1) &lt;&lt;; (n-<span class="num">1</span>)) + (grouping(c2) &lt;&lt;; (n-<span class="num">2</span>)) + ... + grouping(cn)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>The list of columns should match with grouping columns exactly, or empty (means all the
+grouping columns).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#grouping_id(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.grouping_id</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#groupingId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="groupingId(col:doric.DoricColumn[_],cols:doric.DoricColumn[_]*):doric.LongColumn"></a><a id="groupingId(DoricColumn[_],DoricColumn[_]*):LongColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#groupingId(col:doric.DoricColumn[_],cols:doric.DoricColumn[_]*):doric.LongColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">groupingId</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the level of grouping, equals to
+</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the level of grouping, equals to
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>(grouping(c1) &lt;&lt;; (n-<span class="num">1</span>)) + (grouping(c2) &lt;&lt;; (n-<span class="num">2</span>)) + ... + grouping(cn)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>The list of columns should match with grouping columns exactly, or empty (means all the
+grouping columns).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#grouping_id(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.grouping_id</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns#hash" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="hash(cols:doric.DoricColumn[_]*):doric.IntegerColumn"></a><a id="hash(DoricColumn[_]*):IntegerColumn"></a>
       <span class="permalink">
@@ -2435,6 +2531,23 @@ the standard normal distribution.
 the standard normal distribution.</p><div class="fullcomment"><div class="comment cmt"><p>Generate a column with independent and identically distributed (i.i.d.) samples from
 the standard normal distribution.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#randn():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.randn</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#skewness" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="skewness[T](col:doric.DoricColumn[T])(implicitevidence$5:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="skewness[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#skewness[T](col:doric.DoricColumn[T])(implicitevidence$5:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">skewness</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.skewness.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.skewness.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the skewness of the values in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the skewness of the values in a group.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#skewness(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.skewness</a></p></span></dd></dl></div>
     </li><li name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface#sparkAgg" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sparkAgg(relationalGroupedDataset:org.apache.spark.sql.RelationalGroupedDataset,expr:doric.DoricColumn[_],exprs:doric.DoricColumn[_]*):doric.DoricValidated[org.apache.spark.sql.DataFrame]"></a><a id="sparkAgg(RelationalGroupedDataset,DoricColumn[_],DoricColumn[_]*):DoricValidated[DataFrame]"></a>
       <span class="permalink">
@@ -2552,6 +2665,57 @@ the standard normal distribution.
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd><dt>See also</dt><dd><span class="cmt"><p><a href="#inputFileName():doric.StringColumn" class="extmbr" name="doric#inputFileName">inputFileName</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#stdDev" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="stdDev[T](col:doric.DoricColumn[T])(implicitevidence$6:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="stdDev[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#stdDev[T](col:doric.DoricColumn[T])(implicitevidence$6:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stdDev</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDev.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDev.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: alias for <code>stddev_samp</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: alias for <code>stddev_samp</code>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#stddev(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.stddev</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#stdDevPop" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="stdDevPop[T](col:doric.DoricColumn[T])(implicitevidence$8:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="stdDevPop[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#stdDevPop[T](col:doric.DoricColumn[T])(implicitevidence$8:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stdDevPop</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDevPop.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDevPop.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the population standard deviation of the expression in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the population standard deviation of the expression in a group.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#stddev_pop(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.stddev_pop</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#stdDevSamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="stdDevSamp[T](col:doric.DoricColumn[T])(implicitevidence$7:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="stdDevSamp[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#stdDevSamp[T](col:doric.DoricColumn[T])(implicitevidence$7:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stdDevSamp</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDevSamp.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.stdDevSamp.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the sample standard deviation of the expression in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the sample standard deviation of the expression in a group.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#stddev_samp(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.stddev_samp</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.DStructs#struct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Struct Type">
       <a id="struct(cols:doric.DoricColumn[_]*):doric.DStructColumn"></a><a id="struct(DoricColumn[_]*):DStructColumn"></a>
       <span class="permalink">
@@ -2587,6 +2751,23 @@ the standard normal distribution.
       
       <p class="shortcomment cmt">Aggregate function: returns the sum of all values in the expression.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the sum of all values in the expression.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#sum(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.sum</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#sumDistinct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="sumDistinct[T](col:doric.DoricColumn[T])(implicitnt:doric.types.NumericType[T]):doric.DoricColumn[nt.Sum]"></a><a id="sumDistinct[T](DoricColumn[T])(NumericType[T]):DoricColumn[Sum]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#sumDistinct[T](col:doric.DoricColumn[T])(implicitnt:doric.types.NumericType[T]):doric.DoricColumn[nt.Sum]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sumDistinct</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.sumDistinct.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="nt">nt: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.sumDistinct.T">T</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="types/NumericType.html#Sum" class="extmbr" name="doric.types.NumericType.Sum">Sum</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the sum of distinct values in the expression.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the sum of distinct values in the expression.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#sumDistinct(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.sumDistinct</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.NumericColumns#unixTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="unixTimestamp():doric.LongColumn"></a><a id="unixTimestamp():LongColumn"></a>
       <span class="permalink">
@@ -2605,6 +2786,57 @@ the standard normal distribution.
       <p class="shortcomment cmt">Returns the current Unix timestamp (in seconds) as a long.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current Unix timestamp (in seconds) as a long.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>All calls of <code>unix_timestamp</code> within the same query return the same value
 (i.e. the current timestamp is calculated at the start of query evaluation).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#unix_timestamp():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.unix_timestamp</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#varPop" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="varPop[T](col:doric.DoricColumn[T])(implicitevidence$11:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="varPop[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#varPop[T](col:doric.DoricColumn[T])(implicitevidence$11:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">varPop</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.varPop.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.varPop.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the population variance of the values in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the population variance of the values in a group.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#var_pop(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.var_pop</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#varSamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="varSamp[T](col:doric.DoricColumn[T])(implicitevidence$10:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="varSamp[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#varSamp[T](col:doric.DoricColumn[T])(implicitevidence$10:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">varSamp</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.varSamp.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.varSamp.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: returns the unbiased variance of the values in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the unbiased variance of the values in a group.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#var_samp(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.var_samp</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#variance" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Numeric Type">
+      <a id="variance[T](col:doric.DoricColumn[T])(implicitevidence$9:doric.types.NumericType[T]):doric.DoubleColumn"></a><a id="variance[T](DoricColumn[T])(NumericType[T]):DoubleColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#variance[T](col:doric.DoricColumn[T])(implicitevidence$9:doric.types.NumericType[T]):doric.DoubleColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">variance</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="col">col: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.AggregationColumns.variance.T">T</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>[<span class="extype" name="doric.syntax.AggregationColumns.variance.T">T</span>]</span>)</span><span class="result">: <a href="#DoubleColumn=doric.DoricColumn[Double]" class="extmbr" name="doric.DoubleColumn">DoubleColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Aggregate function: alias for <code>var_samp</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: alias for <code>var_samp</code>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#variance(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.variance</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ControlStructures#when" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Control structure">
       <a id="when[T]:doric.syntax.WhenBuilder[T]"></a><a id="when[T]:WhenBuilder[T]"></a>
       <span class="permalink">
