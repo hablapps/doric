@@ -9,10 +9,9 @@ import java.time.{Instant, LocalDate}
 object Equalities {
 
   implicit def eqOptional[O: Equality]: Equality[Option[O]] = {
-    case (Some(x: Double), Some(y: Double)) => x === y +- 0.00001
-    case (Some(x), Some(y))                 => x === y
-    case (None, None)                       => true
-    case _                                  => false
+    case (Some(x), Some(y)) => x === y
+    case (None, None)       => true
+    case _                  => false
   }
 
   implicit def eqList[O: Equality]: Equality[List[O]] = {
@@ -21,8 +20,13 @@ object Equalities {
     case _ => false
   }
 
+  implicit val eqDouble: Equality[Double] = {
+    case (x: Double, y: Double) => x === y +- 0.00001
+    case _                      => false
+  }
+
   implicit val eqInstant: Equality[Instant] = {
-    case (a: Instant, b: Instant) => a.compareTo(a) === 0
+    case (a: Instant, b: Instant) => a.compareTo(b) === 0
     case _                        => false
   }
 

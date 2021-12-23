@@ -5,6 +5,7 @@ import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 import org.apache.spark.sql.{functions => f}
 import doric.implicitConversions.stringCname
+import Equalities._
 
 import java.sql.Date
 
@@ -42,7 +43,7 @@ class AggregationColumnsSpec
         "keyCol",
         sum(colFloat("col1")),
         f.sum("col1"),
-        List(Some(6.5), Some(3.0))
+        List(Some(6.5d), Some(3.0d))
       )
     }
   }

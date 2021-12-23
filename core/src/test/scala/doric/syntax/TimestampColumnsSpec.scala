@@ -7,6 +7,7 @@ import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
 import org.apache.spark.sql.{functions => f}
+import Equalities._
 
 class TimestampColumnsSpec
     extends DoricTestElements
