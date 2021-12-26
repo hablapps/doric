@@ -15,9 +15,13 @@ val df = spark.range(1).select(org.apache.spark.sql.functions.lit("Jane#Doe").as
 
 # Custom types
 
-Bored that spark limits the interaction with the outside world? Need a more descriptive value to insert into your
-dataframe? Doric's got your back with his custom types. The only thing you need to know is the datatype of spark that
-will represent your value, this is easier to see with an example.
+The limitation of the sql nature of Spark SQL limits the amount of types it contains. Doric tries to make easier to
+connect the scala API of Spark with any other element you need in scala. The sparkType typeclass is the one in charge to
+show spark how your custom types are represented, and how can we stract it from the dataframe. Also, to make it easier
+to use as literals your custom types, doric has the typeclass LiteralSparkType, that is in charge of transforming the
+literal value to the spark representation.
+
+Now we show a few usefully examples to learn how to create our custom types in doric.
 
 ## User as a string
 
@@ -45,11 +49,11 @@ implicit val userLiteralSparkType =
 ```
 
 Let's take a closer look, first we are creating an implicit `SparkType` for `User`. And the way to do this is invoking
-the implicit SparkType of the original datatype we want to use, in our case calling `SparkType[String]`. Once we have
-it, we can call the method `customType`. This method needs the function that will transform from `String` to our
-custom `User`, in our case, split the String by the character `#`  and reconstruct the `User` class. Also, to allow to
-use the `User` class as a literal value, we need to create a LiteralSparkType, that starting with the original type that
-we created it, we call the method `customType` and passing the type of our `User`
+the SparkType of the original datatype we want to use, in our case calling `SparkType[String]`. Once we have it, we can
+call the method `customType`. This method needs the function that will transform from `String` to our custom `User`,
+split the String by the character `#`  and reconstruct the `User` class. Also, to allow to use the `User` class as a
+literal value, we need to create a LiteralSparkType, that starting with the original type that we created it, we call
+the method `customType` and passing the type of our `User`
 and we have to provide the opposite function to the one for the `SparkType`, in our case how to create the `String` from
 our `User`.
 
@@ -114,7 +118,7 @@ object Relation extends UserState
 object Married extends UserState
 ```
 
-Now we can create our `SparkType[UserState]` using `Int` as our base `DataType`
+Now we can create our `SparkType[UserState]` using `Int` as our base `DataType`. Also the `LiteralSparkType[UserState]`
 
 ```scala mdoc
 val stateFromSpark: Int => UserState = {
@@ -143,7 +147,7 @@ val changeScore: IntegerColumn = when[Int]
   .otherwise(col[Int](c"score") * 12)
 ```
 
-Don't tell me that this code is not readable and will be maintainable in the next time you need to touch it.
+This way we can make our code closer to scala syntax, but with all the power of Spark.
 
 ```scala mdoc
 import spark.implicits._
