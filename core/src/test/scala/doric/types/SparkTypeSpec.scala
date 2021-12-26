@@ -4,6 +4,7 @@ package types
 import doric.types.customTypes.User
 
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.StringType
 
 class SparkTypeSpec extends DoricTestElements {
 
@@ -36,6 +37,16 @@ class SparkTypeSpec extends DoricTestElements {
 
   it("should work with simple custom types") {
     testFlow[User](user)
+    SparkType[User].dataType shouldBe StringType
+    SparkType[User].transform("name#surname") shouldBe User("name", "surname")
+    SparkType[User].rowTransform("name#surname") shouldBe User(
+      "name",
+      "surname"
+    )
+    SparkType[User].rowTransformT("name#surname") shouldBe User(
+      "name",
+      "surname"
+    )
   }
 
   it("should work with custom type inside collections") {
