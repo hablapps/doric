@@ -98,21 +98,6 @@ sealed trait SparkType[T] {
 
 object SparkType {
 
-  def customType[F, T](
-      f2: F => T
-  )(implicit
-      st: SparkType[F]
-  ): SparkType[T] {
-    type OriginalSparkType = st.OriginalSparkType
-  } =
-    new SparkType[T] {
-      override def dataType: DataType = st.dataType
-
-      override type OriginalSparkType = st.OriginalSparkType
-      override val transform: OriginalSparkType => T = st.transform andThen f2
-      override val rowTransform: Any => OriginalSparkType = st.rowTransform
-    }
-
   @inline def apply[T](implicit
       st: SparkType[T]
   ): SparkType[T] { type OriginalSparkType = st.OriginalSparkType } = st

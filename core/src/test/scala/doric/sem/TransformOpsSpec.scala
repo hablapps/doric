@@ -37,7 +37,7 @@ class TransformOpsSpec
         .toDF()
         .filter(colLong("id") > 2L)
 
-      val errors = intercept[DoricMultiError] {
+      val errorsFilter = intercept[DoricMultiError] {
         result.filter(
           colString(errorCol).unsafeCast[Long] + colLong("id") + colLong(
             test1
@@ -45,7 +45,19 @@ class TransformOpsSpec
         )
       }
 
-      errors.errors.length shouldBe 2
+      errorsFilter.getMessage should include("filter")
+      errorsFilter.errors.length shouldBe 2
+
+      val errorsWhere = intercept[DoricMultiError] {
+        result.where(
+          colString(errorCol).unsafeCast[Long] + colLong("id") + colLong(
+            test1
+          ) > 3L
+        )
+      }
+
+      errorsWhere.getMessage should include("where")
+      errorsWhere.errors.length shouldBe 2
     }
 
     it("works select") {
@@ -69,7 +81,7 @@ class TransformOpsSpec
     }
 
     it("accepts multiple withColumns") {
-      val colNames = spark
+      spark
         .range(10)
         .withColumns(
           "a".cname -> colLong("id"),
@@ -79,6 +91,7 @@ class TransformOpsSpec
           "e".cname -> colLong("id")
         )
         .columns
+        .length shouldBe 6
 
       val x = Map(
         "a".cname -> colLong("id"),
@@ -88,11 +101,11 @@ class TransformOpsSpec
         "e".cname -> colLong("id")
       )
 
-      val colNames2 = spark
+      spark
         .range(10)
         .withColumns(x)
         .columns
-      colNames2.length shouldBe 6
+        .length shouldBe 6
     }
 
     it("throws an " + errorCol + " if names are repeated") {

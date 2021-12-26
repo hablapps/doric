@@ -4,7 +4,7 @@ package types
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
-abstract class LiteralSparkType[T] {
+trait LiteralSparkType[T] {
   self =>
   type OriginalSparkType
 
@@ -22,16 +22,6 @@ abstract class LiteralSparkType[T] {
 }
 
 object LiteralSparkType {
-
-  def customType[T, O](
-      f: O => T
-  )(implicit ost: SparkType[O], lt: LiteralSparkType[T]): LiteralSparkType[O] {
-    type OriginalSparkType = lt.OriginalSparkType
-  } =
-    new LiteralSparkType[O]() {
-      override type OriginalSparkType = lt.OriginalSparkType
-      override val literalTo: O => OriginalSparkType = f andThen lt.literalTo
-    }
 
   @inline def apply[T](implicit
       litc: LiteralSparkType[T]
@@ -72,12 +62,12 @@ object LiteralSparkType {
   implicit val fromDate: LiteralSparkType[Date] {
     type OriginalSparkType = LocalDate
   } =
-    customType[LocalDate, Date](_.toLocalDate)
+    LiteralSparkType[LocalDate].customType[Date](_.toLocalDate)
 
   implicit val fromTimestamp: LiteralSparkType[Timestamp] {
     type OriginalSparkType = Instant
   } =
-    customType[Instant, Timestamp](_.toInstant)
+    LiteralSparkType[Instant].customType[Timestamp](_.toInstant)
 
   implicit val fromInt: LiteralSparkType[Int] {
     type OriginalSparkType = Int
