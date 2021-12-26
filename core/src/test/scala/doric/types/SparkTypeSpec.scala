@@ -39,10 +39,7 @@ class SparkTypeSpec extends DoricTestElements {
     testFlow[User](user)
     SparkType[User].dataType shouldBe StringType
     SparkType[User].transform("name#surname") shouldBe User("name", "surname")
-    SparkType[User].rowTransform("name#surname") shouldBe User(
-      "name",
-      "surname"
-    )
+    SparkType[User].rowTransform("name#surname") shouldBe "name#surname"
     SparkType[User].rowTransformT("name#surname") shouldBe User(
       "name",
       "surname"
