@@ -6,17 +6,17 @@ Not yet sorry
 # Installing doric
 Doric is compatible with spark version 3.1.2. Just add the dependency in your build tool.
 
-The latest stable version of doric is 0.0.1+54-28edbb39-SNAPSHOT.
+The latest stable version of doric is 0.0.1+55-5e7c6f4f-SNAPSHOT.
 
 ## Sbt
 ```scala
-libraryDependencies += "org.hablapps" % "doric_2.12" % "0.0.1+54-28edbb39-SNAPSHOT"
+libraryDependencies += "org.hablapps" % "doric_2.12" % "0.0.1+55-5e7c6f4f-SNAPSHOT"
 ```
 ## Maven
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
   <artifactId>doric_2.12</artifactId>
-  <version>0.0.1+54-28edbb39-SNAPSHOT</version>
+  <version>0.0.1+55-5e7c6f4f-SNAPSHOT</version>
 </dependency>
 ```
