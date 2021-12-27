@@ -337,7 +337,7 @@ private[syntax] trait ArrayColumns {
       * Null elements will be placed at the beginning of the returned array.
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.sort_array]]
+      * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column,asc* org.apache.spark.sql.functions.sort_array]]
       */
     def sortAscNullsFirst: ArrayColumn[T] = col.elem.map(f.sort_array).toDC
 
@@ -348,7 +348,7 @@ private[syntax] trait ArrayColumns {
       * at the end of the returned array in descending order.
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.sort_array]]
+      * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sort_array]]
       */
     def sort(asc: BooleanColumn): ArrayColumn[T] =
       (col.elem, asc.elem)
@@ -483,7 +483,7 @@ private[syntax] trait ArrayColumns {
       * @note
       *   if `start` == 0 an exception will be thrown
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.slice]]
+      * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
       */
     def slice(start: IntegerColumn, length: IntegerColumn): ArrayColumn[T] =
       (col.elem, start.elem, length.elem).mapN(f.slice).toDC

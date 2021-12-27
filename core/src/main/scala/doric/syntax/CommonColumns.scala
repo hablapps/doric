@@ -209,7 +209,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * right argument.
       *
       * @group All Types
-      * @see [[org.apache.spark.sql.functions.array_repeat]]
+      * @see [[org.apache.spark.sql.functions.array_repeat(left* org.apache.spark.sql.functions.array_repeat]]
       */
     def repeatArray[B](times: IntegerColumn): ArrayColumn[T] =
       (column.elem, times.elem)
