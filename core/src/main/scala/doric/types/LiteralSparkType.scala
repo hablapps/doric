@@ -1,12 +1,16 @@
 package doric
 package types
 
+import scala.reflect.ClassTag
+
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
 trait LiteralSparkType[T] {
   self =>
   type OriginalSparkType
+
+  val classTag: ClassTag[OriginalSparkType]
 
   val literalTo: T => OriginalSparkType
 
@@ -17,6 +21,7 @@ trait LiteralSparkType[T] {
   } =
     new LiteralSparkType[O]() {
       override type OriginalSparkType = self.OriginalSparkType
+      val classTag: ClassTag[self.OriginalSparkType] = self.classTag
       override val literalTo: O => OriginalSparkType = f andThen self.literalTo
     }
 }
@@ -28,12 +33,13 @@ object LiteralSparkType {
   ): LiteralSparkType[T] { type OriginalSparkType = litc.OriginalSparkType } =
     litc
 
-  @inline private def createBasic[T](implicit
+  @inline private def createBasic[T: ClassTag](implicit
       spark: SparkType[T] { type OriginalSparkType = T }
   ): LiteralSparkType[T] {
     type OriginalSparkType = spark.OriginalSparkType
   } = new LiteralSparkType[T] {
     override type OriginalSparkType = spark.OriginalSparkType
+    val classTag: ClassTag[T]                      = implicitly[ClassTag[T]]
     override val literalTo: T => OriginalSparkType = identity
   }
 
@@ -102,6 +108,9 @@ object LiteralSparkType {
 
       override val literalTo: Map[K, V] => OriginalSparkType =
         _.map(x => (stk.literalTo(x._1), stv.literalTo(x._2))).toMap
+      override val classTag
+          : ClassTag[Map[stk.OriginalSparkType, stv.OriginalSparkType]] =
+        implicitly[ClassTag[Map[stk.OriginalSparkType, stv.OriginalSparkType]]]
     }
 
   implicit def fromList[A](implicit
@@ -115,7 +124,25 @@ object LiteralSparkType {
 
       override val literalTo: List[A] => OriginalSparkType =
         _.map(lst.literalTo)
+      override val classTag: ClassTag[List[lst.OriginalSparkType]] =
+        implicitly[ClassTag[List[lst.OriginalSparkType]]]
+    }
 
+  implicit def fromArray[A](implicit
+      lst: LiteralSparkType[A]
+  ): LiteralSparkType[Array[A]] {
+    type OriginalSparkType = Array[lst.OriginalSparkType]
+  } =
+    new LiteralSparkType[Array[A]] {
+
+      override type OriginalSparkType = Array[lst.OriginalSparkType]
+
+      override val literalTo: Array[A] => OriginalSparkType = {
+        _.map(lst.literalTo).toArray(lst.classTag)
+      }
+
+      override val classTag: ClassTag[Array[lst.OriginalSparkType]] =
+        lst.classTag.wrap
     }
 
   implicit def fromOption[A](implicit
@@ -131,5 +158,7 @@ object LiteralSparkType {
         case Some(x) => lst.literalTo(x)
         case None    => null.asInstanceOf[OriginalSparkType]
       }
+      override val classTag: ClassTag[lst.OriginalSparkType] =
+        lst.classTag
     }
 }

@@ -16,7 +16,7 @@ class SparkTypeSpec extends DoricTestElements {
     spark
       .range(1)
       .select(element.lit.as(c"value"))
-      .collectCols(col[T](c"value")) shouldBe List(element)
+      .collectCols(col[T](c"value")) === List(element)
   }
 
   it("Option should work with basic types") {
@@ -37,17 +37,15 @@ class SparkTypeSpec extends DoricTestElements {
 
   it("should work with simple custom types") {
     testFlow[User](user)
-    SparkType[User].dataType shouldBe StringType
-    SparkType[User].transform("name#surname") shouldBe User("name", "surname")
-    SparkType[User].rowTransform("name#surname") shouldBe "name#surname"
-    SparkType[User].rowTransformT("name#surname") shouldBe User(
-      "name",
-      "surname"
-    )
+    SparkType[User].dataType === StringType
+    SparkType[User].transform("name#surname") === User("name", "surname")
+    SparkType[User].rowFieldTransform("name#surname") === "name#surname"
+    SparkType[User].rowTransformT("name#surname") === User("name", "surname")
   }
 
   it("should work with custom type inside collections") {
     testFlow[List[User]](List(user))
+    testFlow[Array[User]](Array(user))
 
     val intToUsers = Map(1 -> List(Option(user)), 2 -> List(), 3 -> List(None))
 
