@@ -16,9 +16,9 @@ trait LiteralSparkType[T] {
 
   def customType[O](
       f: O => T
-  )(implicit ost: SparkType[O]): LiteralSparkType[O] {
-    type OriginalSparkType = LiteralSparkType.this.OriginalSparkType
-  } =
+  )(implicit
+      ost: SparkType[O]
+  ): LiteralSparkType.Custom[O, self.OriginalSparkType] =
     new LiteralSparkType[O]() {
       override type OriginalSparkType = self.OriginalSparkType
       val classTag: ClassTag[self.OriginalSparkType] = self.classTag
@@ -28,79 +28,57 @@ trait LiteralSparkType[T] {
 
 object LiteralSparkType {
 
+  type Primitive[T] = LiteralSparkType[T] {
+    type OriginalSparkType = T
+  }
+
+  type Custom[T, O] = LiteralSparkType[T] {
+    type OriginalSparkType = O
+  }
+
   @inline def apply[T](implicit
       litc: LiteralSparkType[T]
-  ): LiteralSparkType[T] { type OriginalSparkType = litc.OriginalSparkType } =
+  ): Custom[T, litc.OriginalSparkType] =
     litc
 
-  @inline private def createBasic[T: ClassTag](implicit
-      spark: SparkType[T] { type OriginalSparkType = T }
-  ): LiteralSparkType[T] {
-    type OriginalSparkType = spark.OriginalSparkType
-  } = new LiteralSparkType[T] {
+  @inline private def createPrimitive[T: ClassTag](implicit
+      spark: SparkType.Primitive[T]
+  ): Primitive[T] = new LiteralSparkType[T] {
     override type OriginalSparkType = spark.OriginalSparkType
     val classTag: ClassTag[T]                      = implicitly[ClassTag[T]]
     override val literalTo: T => OriginalSparkType = identity
   }
 
-  implicit val fromNull: LiteralSparkType[Null] {
-    type OriginalSparkType = Null
-  } = createBasic[Null]
+  implicit val fromNull: Primitive[Null] = createPrimitive[Null]
 
-  implicit val fromBoolean: LiteralSparkType[Boolean] {
-    type OriginalSparkType = Boolean
-  } = createBasic[Boolean]
+  implicit val fromBoolean: Primitive[Boolean] = createPrimitive[Boolean]
 
-  implicit val fromStringDf: LiteralSparkType[String] {
-    type OriginalSparkType = String
-  } = createBasic[String]
+  implicit val fromStringDf: Primitive[String] = createPrimitive[String]
 
-  implicit val fromLocalDate: LiteralSparkType[LocalDate] {
-    type OriginalSparkType = LocalDate
-  } =
-    createBasic[LocalDate]
+  implicit val fromLocalDate: Primitive[LocalDate] =
+    createPrimitive[LocalDate]
 
-  implicit val fromInstant: LiteralSparkType[Instant] {
-    type OriginalSparkType = Instant
-  } =
-    createBasic[Instant]
+  implicit val fromInstant: Primitive[Instant] =
+    createPrimitive[Instant]
 
-  implicit val fromDate: LiteralSparkType[Date] {
-    type OriginalSparkType = LocalDate
-  } =
+  implicit val fromDate: Custom[Date, LocalDate] =
     LiteralSparkType[LocalDate].customType[Date](_.toLocalDate)
 
-  implicit val fromTimestamp: LiteralSparkType[Timestamp] {
-    type OriginalSparkType = Instant
-  } =
+  implicit val fromTimestamp: Custom[Timestamp, Instant] =
     LiteralSparkType[Instant].customType[Timestamp](_.toInstant)
 
-  implicit val fromInt: LiteralSparkType[Int] {
-    type OriginalSparkType = Int
-  } = createBasic[Int]
+  implicit val fromInt: Primitive[Int] = createPrimitive[Int]
 
-  implicit val fromLong: LiteralSparkType[Long] {
-    type OriginalSparkType = Long
-  } = createBasic[Long]
+  implicit val fromLong: Primitive[Long] = createPrimitive[Long]
 
-  implicit val fromFloat: LiteralSparkType[Float] {
-    type OriginalSparkType = Float
-  } = createBasic[Float]
+  implicit val fromFloat: Primitive[Float] = createPrimitive[Float]
 
-  implicit val fromDouble: LiteralSparkType[Double] {
-    type OriginalSparkType = Double
-  } = createBasic[Double]
+  implicit val fromDouble: Primitive[Double] = createPrimitive[Double]
 
-  implicit def fromMap[
-      K: LiteralSparkType: SparkType,
-      V: LiteralSparkType: SparkType
-  ](implicit
+  implicit def fromMap[K, V](implicit
       stk: LiteralSparkType[K],
       stv: LiteralSparkType[V]
-  ): LiteralSparkType[Map[K, V]] {
-    type OriginalSparkType =
-      Map[stk.OriginalSparkType, stv.OriginalSparkType]
-  } =
+  ): Custom[Map[K, V], Map[stk.OriginalSparkType, stv.OriginalSparkType]] =
     new LiteralSparkType[Map[K, V]] {
 
       override type OriginalSparkType =
@@ -115,9 +93,7 @@ object LiteralSparkType {
 
   implicit def fromList[A](implicit
       lst: LiteralSparkType[A]
-  ): LiteralSparkType[List[A]] {
-    type OriginalSparkType = List[lst.OriginalSparkType]
-  } =
+  ): Custom[List[A], List[lst.OriginalSparkType]] =
     new LiteralSparkType[List[A]] {
 
       override type OriginalSparkType = List[lst.OriginalSparkType]
@@ -130,9 +106,7 @@ object LiteralSparkType {
 
   implicit def fromArray[A](implicit
       lst: LiteralSparkType[A]
-  ): LiteralSparkType[Array[A]] {
-    type OriginalSparkType = Array[lst.OriginalSparkType]
-  } =
+  ): Custom[Array[A], Array[lst.OriginalSparkType]] =
     new LiteralSparkType[Array[A]] {
 
       override type OriginalSparkType = Array[lst.OriginalSparkType]
@@ -147,9 +121,7 @@ object LiteralSparkType {
 
   implicit def fromOption[A](implicit
       lst: LiteralSparkType[A]
-  ): LiteralSparkType[Option[A]] {
-    type OriginalSparkType = lst.OriginalSparkType
-  } =
+  ): Custom[Option[A], lst.OriginalSparkType] =
     new LiteralSparkType[Option[A]] {
 
       override type OriginalSparkType = lst.OriginalSparkType

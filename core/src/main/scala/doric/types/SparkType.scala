@@ -83,7 +83,7 @@ sealed trait SparkType[T] {
 
   def customType[O](
       f2: T => O
-  ): SparkType[O] { type OriginalSparkType = self.OriginalSparkType } = {
+  ): SparkType.Custom[O, self.OriginalSparkType] = {
     new SparkType[O] {
       override def dataType: DataType = self.dataType
 
@@ -98,35 +98,34 @@ sealed trait SparkType[T] {
 
 object SparkType {
 
-  @inline def apply[T](implicit
-      st: SparkType[T]
-  ): SparkType[T] { type OriginalSparkType = st.OriginalSparkType } = st
-
-  @inline private def apply[A](
-      dt: DataType
-  ): SparkType[A] { type OriginalSparkType = A } = new SparkType[A] {
-
-    /**
-      * The spark DataType
-      *
-      * @return
-      * the spark DataType
-      */
-    override def dataType: DataType = dt
-
-    override type OriginalSparkType = A
-
-    override val transform: OriginalSparkType => A = identity
-    override val rowFieldTransform: Any => A       = _.asInstanceOf[A]
-  }
-
   type Primitive[T] = SparkType[T] {
     type OriginalSparkType = T
   }
 
   type Custom[T, O] = SparkType[T] {
-    type OriginalsparkType = O
+    type OriginalSparkType = O
   }
+
+  @inline def apply[T](implicit
+      st: SparkType[T]
+  ): Custom[T, st.OriginalSparkType] = st
+
+  @inline private def apply[A](dt: DataType): Primitive[A] =
+    new SparkType[A] {
+
+      /**
+        * The spark DataType
+        *
+        * @return
+        * the spark DataType
+        */
+      override def dataType: DataType = dt
+
+      override type OriginalSparkType = A
+
+      override val transform: OriginalSparkType => A = identity
+      override val rowFieldTransform: Any => A       = _.asInstanceOf[A]
+    }
 
   implicit val fromNull: Primitive[Null] = SparkType[Null](NullType)
 
@@ -142,14 +141,10 @@ object SparkType {
 
   implicit val fromByte: Primitive[Byte] = SparkType[Byte](ByteType)
 
-  implicit val fromDate: SparkType[Date] {
-    type OriginalSparkType = LocalDate
-  } =
+  implicit val fromDate: Custom[Date, LocalDate] =
     SparkType[LocalDate].customType[Date](Date.valueOf)
 
-  implicit val fromTimestamp: SparkType[Timestamp] {
-    type OriginalSparkType = Instant
-  } =
+  implicit val fromTimestamp: Custom[Timestamp, Instant] =
     SparkType[Instant].customType[Timestamp](Timestamp.from)
 
   implicit val fromInt: Primitive[Int] = SparkType[Int](IntegerType)
@@ -180,10 +175,7 @@ object SparkType {
   implicit def fromMap[K: SparkType, V: SparkType](implicit
       stk: SparkType[K],
       stv: SparkType[V]
-  ): SparkType[Map[K, V]] {
-    type OriginalSparkType =
-      Map[stk.OriginalSparkType, stv.OriginalSparkType]
-  } =
+  ): Custom[Map[K, V], Map[stk.OriginalSparkType, stv.OriginalSparkType]] =
     new SparkType[Map[K, V]] {
       override def dataType: DataType =
         MapType(stk.dataType, stv.dataType)
@@ -211,9 +203,7 @@ object SparkType {
 
   implicit def fromArray[A: ClassTag, O: ClassTag](implicit
       st: SparkType[A] { type OriginalSparkType = O }
-  ): SparkType[Array[A]] {
-    type OriginalSparkType = Array[O]
-  } =
+  ): Custom[Array[A], Array[O]] =
     new SparkType[Array[A]] {
       override def dataType: DataType = ArrayType(
         st.dataType
@@ -236,9 +226,9 @@ object SparkType {
 
     }
 
-  implicit def fromList[A](implicit st: SparkType[A]): SparkType[List[A]] {
-    type OriginalSparkType = List[st.OriginalSparkType]
-  } =
+  implicit def fromList[A](implicit
+      st: SparkType[A]
+  ): Custom[List[A], List[st.OriginalSparkType]] =
     new SparkType[List[A]] {
       override def dataType: DataType = ArrayType(
         SparkType[A].dataType
@@ -260,9 +250,9 @@ object SparkType {
           .toList
     }
 
-  implicit def fromOption[A](implicit st: SparkType[A]): SparkType[Option[A]] {
-    type OriginalSparkType = st.OriginalSparkType
-  } =
+  implicit def fromOption[A](implicit
+      st: SparkType[A]
+  ): Custom[Option[A], st.OriginalSparkType] =
     new SparkType[Option[A]] {
       override def dataType: DataType = st.dataType
 

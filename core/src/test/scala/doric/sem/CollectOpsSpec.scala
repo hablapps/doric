@@ -1,8 +1,6 @@
 package doric
 package sem
 
-import scala.reflect.ClassTag
-
 import doric.types.SparkType
 import doric.Equalities._
 import org.scalactic.Equality
@@ -90,11 +88,9 @@ class CollectOpsSpec extends DoricTestElements {
     }
 
     it("allows to collect custom elements") {
-      implicit def listSparkType[T: SparkType: ClassTag](implicit
-          arr: SparkType[List[T]]
-      ): SparkType[Set[T]] {
-        type OriginalSparkType = arr.OriginalSparkType
-      } =
+      implicit def listSparkType[T: SparkType](implicit
+          st: SparkType[List[T]]
+      ): SparkType.Custom[Set[T], st.OriginalSparkType] =
         SparkType[List[T]].customType[Set[T]](_.toSet)
 
       spark
