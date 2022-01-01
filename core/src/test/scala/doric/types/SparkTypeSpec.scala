@@ -46,17 +46,15 @@ class SparkTypeSpec extends DoricTestElements {
   it("should work with custom type inside collections") {
     testFlow[List[User]](List(user))
     testFlow[Array[User]](Array(user))
-
-    val intToUsers = Map(1 -> List(Option(user)), 2 -> List(), 3 -> List(None))
-
   }
 
   it("should work for custom type with optional") {
     testFlow[Option[User]](Option(user))
   }
-  
+
   it("should work all together") {
-      testFlow[Map[Int, List[Option[User]]]](intToUsers)
+    val intToUsers = Map(1 -> List(Option(user)), 2 -> List(), 3 -> List(None))
+    testFlow[Map[Int, List[Option[User]]]](intToUsers)
   }
 
 }
