@@ -17,7 +17,7 @@ val df = spark.range(1).select(org.apache.spark.sql.functions.lit("Jane#Doe").as
 
 The limitation of the sql nature of Spark SQL limits the amount of types it contains. Doric tries to make easier to
 connect the scala API of Spark with any other element you need in scala. The sparkType typeclass is the one in charge to
-show spark how your custom types are represented, and how can we stract it from the dataframe. Also, to make it easier
+show spark how your custom types are represented, and how can we extract it from the DataFrame. Also, to make it easier
 to use as literals your custom types, doric has the typeclass LiteralSparkType, that is in charge of transforming the
 literal value to the spark representation.
 
