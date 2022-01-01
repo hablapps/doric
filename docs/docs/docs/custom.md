@@ -21,7 +21,7 @@ show spark how your custom types are represented, and how can we stract it from 
 to use as literals your custom types, doric has the typeclass LiteralSparkType, that is in charge of transforming the
 literal value to the spark representation.
 
-Now we show a few usefully examples to learn how to create our custom types in doric.
+Now we show a few useful examples to learn how to create our custom types in doric.
 
 ## User as a string
 
