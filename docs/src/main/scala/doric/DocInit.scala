@@ -5,9 +5,8 @@ import org.apache.log4j.{Level, Logger}
 
 import org.apache.spark.sql.SparkSession
 
-trait SparkSessionTestWrapper {
-
-  lazy val spark: SparkSession = {
+object DocInit {
+  def getSpark: SparkSession = {
     Logger.getLogger("org").setLevel(Level.OFF)
 
     val timeZone: String = "UTC"
@@ -25,5 +24,4 @@ trait SparkSessionTestWrapper {
     ss.sparkContext.setLogLevel("ERROR")
     ss
   }
-
 }

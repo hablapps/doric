@@ -8,6 +8,8 @@ import org.apache.spark.sql.{Column, functions => f}
 
 import java.sql.Timestamp
 
+import org.apache.spark.sql.{functions => f}
+
 private[syntax] trait TimestampColumns {
 
   /**
@@ -69,7 +71,7 @@ private[syntax] trait TimestampColumns {
       *                       valid duration identifiers.
       * @group Timestamp Type
       */
-    def window(windowDuration: String): DStructColumn =
+    def window(windowDuration: String): RowColumn =
       column.elem.map(x => f.window(x, windowDuration)).toDC
 
     /**
@@ -100,7 +102,7 @@ private[syntax] trait TimestampColumns {
         windowDuration: String,
         slideDuration: String,
         startTime: String = "0 second"
-    ): DStructColumn =
+    ): RowColumn =
       column.elem
         .map(x => f.window(x, windowDuration, slideDuration, startTime))
         .toDC

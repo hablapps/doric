@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import cats.implicits._
+import doric.types.CollectionType
 
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
@@ -11,15 +12,18 @@ private[syntax] trait ArrayColumns {
 
   /**
     * Concatenates multiple array columns together into a single column.
+    *
     * @group Array Type
     * @param cols
-    *   the array columns, must be Arrays of the same type.
+    * the array columns, must be Arrays of the same type.
     * @tparam T
-    *   The type of the elements of the arrays.
+    * The type of the elements of the arrays.
     * @return
-    *   Doric Column with the concatenation.
+    * Doric Column with the concatenation.
     */
-  def concatArrays[T](cols: DoricColumn[Array[T]]*): DoricColumn[Array[T]] =
+  def concatArrays[T, F[_]: CollectionType](
+      cols: DoricColumn[F[T]]*
+  ): DoricColumn[F[T]] =
     cols.toList.traverse(_.elem).map(f.concat(_: _*)).toDC
 
   /**
@@ -29,19 +33,29 @@ private[syntax] trait ArrayColumns {
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
 
   /**
-    * Extension methods for arrays
     * @group Array Type
     */
-  implicit class ArrayColumnSyntax[T](private val col: ArrayColumn[T]) {
+  def list[T](cols: DoricColumn[T]*): DoricColumn[List[T]] =
+    cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
+
+  /**
+    * Extension methods for arrays
+    *
+    * @group Array Type
+    */
+  implicit class ArrayColumnSyntax[T, F[_]: CollectionType](
+      private val col: DoricColumn[F[T]]
+  ) {
 
     /**
       * Selects the nth element of the array, returns null value if the length
       * is shorter than n.
+      *
       * @group Array Type
       * @param n
-      *   the index of the element to retreave.
+      * the index of the element to retreave.
       * @return
-      *   the DoricColumn with the selected element.
+      * the DoricColumn with the selected element.
       */
     def getIndex(n: Int): DoricColumn[T] =
       col.elem.map(_.apply(n)).toDC
@@ -58,7 +72,7 @@ private[syntax] trait ArrayColumns {
       */
     def transform[A](
         fun: DoricColumn[T] => DoricColumn[A]
-    ): DoricColumn[Array[A]] =
+    ): DoricColumn[F[A]] =
       (col.elem, fun(x).elem)
         .mapN((a, f) => new Column(ArrayTransform(a.expr, lam1(f.expr))))
         .toDC
@@ -77,7 +91,7 @@ private[syntax] trait ArrayColumns {
       */
     def transformWithIndex[A](
         fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
-    ): DoricColumn[Array[A]] =
+    ): DoricColumn[F[A]] =
       (col.elem, fun(x, y).elem).mapN { (a, f) =>
         new Column(ArrayTransform(a.expr, lam2(f.expr)))
       }.toDC
@@ -138,7 +152,7 @@ private[syntax] trait ArrayColumns {
       * @return
       *   the column reference with the filter applied.
       */
-    def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[Array[T]] =
+    def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[F[T]] =
       (col.elem, p(x).elem)
         .mapN((a, f) => new Column(ArrayFilter(a.expr, lam1(f.expr))))
         .toDC

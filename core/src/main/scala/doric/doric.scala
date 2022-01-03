@@ -5,7 +5,7 @@ import doric.sem.DoricSingleError
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
-import org.apache.spark.sql.{Column, Dataset}
+import org.apache.spark.sql.{Column, Dataset, Row}
 
 package object doric extends syntax.All with sem.All {
 
@@ -54,7 +54,7 @@ package object doric extends syntax.All with sem.All {
   type InstantColumn   = DoricColumn[Instant]
   type MapColumn[K, V] = DoricColumn[Map[K, V]]
   type ArrayColumn[A]  = DoricColumn[Array[A]]
-  type DStructColumn   = DoricColumn[DStruct]
+  type RowColumn       = DoricColumn[Row]
 
   private[doric] implicit class DoricColumnops(elem: Doric[Column]) {
     @inline def toDC[A]: DoricColumn[A] = DoricColumn(elem)

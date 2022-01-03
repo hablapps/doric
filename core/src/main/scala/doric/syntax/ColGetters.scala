@@ -1,12 +1,14 @@
 package doric
 package syntax
 
+import scala.reflect.ClassTag
+
 import doric.sem.Location
 import doric.types.SparkType
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
-import org.apache.spark.sql.{Column, Dataset}
+import org.apache.spark.sql.{Column, Dataset, Row}
 
 private[doric] trait ColGetters[F[_]] {
   @inline protected def constructSide[T](
@@ -198,16 +200,17 @@ private[doric] trait ColGetters[F[_]] {
     * Retrieves a column with the provided name expecting it to be of array of T type.
     *
     * @param colName
-    *   the name of the column to find.
+    * the name of the column to find.
     * @param location
-    *   error location.
+    * error location.
     * @tparam T
-    *   the type of the elements of the array.
+    * the type of the elements of the array.
     * @return
-    *   the array of T column reference.
+    * the array of T column reference.
     */
-  def colArray[T: SparkType](colName: CName)(implicit
-      location: Location
+  def colArray[T: ClassTag](colName: CName)(implicit
+      location: Location,
+      st: SparkType[Array[T]]
   ): F[Array[T]] =
     col[Array[T]](colName)
 
@@ -268,8 +271,8 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the struct column reference.
     */
-  def colStruct(colName: CName)(implicit location: Location): F[DStruct] =
-    col[DStruct](colName)
+  def colStruct(colName: CName)(implicit location: Location): F[Row] =
+    col[Row](colName)
 
   /**
     * Retrieves a column of the provided dataframe. Useful to prevent column
