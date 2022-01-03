@@ -179,10 +179,6 @@
                         <a href="CollectSyntax.html" title="">CollectSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
-                        <a class="trait" href="DStruct.html" title=""></a>
-                        <a href="DStruct.html" title="">DStruct</a>
-                      </li><li class="current-entities indented1">
-                        <span class="separator"></span>
                         <a class="class" href="DStructOps.html" title=""></a>
                         <a href="DStructOps.html" title="">DStructOps</a>
                       </li><li class="current-entities indented1">
@@ -225,6 +221,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LeftDoricColumn.html" title=""></a>
                         <a href="LeftDoricColumn.html" title="">LeftDoricColumn</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="LiteralDoricColumn$.html" title=""></a>
+                        <a class="class" href="LiteralDoricColumn.html" title=""></a>
+                        <a href="LiteralDoricColumn.html" title="">LiteralDoricColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="LiteralOps.html" title=""></a>
@@ -378,9 +378,9 @@
       
       
     </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="ArrayColumnSyntax[T]extendsAnyRef"></a><a id="ArrayColumnSyntax[T]:ArrayColumnSyntax[T]"></a>
+      <a id="ArrayColumnSyntax[T,F[_]]extendsAnyRef"></a><a id="ArrayColumnSyntax[T,F[_]]:ArrayColumnSyntax[T,F]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#ArrayColumnSyntax[T]extendsAnyRef" title="Permalink">
+      <a href="../doric/index.html#ArrayColumnSyntax[T,F[_]]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -389,10 +389,12 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ArrayColumnSyntax</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <span class="name">ArrayColumnSyntax</span><span class="tparams">[<span name="T">T</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
-      <p class="shortcomment cmt">Extension methods for arrays</p><div class="fullcomment"><div class="comment cmt"><p>Extension methods for arrays</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
+      <p class="shortcomment cmt">Extension methods for arrays
+</p><div class="fullcomment"><div class="comment cmt"><p>Extension methods for arrays
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="BasicCol[T]extendsAnyRef"></a><a id="BasicCol[T]:BasicCol[T]"></a>
       <span class="permalink">
@@ -521,38 +523,6 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CollectOps</dd></dl></div>
-    </li><li name="doric.DStruct" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DStructextendsAnyRef"></a><a id="DStruct:DStruct"></a>
-      <span class="permalink">
-      <a href="../doric/DStruct.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">sealed </span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="DStruct.html"><span class="name">DStruct</span></a><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
-      </span>
-      
-      
-    </li><li name="doric.DStructColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="DStructColumn=doric.DoricColumn[doric.DStruct]"></a><a id="DStructColumn:DStructColumn"></a>
-      <span class="permalink">
-      <a href="../doric/index.html#DStructColumn=doric.DoricColumn[doric.DStruct]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">DStructColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a>]</span>
-      </span>
-      
-      
     </li><li name="doric.syntax.DStructs.DStructOps" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DStructOpsextendsAnyRef"></a><a id="DStructOps:DStructOps"></a>
       <span class="permalink">
@@ -825,6 +795,22 @@
       </span>
       
       
+    </li><li name="doric.LiteralDoricColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LiteralDoricColumn[T]extendsDoricColumn[T]withProductwithSerializable"></a><a id="LiteralDoricColumn[T]:LiteralDoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/LiteralDoricColumn.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LiteralDoricColumn.html"><span class="name">LiteralDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.LiteralDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+      </span>
+      
+      
     </li><li name="doric.syntax.LiteralConversions.LiteralOps" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LiteralOps[L]extendsAnyRef"></a><a id="LiteralOps[L]:LiteralOps[L]"></a>
       <span class="permalink">
@@ -998,6 +984,22 @@
       </span>
       <span class="symbol">
         <a title="" href="RightDoricColumn.html"><span class="name">RightDoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="elem">elem: <a href="#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>)</span><span class="result"> extends <a href="JoinSideDoricColumn.html" class="extype" name="doric.JoinSideDoricColumn">JoinSideDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+      </span>
+      
+      
+    </li><li name="doric.RowColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RowColumn=doric.DoricColumn[org.apache.spark.sql.Row]"></a><a id="RowColumn:RowColumn"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#RowColumn=doric.DoricColumn[org.apache.spark.sql.Row]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RowColumn</span><span class="result alias"> = <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       
@@ -1341,9 +1343,9 @@ null.
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colArray[T](colName:doric.CName)(implicitevidence$2:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[Array[T]]"></a><a id="colArray[T](CName)(SparkType[T],Location):NamedDoricColumn[Array[T]]"></a>
+      <a id="colArray[T](colName:doric.CName)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]"></a><a id="colArray[T](CName)(ClassTag[T],Location,SparkType[Array[T]]):NamedDoricColumn[Array[T]]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#colArray[T](colName:doric.CName)(implicitevidence$2:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[Array[T]]" title="Permalink">
+      <a href="../doric/index.html#colArray[T](colName:doric.CName)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1352,15 +1354,15 @@ null.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
+        <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="https://www.scala-lang.org/api/2.12.15/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>, <span name="st">st: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of T type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of T type.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
-  the type of the elements of the array.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
-  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
-  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the array of T column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+the type of the elements of the array.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
+the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+the array of T column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colArrayInt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colArrayInt(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Array[Int]]"></a><a id="colArrayInt(CName)(Location):NamedDoricColumn[Array[Int]]"></a>
       <span class="permalink">
@@ -1650,9 +1652,9 @@ ambiguity errors.
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the string column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colStruct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[doric.DStruct]"></a><a id="colStruct(CName)(Location):NamedDoricColumn[DStruct]"></a>
+      <a id="colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[org.apache.spark.sql.Row]"></a><a id="colStruct(CName)(Location):NamedDoricColumn[Row]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[doric.DStruct]" title="Permalink">
+      <a href="../doric/index.html#colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[org.apache.spark.sql.Row]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1661,7 +1663,7 @@ ambiguity errors.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a>]</span>
+        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of struct type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of struct type.
@@ -1747,9 +1749,9 @@ on the order of the rows which may be non-deterministic after a shuffle.</p></sp
   a reference of a single DoricColumn with all strings concatenated. If at
   least one is null will return null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd></dl></div>
     </li><li name="doric.syntax.ArrayColumns#concatArrays" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="concatArrays[T](cols:doric.DoricColumn[Array[T]]*):doric.DoricColumn[Array[T]]"></a><a id="concatArrays[T](DoricColumn[Array[T]]*):DoricColumn[Array[T]]"></a>
+      <a id="concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$1:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]"></a><a id="concatArrays[T,F[_]](DoricColumn[F[T]]*)(CollectionType[F]):DoricColumn[F[T]]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#concatArrays[T](cols:doric.DoricColumn[Array[T]]*):doric.DoricColumn[Array[T]]" title="Permalink">
+      <a href="../doric/index.html#concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$1:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1758,13 +1760,14 @@ on the order of the rows which may be non-deterministic after a shuffle.</p></sp
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">concatArrays</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.T">T</span>]]*</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.T">T</span>]]</span>
+        <span class="name">concatArrays</span><span class="tparams">[<span name="T">T</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.F">F</span>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.T">T</span>]]*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/CollectionType.html" class="extype" name="doric.types.CollectionType">CollectionType</a>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.F">F</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.F">F</span>[<span class="extype" name="doric.syntax.ArrayColumns.concatArrays.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Concatenates multiple array columns together into a single column.</p><div class="fullcomment"><div class="comment cmt"><p>Concatenates multiple array columns together into a single column.</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
-  The type of the elements of the arrays.</p></dd><dt class="param">cols</dt><dd class="cmt"><p>
-  the array columns, must be Arrays of the same type.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  Doric Column with the concatenation.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
+      <p class="shortcomment cmt">Concatenates multiple array columns together into a single column.</p><div class="fullcomment"><div class="comment cmt"><p>Concatenates multiple array columns together into a single column.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+The type of the elements of the arrays.</p></dd><dt class="param">cols</dt><dd class="cmt"><p>
+the array columns, must be Arrays of the same type.</p></dd><dt>returns</dt><dd class="cmt"><p>
+Doric Column with the concatenation.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
     </li><li name="doric.syntax.StringColumns#concatWs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="concatWs(sep:doric.StringColumn,cols:doric.StringColumn*):doric.StringColumn"></a><a id="concatWs(StringColumn,StringColumn*):StringColumn"></a>
       <span class="permalink">
@@ -2237,10 +2240,10 @@ which may be non-deterministic after a shuffle.</p></span></dd><dt>See also</dt>
       <p class="shortcomment cmt">Returns the least value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the least value of the list of values, skipping null values.
 This function takes at least 2 parameters. It will return null iff all parameters are null.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#least(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.least</a></p></span></dd></dl></div>
-    </li><li name="doric.syntax.LiteralConversions#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L]):doric.DoricColumn[L]"></a><a id="lit[L](L)(SparkType[L]):DoricColumn[L]"></a>
+    </li><li name="doric.syntax.ArrayColumns#list" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
+      <a id="list[T](cols:doric.DoricColumn[T]*):doric.DoricColumn[List[T]]"></a><a id="list[T](DoricColumn[T]*):DoricColumn[List[T]]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L]):doric.DoricColumn[L]" title="Permalink">
+      <a href="../doric/index.html#list[T](cols:doric.DoricColumn[T]*):doric.DoricColumn[List[T]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2249,14 +2252,31 @@ This function takes at least 2 parameters. It will return null iff all parameter
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lit</span><span class="tparams">[<span name="L">L</span>]</span><span class="params">(<span name="litv">litv: <span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>
+        <span class="name">list</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.list.T">T</span>]*</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="doric.syntax.ArrayColumns.list.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Creates a literal with the provided value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a literal with the provided value.</p></div><dl class="paramcmts block"><dt class="tparam">L</dt><dd class="cmt"><p>
-  The type of the literal.</p></dd><dt class="param">litv</dt><dd class="cmt"><p>
-  the element to create as a literal.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  A doric column that represent the literal value and the same type as the
-  value.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>LiteralConversions</dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
+    </li><li name="doric.syntax.LiteralConversions#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L]):doric.LiteralDoricColumn[L]"></a><a id="lit[L](L)(SparkType[L],LiteralSparkType[L]):LiteralDoricColumn[L]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L]):doric.LiteralDoricColumn[L]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lit</span><span class="tparams">[<span name="L">L</span>]</span><span class="params">(<span name="litv">litv: <span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>, <span name="arg1">arg1: <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>)</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a literal with the provided value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a literal with the provided value.
+</p></div><dl class="paramcmts block"><dt class="tparam">L</dt><dd class="cmt"><p>
+The type of the literal.</p></dd><dt class="param">litv</dt><dd class="cmt"><p>
+the element to create as a literal.</p></dd><dt>returns</dt><dd class="cmt"><p>
+A doric column that represent the literal value and the same type as the
+value.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>LiteralConversions</dd></dl></div>
     </li><li name="doric.syntax.MapColumns#map" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="map[K,V](first:(doric.DoricColumn[K],doric.DoricColumn[V]),rest:(doric.DoricColumn[K],doric.DoricColumn[V])*):doric.DoricColumn[Map[K,V]]"></a><a id="map[K,V]((DoricColumn[K],DoricColumn[V]),(DoricColumn[K],DoricColumn[V])*):DoricColumn[Map[K,V]]"></a>
       <span class="permalink">
@@ -2717,9 +2737,9 @@ the standard normal distribution.
       <p class="shortcomment cmt">Aggregate function: returns the sample standard deviation of the expression in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the sample standard deviation of the expression in a group.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#stddev_samp(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.stddev_samp</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.DStructs#struct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Struct Type">
-      <a id="struct(cols:doric.DoricColumn[_]*):doric.DStructColumn"></a><a id="struct(DoricColumn[_]*):DStructColumn"></a>
+      <a id="struct(cols:doric.DoricColumn[_]*):doric.RowColumn"></a><a id="struct(DoricColumn[_]*):RowColumn"></a>
       <span class="permalink">
-      <a href="../doric/index.html#struct(cols:doric.DoricColumn[_]*):doric.DStructColumn" title="Permalink">
+      <a href="../doric/index.html#struct(cols:doric.DoricColumn[_]*):doric.RowColumn" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2728,7 +2748,7 @@ the standard normal distribution.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">struct</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#DStructColumn=doric.DoricColumn[doric.DStruct]" class="extmbr" name="doric.DStructColumn">DStructColumn</a></span>
+        <span class="name">struct</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <a href="#RowColumn=doric.DoricColumn[org.apache.spark.sql.Row]" class="extmbr" name="doric.RowColumn">RowColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Creates a struct with the columns</p><div class="fullcomment"><div class="comment cmt"><p>Creates a struct with the columns</p></div><dl class="paramcmts block"><dt class="param">cols</dt><dd class="cmt"><p>
@@ -2935,6 +2955,22 @@ variant of the xxHash algorithm, and returns the result as a long column.
       </span>
       <span class="symbol">
         <a title="" href="LeftDF$.html"><span class="name">LeftDF</span></a><span class="result"> extends <span class="extype" name="doric.syntax.ColGetters">ColGetters</span>[<a href="LeftDoricColumn.html" class="extype" name="doric.LeftDoricColumn">LeftDoricColumn</a>]</span>
+      </span>
+      
+      
+    </li><li name="doric.LiteralDoricColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LiteralDoricColumn"></a><a id="LiteralDoricColumn:LiteralDoricColumn"></a>
+      <span class="permalink">
+      <a href="../doric/LiteralDoricColumn$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LiteralDoricColumn$.html"><span class="name">LiteralDoricColumn</span></a><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       

@@ -179,10 +179,6 @@
                         <a href="CollectSyntax.html" title="">CollectSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
-                        <a class="trait" href="DStruct.html" title=""></a>
-                        <a href="DStruct.html" title="">DStruct</a>
-                      </li><li class="current-entities indented1">
-                        <span class="separator"></span>
                         <a class="class" href="DStructOps.html" title=""></a>
                         <a href="DStructOps.html" title="">DStructOps</a>
                       </li><li class="current-entities indented1">
@@ -225,6 +221,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LeftDoricColumn.html" title=""></a>
                         <a href="LeftDoricColumn.html" title="">LeftDoricColumn</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="LiteralDoricColumn$.html" title=""></a>
+                        <a class="class" href="LiteralDoricColumn.html" title=""></a>
+                        <a href="LiteralDoricColumn.html" title="">LiteralDoricColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="LiteralOps.html" title=""></a>
@@ -492,9 +492,9 @@
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colArray[T](colName:doric.CName)(implicitevidence$2:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[Array[T]]"></a><a id="colArray[T](CName)(SparkType[T],Location):RightDoricColumn[Array[T]]"></a>
+      <a id="colArray[T](colName:doric.CName)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]"></a><a id="colArray[T](CName)(ClassTag[T],Location,SparkType[Array[T]]):RightDoricColumn[Array[T]]"></a>
       <span class="permalink">
-      <a href="../doric/RightDF$.html#colArray[T](colName:doric.CName)(implicitevidence$2:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[Array[T]]" title="Permalink">
+      <a href="../doric/RightDF$.html#colArray[T](colName:doric.CName)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -503,15 +503,15 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
+        <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="https://www.scala-lang.org/api/2.12.15/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>, <span name="st">st: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of array of T type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of array of T type.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
-  the type of the elements of the array.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
-  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
-  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the array of T column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+the type of the elements of the array.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
+the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+the array of T column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colArrayInt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colArrayInt(colName:doric.CName)(implicitlocation:doric.sem.Location):F[Array[Int]]"></a><a id="colArrayInt(CName)(Location):RightDoricColumn[Array[Int]]"></a>
       <span class="permalink">
@@ -801,9 +801,9 @@ ambiguity errors.
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the string column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colStruct" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[doric.DStruct]"></a><a id="colStruct(CName)(Location):RightDoricColumn[DStruct]"></a>
+      <a id="colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[org.apache.spark.sql.Row]"></a><a id="colStruct(CName)(Location):RightDoricColumn[Row]"></a>
       <span class="permalink">
-      <a href="../doric/RightDF$.html#colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[doric.DStruct]" title="Permalink">
+      <a href="../doric/RightDF$.html#colStruct(colName:doric.CName)(implicitlocation:doric.sem.Location):F[org.apache.spark.sql.Row]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -812,7 +812,7 @@ ambiguity errors.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a>]</span>
+        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="RightDoricColumn.html" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of struct type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of struct type.

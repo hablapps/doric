@@ -179,10 +179,6 @@
                         <a href="CollectSyntax.html" title="">CollectSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
-                        <a class="trait" href="DStruct.html" title=""></a>
-                        <a href="DStruct.html" title="">DStruct</a>
-                      </li><li class="current-entities indented1">
-                        <span class="separator"></span>
                         <a class="class" href="DStructOps.html" title=""></a>
                         <a href="DStructOps.html" title="">DStructOps</a>
                       </li><li class="current-entities indented1">
@@ -225,6 +221,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LeftDoricColumn.html" title=""></a>
                         <a href="LeftDoricColumn.html" title="">LeftDoricColumn</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="LiteralDoricColumn$.html" title=""></a>
+                        <a class="class" href="LiteralDoricColumn.html" title=""></a>
+                        <a href="LiteralDoricColumn.html" title="">LiteralDoricColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="LiteralOps.html" title=""></a>
@@ -749,9 +749,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.DoricColumn[L]"></a><a id="lit:DoricColumn[RightDoricColumn[T]]"></a>
+      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[RightDoricColumn[T]]"></a>
       <span class="permalink">
-      <a href="../doric/RightDoricColumn.html#lit:doric.DoricColumn[L]" title="Permalink">
+      <a href="../doric/RightDoricColumn.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -760,15 +760,19 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">lit</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]]</span>
+        <span class="implicit">lit</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>] to
             <a href="index.html#LiteralOps[L]extendsAnyRef" class="extmbr" name="doric.LiteralOps">doric.LiteralOps</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]] performed by method LiteralOps in doric.syntax.LiteralConversions.
-            This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]] is in scope.
-          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd></dl></div>
+            This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]] is in scope and at the same time an implicit value of type <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="" class="extype" name="doric.RightDoricColumn">RightDoricColumn</a>[<span class="extype" name="doric.RightDoricColumn.T">T</span>]] is in scope.
+          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">

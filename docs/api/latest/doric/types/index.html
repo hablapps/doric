@@ -158,6 +158,10 @@
                         <a class="trait" href="Casting.html" title=""></a>
                         <a href="Casting.html" title="">Casting</a>
                       </li><li class="current-entities indented2">
+                        <a class="object" href="CollectionType$.html" title=""></a>
+                        <a class="trait" href="CollectionType.html" title=""></a>
+                        <a href="CollectionType.html" title="">CollectionType</a>
+                      </li><li class="current-entities indented2">
                         <a class="object" href="DateType$.html" title=""></a>
                         <a class="trait" href="DateType.html" title=""></a>
                         <a href="DateType.html" title="">DateType</a>
@@ -165,6 +169,10 @@
                         <a class="object" href="DoubleC$.html" title=""></a>
                         <a class="trait" href="DoubleC.html" title=""></a>
                         <a href="DoubleC.html" title="">DoubleC</a>
+                      </li><li class="current-entities indented2">
+                        <a class="object" href="LiteralSparkType$.html" title=""></a>
+                        <a class="trait" href="LiteralSparkType.html" title=""></a>
+                        <a href="LiteralSparkType.html" title="">LiteralSparkType</a>
                       </li><li class="current-entities indented2">
                         <a class="object" href="NumericType$.html" title=""></a>
                         <a class="trait" href="NumericType.html" title=""></a>
@@ -284,6 +292,22 @@
       </span>
       
       
+    </li><li name="doric.types.CollectionType" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="CollectionType[T[_]]extendsAnyRef"></a><a id="CollectionType[T[_]]:CollectionType[T]"></a>
+      <span class="permalink">
+      <a href="../../doric/types/CollectionType.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="CollectionType.html"><span class="name">CollectionType</span></a><span class="tparams">[<span name="T">T<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      
     </li><li name="doric.types.DateType" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="DateType[T]extendsAnyRef"></a><a id="DateType[T]:DateType[T]"></a>
       <span class="permalink">
@@ -313,6 +337,22 @@
       </span>
       <span class="symbol">
         <a title="" href="DoubleC.html"><span class="name">DoubleC</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      
+    </li><li name="doric.types.LiteralSparkType" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="LiteralSparkType[T]extendsAnyRef"></a><a id="LiteralSparkType[T]:LiteralSparkType[T]"></a>
+      <span class="permalink">
+      <a href="../../doric/types/LiteralSparkType.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LiteralSparkType.html"><span class="name">LiteralSparkType</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -356,15 +396,17 @@
       </a>
     </span>
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">sealed </span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
         <a title="Typeclass to relate a type T with it's spark DataType" href="SparkType.html"><span class="name">SparkType</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
-      <p class="shortcomment cmt">Typeclass to relate a type T with it's spark DataType</p><div class="fullcomment"><div class="comment cmt"><p>Typeclass to relate a type T with it's spark DataType</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
-  the scala type of the instance</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt">Typeclass to relate a type T with it's spark DataType
+</p><div class="fullcomment"><div class="comment cmt"><p>Typeclass to relate a type T with it's spark DataType
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
+the scala type of the instance</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@implicitNotFound</span><span class="args">(<span>
       
       <span class="defval" name="&quot;Cant use the type ${T} to generate the typed column. Check your imported SparkType[${T}] instances&quot;">...</span>
@@ -465,6 +507,22 @@
       </span>
       
       
+    </li><li name="doric.types.CollectionType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CollectionType"></a><a id="CollectionType:CollectionType"></a>
+      <span class="permalink">
+      <a href="../../doric/types/CollectionType$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="CollectionType$.html"><span class="name">CollectionType</span></a>
+      </span>
+      
+      
     </li><li name="doric.types.DateType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DateType"></a><a id="DateType:DateType"></a>
       <span class="permalink">
@@ -494,6 +552,22 @@
       </span>
       <span class="symbol">
         <a title="" href="DoubleC$.html"><span class="name">DoubleC</span></a>
+      </span>
+      
+      
+    </li><li name="doric.types.LiteralSparkType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LiteralSparkType"></a><a id="LiteralSparkType:LiteralSparkType"></a>
+      <span class="permalink">
+      <a href="../../doric/types/LiteralSparkType$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LiteralSparkType$.html"><span class="name">LiteralSparkType</span></a>
       </span>
       
       

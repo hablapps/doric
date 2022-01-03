@@ -179,10 +179,6 @@
                         <a href="CollectSyntax.html" title="">CollectSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
-                        <a class="trait" href="DStruct.html" title=""></a>
-                        <a href="DStruct.html" title="">DStruct</a>
-                      </li><li class="current-entities indented1">
-                        <span class="separator"></span>
                         <a class="class" href="DStructOps.html" title=""></a>
                         <a href="DStructOps.html" title="">DStructOps</a>
                       </li><li class="current-entities indented1">
@@ -225,6 +221,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LeftDoricColumn.html" title=""></a>
                         <a href="LeftDoricColumn.html" title="">LeftDoricColumn</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="LiteralDoricColumn$.html" title=""></a>
+                        <a class="class" href="LiteralDoricColumn.html" title=""></a>
+                        <a href="LiteralDoricColumn.html" title="">LiteralDoricColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="LiteralOps.html" title=""></a>
@@ -344,7 +344,7 @@
                 </div><div class="ancestors">
                   <span class="filtertype">Implicitly<br />
                   </span>
-                  <ol id="implicits"> <li class="in" name="doric.syntax.BinaryColumns.BinaryOperationsSyntax" data-hidden="false"><span>by BinaryOperationsSyntax</span></li><li class="in" name="doric.syntax.StringColumns.StringOperationsSyntax" data-hidden="false"><span>by StringOperationsSyntax</span></li><li class="in" name="doric.syntax.BooleanColumns.BooleanOperationsSyntax" data-hidden="false"><span>by BooleanOperationsSyntax</span></li><li class="in" name="doric.syntax.TimestampColumns.TimestampColumnLikeSyntax" data-hidden="false"><span>by TimestampColumnLikeSyntax</span></li><li class="in" name="doric.syntax.DateColumns.DateColumnLikeSyntax" data-hidden="false"><span>by DateColumnLikeSyntax</span></li><li class="in" name="doric.syntax.NumericColumns.LongOperationsSyntax" data-hidden="false"><span>by LongOperationsSyntax</span></li><li class="in" name="doric.syntax.NumericColumns.NumericOperationsSyntax" data-hidden="false"><span>by NumericOperationsSyntax</span></li><li class="in" name="doric.syntax.MapColumns.MapColumnOps" data-hidden="false"><span>by MapColumnOps</span></li><li class="in" name="doric.syntax.LiteralConversions.LiteralOps" data-hidden="false"><span>by LiteralOps</span></li><li class="in" name="doric.syntax.DStructs.DStructOps" data-hidden="false"><span>by DStructOps</span></li><li class="in" name="doric.syntax.CommonColumns.BasicCol" data-hidden="false"><span>by BasicCol</span></li><li class="in" name="doric.syntax.ArrayColumns.ArrayColumnSyntax" data-hidden="false"><span>by ArrayColumnSyntax</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
+                  <ol id="implicits"> <li class="in" name="doric.syntax.BinaryColumns.BinaryOperationsSyntax" data-hidden="false"><span>by BinaryOperationsSyntax</span></li><li class="in" name="doric.syntax.StringColumns.StringOperationsSyntax" data-hidden="false"><span>by StringOperationsSyntax</span></li><li class="in" name="doric.syntax.BooleanColumns.BooleanOperationsSyntax" data-hidden="false"><span>by BooleanOperationsSyntax</span></li><li class="in" name="doric.syntax.TimestampColumns.TimestampColumnLikeSyntax" data-hidden="false"><span>by TimestampColumnLikeSyntax</span></li><li class="in" name="doric.syntax.DateColumns.DateColumnLikeSyntax" data-hidden="false"><span>by DateColumnLikeSyntax</span></li><li class="in" name="doric.syntax.NumericColumns.LongOperationsSyntax" data-hidden="false"><span>by LongOperationsSyntax</span></li><li class="in" name="doric.syntax.NumericColumns.NumericOperationsSyntax" data-hidden="false"><span>by NumericOperationsSyntax</span></li><li class="in" name="doric.syntax.MapColumns.MapColumnOps" data-hidden="false"><span>by MapColumnOps</span></li><li class="in" name="doric.syntax.LiteralConversions.LiteralOps" data-hidden="false"><span>by LiteralOps</span></li><li class="in" name="doric.syntax.DStructs.DStructOps" data-hidden="false"><span>by DStructOps</span></li><li class="in" name="doric.syntax.CommonColumns.BasicCol" data-hidden="false"><span>by BasicCol</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -569,7 +569,7 @@
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] performed by method ArrowAssoc in scala.Predef.
-            This conversion will take place only if T is a superclass of Any and a subclass of Array[Nothing] with DStruct with Map[Nothing, Nothing] with Long with Boolean with String (T &gt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a> &lt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a> with <span class="extype" name="scala.Predef.Map">Map</span>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>, <a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a> with <span class="extype" name="scala.Predef.String">String</span>).
+            This conversion will take place only if T is a superclass of Any and a subclass of Row with Map[Nothing, Nothing] with Long with Boolean with String (T &gt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a> &lt;: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a> with <span class="extype" name="scala.Predef.Map">Map</span>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>, <a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a> with <span class="extype" name="scala.Predef.String">String</span>).
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
@@ -794,60 +794,6 @@
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
           </dd><dt>Definition Classes</dt><dd>DateColumnLikeSyntax</dd><dt>Note</dt><dd><span class="cmt"><p>
   Timestamp columns will be truncated to Date column</p></span></dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#aggregate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="aggregate[A](zero:doric.DoricColumn[A])(merge:(doric.DoricColumn[A],doric.DoricColumn[T])=&gt;doric.DoricColumn[A]):doric.DoricColumn[A]"></a><a id="aggregate[A](DoricColumn[A])((DoricColumn[A],DoricColumn[T])⇒DoricColumn[A]):DoricColumn[A]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#aggregate[A](zero:doric.DoricColumn[A])(merge:(doric.DoricColumn[A],doric.DoricColumn[T])=&gt;doric.DoricColumn[A]):doric.DoricColumn[A]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">aggregate</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="zero">zero: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregate.A">A</span>]</span>)</span><span class="params">(<span name="merge">merge: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregate.A">A</span>], <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]) ⇒ <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregate.A">A</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregate.A">A</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Aggregates (reduce) the array with the provided functions, similar to
-scala fold left in collections.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregates (reduce) the array with the provided functions, similar to
-scala fold left in collections.</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>
-  type of the transformed values.</p></dd><dt class="param">zero</dt><dd class="cmt"><p>
-  zero value.</p></dd><dt class="param">merge</dt><dd class="cmt"><p>
-  function to combine the previous result with the element of the array.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the column reference with the applied transformation.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#aggregateWT" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="aggregateWT[A,B](zero:doric.DoricColumn[A])(merge:(doric.DoricColumn[A],doric.DoricColumn[T])=&gt;doric.DoricColumn[A],finish:doric.DoricColumn[A]=&gt;doric.DoricColumn[B]):doric.DoricColumn[B]"></a><a id="aggregateWT[A,B](DoricColumn[A])((DoricColumn[A],DoricColumn[T])⇒DoricColumn[A],(DoricColumn[A])⇒DoricColumn[B]):DoricColumn[B]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#aggregateWT[A,B](zero:doric.DoricColumn[A])(merge:(doric.DoricColumn[A],doric.DoricColumn[T])=&gt;doric.DoricColumn[A],finish:doric.DoricColumn[A]=&gt;doric.DoricColumn[B]):doric.DoricColumn[B]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">aggregateWT</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="zero">zero: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.A">A</span>]</span>)</span><span class="params">(<span name="merge">merge: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.A">A</span>], <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]) ⇒ <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.A">A</span>]</span>, <span name="finish">finish: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.A">A</span>]) ⇒ <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.B">B</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.aggregateWT.B">B</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Aggregates (reduce) the array with the provided functions, similar to
-scala fold left in collections, with a final transformation.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregates (reduce) the array with the provided functions, similar to
-scala fold left in collections, with a final transformation.</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>
-  type of the intermediate values</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>
-  type of the final value to return</p></dd><dt class="param">zero</dt><dd class="cmt"><p>
-  zero value</p></dd><dt class="param">merge</dt><dd class="cmt"><p>
-  function to combine the previous result with the element of the array</p></dd><dt class="param">finish</dt><dd class="cmt"><p>
-  the final transformation</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the column reference with the applied transformation.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
     </li><li name="doric.syntax.BooleanColumns.BooleanOperationsSyntax#and" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Boolean Type">
       <a id="and(other:doric.DoricColumn[Boolean]):doric.DoricColumn[Boolean]"></a><a id="and(DoricColumn[Boolean]):DoricColumn[Boolean]"></a>
       <span class="permalink">
@@ -1392,28 +1338,6 @@ If either argument is null, the result will also be null.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#filter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="filter(p:doric.DoricColumn[T]=&gt;doric.BooleanColumn):doric.DoricColumn[Array[T]]"></a><a id="filter((DoricColumn[T])⇒BooleanColumn):DoricColumn[Array[T]]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#filter(p:doric.DoricColumn[T]=&gt;doric.BooleanColumn):doric.DoricColumn[Array[T]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">filter</span><span class="params">(<span name="p">p: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]) ⇒ <a href="index.html#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Filters the array elements using the provided condition.</p><div class="fullcomment"><div class="comment cmt"><p>Filters the array elements using the provided condition.</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>
-  the condition to filter.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the column reference with the filter applied.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -1632,7 +1556,7 @@ that time as a timestamp in the given time zone. For example, 'GMT+1' would yiel
   a reference to the child column of the provided type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <a href="index.html#DStructOpsextendsAnyRef" class="extmbr" name="doric.DStructOps">doric.DStructOps</a> performed by method DStructOps in doric.syntax.DStructs.
-            This conversion will take place only if T is DStruct (T =:= <a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a>).
+            This conversion will take place only if T is Row (T =:= <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>).
           </dd><dt>Definition Classes</dt><dd>DStructOps</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
@@ -1653,30 +1577,6 @@ that time as a timestamp in the given time zone. For example, 'GMT+1' would yiel
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#getIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="getIndex(n:Int):doric.DoricColumn[T]"></a><a id="getIndex(Int):DoricColumn[T]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#getIndex(n:Int):doric.DoricColumn[T]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">getIndex</span><span class="params">(<span name="n">n: <a href="https://www.scala-lang.org/api/2.12.15/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Selects the nth element of the array, returns null value if the length
-is shorter than n.</p><div class="fullcomment"><div class="comment cmt"><p>Selects the nth element of the array, returns null value if the length
-is shorter than n.</p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>
-  the index of the element to retreave.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the DoricColumn with the selected element.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#initcap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="initcap:doric.StringColumn"></a><a id="initcap:StringColumn"></a>
       <span class="permalink">
@@ -1943,9 +1843,9 @@ spaces. The length of binary strings includes binary zeros.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
           </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.DoricColumn[L]"></a><a id="lit:DoricColumn[TransformationDoricColumn[T]]"></a>
+      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[TransformationDoricColumn[T]]"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#lit:doric.DoricColumn[L]" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1954,15 +1854,19 @@ spaces. The length of binary strings includes binary zeros.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">lit</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]]</span>
+        <span class="implicit">lit</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <a href="index.html#LiteralOps[L]extendsAnyRef" class="extmbr" name="doric.LiteralOps">doric.LiteralOps</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] performed by method LiteralOps in doric.syntax.LiteralConversions.
-            This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] is in scope.
-          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd></dl></div>
+            This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] is in scope and at the same time an implicit value of type <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] is in scope.
+          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#locate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="locate(substr:doric.StringColumn,pos:doric.IntegerColumn):doric.IntegerColumn"></a><a id="locate(StringColumn,IntegerColumn):IntegerColumn"></a>
       <span class="permalink">
@@ -1975,7 +1879,7 @@ spaces. The length of binary strings includes binary zeros.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">locate</span><span class="params">(<span name="substr">substr: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="types/SparkType$.html">1.lit</a></span></span></span>)</span><span class="result">: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>
+        <span class="implicit">locate</span><span class="params">(<span name="substr">substr: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="types/LiteralSparkType$.html">1.lit</a></span></span></span>)</span><span class="result">: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Locate the position of the first occurrence of substr in a string
@@ -2314,7 +2218,7 @@ that is the first Sunday after 2015-07-27.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">overlay</span><span class="params">(<span name="replace">replace: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>, <span name="len">len: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="types/SparkType$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
+        <span class="implicit">overlay</span><span class="params">(<span name="replace">replace: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>, <span name="len">len: <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="types/LiteralSparkType$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Overlay the specified portion of <code>src</code> with <code>replace</code>, starting from
@@ -3009,55 +2913,6 @@ zone, and renders that time as a timestamp in UTC. For example, 'GMT+1' would yi
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.TimestampType (T: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>).
           </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/time/DateTimeException.html" class="extype" name="java.time.DateTimeException"><code>java.time.DateTimeException</code></a> if invalid timeZone</p></span></dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="transform[A](fun:doric.DoricColumn[T]=&gt;doric.DoricColumn[A]):doric.DoricColumn[Array[A]]"></a><a id="transform[A]((DoricColumn[T])⇒DoricColumn[A]):DoricColumn[Array[A]]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#transform[A](fun:doric.DoricColumn[T]=&gt;doric.DoricColumn[A]):doric.DoricColumn[Array[A]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">transform</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fun">fun: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]) ⇒ <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.transform.A">A</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.transform.A">A</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Transform each element with the provided function.</p><div class="fullcomment"><div class="comment cmt"><p>Transform each element with the provided function.</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>
-  the type of the array elements to return.</p></dd><dt class="param">fun</dt><dd class="cmt"><p>
-  lambda with the transformation to apply.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the column reference with the applied transformation.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
-    </li><li name="doric.syntax.ArrayColumns.ArrayColumnSyntax#transformWithIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="transformWithIndex[A](fun:(doric.DoricColumn[T],doric.IntegerColumn)=&gt;doric.DoricColumn[A]):doric.DoricColumn[Array[A]]"></a><a id="transformWithIndex[A]((DoricColumn[T],IntegerColumn)⇒DoricColumn[A]):DoricColumn[Array[A]]"></a>
-      <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#transformWithIndex[A](fun:(doric.DoricColumn[T],doric.IntegerColumn)=&gt;doric.DoricColumn[A]):doric.DoricColumn[Array[A]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit">transformWithIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fun">fun: (<a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>], <a href="index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a>) ⇒ <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.transformWithIndex.A">A</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.transformWithIndex.A">A</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Transform each element of the array with the provided function that
-provides the index of the element in the array.</p><div class="fullcomment"><div class="comment cmt"><p>Transform each element of the array with the provided function that
-provides the index of the element in the array.</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>
-  the type of the elements of the array</p></dd><dt class="param">fun</dt><dd class="cmt"><p>
-  the lambda that takes in account the element of the array and the
-  index and returns a new element.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the column reference with the provided transformation.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
-            <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>] performed by method ArrayColumnSyntax in doric.syntax.ArrayColumns.
-            This conversion will take place only if T is Array[T] (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]).
-          </dd><dt>Definition Classes</dt><dd>ArrayColumnSyntax</dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#translate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="translate(matchingString:doric.StringColumn,replaceString:doric.StringColumn):doric.StringColumn"></a><a id="translate(StringColumn,StringColumn):StringColumn"></a>
       <span class="permalink">
@@ -3364,9 +3219,9 @@ as defined by ISO 8601
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
           </dd><dt>Definition Classes</dt><dd>DateColumnLikeSyntax</dd></dl></div>
     </li><li name="doric.syntax.TimestampColumns.TimestampColumnLikeSyntax#window" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
-      <a id="window(windowDuration:String,slideDuration:String,startTime:String):doric.DStructColumn"></a><a id="window(String,String,String):DStructColumn"></a>
+      <a id="window(windowDuration:String,slideDuration:String,startTime:String):doric.RowColumn"></a><a id="window(String,String,String):RowColumn"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#window(windowDuration:String,slideDuration:String,startTime:String):doric.DStructColumn" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#window(windowDuration:String,slideDuration:String,startTime:String):doric.RowColumn" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3375,7 +3230,7 @@ as defined by ISO 8601
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">window</span><span class="params">(<span name="windowDuration">windowDuration: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="slideDuration">slideDuration: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="startTime">startTime: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;0 second&quot;</span></span>)</span><span class="result">: <a href="index.html#DStructColumn=doric.DoricColumn[doric.DStruct]" class="extmbr" name="doric.DStructColumn">DStructColumn</a></span>
+        <span class="implicit">window</span><span class="params">(<span name="windowDuration">windowDuration: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="slideDuration">slideDuration: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="startTime">startTime: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;0 second&quot;</span></span>)</span><span class="result">: <a href="index.html#RowColumn=doric.DoricColumn[org.apache.spark.sql.Row]" class="extmbr" name="doric.RowColumn">RowColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Generates tumbling time windows given a timestamp specifying column.</p><div class="fullcomment"><div class="comment cmt"><p>Generates tumbling time windows given a timestamp specifying column. Window
@@ -3402,9 +3257,9 @@ starts are inclusive but the window ends are exclusive.
         context-bounded</a> by doric.types.TimestampType (T: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>).
           </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd></dl></div>
     </li><li name="doric.syntax.TimestampColumns.TimestampColumnLikeSyntax#window" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
-      <a id="window(windowDuration:String):doric.DStructColumn"></a><a id="window(String):DStructColumn"></a>
+      <a id="window(windowDuration:String):doric.RowColumn"></a><a id="window(String):RowColumn"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#window(windowDuration:String):doric.DStructColumn" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#window(windowDuration:String):doric.RowColumn" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3413,7 +3268,7 @@ starts are inclusive but the window ends are exclusive.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">window</span><span class="params">(<span name="windowDuration">windowDuration: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="index.html#DStructColumn=doric.DoricColumn[doric.DStruct]" class="extmbr" name="doric.DStructColumn">DStructColumn</a></span>
+        <span class="implicit">window</span><span class="params">(<span name="windowDuration">windowDuration: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="index.html#RowColumn=doric.DoricColumn[org.apache.spark.sql.Row]" class="extmbr" name="doric.RowColumn">RowColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Generates tumbling time windows given a timestamp specifying column.</p><div class="fullcomment"><div class="comment cmt"><p>Generates tumbling time windows given a timestamp specifying column. Window
@@ -3489,7 +3344,7 @@ starts are inclusive but the window ends are exclusive.
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]] performed by method ArrowAssoc in scala.Predef.
-            This conversion will take place only if T is a superclass of Any and a subclass of Array[Nothing] with DStruct with Map[Nothing, Nothing] with Long with Boolean with String (T &gt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a> &lt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="DStruct.html" class="extype" name="doric.DStruct">DStruct</a> with <span class="extype" name="scala.Predef.Map">Map</span>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>, <a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a> with <span class="extype" name="scala.Predef.String">String</span>).
+            This conversion will take place only if T is a superclass of Any and a subclass of Row with Map[Nothing, Nothing] with Long with Boolean with String (T &gt;: <a href="https://www.scala-lang.org/api/2.12.15/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a> &lt;: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a> with <span class="extype" name="scala.Predef.Map">Map</span>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>, <a href="https://www.scala-lang.org/api/2.12.15/scala/Nothing.html#scala.Nothing" class="extype" name="scala.Nothing">Nothing</a>] with <a href="https://www.scala-lang.org/api/2.12.15/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a> with <span class="extype" name="scala.Predef.String">String</span>).
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li>
               </ol>
@@ -3613,10 +3468,6 @@ using the default timezone and the default locale.
               <h3>Inherited by implicit conversion BasicCol from
                 <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]
               </h3>
-            </div><div class="conversion" name="doric.syntax.ArrayColumns.ArrayColumnSyntax">
-              <h3>Inherited by implicit conversion ArrayColumnSyntax from
-                <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to <a href="index.html#ArrayColumnSyntax[T]extendsAnyRef" class="extmbr" name="doric.ArrayColumnSyntax">doric.ArrayColumnSyntax</a>[<span class="extype" name="doric.syntax.ArrayColumns.ArrayColumnSyntax.T">T</span>]
-              </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
                 <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]]
@@ -3639,9 +3490,6 @@ using the default timezone and the default locale.
         <div id="groupedMembers">
         <div class="group" name="All Types">
               <h3>All Types</h3>
-              
-            </div><div class="group" name="Array Type">
-              <h3>Array Type</h3>
               
             </div><div class="group" name="Binary Type">
               <h3>Binary Type</h3>

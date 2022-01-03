@@ -625,9 +625,9 @@ never used.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Dataset</dd></dl></div>
     </li><li name="doric.sem.CollectOps.CollectSyntax#collectCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Action operation">
-      <a id="collectCols[T1,T2,T3,T4](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3],col4:doric.DoricColumn[T4])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2,T3,T4)]):Array[(T1,T2,T3,T4)]"></a><a id="collectCols[T1,T2,T3,T4](DoricColumn[T1],DoricColumn[T2],DoricColumn[T3],DoricColumn[T4])(Encoder[(T1,T2,T3,T4)]):Array[(T1,T2,T3,T4)]"></a>
+      <a id="collectCols[T1,T2,T3,T4](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3],col4:doric.DoricColumn[T4])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2],implicitst3:doric.types.SparkType[T3],implicitst4:doric.types.SparkType[T4]):List[(T1,T2,T3,T4)]"></a><a id="collectCols[T1,T2,T3,T4](DoricColumn[T1],DoricColumn[T2],DoricColumn[T3],DoricColumn[T4])(SparkType[T1],SparkType[T2],SparkType[T3],SparkType[T4]):List[(T1,T2,T3,T4)]"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2,T3,T4](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3],col4:doric.DoricColumn[T4])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2,T3,T4)]):Array[(T1,T2,T3,T4)]" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2,T3,T4](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3],col4:doric.DoricColumn[T4])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2],implicitst3:doric.types.SparkType[T3],implicitst4:doric.types.SparkType[T4]):List[(T1,T2,T3,T4)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -636,27 +636,25 @@ never used.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>, <span name="T3">T3</span>, <span name="T4">T4</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="col3">col3: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>, <span name="col4">col4: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="fenc">fenc: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Encoder.html#org.apache.spark.sql.Encoder" class="extype" name="org.apache.spark.sql.Encoder">Encoder</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>)]</span>)</span><span class="result">: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>)]</span>
+        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>, <span name="T3">T3</span>, <span name="T4">T4</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="col3">col3: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>, <span name="col4">col4: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="st1">st1: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="st2">st2: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="st3">st3: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>, <span name="st4">st4: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T4">T4</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Collects the provided columns of the dataframe</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe</p></div><dl class="paramcmts block"><dt class="tparam">T1</dt><dd class="cmt"><p>
-  the type of the column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T2</dt><dd class="cmt"><p>
-  the type of the second column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T3</dt><dd class="cmt"><p>
-  the type of the third column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T4</dt><dd class="cmt"><p>
-  the type of the forth column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="param">col1</dt><dd class="cmt"><p>
-  the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
-  second Doric column to collect from the dataframe</p></dd><dt class="param">col3</dt><dd class="cmt"><p>
-  third Doric column to collect from the dataframe</p></dd><dt class="param">col4</dt><dd class="cmt"><p>
-  forth Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Collects the provided columns of the dataframe
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe
+</p></div><dl class="paramcmts block"><dt class="param">col1</dt><dd class="cmt"><p>
+the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
+second Doric column to collect from the dataframe</p></dd><dt class="param">col3</dt><dd class="cmt"><p>
+third Doric column to collect from the dataframe</p></dd><dt class="param">col4</dt><dd class="cmt"><p>
+forth Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
+The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#CollectSyntax[A]extendsAnyRef" class="extmbr" name="doric.CollectSyntax">doric.CollectSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method CollectSyntax in doric.sem.CollectOps.
             
           </dd><dt>Definition Classes</dt><dd>CollectSyntax</dd></dl></div>
     </li><li name="doric.sem.CollectOps.CollectSyntax#collectCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Action operation">
-      <a id="collectCols[T1,T2,T3](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2,T3)]):Array[(T1,T2,T3)]"></a><a id="collectCols[T1,T2,T3](DoricColumn[T1],DoricColumn[T2],DoricColumn[T3])(Encoder[(T1,T2,T3)]):Array[(T1,T2,T3)]"></a>
+      <a id="collectCols[T1,T2,T3](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2],implicitst3:doric.types.SparkType[T3]):List[(T1,T2,T3)]"></a><a id="collectCols[T1,T2,T3](DoricColumn[T1],DoricColumn[T2],DoricColumn[T3])(SparkType[T1],SparkType[T2],SparkType[T3]):List[(T1,T2,T3)]"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2,T3](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2,T3)]):Array[(T1,T2,T3)]" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2,T3](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2],col3:doric.DoricColumn[T3])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2],implicitst3:doric.types.SparkType[T3]):List[(T1,T2,T3)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -665,25 +663,24 @@ never used.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>, <span name="T3">T3</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="col3">col3: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="fenc">fenc: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Encoder.html#org.apache.spark.sql.Encoder" class="extype" name="org.apache.spark.sql.Encoder">Encoder</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>)]</span>)</span><span class="result">: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>)]</span>
+        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>, <span name="T3">T3</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="col3">col3: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="st1">st1: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="st2">st2: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>, <span name="st3">st3: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T3">T3</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Collects the provided columns of the dataframe</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe</p></div><dl class="paramcmts block"><dt class="tparam">T1</dt><dd class="cmt"><p>
-  the type of the column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T2</dt><dd class="cmt"><p>
-  the type of the second column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T3</dt><dd class="cmt"><p>
-  the type of the third column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="param">col1</dt><dd class="cmt"><p>
-  the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
-  second Doric column to collect from the dataframe</p></dd><dt class="param">col3</dt><dd class="cmt"><p>
-  third Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Collects the provided columns of the dataframe
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe
+</p></div><dl class="paramcmts block"><dt class="param">col1</dt><dd class="cmt"><p>
+the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
+second Doric column to collect from the dataframe</p></dd><dt class="param">col3</dt><dd class="cmt"><p>
+third Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
+The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#CollectSyntax[A]extendsAnyRef" class="extmbr" name="doric.CollectSyntax">doric.CollectSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method CollectSyntax in doric.sem.CollectOps.
             
           </dd><dt>Definition Classes</dt><dd>CollectSyntax</dd></dl></div>
     </li><li name="doric.sem.CollectOps.CollectSyntax#collectCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Action operation">
-      <a id="collectCols[T1,T2](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2)]):Array[(T1,T2)]"></a><a id="collectCols[T1,T2](DoricColumn[T1],DoricColumn[T2])(Encoder[(T1,T2)]):Array[(T1,T2)]"></a>
+      <a id="collectCols[T1,T2](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2]):List[(T1,T2)]"></a><a id="collectCols[T1,T2](DoricColumn[T1],DoricColumn[T2])(SparkType[T1],SparkType[T2]):List[(T1,T2)]"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2])(implicitfenc:org.apache.spark.sql.Encoder[(T1,T2)]):Array[(T1,T2)]" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#collectCols[T1,T2](col1:doric.DoricColumn[T1],col2:doric.DoricColumn[T2])(implicitst1:doric.types.SparkType[T1],implicitst2:doric.types.SparkType[T2]):List[(T1,T2)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -692,23 +689,23 @@ never used.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="fenc">fenc: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Encoder.html#org.apache.spark.sql.Encoder" class="extype" name="org.apache.spark.sql.Encoder">Encoder</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>)]</span>)</span><span class="result">: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>)]</span>
+        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>, <span name="T2">T2</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="col2">col2: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="st1">st1: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>, <span name="st2">st2: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>, <span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T2">T2</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Collects the provided columns of the dataframe</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe</p></div><dl class="paramcmts block"><dt class="tparam">T1</dt><dd class="cmt"><p>
-  the type of the column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="tparam">T2</dt><dd class="cmt"><p>
-  the type of the second column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="param">col1</dt><dd class="cmt"><p>
-  the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
-  other Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Collects the provided columns of the dataframe
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe
+</p></div><dl class="paramcmts block"><dt class="param">col1</dt><dd class="cmt"><p>
+the Doric column to collect from the dataframe</p></dd><dt class="param">col2</dt><dd class="cmt"><p>
+other Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
+The array of the selected columns</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#CollectSyntax[A]extendsAnyRef" class="extmbr" name="doric.CollectSyntax">doric.CollectSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method CollectSyntax in doric.sem.CollectOps.
             
           </dd><dt>Definition Classes</dt><dd>CollectSyntax</dd></dl></div>
     </li><li name="doric.sem.CollectOps.CollectSyntax#collectCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Action operation">
-      <a id="collectCols[T1](col1:doric.DoricColumn[T1])(implicitevidence$1:org.apache.spark.sql.Encoder[T1]):Array[T1]"></a><a id="collectCols[T1](DoricColumn[T1])(Encoder[T1]):Array[T1]"></a>
+      <a id="collectCols[T1](col1:doric.DoricColumn[T1])(implicitst1:doric.types.SparkType[T1]):List[T1]"></a><a id="collectCols[T1](DoricColumn[T1])(SparkType[T1]):List[T1]"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#collectCols[T1](col1:doric.DoricColumn[T1])(implicitevidence$1:org.apache.spark.sql.Encoder[T1]):Array[T1]" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#collectCols[T1](col1:doric.DoricColumn[T1])(implicitst1:doric.types.SparkType[T1]):List[T1]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -717,13 +714,15 @@ never used.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Encoder.html#org.apache.spark.sql.Encoder" class="extype" name="org.apache.spark.sql.Encoder">Encoder</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>)</span><span class="result">: <a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>
+        <span class="implicit">collectCols</span><span class="tparams">[<span name="T1">T1</span>]</span><span class="params">(<span name="col1">col1: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="st1">st1: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="doric.sem.CollectOps.CollectSyntax.collectCols.T1">T1</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Collects the provided columns of the dataframe</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe</p></div><dl class="paramcmts block"><dt class="tparam">T1</dt><dd class="cmt"><p>
-  the type of the column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="param">col1</dt><dd class="cmt"><p>
-  the Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The array of the selected column</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Collects the provided columns of the dataframe
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects the provided columns of the dataframe
+</p></div><dl class="paramcmts block"><dt class="tparam">T1</dt><dd class="cmt"><p>
+the type of the column to collect, must have an Spark <code>Encoder</code></p></dd><dt class="param">col1</dt><dd class="cmt"><p>
+the Doric column to collect from the dataframe</p></dd><dt>returns</dt><dd class="cmt"><p>
+The array of the selected column</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#CollectSyntax[A]extendsAnyRef" class="extmbr" name="doric.CollectSyntax">doric.CollectSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method CollectSyntax in doric.sem.CollectOps.
             
@@ -1972,9 +1971,9 @@ following performs a inner join between <code>df1</code> and <code>df2</code> by
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Dataset</dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.DoricColumn[L]"></a><a id="lit:DoricColumn[DDataframe[T]]"></a>
+      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[DDataframe[T]]"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#lit:doric.DoricColumn[L]" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1983,15 +1982,19 @@ following performs a inner join between <code>df1</code> and <code>df2</code> by
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">lit</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]]</span>
+        <span class="implicit">lit</span><span class="result">: <a href="../LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] to
             <a href="../index.html#LiteralOps[L]extendsAnyRef" class="extmbr" name="doric.LiteralOps">doric.LiteralOps</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]] performed by method LiteralOps in doric.syntax.LiteralConversions.
-            This conversion will take place only if an implicit value of type <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]] is in scope.
-          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd></dl></div>
+            This conversion will take place only if an implicit value of type <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]] is in scope and at the same time an implicit value of type <a href="../types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="" class="extype" name="doric.doc.DDataframe">DDataframe</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>]] is in scope.
+          </dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="org.apache.spark.sql.Dataset#localCheckpoint" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="localCheckpoint(eager:Boolean):org.apache.spark.sql.Dataset[T]"></a><a id="localCheckpoint(Boolean):Dataset[T]"></a>
       <span class="permalink">
