@@ -5,7 +5,6 @@ import TripleEquals._
 import Tolerance._
 import java.sql.Date
 import java.time.{Instant, LocalDate}
-import org.scalactic.TripleEquals._
 
 object Equalities {
 
