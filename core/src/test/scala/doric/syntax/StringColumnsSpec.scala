@@ -129,7 +129,7 @@ class StringColumnsSpec
         .toDF("col1")
 
       df.testColumns("col1")(
-        c => colString(c).initcap,
+        c => colString(c).initCap,
         c => f.initcap(f.col(c)),
         List("Hello World", "Ñañeñiño", "Tú Vas A Ir A Álaba", "1", null)
           .map(Option(_))
@@ -145,7 +145,7 @@ class StringColumnsSpec
         .toDF("col1")
 
       df.testColumns2("col1", "a")(
-        (c, str) => colString(c).instr(str.lit),
+        (c, str) => colString(c).inStr(str.lit),
         (c, str) => f.instr(f.col(c), str),
         List(Some(0), Some(2), Some(5), Some(0), None)
       )

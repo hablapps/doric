@@ -19,6 +19,7 @@ private[syntax] trait BinaryColumns {
       * as a 32 character hex string.
       *
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.md5]]
       */
     def md5: StringColumn = column.elem.map(f.md5).toDC
 
@@ -27,6 +28,7 @@ private[syntax] trait BinaryColumns {
       * as a 40 character hex string.
       *
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.sha1]]
       */
     def sha1: StringColumn = column.elem.map(f.sha1).toDC
 
@@ -36,6 +38,7 @@ private[syntax] trait BinaryColumns {
       *
       * @throws java.lang.IllegalArgumentException if numBits is not in the permitted values
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.sha2]]
       */
     def sha2(numBits: Int): StringColumn =
       column.elem.map(x => f.sha2(x, numBits)).toDC
@@ -45,6 +48,7 @@ private[syntax] trait BinaryColumns {
       * returns the value as a long column.
       *
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.crc32]]
       */
     def crc32: LongColumn = column.elem.map(f.crc32).toDC
 
@@ -53,6 +57,7 @@ private[syntax] trait BinaryColumns {
       * This is the reverse of unbase64.
       *
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.base64]]
       */
     def base64: StringColumn = column.elem.map(f.base64).toDC
 
@@ -62,6 +67,7 @@ private[syntax] trait BinaryColumns {
       * If either argument is null, the result will also be null.
       *
       * @group Binary Type
+      * @see [[org.apache.spark.sql.functions.decode]]
       */
     def decode(charset: StringColumn): StringColumn =
       (column.elem, charset.elem)

@@ -31,6 +31,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
     *   the DoricColumns to coalesce
     * @return
     *   the first column that is not null, or null if all inputs are null.
+    * @see [[org.apache.spark.sql.functions.coalesce]]
     */
   def coalesce[T](cols: DoricColumn[T]*): DoricColumn[T] =
     cols.map(_.elem).toList.sequence.map(f.coalesce(_: _*)).toDC
@@ -39,6 +40,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
     * Calculates the hash code of given columns, and returns the result as an integer column.
     *
     * @group All Types
+    * @see [[org.apache.spark.sql.functions.hash]]
     */
   def hash(cols: DoricColumn[_]*): IntegerColumn =
     cols.map(_.elem).toList.sequence.map(f.hash(_: _*)).toDC
@@ -48,6 +50,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
     * variant of the xxHash algorithm, and returns the result as a long column.
     *
     * @group All Types
+    * @see [[org.apache.spark.sql.functions.xxhash64]]
     */
   def xxhash64(cols: DoricColumn[_]*): LongColumn =
     cols.map(_.elem).toList.sequence.map(f.xxhash64(_: _*)).toDC
@@ -181,6 +184,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       *   literals to compare to
       * @return
       *   Boolean DoricColumn with the comparation logic.
+      * @see [[org.apache.spark.sql.Column.isin]]
       */
     def isIn(elems: T*): BooleanColumn = column.elem.map(_.isin(elems: _*)).toDC
 
@@ -189,6 +193,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * @group All Types
       * @return
       *   Boolean DoricColumn
+      * @see [[org.apache.spark.sql.Column.isNull]]
       */
     def isNull: BooleanColumn = column.elem.map(_.isNull).toDC
 
@@ -197,6 +202,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * @group All Types
       * @return
       *   Boolean DoricColumn
+      * @see [[org.apache.spark.sql.Column.isNotNull]]
       */
     def isNotNull: BooleanColumn = column.elem.map(_.isNotNull).toDC
 

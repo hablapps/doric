@@ -17,6 +17,7 @@ private[syntax] trait TimestampColumns {
     * All calls of current_timestamp within the same query return the same value.
     *
     * @group Timestamp Type
+    * @see [[org.apache.spark.sql.functions.current_timestamp]]
     */
   def currentTimestamp(): TimestampColumn =
     f.current_timestamp().asDoric[Timestamp]
@@ -32,6 +33,7 @@ private[syntax] trait TimestampColumns {
       *
       * @throws java.time.DateTimeException if invalid timeZone
       * @group Timestamp Type
+      * @see [[org.apache.spark.sql.functions.from_utc_timestamp]]
       */
     def fromUtc(timeZone: StringColumn): TimestampColumn =
       (column.elem, timeZone.elem)
@@ -47,6 +49,7 @@ private[syntax] trait TimestampColumns {
       *
       * @throws java.time.DateTimeException if invalid timeZone
       * @group Timestamp Type
+      * @see [[org.apache.spark.sql.functions.to_utc_timestamp]]
       */
     def toUtc(timeZone: StringColumn): TimestampColumn =
       (column.elem, timeZone.elem)
@@ -59,6 +62,7 @@ private[syntax] trait TimestampColumns {
       * Extracts the seconds as an integer from a given timestamp.
       *
       * @group Timestamp Type
+      * @see [[org.apache.spark.sql.functions.second]]
       */
     def second: IntegerColumn = column.elem.map(f.second).toDC
 
@@ -70,6 +74,7 @@ private[syntax] trait TimestampColumns {
       *                       `1 second`. Check `org.apache.spark.unsafe.types.CalendarInterval` for
       *                       valid duration identifiers.
       * @group Timestamp Type
+      * @see [[org.apache.spark.sql.functions.window]]
       */
     def window(windowDuration: String): RowColumn =
       column.elem.map(x => f.window(x, windowDuration)).toDC
@@ -97,6 +102,7 @@ private[syntax] trait TimestampColumns {
       *   start 15 minutes past the hour, e.g. 12:15-13:15, 13:15-14:15... provide
       *   `startTime` as `15 minutes`.
       * @group Timestamp Type
+      * @see [[org.apache.spark.sql.functions.window]]
       */
     def window(
         windowDuration: String,
@@ -113,6 +119,7 @@ private[syntax] trait TimestampColumns {
       * @group Timestamp Type
       * @return
       *   a Date Column without the hour
+      * @see [[org.apache.spark.sql.functions.to_date]]
       */
     def toDate: DateColumn = column.elem.map(f.to_date).toDC
 
@@ -122,6 +129,7 @@ private[syntax] trait TimestampColumns {
       * @group Timestamp Type
       * @return
       *   a LocalDate Column without the hour
+      * @see [[org.apache.spark.sql.functions.to_date]]
       */
     def toLocalDate: LocalDateColumn = column.elem.map(f.to_date).toDC
   }

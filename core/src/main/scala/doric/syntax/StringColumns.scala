@@ -17,6 +17,7 @@ private[syntax] trait StringColumns {
     * @return
     *   a reference of a single DoricColumn with all strings concatenated. If at
     *   least one is null will return null.
+    * @see [[org.apache.spark.sql.functions.concat]]
     */
   def concat(cols: StringColumn*): StringColumn =
     cols.map(_.elem).toList.sequence.map(f.concat(_: _*)).toDC
@@ -63,6 +64,7 @@ private[syntax] trait StringColumns {
     * @return
     *   Formats the arguments in printf-style and returns the result as a string
     *   column.
+    * @see [[org.apache.spark.sql.functions.format_string]]
     */
   def formatString(
       format: StringColumn,
@@ -109,6 +111,7 @@ private[syntax] trait StringColumns {
       * and returns the result as an int column.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.ascii]]
       */
     def ascii: IntegerColumn = s.elem.map(f.ascii).toDC
 
@@ -116,11 +119,12 @@ private[syntax] trait StringColumns {
       * Returns a new string column by converting the first letter of each word
       * to uppercase. Words are delimited by whitespace.
       *
-      * For example, "hello world" will become "Hello World".
+      * @example For example, "hello world" will become "Hello World".
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.initcap]]
       */
-    def initcap: StringColumn = s.elem.map(f.initcap).toDC
+    def initCap: StringColumn = s.elem.map(f.initcap).toDC
 
     /**
       * Locate the position of the first occurrence of substr column in the
@@ -130,8 +134,9 @@ private[syntax] trait StringColumns {
       * @note
       *   The position is not zero based, but 1 based index. Returns 0 if substr
       *   could not be found in str.
+      * @see [[org.apache.spark.sql.functions.instr]]
       */
-    def instr(substring: StringColumn): IntegerColumn =
+    def inStr(substring: StringColumn): IntegerColumn =
       (s.elem, substring.elem)
         .mapN((str, substr) => {
           new Column(StringInstr(str.expr, substr.expr))
@@ -144,6 +149,7 @@ private[syntax] trait StringColumns {
       * spaces. The length of binary strings includes binary zeros.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.length]]
       */
     def length: IntegerColumn = s.elem.map(f.length).toDC
 
@@ -151,6 +157,7 @@ private[syntax] trait StringColumns {
       * Computes the Levenshtein distance of the two given string columns.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.levenshtein]]
       */
     def levenshtein(dc: StringColumn): IntegerColumn =
       (s.elem, dc.elem).mapN(f.levenshtein).toDC
@@ -163,6 +170,7 @@ private[syntax] trait StringColumns {
       * @note
       *   The position is not zero based, but 1 based index. returns 0 if substr
       *   could not be found in str.
+      * @see [[org.apache.spark.sql.functions.locate]]
       */
     def locate(
         substr: StringColumn,
@@ -178,6 +186,7 @@ private[syntax] trait StringColumns {
       * Converts a string column to lower case.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.lower]]
       */
     def lower: StringColumn = s.elem.map(f.lower).toDC
 
@@ -187,6 +196,7 @@ private[syntax] trait StringColumns {
       * characters.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.lpad]]
       */
     def lpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
@@ -199,6 +209,7 @@ private[syntax] trait StringColumns {
       * Trim the spaces from left end for the specified string value.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.ltrim]]
       */
     def ltrim: StringColumn = s.elem.map(f.ltrim).toDC
 
@@ -207,6 +218,7 @@ private[syntax] trait StringColumns {
       * string column.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.ltrim]]
       */
     def ltrim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -220,6 +232,7 @@ private[syntax] trait StringColumns {
       * byte position `pos` of `src` and proceeding for `len` bytes.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.overlay]]
       */
     def overlay(
         replace: StringColumn,
@@ -237,6 +250,7 @@ private[syntax] trait StringColumns {
       *
       * @throws java.lang.IllegalArgumentException if the specified group index exceeds the group count of regex
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.regexp_extract]]
       */
     def regexpExtract(
         exp: StringColumn,
@@ -253,6 +267,7 @@ private[syntax] trait StringColumns {
       * with replacement.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.regexp_replace]]
       */
     def regexpReplace(
         pattern: StringColumn,
@@ -264,6 +279,7 @@ private[syntax] trait StringColumns {
       * Repeats a string column n times, and returns it as a new string column.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.repeat]]
       */
     def repeat(n: IntegerColumn): StringColumn = (s.elem, n.elem)
       .mapN((str, times) => new Column(StringRepeat(str.expr, times.expr)))
@@ -275,6 +291,7 @@ private[syntax] trait StringColumns {
       * characters.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.rpad]]
       */
     def rpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
@@ -285,6 +302,7 @@ private[syntax] trait StringColumns {
       * Trim the spaces from right end for the specified string value.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.rtrim]]
       */
     def rtrim: StringColumn = s.elem.map(f.rtrim).toDC
 
@@ -293,6 +311,7 @@ private[syntax] trait StringColumns {
       * string column.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.rtrim]]
       */
     def rtrim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -303,6 +322,7 @@ private[syntax] trait StringColumns {
       * Returns the soundex code for the specified expression.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.soundex]]
       */
     def soundex: StringColumn = s.elem.map(f.soundex).toDC
 
@@ -314,6 +334,7 @@ private[syntax] trait StringColumns {
       *   a Java regular expression.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.split]]
       */
     def split(pattern: StringColumn): ArrayColumn[String] =
       split(pattern, (-1).lit)
@@ -326,12 +347,12 @@ private[syntax] trait StringColumns {
       *   a string representing a regular expression. The regex string should be
       *   a Java regular expression.
       * @param limit
-      *   an integer expression which controls the number of times the regex is
-      *   applied. <ul> <li>limit greater than 0: The resulting array's length
-      *   will not be more than limit, and the resulting array's last entry will
-      *   contain all input beyond the last matched regex.</li> <li>limit less
-      *   than or equal to 0: `regex` will be applied as many times as possible,
-      *   and the resulting array can be of any size.</li> </ul>
+      *   an integer expression which controls the number of times the regex is applied.
+      *     - __limit greater than 0__: The resulting array's length
+      *       will not be more than limit, and the resulting array's last entry will
+      *       contain all input beyond the last matched regex.
+      *     - __limit less than or equal to 0__: `regex` will be applied as many times as possible,
+      *       and the resulting array can be of any size.
       */
     def split(
         pattern: StringColumn,
@@ -349,6 +370,7 @@ private[syntax] trait StringColumns {
       * @group String Type
       * @note
       *   The position is not zero based, but 1 based index.
+      * @see [[org.apache.spark.sql.functions.substring]]
       */
     def substring(pos: IntegerColumn, len: IntegerColumn): StringColumn =
       (s.elem, pos.elem, len.elem)
@@ -364,6 +386,7 @@ private[syntax] trait StringColumns {
       * for delim.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.substring_index]]
       */
     def substringIndex(
         delim: StringColumn,
@@ -382,6 +405,7 @@ private[syntax] trait StringColumns {
       * string matches the character in the `matchingString`.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.translate]]
       */
     def translate(
         matchingString: StringColumn,
@@ -397,6 +421,7 @@ private[syntax] trait StringColumns {
       * Trim the spaces from both ends for the specified string column.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.trim]]
       */
     def trim: StringColumn = s.elem.map(f.trim).toDC
 
@@ -405,6 +430,7 @@ private[syntax] trait StringColumns {
       * column (literal).
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.trim]]
       */
     def trim(trimString: StringColumn): StringColumn =
       (s.elem, trimString.elem)
@@ -417,6 +443,7 @@ private[syntax] trait StringColumns {
       * Converts a string column to upper case.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.upper]]
       */
     def upper: StringColumn = s.elem.map(f.upper).toDC
 
@@ -431,6 +458,7 @@ private[syntax] trait StringColumns {
       * match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.contains]]
       */
     def contains(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.contains(_)).toDC
@@ -439,6 +467,7 @@ private[syntax] trait StringColumns {
       * String ends with. Returns a boolean column based on a string match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.endsWith]]
       */
     def endsWith(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.endsWith(_)).toDC
@@ -447,6 +476,7 @@ private[syntax] trait StringColumns {
       * SQL like expression. Returns a boolean column based on a SQL LIKE match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.like]]
       */
     def like(literal: StringColumn): BooleanColumn =
       (s.elem, literal.elem)
@@ -458,6 +488,7 @@ private[syntax] trait StringColumns {
       * on a regex match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.rlike]]
       */
     def rLike(literal: StringColumn): BooleanColumn =
       (s.elem, literal.elem)
@@ -468,6 +499,7 @@ private[syntax] trait StringColumns {
       * String starts with. Returns a boolean column based on a string match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.startsWith]]
       */
     def startsWith(dc: StringColumn): BooleanColumn =
       (s.elem, dc.elem).mapN(_.startsWith(_)).toDC
@@ -479,6 +511,7 @@ private[syntax] trait StringColumns {
       * on a regex match.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.Column.rlike]]
       */
     def matchRegex(literal: StringColumn): BooleanColumn = rLike(literal)
 
@@ -488,6 +521,7 @@ private[syntax] trait StringColumns {
       * If either argument is null, the result will also be null.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.encode]]
       */
     def encode(charset: StringColumn): BinaryColumn =
       (s.elem, charset.elem)
@@ -501,6 +535,7 @@ private[syntax] trait StringColumns {
       * This is the reverse of base64.
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.unbase64]]
       */
     def unbase64: BinaryColumn = s.elem.map(f.unbase64).toDC
 
@@ -512,6 +547,7 @@ private[syntax] trait StringColumns {
       *   A long
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.unix_timestamp]]
       */
     def unixTimestamp: LongColumn = s.elem.map(f.unix_timestamp).toDC
 
@@ -523,6 +559,7 @@ private[syntax] trait StringColumns {
       * @throws java.lang.IllegalArgumentException if invalid pattern
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.unix_timestamp]]
       */
     def unixTimestamp(pattern: StringColumn): LongColumn =
       (s.elem, pattern.elem)
@@ -541,6 +578,7 @@ private[syntax] trait StringColumns {
       * Similar to concat doric function, but only with two columns
       *
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.concat]]
       */
     def +(s2: StringColumn): StringColumn = concat(s, s2)
 
@@ -557,6 +595,7 @@ private[syntax] trait StringColumns {
       * @return
       *   A date, or null if `e` was a string that could not be cast to a date
       *   or `format` was an invalid format
+      * @see [[org.apache.spark.sql.functions.to_date]]
       */
     def toDate(format: StringColumn): LocalDateColumn =
       (s.elem, format.elem)
@@ -578,6 +617,7 @@ private[syntax] trait StringColumns {
       * @return
       *   A timestamp, or null if `s` was a string that could not be cast to a
       *   timestamp or `format` was an invalid format
+      * @see [[org.apache.spark.sql.functions.to_timestamp]]
       */
     def toTimestamp(format: StringColumn): InstantColumn =
       (s.elem, format.elem)
@@ -597,6 +637,7 @@ private[syntax] trait StringColumns {
       *
       * @throws java.lang.RuntimeException with the error message
       * @group String Type
+      * @see [[org.apache.spark.sql.functions.raise_error]]
       */
     def raiseError: NullColumn = s.elem.map(f.raise_error).toDC
   }
