@@ -33,7 +33,8 @@ private[syntax] trait ArrayColumns {
     * Creates a new array column. The input columns must all have the same data type.
     *
     * @group Array Type
-    * @see [[org.apache.spark.sql.functions.array]]
+    * @see org.apache.spark.sql.functions.array
+    * @todo scaladoc link (issue #135)
     */
   def array[T](cols: DoricColumn[T]*): ArrayColumn[T] =
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
@@ -89,7 +90,8 @@ private[syntax] trait ArrayColumns {
       *   the type of the array elements to return.
       * @return
       *   the column reference with the applied transformation.
-      * @see [[org.apache.spark.sql.functions.transform]]
+      * @see org.apache.spark.sql.functions.transform
+      * @todo scaladoc link (issue #135)
       */
     def transform[A](
         fun: DoricColumn[T] => DoricColumn[A]
@@ -110,7 +112,8 @@ private[syntax] trait ArrayColumns {
       *   the type of the elements of the array
       * @return
       *   the column reference with the provided transformation.
-      * @see [[org.apache.spark.sql.functions.transform]]
+      * @see org.apache.spark.sql.functions.transform
+      * @todo scaladoc link (issue #135)
       */
     def transformWithIndex[A](
         fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
@@ -136,7 +139,8 @@ private[syntax] trait ArrayColumns {
       *   type of the final value to return
       * @return
       *   the column reference with the applied transformation.
-      * @see [[org.apache.spark.sql.functions.aggregate]]
+      * @see org.apache.spark.sql.functions.aggregate
+      * @todo scaladoc link (issue #135)
       */
     def aggregateWT[A, B](zero: DoricColumn[A])(
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
@@ -160,7 +164,8 @@ private[syntax] trait ArrayColumns {
       *   type of the transformed values.
       * @return
       *   the column reference with the applied transformation.
-      * @see [[org.apache.spark.sql.functions.aggregate]]
+      * @see org.apache.spark.sql.functions.aggregate
+      * @todo scaladoc link (issue #135)
       */
     def aggregate[A](
         zero: DoricColumn[A]
@@ -179,7 +184,8 @@ private[syntax] trait ArrayColumns {
       *   the condition to filter.
       * @return
       *   the column reference with the filter applied.
-      * @see [[org.apache.spark.sql.functions.filter]]
+      * @see org.apache.spark.sql.functions.filter
+      * @todo scaladoc link (issue #135)
       */
     def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[F[T]] =
       (col.elem, p(x).elem)
@@ -196,7 +202,8 @@ private[syntax] trait ArrayColumns {
       *   (col, index) => predicate, the Boolean predicate to filter the input column
       *   given the index. Indices start at 0.
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.filter]]
+      * @see org.apache.spark.sql.functions.filter
+      * @todo scaladoc link (issue #135)
       */
     def filterWIndex(
         function: (DoricColumn[T], IntegerColumn) => BooleanColumn
@@ -252,7 +259,8 @@ private[syntax] trait ArrayColumns {
       * `nullReplacement`.
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.array_join]]
+      * @see org.apache.spark.sql.functions.array_join
+      * @todo scaladoc link (issue #135)
       */
     def join(
         delimiter: StringColumn,
@@ -268,7 +276,8 @@ private[syntax] trait ArrayColumns {
       * Concatenates the elements of `column` using the `delimiter`. Nulls are deleted
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.array_join]]
+      * @see org.apache.spark.sql.functions.array_join
+      * @todo scaladoc link (issue #135)
       */
     def join(delimiter: StringColumn): StringColumn =
       (col.elem, delimiter.elem)

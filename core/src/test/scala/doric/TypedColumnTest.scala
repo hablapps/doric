@@ -34,8 +34,8 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   ): Unit = {
     import Equalities._
 
-    val eqCond: BooleanColumn = SparkType[T].dataType.typeName match {
-      case "map" =>
+    val eqCond: BooleanColumn = SparkType[T].dataType match {
+      case _: MapType =>
         val compare: (Column => Column) => BooleanColumn = sparkFun =>
           {
             sparkFun(f.col(doricCol.value)) === sparkFun(f.col(sparkCol.value))
