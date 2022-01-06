@@ -16,7 +16,7 @@ class CollectOpsSpec extends DoricTestElements {
       l: List[T]
   )(implicit eq: Equality[List[T]]): Assertion =
     l.toDF("nums")
-      .collectCols(col[T](c"nums")) should ===(l)
+      .collectCols(col[T]("nums")) should ===(l)
 
   def test[T1: SparkType, T2: SparkType](
       l: List[(T1, T2)]
@@ -25,7 +25,7 @@ class CollectOpsSpec extends DoricTestElements {
       encoder: Encoder[(T1, T2)]
   ): Assertion = {
     l.toDF("col1", "col2")
-      .collectCols(col[T1](c"col1"), col[T2](c"col2")) should ===(l)
+      .collectCols(col[T1]("col1"), col[T2]("col2")) should ===(l)
   }
 
   def test[T1: SparkType, T2: SparkType, T3: SparkType](
@@ -36,9 +36,9 @@ class CollectOpsSpec extends DoricTestElements {
   ): Assertion = {
     l.toDF("col1", "col2", "col3")
       .collectCols(
-        col[T1](c"col1"),
-        col[T2](c"col2"),
-        col[T3](c"col3")
+        col[T1]("col1"),
+        col[T2]("col2"),
+        col[T3]("col3")
       ) should ===(l)
   }
 
@@ -50,10 +50,10 @@ class CollectOpsSpec extends DoricTestElements {
   ): Assertion = {
     l.toDF("col1", "col2", "col3", "col4")
       .collectCols(
-        col[T1](c"col1"),
-        col[T2](c"col2"),
-        col[T3](c"col3"),
-        col[T4](c"col4")
+        col[T1]("col1"),
+        col[T2]("col2"),
+        col[T3]("col3"),
+        col[T4]("col4")
       ) should ===(l)
   }
 
@@ -95,8 +95,8 @@ class CollectOpsSpec extends DoricTestElements {
 
       spark
         .range(1)
-        .select(List(1, 2, 3, 2, 3).lit.as(c"value"))
-        .collectCols(col[Set[Int]](c"value")) shouldBe List(Set(1, 2, 3))
+        .select(List(1, 2, 3, 2, 3).lit.as("value"))
+        .collectCols(col[Set[Int]]("value")) shouldBe List(Set(1, 2, 3))
     }
   }
 }

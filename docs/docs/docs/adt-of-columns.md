@@ -16,8 +16,8 @@ This way Doric helps you to always carrie the name that was assigned and allows 
 ```scala mdoc
 import doric._
 
-val colFromDF: NamedDoricColumn[String] = col[String](c"user")
-val colWithAlias: NamedDoricColumn[Int] = col[Int](c"int1") + col[Int](c"int2") as c"newVal"
+val colFromDF: NamedDoricColumn[String] = col[String]("user")
+val colWithAlias: NamedDoricColumn[Int] = col[Int]("int1") + col[Int]("int2") as "newVal"
 
 println(colFromDF.columnName)
 println(colWithAlias.columnName)

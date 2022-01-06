@@ -16,12 +16,15 @@ sealed trait DoricColumn[T] {
 
 case class NamedDoricColumn[T] private[doric] (
     override val elem: Doric[Column],
-    columnName: CName
+    columnName: String
 ) extends DoricColumn[T]
 
 object NamedDoricColumn {
-  def apply[T](column: DoricColumn[T], columnName: CName): NamedDoricColumn[T] =
-    NamedDoricColumn[T](column.elem.map(_.as(columnName.value)), columnName)
+  def apply[T](
+      column: DoricColumn[T],
+      columnName: String
+  ): NamedDoricColumn[T] =
+    NamedDoricColumn[T](column.elem.map(_.as(columnName)), columnName)
 }
 
 case class TransformationDoricColumn[T] private[doric] (
@@ -61,7 +64,7 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
 
   override protected def constructSide[T](
       column: Doric[Column],
-      colName: CName
+      colName: String
   ): NamedDoricColumn[T] = NamedDoricColumn(column, colName)
 
   private[doric] def uncheckedTypeAndExistence[T](
@@ -80,7 +83,7 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
           Validated.valid(column)
         else
           ColumnTypeError(
-            head.name.cname,
+            head.name,
             SparkType[T].dataType,
             head.dataType
           ).invalidNec

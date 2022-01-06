@@ -11,10 +11,10 @@ class TransformOpsSpec
     with EitherValues {
 
   describe("Dataframe transformation methods") {
-    val errorCol = "error".cname
-    val test1    = "test2".cname
+    val errorCol = "error"
+    val test1    = "test2"
     it("works withColumn") {
-      val test = "test".cname
+      val test = "test"
       val result = spark
         .range(10)
         .withColumn(test, colLong("id") * 2L)
@@ -64,8 +64,8 @@ class TransformOpsSpec
       val result = spark
         .range(10)
         .select(
-          colLong("id") > 2L as "mayor".cname,
-          colLong("id").cast[String] as "casted".cname,
+          colLong("id") > 2L as "mayor",
+          colLong("id").cast[String] as "casted",
           colLong("id")
         )
 
@@ -84,21 +84,21 @@ class TransformOpsSpec
       spark
         .range(10)
         .withColumns(
-          "a".cname -> colLong("id"),
-          "b".cname -> colLong("id"),
-          "c".cname -> colLong("id"),
-          "d".cname -> colLong("id"),
-          "e".cname -> colLong("id")
+          "a" -> colLong("id"),
+          "b" -> colLong("id"),
+          "c" -> colLong("id"),
+          "d" -> colLong("id"),
+          "e" -> colLong("id")
         )
         .columns
         .length shouldBe 6
 
       val x = Map(
-        "a".cname -> colLong("id"),
-        "b".cname -> colLong("id"),
-        "c".cname -> colLong("id"),
-        "d".cname -> colLong("id"),
-        "e".cname -> colLong("id")
+        "a" -> colLong("id"),
+        "b" -> colLong("id"),
+        "c" -> colLong("id"),
+        "d" -> colLong("id"),
+        "e" -> colLong("id")
       )
 
       spark
@@ -113,10 +113,10 @@ class TransformOpsSpec
         spark
           .range(10)
           .withColumns(
-            "a".cname -> colLong("id"),
-            "a".cname -> colLong("id"),
-            "b".cname -> colLong("id"),
-            "b".cname -> colLong("id")
+            "a" -> colLong("id"),
+            "a" -> colLong("id"),
+            "b" -> colLong("id"),
+            "b" -> colLong("id")
           )
       }
       error.getMessage shouldBe "Found duplicate column(s) in given column names: `a`, `b`"

@@ -13,8 +13,6 @@ class DateColumnsSpec
     with EitherValues
     with Matchers {
 
-  import doric.implicitConversions.stringCname
-
   describe("currentDate doric function") {
     import spark.implicits._
 
@@ -140,7 +138,7 @@ class DateColumnsSpec
 
     it("should throw an exception if malformed format") {
       intercept[java.lang.IllegalArgumentException] {
-        df.withColumn(c"test", colDate("dateCol").format("nnn".lit))
+        df.withColumn("test", colDate("dateCol").format("nnn".lit))
           .collect()
       }
     }

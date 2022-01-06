@@ -14,7 +14,7 @@ trait CNameOps {
     @inline final def apply[T: SparkType](implicit
         location: Location
     ): DoricColumn[T] =
-      col[T](colName)
+      col[T](colName.value)
 
     final def concat(sufix: CName): CName =
       CName(colName.value + sufix.value)

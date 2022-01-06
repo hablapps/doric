@@ -76,7 +76,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
 
   override protected def constructSide[T](
       column: Doric[Column],
-      colName: CName
+      colName: String
   ): NamedDoricColumn[T] =
     NamedDoricColumn(column, colName)
 
@@ -108,22 +108,36 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
 
     /**
       * Gives the column an alias.
+      *
       * @group All Types
       * @param colName
-      *   the alias to set the column.
+      * the alias to set the column.
       * @return
-      *   DoricColumn with the alias
+      * DoricColumn with the alias
       */
-    def as(colName: CName): NamedDoricColumn[T] =
+    def as(colName: String): NamedDoricColumn[T] =
       NamedDoricColumn[T](column, colName)
 
     /**
+      * Gives the column an alias.
+      *
+      * @group All Types
+      * @param colName
+      * the alias to set the column.
+      * @return
+      * DoricColumn with the alias
+      */
+    def asCName(colName: CName): NamedDoricColumn[T] =
+      NamedDoricColumn[T](column, colName.value)
+
+    /**
       * Type safe equals between Columns
+      *
       * @group All Types
       * @param other
-      *   the column to compare
+      * the column to compare
       * @return
-      *   a reference to a Boolean DoricColumn with the comparation
+      * a reference to a Boolean DoricColumn with the comparation
       */
     def ===(other: DoricColumn[T]): BooleanColumn =
       (column.elem, other.elem).mapN(_ === _).toDC

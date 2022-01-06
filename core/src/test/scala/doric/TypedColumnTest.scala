@@ -1,31 +1,32 @@
 package doric
 
-import com.github.mrpowers.spark.fast.tests.DatasetComparer
-
 import scala.reflect._
 import scala.reflect.runtime.universe._
+
+import com.github.mrpowers.spark.fast.tests.DatasetComparer
+import doric.implicitConversions.stringCname
 import doric.types.{Casting, SparkType}
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
+
 import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
 import org.apache.spark.sql.types._
-import doric.implicitConversions.stringCname
 
 trait TypedColumnTest extends Matchers with DatasetComparer {
 
-  private lazy val doricCol = "dcol".cname
-  private lazy val sparkCol = "scol".cname
+  private lazy val doricCol = "dcol"
+  private lazy val sparkCol = "scol"
 
   /**
     * Compare two columns (doric & spark).
     * If `expected` is defined is also compared
     *
     * @param df
-    *   Spark dataFrame
+    * Spark dataFrame
     * @param expected
-    *   list of values
+    * list of values
     * @tparam T
-    *   Comparing column type
+    * Comparing column type
     */
   def compareDifferences[T: SparkType: TypeTag: Equality](
       df: DataFrame,
@@ -33,7 +34,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   ): Unit = {
     import Equalities._
 
-    val equalsColumn = "equals".cname
+    val equalsColumn = "equals"
     val result = df
       .withColumn(
         equalsColumn,
@@ -46,7 +47,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
         ).as(equalsColumn)
       )
       .na
-      .fill(Map(equalsColumn.value -> false))
+      .fill(Map(equalsColumn -> false))
 
     implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
       result.sparkSession.implicits
@@ -362,9 +363,9 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
         column: DoricColumn[T],
         show: Boolean = false
     ): DataFrame = {
-      val colName          = "result".cname
+      val colName          = "result"
       val df2              = df.withColumn(colName, column)
-      val providedDatatype = df2(colName.value).expr.dataType
+      val providedDatatype = df2(colName).expr.dataType
       assert(
         SparkType[T].isEqual(providedDatatype),
         s"the type of the column '$column' is not ${SparkType[T].dataType} is $providedDatatype"

@@ -15,23 +15,23 @@ class SparkTypeSpec extends DoricTestElements {
   ): Unit = {
     spark
       .range(1)
-      .select(element.lit.as(c"value"))
-      .collectCols(col[T](c"value")) === List(element)
+      .select(element.lit.as("value"))
+      .collectCols(col[T]("value")) === List(element)
   }
 
   it("Option should work with basic types") {
     spark
       .range(1)
-      .select(lit(Option(1)) as c"some", lit(None: Option[Int]) as c"none")
-      .collectCols(col[Option[Int]](c"some"), col[Option[Int]](c"none"))
+      .select(lit(Option(1)) as "some", lit(None: Option[Int]) as "none")
+      .collectCols(col[Option[Int]]("some"), col[Option[Int]]("none"))
       .head shouldBe (Some(1), None)
   }
 
   it("Row should work") {
     spark
       .range(1)
-      .select(struct(lit("hi"), lit(33)) as c"row")
-      .collectCols(col[Row](c"row"))
+      .select(struct(lit("hi"), lit(33)) as "row")
+      .collectCols(col[Row]("row"))
       .head shouldBe Row("hi", 33)
   }
 
