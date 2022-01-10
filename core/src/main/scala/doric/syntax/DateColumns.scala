@@ -33,7 +33,7 @@ private[syntax] trait DateColumns {
       *   Date column after adding months
       * @note
       *   Timestamp columns will be truncated to Date column
-      * @see [[org.apache.spark.sql.functions.add_months]]
+      * @see [[org.apache.spark.sql.functions.add_months(startDate:org\.apache\.spark\.sql\.Column,numMonths:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.add_months]]
       */
     def addMonths(nMonths: IntegerColumn): DateColumn =
       (column.elem, nMonths.elem).mapN(f.add_months).toDC
@@ -46,7 +46,7 @@ private[syntax] trait DateColumns {
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.date_add]]
+      * @see [[org.apache.spark.sql.functions.date_add(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_add]]
       */
     def addDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_add).toDC
@@ -79,7 +79,7 @@ private[syntax] trait DateColumns {
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.date_sub]]
+      * @see [[org.apache.spark.sql.functions.date_sub(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_sub]]
       */
     def subDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_sub).toDC
@@ -164,7 +164,7 @@ private[syntax] trait DateColumns {
       * @param dateCol
       *   Date or Timestamp column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.months_between]]
+      * @see [[org.apache.spark.sql.functions.months_between(end:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.months_between]]
       */
     def monthsBetween(dateCol: DoricColumn[T]): DoubleColumn =
       (column.elem, dateCol.elem).mapN(f.months_between).toDC
@@ -178,7 +178,7 @@ private[syntax] trait DateColumns {
       *   If `roundOff` is set to true, the result is rounded off to 8 digits;
       *   it is not rounded otherwise.
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.months_between]]
+      * @see [[org.apache.spark.sql.functions.months_between(end:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,roundOff:* org.apache.spark.sql.functions.months_between]]
       */
     def monthsBetween(
         dateCol: DoricColumn[T],
@@ -260,7 +260,7 @@ private[syntax] trait DateColumns {
       *   A long
       *
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.unix_timestamp]]
+      * @see [[org.apache.spark.sql.functions.unix_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.unix_timestamp]]
       */
     def unixTimestamp: LongColumn = column.elem.map(f.unix_timestamp).toDC
 
@@ -287,7 +287,7 @@ private[syntax] trait DateColumns {
       * Transform date to timestamp
       *
       * @group Date Type
-      * @see [[org.apache.spark.sql.functions.to_timestamp]]
+      * @see [[org.apache.spark.sql.functions.to_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.to_timestamp]]
       */
     def toTimestamp: TimestampColumn = column.elem.map(f.to_timestamp).toDC
 
@@ -295,7 +295,7 @@ private[syntax] trait DateColumns {
       * Transform date to Instant
       *
       * @group Date Type
-      * @see [[org.apache.spark.sql.functions.to_timestamp]]
+      * @see [[org.apache.spark.sql.functions.to_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.to_timestamp]]
       */
     def toInstant: InstantColumn = column.elem.map(f.to_timestamp).toDC
   }
