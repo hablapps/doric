@@ -95,7 +95,7 @@ class CollectOpsSpec extends DoricTestElements {
 
       spark
         .range(1)
-        .select(List(1, 2, 3, 2, 3).lit.as("value"))
+        .select(List(1, 2, 3, 2, 3).lit.asCName(c"value"))
         .collectCols(col[Set[Int]]("value")) shouldBe List(Set(1, 2, 3))
     }
   }
