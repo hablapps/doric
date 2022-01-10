@@ -14,8 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: olafurpg/setup-scala@v13
-      - name: Coursier cache
-        uses: coursier/cache-action@v6
+      #- name: Coursier cache
+      #  uses: coursier/cache-action@v6
       - name: Code Format
         run: sbt scalafmtCheckAll
       - name: Test & coverage
