@@ -71,10 +71,10 @@ trait SparkCasting[From, To] extends Casting[From, To] {
       fromType: SparkType[From],
       toType: SparkType[To]
   ): DoricColumn[To] =
-    if (fromType.dataType == toType.dataType)
+    if (SparkType[From].dataType == SparkType[To].dataType)
       column.elem.toDC
     else
-      column.elem.map(_.cast(toType.dataType)).toDC
+      column.elem.map(_.cast(SparkType[To].dataType)).toDC
 }
 
 object SparkCasting {

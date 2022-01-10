@@ -6,18 +6,8 @@ import doric.sem.Location
 import doric.types.{Casting, SparkType, UnsafeCasting}
 
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.types.DataType
 
 private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
-
-  /**
-    * Returns the spark `DataType` of the provided type
-    * @tparam T
-    *   the type to check
-    * @return
-    *   the spark `DataType`
-    */
-  @inline def dataType[T: SparkType]: DataType = SparkType[T].dataType
 
   /**
     * Returns the first column that is not null, or null if all inputs are null.

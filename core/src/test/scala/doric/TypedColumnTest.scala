@@ -394,7 +394,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       *   the provided column
       */
     def withTypeChecked: DoricColumn[T] = {
-      withTypeChecked(dataType[T])
+      withTypeChecked(SparkType[T].dataType)
     }
 
     /**
