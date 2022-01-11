@@ -3484,9 +3484,9 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Dataset</dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax#withColumns" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="withColumns(namesAndCols:Map[doric.CName,doric.DoricColumn[_]]):org.apache.spark.sql.DataFrame"></a><a id="withColumns(Map[CName,DoricColumn[_]]):DataFrame"></a>
+      <a id="withColumns(namesAndCols:Map[String,doric.DoricColumn[_]]):org.apache.spark.sql.DataFrame"></a><a id="withColumns(Map[String,DoricColumn[_]]):DataFrame"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#withColumns(namesAndCols:Map[doric.CName,doric.DoricColumn[_]]):org.apache.spark.sql.DataFrame" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#withColumns(namesAndCols:Map[String,doric.DoricColumn[_]]):org.apache.spark.sql.DataFrame" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3495,7 +3495,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">withColumns</span><span class="params">(<span name="namesAndCols">namesAndCols: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>, <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="implicit">withColumns</span><span class="params">(<span name="namesAndCols">namesAndCols: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns a new dataset by adding all columns, or replacing the existing
@@ -3508,9 +3508,9 @@ columns that has the same name.
             
           </dd><dt>Definition Classes</dt><dd>DataframeTransformationSyntax</dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax#withColumns" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="withColumns(namesAndCols:(doric.CName,doric.DoricColumn[_])*):org.apache.spark.sql.DataFrame"></a><a id="withColumns((CName,DoricColumn[_])*):DataFrame"></a>
+      <a id="withColumns(namesAndCols:(String,doric.DoricColumn[_])*):org.apache.spark.sql.DataFrame"></a><a id="withColumns((String,DoricColumn[_])*):DataFrame"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#withColumns(namesAndCols:(doric.CName,doric.DoricColumn[_])*):org.apache.spark.sql.DataFrame" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#withColumns(namesAndCols:(String,doric.DoricColumn[_])*):org.apache.spark.sql.DataFrame" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3519,7 +3519,7 @@ columns that has the same name.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">withColumns</span><span class="params">(<span name="namesAndCols">namesAndCols: (<a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>, <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_])*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="implicit">withColumns</span><span class="params">(<span name="namesAndCols">namesAndCols: (<span class="extype" name="scala.Predef.String">String</span>, <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_])*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns a new dataset by adding all columns, or replacing the existing
@@ -3912,9 +3912,9 @@ peopleDs.where(colInt(<span class="lit">"age"</span>) &gt; <span class="num">15<
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeTransformationSyntax[T]).where(condition)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeTransformationSyntax</dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax#withColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Dataframe Transformation operation">
-      <a id="withColumn(colName:doric.CName,col:doric.DoricColumn[_]):org.apache.spark.sql.DataFrame"></a><a id="withColumn(CName,DoricColumn[_]):DataFrame"></a>
+      <a id="withColumn(colName:String,col:doric.DoricColumn[_]):org.apache.spark.sql.DataFrame"></a><a id="withColumn(String,DoricColumn[_]):DataFrame"></a>
       <span class="permalink">
-      <a href="../../doric/doc/DDataframe.html#withColumn(colName:doric.CName,col:doric.DoricColumn[_]):org.apache.spark.sql.DataFrame" title="Permalink">
+      <a href="../../doric/doc/DDataframe.html#withColumn(colName:String,col:doric.DoricColumn[_]):org.apache.spark.sql.DataFrame" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3923,7 +3923,7 @@ peopleDs.where(colInt(<span class="lit">"age"</span>) &gt; <span class="num">15<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit shadowed">withColumn</span><span class="params">(<span name="colName">colName: <a href="../index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="col">col: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="implicit shadowed">withColumn</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="col">col: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns a new Dataset by adding a column or replacing the existing
@@ -3936,10 +3936,10 @@ Dataset.
             <a href="../index.html#DataframeTransformationSyntax[A]extendsAnyRef" class="extmbr" name="doric.DataframeTransformationSyntax">doric.DataframeTransformationSyntax</a>[<span class="extype" name="doric.doc.DDataframe.T">T</span>] performed by method DataframeTransformationSyntax in doric.sem.TransformOps.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(dDataframe: doric.DataframeTransformationSyntax[T]).withColumn(colName, col)</pre></div></dd><dt>Definition Classes</dt><dd>DataframeTransformationSyntax</dd><dt>Note</dt><dd><span class="cmt"><p>
-  this method introduces a projection internally. Therefore, calling it
-  multiple times, for instance, via loops in order to add multiple
-  columns can generate big plans which can cause performance issues and
-  even <code>StackOverflowException</code>.</p></span></dd></dl></div>
+this method introduces a projection internally. Therefore, calling it
+multiple times, for instance, via loops in order to add multiple
+columns can generate big plans which can cause performance issues and
+even <code>StackOverflowException</code>.</p></span></dd></dl></div>
     </li></ol>
             </div>
 

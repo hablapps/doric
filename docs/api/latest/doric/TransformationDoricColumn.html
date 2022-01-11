@@ -691,9 +691,11 @@
         <span title="gt4s: $eq$eq$eq" class="implicit">===</span><span class="params">(<span name="other">other: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>)</span><span class="result">: <a href="index.html#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
       </span>
       
-      <p class="shortcomment cmt">Type safe equals between Columns</p><div class="fullcomment"><div class="comment cmt"><p>Type safe equals between Columns</p></div><dl class="paramcmts block"><dt class="param">other</dt><dd class="cmt"><p>
-  the column to compare</p></dd><dt>returns</dt><dd class="cmt"><p>
-  a reference to a Boolean DoricColumn with the comparation</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Type safe equals between Columns
+</p><div class="fullcomment"><div class="comment cmt"><p>Type safe equals between Columns
+</p></div><dl class="paramcmts block"><dt class="param">other</dt><dd class="cmt"><p>
+the column to compare</p></dd><dt>returns</dt><dd class="cmt"><p>
+a reference to a Boolean DoricColumn with the comparation</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
@@ -817,9 +819,9 @@
             This conversion will take place only if T is Boolean (T =:= <a href="https://www.scala-lang.org/api/2.12.15/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>).
           </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#as" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
-      <a id="as(colName:doric.CName):doric.NamedDoricColumn[T]"></a><a id="as(CName):NamedDoricColumn[T]"></a>
+      <a id="as(colName:String):doric.NamedDoricColumn[T]"></a><a id="as(String):NamedDoricColumn[T]"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#as(colName:doric.CName):doric.NamedDoricColumn[T]" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#as(colName:String):doric.NamedDoricColumn[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -828,12 +830,37 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">as</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+        <span class="implicit">as</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Gives the column an alias.</p><div class="fullcomment"><div class="comment cmt"><p>Gives the column an alias.</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
-  the alias to set the column.</p></dd><dt>returns</dt><dd class="cmt"><p>
-  DoricColumn with the alias</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+      <p class="shortcomment cmt">Gives the column an alias.</p><div class="fullcomment"><div class="comment cmt"><p>Gives the column an alias.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+the alias to set the column.</p></dd><dt>returns</dt><dd class="cmt"><p>
+DoricColumn with the alias</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt>Definition Classes</dt><dd>BasicCol</dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#asCName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
+      <a id="asCName(colName:doric.CName):doric.NamedDoricColumn[T]"></a><a id="asCName(CName):NamedDoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/TransformationDoricColumn.html#asCName(colName:doric.CName):doric.NamedDoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit">asCName</span><span class="params">(<span name="colName">colName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Gives the column an alias.</p><div class="fullcomment"><div class="comment cmt"><p>Gives the column an alias.
+</p></div><dl class="paramcmts block"><dt class="param">colName</dt><dd class="cmt"><p>
+the alias to set the column.</p></dd><dt>returns</dt><dd class="cmt"><p>
+DoricColumn with the alias</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
             <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
@@ -945,9 +972,9 @@ This is the reverse of unbase64.
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
           </dd><dt>Definition Classes</dt><dd>BinaryOperationsSyntax</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#cast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
-      <a id="cast[To](implicitevidence$4:BasicCol.this.CastToT[To],implicitevidence$5:doric.types.SparkType[To]):doric.DoricColumn[To]"></a><a id="cast[To](Casting[T,To],SparkType[To]):DoricColumn[To]"></a>
+      <a id="cast[To](implicitevidence$3:BasicCol.this.CastToT[To],implicitevidence$4:doric.types.SparkType[To]):doric.DoricColumn[To]"></a><a id="cast[To](Casting[T,To],SparkType[To]):DoricColumn[To]"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#cast[To](implicitevidence$4:BasicCol.this.CastToT[To],implicitevidence$5:doric.types.SparkType[To]):doric.DoricColumn[To]" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#cast[To](implicitevidence$3:BasicCol.this.CastToT[To],implicitevidence$4:doric.types.SparkType[To]):doric.DoricColumn[To]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1535,9 +1562,9 @@ that time as a timestamp in the given time zone. For example, 'GMT+1' would yiel
             This conversion will take place only if T is Map[K, V] (T =:= <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="doric.syntax.MapColumns.MapColumnOps.K">K</span>, <span class="extype" name="doric.syntax.MapColumns.MapColumnOps.V">V</span>]).
           </dd><dt>Definition Classes</dt><dd>MapColumnOps</dd></dl></div>
     </li><li name="doric.syntax.DStructs.DStructOps#getChild" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Struct Type">
-      <a id="getChild[T](subColumnName:doric.CName)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):doric.DoricColumn[T]"></a><a id="getChild[T](CName)(SparkType[T],Location):DoricColumn[T]"></a>
+      <a id="getChild[T](subColumnName:String)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):doric.DoricColumn[T]"></a><a id="getChild[T](String)(SparkType[T],Location):DoricColumn[T]"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#getChild[T](subColumnName:doric.CName)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):doric.DoricColumn[T]" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#getChild[T](subColumnName:String)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):doric.DoricColumn[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1546,7 +1573,7 @@ that time as a timestamp in the given time zone. For example, 'GMT+1' would yiel
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">getChild</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="subColumnName">subColumnName: <a href="index.html#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.DStructs.DStructOps.getChild.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.DStructs.DStructOps.getChild.T">T</span>]</span>
+        <span class="implicit">getChild</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="subColumnName">subColumnName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.DStructs.DStructOps.getChild.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.DStructs.DStructOps.getChild.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Retreaves the child row of the Struct column</p><div class="fullcomment"><div class="comment cmt"><p>Retreaves the child row of the Struct column</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>
@@ -3060,9 +3087,9 @@ This is the reverse of base64.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
           </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html" class="extype" name="java.lang.IllegalArgumentException"><code>java.lang.IllegalArgumentException</code></a> if invalid pattern</p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#unsafeCast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
-      <a id="unsafeCast[To](implicitevidence$6:BasicCol.this.WCastToT[To],implicitevidence$7:doric.types.SparkType[To]):doric.DoricColumn[To]"></a><a id="unsafeCast[To](UnsafeCasting[T,To],SparkType[To]):DoricColumn[To]"></a>
+      <a id="unsafeCast[To](implicitevidence$5:BasicCol.this.WCastToT[To],implicitevidence$6:doric.types.SparkType[To]):doric.DoricColumn[To]"></a><a id="unsafeCast[To](UnsafeCasting[T,To],SparkType[To]):DoricColumn[To]"></a>
       <span class="permalink">
-      <a href="../doric/TransformationDoricColumn.html#unsafeCast[To](implicitevidence$6:BasicCol.this.WCastToT[To],implicitevidence$7:doric.types.SparkType[To]):doric.DoricColumn[To]" title="Permalink">
+      <a href="../doric/TransformationDoricColumn.html#unsafeCast[To](implicitevidence$5:BasicCol.this.WCastToT[To],implicitevidence$6:doric.types.SparkType[To]):doric.DoricColumn[To]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>

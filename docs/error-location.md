@@ -14,22 +14,23 @@ import doric._
 
 val df = List(("hi", 31)).toDF("str", "int")
 // df: org.apache.spark.sql.package.DataFrame = [str: string, int: int]
-val col1 = colInt(c"str")
+val col1 = colInt("str")
 // col1: NamedDoricColumn[Int] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@617c1ac2),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@3dbdcfa2),
 //   "str"
 // )
-val col2 = colString(c"int")
+val col2 = colString("int")
 // col2: NamedDoricColumn[String] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@566bea82),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@6c7d5f84),
 //   "int"
 // )
-val col3 = colInt(c"unknown")
+val col3 = colInt("unknown")
 // col3: NamedDoricColumn[Int] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@4b28d787),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@1c9c7f1e),
 //   "unknown"
 // )
 ```
+
 ```scala
 df.select(col1, col2, col3)
 // doric.sem.DoricMultiError: Found 3 errors in select
@@ -76,34 +77,35 @@ userDF.printSchema
 ```
 
 Us as developers want to abstract from this suffix and focus only in the unique part of the name:
+
 ```scala
-colString(c"name_user")
+colString("name_user")
 // res3: NamedDoricColumn[String] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@6d2c5e02),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@11786a43),
 //   "name_user"
 // )
-colInt(c"age_user")
+colInt("age_user")
 // res4: NamedDoricColumn[Int] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@474998da),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@11b097a1),
 //   "age_user"
 // )
-colString(c"city_user")
+colString("city_user")
 // res5: NamedDoricColumn[String] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1489/539123635@31b5db46),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1821601985@5a6029d9),
 //   "city_user"
 // )
 ```
 So we can make a function to simplify it:
 ```scala
 import doric.types.SparkType
-def user[T: SparkType](colName: CName): DoricColumn[T] = {
+def user[T: SparkType](colName: String): DoricColumn[T] = {
   col[T](colName + "_user")
 }
 ```
 In valid cases it works ok, bug when an error is produce because one of these references, it will point to the line `col[T](colName + "_user")` that is not the real problem.
 
 ```scala
-val userc = user[Int](c"name") //wrong type :S
+val userc = user[Int]("name") //wrong type :S
 userDF.select(userc)
 // doric.sem.DoricMultiError: Found 1 error in select
 //   The column with name 'name_user' is of type StringType and it was expected to be IntegerType
@@ -124,14 +126,15 @@ import doric._
 import doric.sem.Location
 import doric.types.SparkType
 
-def user[T: SparkType](colName: CName)(implicit location: Location): DoricColumn[T] = {
+def user[T: SparkType](colName: String)(implicit location: Location): DoricColumn[T] = {
   col[T](colName + "_user")
 }
 ```
 Now if we repeat the same error we will be pointed to the real problem
+
 ```scala
-val age = user[Int](c"name")
-val team = user[String](c"team")
+val age = user[Int]("name")
+val team = user[String]("team")
 userDF.select(age, team)
 // doric.sem.DoricMultiError: Found 2 errors in select
 //   The column with name 'name_user' is of type StringType and it was expected to be IntegerType
