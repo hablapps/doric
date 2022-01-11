@@ -13,7 +13,7 @@ case class DoricJoinColumn(elem: DoricJoin[Column]) {
 object LeftDF extends ColGetters[LeftDoricColumn] {
   @inline override protected def constructSide[T](
       column: Doric[Column],
-      colName: CName
+      colName: String
   ): LeftDoricColumn[T] =
     LeftDoricColumn(column)
 
@@ -24,7 +24,7 @@ object LeftDF extends ColGetters[LeftDoricColumn] {
 object RightDF extends ColGetters[RightDoricColumn] {
   @inline override protected def constructSide[T](
       column: Doric[Column],
-      colName: CName
+      colName: String
   ): RightDoricColumn[T] =
     RightDoricColumn(column)
 

@@ -62,26 +62,26 @@ Now we have a valid SparkType, we can use it for everything:
 * use it as a literal
 
 ```scala mdoc
-df.withColumn(c"user", User("John", "Doe").lit).show()
+df.withColumn("user", User("John", "Doe").lit).show()
 ```
 
 * select a column with type `User`
 
 ```scala mdoc
 import doric.implicitConversions.literalConversion
-df.withColumn(c"expectedUser", col[User](c"user") === User("John", "Doe"))
+df.withColumn("expectedUser", col[User]("user") === User("John", "Doe"))
 ```
 
 * collect the column and obtain a `User` in your driver
 
 ```scala mdoc
-println(df.collectCols(col[User](c"user")))
+println(df.collectCols(col[User]("user")))
 ```
 
 We have to always keep in mind that inside our dataframe, the user is represented as a String:
 
 ```scala mdoc
-df.select(User("John", "Doe").lit.as(c"user")).printSchema
+df.select(User("John", "Doe").lit.as("user")).printSchema
 ```
 
 So can be a good idea to create a casting to the string value, in this case spark will do nothing because it's already
@@ -100,7 +100,7 @@ implicit class DoricUserMethods(u: DoricColumn[User]) {
   def surname: StringColumn = u.cast[String].split("#").getIndex(1)
 }
 
-df.filter(col[User](c"user").name === "John")
+df.filter(col[User]("user").name === "John")
 ```
 
 The power for a much reusable and descriptive code at your service.
@@ -142,9 +142,9 @@ Now let's do some complex logic, increase a score depending on the state of the 
 
 ```scala mdoc
 val changeScore: IntegerColumn = when[Int]
-  .caseW(col[UserState](c"state") === Single, col[Int](c"score") * 2)
-  .caseW(col[UserState](c"state") === Relation, col[Int](c"score") * 10)
-  .otherwise(col[Int](c"score") * 12)
+  .caseW(col[UserState]("state") === Single, col[Int]("score") * 2)
+  .caseW(col[UserState]("state") === Relation, col[Int]("score") * 10)
+  .otherwise(col[Int]("score") * 12)
 ```
 
 This way we can make our code closer to scala syntax, but with all the power of Spark.
@@ -156,7 +156,7 @@ List(
   ("User2#Surname2", 2, 5),
   ("User3#Surname2", 3, 5)
 ).toDF("user", "state", "score")
-  .withColumn(c"newScore", changeScore)
+  .withColumn("newScore", changeScore)
   .show()
 ```
 
@@ -177,7 +177,7 @@ implicit def setLiteralSparkType[T: LiteralSparkType](implicit lst: SparkType[Se
 All set up, let's enjoy our new type
 
 ```scala mdoc
-val dfWithSet = df.select(Set("a", "b", "a", "c", "b").lit.as(c"mysetInSpark"))
+val dfWithSet = df.select(Set("a", "b", "a", "c", "b").lit.as("mysetInSpark"))
 dfWithSet.show
-println(dfWithSet.collectCols(col[Set[String]](c"mysetInSpark")).head)
+println(dfWithSet.collectCols(col[Set[String]]("mysetInSpark")).head)
 ```

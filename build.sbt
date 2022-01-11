@@ -11,6 +11,12 @@ ThisBuild / developers := List(
     "Alfonso Roa",
     "@saco_pepe",
     url("https://github.com/alfonsorr")
+  ),
+  Developer(
+    "AlfonsoRR",
+    "Eduardo Ruiz",
+    "",
+    url("https://github.com/eruizalo")
   )
 )
 
@@ -76,9 +82,9 @@ lazy val docs = project
       "org.apache.spark" %% "spark-sql" % sparkVersion
     ),
     mdocVariables := Map(
-      "VERSION"       -> version.value,
+      "VERSION"        -> version.value,
       "STABLE_VERSION" -> "0.0.1",
-      "SPARK_VERSION" -> sparkVersion
+      "SPARK_VERSION"  -> sparkVersion
     ),
     mdocExtraArguments := Seq(
       "--clean-target"

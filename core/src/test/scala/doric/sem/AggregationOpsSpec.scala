@@ -5,23 +5,23 @@ class AggregationOpsSpec extends DoricTestElements {
 
   import spark.implicits._
   describe("Aggregate") {
-    val str  = "str".cname
-    val str2 = "str2".cname
-    val num2 = "num2".cname
-    val num  = "num".cname
-    val sum1 = "sum".cname
-    val conc = "conc".cname
+    val str  = "str"
+    val str2 = "str2"
+    val num2 = "num2"
+    val num  = "num"
+    val sum1 = "sum"
+    val conc = "conc"
     val df =
       List((1, "5", 1), (3, "5", 2), (2, "3", 3))
-        .toDF(num.value, str.value, num2.value)
+        .toDF(num, str, num2)
 
     it("can use original spark aggregateFunctions") {
-      df.groupByCName(str)
+      df.groupBy(str)
         .agg(colInt(num).pipe(sum(_)) as sum1)
         .validateColumnType(colLong(sum1))
 
       assertThrows[DoricMultiError] {
-        df.groupByCName(str)
+        df.groupBy(str)
           .agg(colLong(num).pipe(sum(_)) as sum1)
       }
     }
@@ -63,12 +63,12 @@ class AggregationOpsSpec extends DoricTestElements {
     }
 
     it("pivot") {
-      val value1 = "1_first".cname
-      val str1   = ("4_" + sum1).cname
-      val str3   = ("1_" + sum1).cname
-      val firstC = "first".cname
-      val value2 = "4_first".cname
-      df.groupBy(concat(col(str), col(str)) as conc)
+      val value1 = "1_first"
+      val str1   = "4_" + sum1
+      val str3   = "1_" + sum1
+      val firstC = "first"
+      val value2 = "4_first"
+      df.groupBy(concat(str.cname, str.cname) as conc)
         .pivot(colInt(num2))(List(1, 4))
         .agg(
           col[Int](num).pipe(sum(_)) as sum1,

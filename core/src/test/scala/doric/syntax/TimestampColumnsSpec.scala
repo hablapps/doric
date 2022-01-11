@@ -1,13 +1,13 @@
 package doric
 package syntax
 
+import Equalities._
 import java.sql.{Date, Timestamp}
 import java.time.{LocalDate, LocalDateTime}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
 import org.apache.spark.sql.{functions => f}
-import Equalities._
 
 class TimestampColumnsSpec
     extends DoricTestElements
@@ -15,8 +15,6 @@ class TimestampColumnsSpec
     with Matchers {
 
   val now: LocalDateTime = LocalDateTime.now
-
-  import doric.implicitConversions.stringCname
 
   describe("currentTimestamp doric function") {
     import spark.implicits._
@@ -187,7 +185,7 @@ class TimestampColumnsSpec
 
     it("should throw an exception if malformed format") {
       intercept[java.lang.IllegalArgumentException] {
-        df.withColumn(c"test", colTimestamp("timestampCol").format("nnn".lit))
+        df.withColumn("test", colTimestamp("timestampCol").format("nnn".lit))
           .collect()
       }
     }

@@ -20,15 +20,15 @@ private[sem] trait TransformOps {
       *
       * @group Dataframe Transformation operation
       * @note
-      *   this method introduces a projection internally. Therefore, calling it
-      *   multiple times, for instance, via loops in order to add multiple
-      *   columns can generate big plans which can cause performance issues and
-      *   even `StackOverflowException`.
+      * this method introduces a projection internally. Therefore, calling it
+      * multiple times, for instance, via loops in order to add multiple
+      * columns can generate big plans which can cause performance issues and
+      * even `StackOverflowException`.
       */
-    def withColumn(colName: CName, col: DoricColumn[_]): DataFrame = {
+    def withColumn(colName: String, col: DoricColumn[_]): DataFrame = {
       col.elem
         .run(df.toDF())
-        .map(df.withColumn(colName.value, _))
+        .map(df.withColumn(colName, _))
         .returnOrThrow("withColumn")
     }
 
@@ -41,7 +41,7 @@ private[sem] trait TransformOps {
       *   tuples of name and column expression
       */
     def withColumns(
-        namesAndCols: (CName, DoricColumn[_])*
+        namesAndCols: (String, DoricColumn[_])*
     ): DataFrame = {
       if (namesAndCols.isEmpty) df.toDF
       else
@@ -49,7 +49,7 @@ private[sem] trait TransformOps {
           .traverse(_._2.elem)
           .run(df)
           .map(
-            DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1.value), _)
+            DataFrameExtras.withColumnsE(df, namesAndCols.map(_._1), _)
           )
           .returnOrThrow("withColumns")
     }
@@ -62,7 +62,7 @@ private[sem] trait TransformOps {
       *   tuples of name and column expression
       */
     def withColumns(
-        namesAndCols: Map[CName, DoricColumn[_]]
+        namesAndCols: Map[String, DoricColumn[_]]
     ): DataFrame = {
       if (namesAndCols.isEmpty) df.toDF
       else

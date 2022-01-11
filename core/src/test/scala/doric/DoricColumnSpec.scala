@@ -3,26 +3,26 @@ package doric
 import doric.sem.SparkErrorWrapper
 import doric.syntax.User
 import doric.types.SparkType
-
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
+
 import org.apache.spark.sql.{Encoder, Row, functions => f}
 
 class DoricColumnSpec extends DoricTestElements with EitherValues {
 
   import spark.implicits._
 
-  private val column = c"column"
+  private val column = "column"
 
   def testValue[T: SparkType: Encoder](example: T): Unit = {
-    val df = List(example).toDF(column.value)
+    val df = List(example).toDF(column)
 
     col[T](column).elem.run(df).toEither.value
   }
   def testValueNullable[T: SparkType](
       example: T
   )(implicit enc: Encoder[Option[T]]): Unit = {
-    val df = List(Some(example), None).toDF(column.value)
+    val df = List(Some(example), None).toDF(column)
     col[T](column).elem.run(df).toEither.value
   }
 
@@ -65,12 +65,12 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
     }
     it("works for DStruct") {
       val df =
-        List(((1, "hola"), 1)).toDF(column.value, "extra").selectCName(column)
+        List(((1, "hola"), 1)).toDF(column, "extra").select(column)
       col[Row](column).elem.run(df).toEither.value
 
       val df2 = List((Some((1, "hola")), 1), (None, 1))
-        .toDF(column.value, "extra")
-        .selectCName(column)
+        .toDF(column, "extra")
+        .select(column)
       col[Row](column).elem.run(df2).toEither.value
     }
     it("works for structs if accessed directly") {
@@ -78,17 +78,17 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
         .toDF("col", "delete")
         .select("col")
 
-      col[String](c"col.name").elem.run(df).toEither.value
-      col[Int](c"col.age").elem.run(df).toEither.value
+      col[String]("col.name").elem.run(df).toEither.value
+      col[Int]("col.age").elem.run(df).toEither.value
     }
     it("works for arrays if accessed directly an index") {
       val df = List((List("hola", "adios"), 1))
-        .toDF(column.value, "delete")
-        .selectCName(column)
+        .toDF(column, "delete")
+        .select(column)
 
-      col[String](column / c"0").elem.run(df).toEither.value
-      col[String](column / c"1").elem.run(df).toEither.value
-      col[String](column / c"2").elem.run(df).toEither.value
+      (column.cname / c"0")[String].elem.run(df).toEither.value
+      (column.cname / c"1")[String].elem.run(df).toEither.value
+      (column.cname / c"2")[String].elem.run(df).toEither.value
     }
   }
 

@@ -7,8 +7,8 @@ import org.scalatest.EitherValues
 
 class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
 
-  private val id          = "id".cname
-  private val otherColumn = "otherColumn".cname
+  private val id          = "id"
+  private val otherColumn = "otherColumn"
   private val left = spark
     .range(10)
     .toDF()
@@ -93,7 +93,7 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
     it("should prevent key ambiguity with innerJoinDropRightKey") {
       val resultDF = left.innerJoinKeepLeftKeys(right, colLong(id))
 
-      val keyAsString = "keyAsString".cname
+      val keyAsString = "keyAsString"
       resultDF.withColumn(keyAsString, colLong(id).cast[String])
       resultDF.schema.length shouldBe 3
     }
@@ -101,8 +101,8 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
     it("should prevent non key ambiguity using colFromDf") {
       val resultDF = left.innerJoinKeepLeftKeys(right, colLong(id))
 
-      val nonKeyColRight = "nonKeyColRight".cname
-      val nonKeyColLeft  = "nonKeyColLeft".cname
+      val nonKeyColRight = "nonKeyColRight"
+      val nonKeyColLeft  = "nonKeyColLeft"
       resultDF
         .withColumn(nonKeyColRight, colFromDF[String](otherColumn, right))
         .withColumn(nonKeyColLeft, colFromDF[String](otherColumn, left))

@@ -23,7 +23,7 @@ class WhenBuilderSpec
   import spark.implicits._
 
   describe("when builder") {
-    val whenResult = "whenResult".cname
+    val whenResult = "whenResult"
     it("works like a normal spark when") {
 
       val df = List((100, 1), (8, 1008), (2, 3))
@@ -36,7 +36,7 @@ class WhenBuilderSpec
             .otherwise(3)
         )
 
-      assertColEquality(df, whenResult.value, "whenExpected")
+      assertColEquality(df, whenResult, "whenExpected")
     }
 
     it("puts null otherwiseNull is selected in rest of cases") {
@@ -50,7 +50,7 @@ class WhenBuilderSpec
         )
 
       colInt("c1") === 100
-      assertColEquality(df, whenResult.value, "whenExpected")
+      assertColEquality(df, whenResult, "whenExpected")
     }
 
     it("case that only returns otherwise null") {
