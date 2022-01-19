@@ -1,15 +1,13 @@
 name: CI
 on:
-  push:
-    branches-ignore:
-      - main
-      - gh-pages
   pull_request:
     branches-ignore:
       - gh-pages
+  workflow_dispatch:
 
 jobs:
   build:
+    #if: github.event.pull_request.draft == false
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

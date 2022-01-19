@@ -1,9 +1,9 @@
 name: Publish temp site
 on:
   push:
-    branches-ignore:
-      - main
-      - gh-pages
+    branches:
+      - '*doc/*'
+  workflow_dispatch:
 
 jobs:
   publish:
