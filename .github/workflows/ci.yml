@@ -16,18 +16,31 @@ jobs:
       - uses: olafurpg/setup-scala@v13
       - name: Coursier cache
         uses: coursier/cache-action@v6
+      - name: Code & Doc changes filter
+        uses: dorny/paths-filter@v2.10.2
+        with:
+          filters: |
+            core:
+              - 'core/src/**'
+            doc:
+              - 'docs/**'
       - name: Code Format
+        if: steps.changes.outputs.core == 'true'
         run: sbt scalafmtCheckAll
       - name: Test & coverage
+        if: steps.changes.outputs.core == 'true'
         run: sbt coverage core/test coverageReport coverageAggregate
       - uses: codecov/codecov-action@v2
+        if: steps.changes.outputs.core == 'true'
         with:
           files: ./target/scala-2.12/scoverage-report/scoverage.xml
           fail_ci_if_error: true
           verbose: false
       - name: Check the microsite
+        if: steps.changes.outputs.core == 'true' || steps.changes.outputs.doc == 'true'
         run: sbt docs/mdoc
       - name: Check the scaladocs
+        if: steps.changes.outputs.core == 'true' || steps.changes.outputs.doc == 'true'
         run: sbt core/doc
       - name: Cleaning for cache
         run: |
