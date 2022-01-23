@@ -3,8 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.CollectionType
-
-import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.{Column, Row, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
@@ -14,8 +13,6 @@ private[syntax] trait ArrayColumns {
     * Concatenates multiple array columns together into a single column.
     *
     * @group Array Type
-    * @param col
-    *   the first array column, must be Arrays of the same type.
     * @param cols
     * the array columns, must be Arrays of the same type.
     * @tparam T
@@ -40,23 +37,14 @@ private[syntax] trait ArrayColumns {
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
 
   /**
+    * Creates a new list column. The input columns must all have the same data type.
+    *
     * @group Array Type
+    * @see org.apache.spark.sql.functions.array
+    * @todo scaladoc link (issue #135)
     */
   def list[T](cols: DoricColumn[T]*): DoricColumn[List[T]] =
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
-
-  /**
-    * Returns a merged array of structs in which the N-th struct contains all N-th values of input
-    * arrays.
-    *
-    * @group Array Type
-    * @see [[org.apache.spark.sql.functions.arrays_zip]]
-    */
-  def zipArrays[T](
-      col: ArrayColumn[T],
-      cols: ArrayColumn[T]*
-  ): ArrayColumn[DStruct] =
-    (col +: cols).toList.traverse(_.elem).map(f.arrays_zip(_: _*)).toDC
 
   /**
     * Extension methods for arrays
@@ -372,7 +360,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.array_union]]
       */
-    def union(cols: ArrayColumn[T]*): ArrayColumn[T] =
+    def union(cols: DoricColumn[F[T]]*): DoricColumn[F[T]] =
       (col +: cols).reduce((a, b) => {
         (a.elem, b.elem).mapN(f.array_union).toDC
       })
@@ -431,15 +419,6 @@ private[syntax] trait ArrayColumns {
     def explodeOuter: DoricColumn[T] = col.elem.map(f.explode_outer).toDC
 
     /**
-      * Creates a single array from an array of arrays. If a structure of nested arrays is deeper than
-      * two levels, only one level of nesting is removed.
-      *
-      * @group Array Type
-      * @see [[org.apache.spark.sql.functions.flatten]]
-      */
-    def flatten[B]: ArrayColumn[B] = col.elem.map(f.flatten).toDC
-
-    /**
       * Returns whether a predicate holds for every element in the array.
       * @example {{{
       *   df.select(colArray("i").forAll(x => x % 2 === 0))
@@ -461,7 +440,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.reverse]]
       */
-    def reverse: ArrayColumn[T] = reverseAbstract(col)
+    def reverse: DoricColumn[F[T]] = reverseAbstract(col)
 
     /**
       * Returns a random permutation of the given array.

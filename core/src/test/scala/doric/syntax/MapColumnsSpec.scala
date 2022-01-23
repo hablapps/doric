@@ -2,8 +2,7 @@ package doric
 package syntax
 
 import doric.implicitConversions._
-
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{Row, functions => f}
 
 class MapColumnsSpec extends DoricTestElements with MapColumns {
 
@@ -150,8 +149,6 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
     }
   }
 
-  // TODO explode function tests
-
   describe("size doric function") {
     import spark.implicits._
 
@@ -169,8 +166,6 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       )
     }
   }
-
-  // TODO mapEntries
 
   describe("filter doric function") {
     import spark.implicits._

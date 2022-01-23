@@ -289,7 +289,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the map column reference.
     */
-  def colMap[K: SparkType, V: SparkType](colName: CName)(implicit
+  def colMap[K: SparkType, V: SparkType](colName: String)(implicit
       location: Location
   ): F[Map[K, V]] =
     col[Map[K, V]](colName)
@@ -306,7 +306,7 @@ private[doric] trait ColGetters[F[_]] {
     * @return
     *   the map column reference.
     */
-  def colMapString[V: SparkType](colName: CName)(implicit
+  def colMapString[V: SparkType](colName: String)(implicit
       location: Location
   ): F[Map[String, V]] =
     col[Map[String, V]](colName)

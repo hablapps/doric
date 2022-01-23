@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 import org.apache.spark.sql.catalyst.expressions.{ElementAt, MapFilter, MapZipWith, TransformKeys, TransformValues}
-import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.{Column, Row, functions => f}
 import org.apache.spark.sql.functions.{map_keys, map_values}
 
 private[syntax] trait MapColumns {
@@ -126,25 +126,6 @@ private[syntax] trait MapColumns {
       elementAtAbstract(map, key)
 
     /**
-      * Creates a new row for each element in the given map column.
-      *
-      * @group Array Type
-      * @see [[org.apache.spark.sql.functions.explode]]
-      */
-    // TODO
-    def explode: DoricColumn[(K, V)] = map.elem.map(f.explode).toDC
-
-    /**
-      * Creates a new row for each element in the given map column.
-      * Unlike explode, if the map is null or empty then null is produced.
-      *
-      * @group Array Type
-      * @see [[org.apache.spark.sql.functions.explode_outer]]
-      */
-    // TODO
-    def explodeOuter: DoricColumn[(K, V)] = map.elem.map(f.explode_outer).toDC
-
-    /**
       * Returns length of map.
       *
       * The function returns null for null input if spark.sql.legacy.sizeOfNull is set to false or
@@ -155,15 +136,6 @@ private[syntax] trait MapColumns {
       * @see [[org.apache.spark.sql.functions.size]]
       */
     def size: IntegerColumn = map.elem.map(f.size).toDC
-
-    /**
-      * Returns an unordered array of all entries in the given map.
-      *
-      * @group Map Type
-      * @see [[org.apache.spark.sql.functions.map_entries]]
-      */
-    // TODO
-    def mapEntries: ArrayColumn[(K, V)] = map.elem.map(f.map_entries).toDC
 
     /**
       * Returns a map whose key-value pairs satisfy a predicate.

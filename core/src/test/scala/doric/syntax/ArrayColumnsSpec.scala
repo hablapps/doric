@@ -1,7 +1,6 @@
 package doric
 package syntax
 
-import doric.implicitConversions.stringCname
 import org.apache.spark.sql.{functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
@@ -176,26 +175,6 @@ class ArrayColumnsSpec
     }
   }
 
-  /* TODO No Encoder found for doric.DStruct
-  describe("zipArrays doric function") {
-    import spark.implicits._
-
-    it("should work as spark arrays_zip function") {
-      val df = List(
-        (Array("a"), Array("b")),
-        (Array("a"), null),
-        (null, Array("b")),
-        (null, null)
-      ).toDF("col1", "col2")
-
-      df.testColumns2("col1", "col2")(
-        (c1, c2) => zipArrays(colArrayString(c1), colArrayString(c2)),
-        (c1, c2) => f.arrays_zip(f.col(c1), f.col(c2)) /*,
-        List(Some(Array(("a", "b"))), None, None)*/
-      )
-    }
-  }*/
-
   describe("concatArrays doric function") {
     import spark.implicits._
 
@@ -211,6 +190,36 @@ class ArrayColumnsSpec
         (c1, c2) => concatArrays(colArrayString(c1), colArrayString(c2)),
         (c1, c2) => f.concat(f.col(c1), f.col(c2)),
         List(Some(Array("a", "b")), None, None, None)
+      )
+    }
+  }
+
+  describe("array doric function") {
+    import spark.implicits._
+
+    it("should work as spark array function") {
+      val df = List(("a", "b"))
+        .toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (c1, c2) => array(colString(c1), colString(c2)),
+        (c1, c2) => f.array(f.col(c1), f.col(c2)),
+        List(Some(Array("a", "b")))
+      )
+    }
+  }
+
+  describe("list doric function") {
+    import spark.implicits._
+
+    it("should work as spark array function as a list") {
+      val df = List(("a", "b"))
+        .toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (c1, c2) => list(colString(c1), colString(c2)),
+        (c1, c2) => f.array(f.col(c1), f.col(c2)),
+        List(Some(List("a", "b")))
       )
     }
   }
@@ -571,26 +580,6 @@ class ArrayColumnsSpec
     }
   }
 
-  describe("flatten doric function") {
-    import spark.implicits._
-
-    it("should work as spark flatten function") {
-      val df = List(
-        List(Array("a", "b", "c", "d"), Array("b", "a", "e")),
-        List(Array("a"), null),
-        List(null, Array("b")),
-        List(null, null)
-      ).toDF("col1")
-
-      // TODO Error SparkType array of arrays
-      /*df.testColumns("col1")(
-        c => colArray[Array[String]](c).flatten,
-        c => f.flatten(f.col(c)),
-        List(Some(Array("a", "b", "c", "d", "b", "a", "e")), None, None, None)
-      )*/
-    }
-  }
-
   describe("forAll doric function") {
     import spark.implicits._
 
@@ -644,7 +633,6 @@ class ArrayColumnsSpec
         null
       )
 
-      // TODO test chapucero
       def compare(a: List[Array[String]], b: List[Array[String]]): Unit = {
         a.size shouldBe b.size
         for (i <- a.indices) {
