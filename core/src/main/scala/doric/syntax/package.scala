@@ -18,7 +18,7 @@ package object syntax {
     * @tparam K type of "key" doric column to perform the search
     * @tparam V type of "value" doric column result
     */
-  @inline def elementAtAbstract[T, K, V](
+  @inline private[syntax] def elementAtAbstract[T, K, V](
       dc: DoricColumn[T],
       key: DoricColumn[K]
   ): DoricColumn[V] = {
@@ -37,20 +37,23 @@ package object syntax {
     * @param dc doric column to be reversed
     * @tparam T type of doric column (string or array)
     */
-  @inline def reverseAbstract[T](dc: DoricColumn[T]): DoricColumn[T] =
+  @inline private[syntax] def reverseAbstract[T](
+      dc: DoricColumn[T]
+  ): DoricColumn[T] =
     dc.elem.map(f.reverse).toDC
 
-  @inline def x[A]: DoricColumn[A] =
+  @inline private[syntax] def x[A]: DoricColumn[A] =
     DoricColumn.uncheckedTypeAndExistence[A](new Column(xarg))
-  @inline def y[A]: DoricColumn[A] =
+  @inline private[syntax] def y[A]: DoricColumn[A] =
     DoricColumn.uncheckedTypeAndExistence[A](new Column(yarg))
-  @inline def z[A]: DoricColumn[A] =
+  @inline private[syntax] def z[A]: DoricColumn[A] =
     DoricColumn.uncheckedTypeAndExistence[A](new Column(zarg))
 
-  @inline def lam1(e: Expression): LambdaFunction = LambdaFunction(e, Seq(xarg))
-  @inline def lam2(e: Expression): LambdaFunction =
+  @inline private[syntax] def lam1(e: Expression): LambdaFunction =
+    LambdaFunction(e, Seq(xarg))
+  @inline private[syntax] def lam2(e: Expression): LambdaFunction =
     LambdaFunction(e, Seq(xarg, yarg))
-  @inline def lam3(e: Expression): LambdaFunction =
+  @inline private[syntax] def lam3(e: Expression): LambdaFunction =
     LambdaFunction(e, Seq(xarg, yarg, zarg))
 
   private val xarg = UnresolvedNamedLambdaVariable(Seq("x"))
