@@ -15,6 +15,7 @@ private[syntax] trait DateColumns {
     * All calls of current_date within the same query return the same value.
     *
     * @group Date Type
+    * @see [[org.apache.spark.sql.functions.current_date]]
     */
   def currentDate(): DateColumn = f.current_date().asDoric[Date]
 
@@ -32,6 +33,7 @@ private[syntax] trait DateColumns {
       *   Date column after adding months
       * @note
       *   Timestamp columns will be truncated to Date column
+      * @see [[org.apache.spark.sql.functions.add_months(startDate:org\.apache\.spark\.sql\.Column,numMonths:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.add_months]]
       */
     def addMonths(nMonths: IntegerColumn): DateColumn =
       (column.elem, nMonths.elem).mapN(f.add_months).toDC
@@ -44,6 +46,7 @@ private[syntax] trait DateColumns {
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.date_add(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_add]]
       */
     def addDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_add).toDC
@@ -59,6 +62,7 @@ private[syntax] trait DateColumns {
       *   Use specialized functions like 'year' whenever possible as they benefit from a
       *   specialized implementation.
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.date_format]]
       */
     def format(format: StringColumn): StringColumn =
       (column.elem, format.elem)
@@ -75,6 +79,7 @@ private[syntax] trait DateColumns {
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.date_sub(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_sub]]
       */
     def subDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem).mapN(f.date_sub).toDC
@@ -85,6 +90,7 @@ private[syntax] trait DateColumns {
       * @param dateCol
       *   A Date or Timestamp column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.datediff]]
       */
     def diff(dateCol: DoricColumn[T]): IntegerColumn =
       (column.elem, dateCol.elem)
@@ -95,6 +101,7 @@ private[syntax] trait DateColumns {
       * Extracts the day of the month as an integer from a given date.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.dayofmonth]]
       */
     def dayOfMonth: IntegerColumn = column.elem.map(f.dayofmonth).toDC
 
@@ -103,6 +110,7 @@ private[syntax] trait DateColumns {
       * Ranges from 1 for a Sunday through to 7 for a Saturday
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.dayofweek]]
       */
     def dayOfWeek: IntegerColumn = column.elem.map(f.dayofweek).toDC
 
@@ -110,6 +118,7 @@ private[syntax] trait DateColumns {
       * Extracts the day of the year as an integer from a given date.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.dayofyear]]
       */
     def dayOfYear: IntegerColumn = column.elem.map(f.dayofyear).toDC
 
@@ -117,6 +126,7 @@ private[syntax] trait DateColumns {
       * Sets the moment to the last day of the same month.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.last_day]]
       */
     def endOfMonth: DateColumn = lastDayOfMonth
 
@@ -126,6 +136,7 @@ private[syntax] trait DateColumns {
       * month in July 2015.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.last_day]]
       */
     def lastDayOfMonth: DateColumn = column.elem.map(f.last_day).toDC
 
@@ -133,6 +144,7 @@ private[syntax] trait DateColumns {
       * Extracts the month as an integer from a given date.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.month]]
       */
     def month: IntegerColumn = column.elem.map(f.month).toDC
 
@@ -143,7 +155,7 @@ private[syntax] trait DateColumns {
       * of their respective months. Otherwise, the difference is calculated assuming 31 days per month.
       *
       * For example:
-      * {{{
+      * @example {{{
       * Date("2017-11-14").monthsBetween(Date("2017-07-14"))                              // returns 4.0
       * Date("2017-01-01").monthsBetween(Date("2017-01-10"))                              // returns 0.29032258
       * Timestamp("2017-06-01 00:00:00").monthsBetween(Timestamp("2017-06-16 12:00:00"))  // returns -0.5
@@ -152,6 +164,7 @@ private[syntax] trait DateColumns {
       * @param dateCol
       *   Date or Timestamp column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.months_between(end:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.months_between]]
       */
     def monthsBetween(dateCol: DoricColumn[T]): DoubleColumn =
       (column.elem, dateCol.elem).mapN(f.months_between).toDC
@@ -165,6 +178,7 @@ private[syntax] trait DateColumns {
       *   If `roundOff` is set to true, the result is rounded off to 8 digits;
       *   it is not rounded otherwise.
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.months_between(end:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,roundOff:* org.apache.spark.sql.functions.months_between]]
       */
     def monthsBetween(
         dateCol: DoricColumn[T],
@@ -180,14 +194,15 @@ private[syntax] trait DateColumns {
       * Returns the first date which is later than the value of the `date` column that is on the
       * specified day of the week.
       *
-      * For example, `Date("2015-07-27").nextDay("Sunday")` returns Date("2015-08-02") because
-      * that is the first Sunday after 2015-07-27.
+      * @example For example, `Date("2015-07-27").nextDay("Sunday")` returns Date("2015-08-02")
+      * because that is the first Sunday after 2015-07-27.
       *
       * @param dayOfWeek
       *   Case insensitive, and accepts: "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.next_day]]
       */
     def nextDay(dayOfWeek: StringColumn): DateColumn =
       (column.elem, dayOfWeek.elem)
@@ -200,28 +215,30 @@ private[syntax] trait DateColumns {
       * Extracts the quarter as an integer from a given date.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.quarter]]
       */
     def quarter: IntegerColumn = column.elem.map(f.quarter).toDC
 
     /**
       * Returns date truncated to the unit specified by the format.
       *
-      * For example, `Timestamp("2018-11-19 12:01:19").trunc("year")` returns Date("2018-01-01")
+      * @example For example, `Timestamp("2018-11-19 12:01:19").trunc("year")` returns Date("2018-01-01")
       *
       * @param format
-      *   if date:
-      *     * 'year', 'yyyy', 'yy' to truncate by year,
-      *     * 'month', 'mon', 'mm' to truncate by month
-      *     Other options are: 'week', 'quarter'
-      *   if timestamp:
-      *     * 'year', 'yyyy', 'yy' to truncate by year,
-      *     * 'month', 'mon', 'mm' to truncate by month,
-      *     * 'day', 'dd' to truncate by day,
-      *     Other options are:
-      *     * 'microsecond', 'millisecond', 'second', 'minute', 'hour', 'week', 'quarter'
+      *   - if <b>date</b>:
+      *     - 'year', 'yyyy', 'yy' to truncate by year,
+      *     - 'month', 'mon', 'mm' to truncate by month
+      *     - __Other options are__: 'week', 'quarter'
+      *   - if <b>timestamp</b>:
+      *     - 'year', 'yyyy', 'yy' to truncate by year,
+      *     - 'month', 'mon', 'mm' to truncate by month,
+      *     - 'day', 'dd' to truncate by day,
+      *     - __Other options are__:  'microsecond', 'millisecond', 'second', 'minute', 'hour', 'week', 'quarter'
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.trunc]]
+      * @see [[org.apache.spark.sql.functions.date_trunc]]
       */
     def truncate(format: StringColumn): DoricColumn[T] =
       (column.elem, format.elem)
@@ -243,6 +260,7 @@ private[syntax] trait DateColumns {
       *   A long
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.unix_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.unix_timestamp]]
       */
     def unixTimestamp: LongColumn = column.elem.map(f.unix_timestamp).toDC
 
@@ -253,6 +271,7 @@ private[syntax] trait DateColumns {
       * as defined by ISO 8601
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.weekofyear]]
       */
     def weekOfYear: IntegerColumn = column.elem.map(f.weekofyear).toDC
 
@@ -260,6 +279,7 @@ private[syntax] trait DateColumns {
       * Extracts the year as an integer from a given date.
       *
       * @group Date & Timestamp Type
+      * @see [[org.apache.spark.sql.functions.year]]
       */
     def year: IntegerColumn = column.elem.map(f.year).toDC
 
@@ -267,6 +287,7 @@ private[syntax] trait DateColumns {
       * Transform date to timestamp
       *
       * @group Date Type
+      * @see [[org.apache.spark.sql.functions.to_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.to_timestamp]]
       */
     def toTimestamp: TimestampColumn = column.elem.map(f.to_timestamp).toDC
 
@@ -274,6 +295,7 @@ private[syntax] trait DateColumns {
       * Transform date to Instant
       *
       * @group Date Type
+      * @see [[org.apache.spark.sql.functions.to_timestamp(s:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.to_timestamp]]
       */
     def toInstant: InstantColumn = column.elem.map(f.to_timestamp).toDC
   }
