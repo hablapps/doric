@@ -3674,13 +3674,7 @@ so we can run aggregation on them.</p><p>This is a variant of cube that can only
               
         </dd><div class="block">Example:
                <ol><li class="cmt"><p></p><pre><span class="cmt">// Compute the average for all numeric columns cubed by department and group.</span>
-ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
-
-<span class="cmt">// Compute the max age and average salary, cubed by department and gender.</span>
-ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
-  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
-  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
-))</pre></li></ol>
+ds.cube(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()</pre></li></ol>
             </div><dt>See also</dt><dd><span class="cmt"><p><a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">doric.doc.DRelationalGroupedDataset</a> for all the available aggregate functions.</p></span><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#cube(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.cube</a></p></span></dd></dl></div>
     </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#cube" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
       <a id="cube(cols:doric.DoricColumn[_]*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="cube(DoricColumn[_]*):RelationalGroupedDataset"></a>
@@ -3837,14 +3831,8 @@ so we can run aggregation on them.</p><p>This is a variant of rollup that can on
               
         </dd><div class="block">Example:
                <ol><li class="cmt"><p></p><pre><span class="cmt">// Compute the average for all numeric columns rolled up by department and group.</span>
-ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()
-
-<span class="cmt">// Compute the max age and average salary, rolled up by department and gender.</span>
-ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"gender"</span>.cname).agg(<span class="std">Map</span>(
-  <span class="lit">"salary"</span> -&gt; <span class="lit">"avg"</span>,
-  <span class="lit">"age"</span> -&gt; <span class="lit">"max"</span>
-))</pre></li></ol>
-            </div><dt>To do</dt><dd><span class="cmt"><p>this example is not from doric</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">doric.doc.DRelationalGroupedDataset</a> for all the available aggregate functions.</p></span><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#rollup(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.rollup</a></p></span></dd></dl></div>
+ds.rollup(<span class="lit">"department"</span>.cname, <span class="lit">"group"</span>.cname).avg()</pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="DRelationalGroupedDataset.html" class="extype" name="doric.doc.DRelationalGroupedDataset">doric.doc.DRelationalGroupedDataset</a> for all the available aggregate functions.</p></span><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/Dataset.html#rollup(col1:String,cols:String*):org.apache.spark.sql.RelationalGroupedDataset" class="extype" name="org.apache.spark.sql.Dataset">org.apache.spark.sql.Dataset.rollup</a></p></span></dd></dl></div>
     </li><li name="doric.sem.AggregationOps.DataframeAggSyntax#rollup" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Group Dataframe operation">
       <a id="rollup(cols:doric.DoricColumn[_]*):org.apache.spark.sql.RelationalGroupedDataset"></a><a id="rollup(DoricColumn[_]*):RelationalGroupedDataset"></a>
       <span class="permalink">

@@ -18,12 +18,12 @@ import doric._
 
 val colFromDF: NamedDoricColumn[String] = col[String]("user")
 // colFromDF: NamedDoricColumn[String] = NamedDoricColumn(
-//   Kleisli(doric.types.SparkType$$Lambda$1471/1605170188@6206b4a7),
+//   Kleisli(doric.types.SparkType$$Lambda$1471/1433818233@5d14e99e),
 //   "user"
 // )
 val colWithAlias: NamedDoricColumn[Int] = col[Int]("int1") + col[Int]("int2") as "newVal"
 // colWithAlias: NamedDoricColumn[Int] = NamedDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$1475/2107284848@19002b34),
+//   Kleisli(cats.data.Kleisli$$Lambda$1475/618674810@783b3aa0),
 //   "newVal"
 // )
 

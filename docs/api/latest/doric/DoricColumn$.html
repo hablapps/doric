@@ -211,6 +211,10 @@
                         <a href="DoricJoinColumn.html" title="">DoricJoinColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="class" href="IntegerOperationsSyntax.html" title=""></a>
+                        <a href="IntegerOperationsSyntax.html" title="">IntegerOperationsSyntax</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="JoinSideDoricColumn.html" title=""></a>
                         <a href="JoinSideDoricColumn.html" title="">JoinSideDoricColumn</a>
                       </li><li class="current-entities indented1">
@@ -661,9 +665,9 @@ the name of the column to find.</p></dd><dt class="param">location</dt><dd class
 error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
 the float column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colFromDF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$3:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a><a id="colFromDF[T](String,Dataset[_])(SparkType[T],Location):NamedDoricColumn[T]"></a>
+      <a id="colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$6:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a><a id="colFromDF[T](String,Dataset[_])(SparkType[T],Location):NamedDoricColumn[T]"></a>
       <span class="permalink">
-      <a href="../doric/DoricColumn$.html#colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$3:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]" title="Permalink">
+      <a href="../doric/DoricColumn$.html#colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$6:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -763,6 +767,49 @@ the LocalDate column reference</p></dd></dl><dl class="attributes block"> <dt>De
 the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
 error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
 the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colMap[K,V](colName:String)(implicitevidence$3:doric.types.SparkType[K],implicitevidence$4:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]"></a><a id="colMap[K,V](String)(SparkType[K],SparkType[V],Location):NamedDoricColumn[Map[K,V]]"></a>
+      <span class="permalink">
+      <a href="../doric/DoricColumn$.html#colMap[K,V](colName:String)(implicitevidence$3:doric.types.SparkType[K],implicitevidence$4:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colMap</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMap.K">K</span>]</span>, <span name="arg1">arg1: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMap.V">V</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="doric.syntax.ColGetters.colMap.K">K</span>, <span class="extype" name="doric.syntax.ColGetters.colMap.V">V</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of map type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of map type.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>
+  the type of the keys of the map.</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>
+  the type of the values of the map.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the map column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
+    </li><li name="doric.syntax.ColGetters#colMapString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colMapString[V](colName:String)(implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]"></a><a id="colMapString[V](String)(SparkType[V],Location):NamedDoricColumn[Map[String,V]]"></a>
+      <span class="permalink">
+      <a href="../doric/DoricColumn$.html#colMapString[V](colName:String)(implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colMapString</span><span class="tparams">[<span name="V">V</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMapString.V">V</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="doric.syntax.ColGetters.colMapString.V">V</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of map type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of map type.
+</p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>
+  the type of the values of the map.</p></dd><dt class="param">colName</dt><dd class="cmt"><p>
+  the name of the column to find.</p></dd><dt class="param">location</dt><dd class="cmt"><p>
+  error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the map column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colNull" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="colNull(colName:String)(implicitlocation:doric.sem.Location):F[Null]"></a><a id="colNull(String)(Location):NamedDoricColumn[Null]"></a>
       <span class="permalink">
