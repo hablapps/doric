@@ -1341,7 +1341,7 @@ is null and b is not null, or c if both a and b are null but c is not
 null.
 </p></div><dl class="paramcmts block"><dt class="param">cols</dt><dd class="cmt"><p>
   the DoricColumns to coalesce</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the first column that is not null, or null if all inputs are null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd></dl></div>
+  the first column that is not null, or null if all inputs are null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#coalesce(e:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.coalesce</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ColGetters#col" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="col[T](colName:String)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a><a id="col[T](String)(SparkType[T],Location):NamedDoricColumn[T]"></a>
       <span class="permalink">
@@ -1812,7 +1812,7 @@ on the order of the rows which may be non-deterministic after a shuffle.</p></sp
 </p></div><dl class="paramcmts block"><dt class="param">cols</dt><dd class="cmt"><p>
   the String DoricColumns to concatenate</p></dd><dt>returns</dt><dd class="cmt"><p>
   a reference of a single DoricColumn with all strings concatenated. If at
-  least one is null will return null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd></dl></div>
+  least one is null will return null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#concat(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.concat</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ArrayColumns#concatArrays" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
       <a id="concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$1:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]"></a><a id="concatArrays[T,F[_]](DoricColumn[F[T]]*)(CollectionType[F]):DoricColumn[F[T]]"></a>
       <span class="permalink">
@@ -2036,7 +2036,7 @@ using the given separator.
       
       <p class="shortcomment cmt">Returns the current date at the start of query evaluation as a date column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current date at the start of query evaluation as a date column.
 All calls of current_date within the same query return the same value.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateColumns</dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#current_date():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.current_date</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.TimestampColumns#currentTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
       <a id="currentTimestamp():doric.TimestampColumn"></a><a id="currentTimestamp():TimestampColumn"></a>
       <span class="permalink">
@@ -2054,7 +2054,7 @@ All calls of current_date within the same query return the same value.
       
       <p class="shortcomment cmt">Returns the current timestamp at the start of query evaluation as a timestamp column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current timestamp at the start of query evaluation as a timestamp column.
 All calls of current_timestamp within the same query return the same value.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>TimestampColumns</dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>TimestampColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#current_timestamp():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.current_timestamp</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#first" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Aggregation Any Type">
       <a id="first[T](col:doric.DoricColumn[T],ignoreNulls:Boolean):doric.DoricColumn[T]"></a><a id="first[T](DoricColumn[T],Boolean):DoricColumn[T]"></a>
       <span class="permalink">
@@ -2115,7 +2115,7 @@ column.
   Printf format</p></dd><dt class="param">arguments</dt><dd class="cmt"><p>
   the String DoricColumns to format</p></dd><dt>returns</dt><dd class="cmt"><p>
   Formats the arguments in printf-style and returns the result as a string
-  column.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd></dl></div>
+  column.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#format_string(format:%3C?%3E,arguments:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.format_string</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns#greatest" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="greatest[T](col:doric.DoricColumn[T],cols:doric.DoricColumn[T]*):doric.DoricColumn[T]"></a><a id="greatest[T](DoricColumn[T],DoricColumn[T]*):DoricColumn[T]"></a>
       <span class="permalink">
@@ -2230,7 +2230,7 @@ grouping columns).</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a h
       </span>
       
       <p class="shortcomment cmt">Calculates the hash code of given columns, and returns the result as an integer column.</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the hash code of given columns, and returns the result as an integer column.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#hash(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.hash</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.StringColumns#inputFileName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="inputFileName():doric.StringColumn"></a><a id="inputFileName():StringColumn"></a>
       <span class="permalink">
@@ -2977,7 +2977,7 @@ the standard normal distribution.
       <p class="shortcomment cmt">Calculates the hash code of given columns using the 64-bit
 variant of the xxHash algorithm, and returns the result as a long column.</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the hash code of given columns using the 64-bit
 variant of the xxHash algorithm, and returns the result as a long column.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>CommonColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.1.2/api/scala/org/apache/spark/sql/functions$.html#xxhash64(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.xxhash64</a></p></span></dd></dl></div>
     </li><li name="doric.CName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="CName"></a><a id="CName:CName"></a>
       <span class="permalink">
