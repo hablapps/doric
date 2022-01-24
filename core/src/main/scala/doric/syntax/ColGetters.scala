@@ -276,6 +276,42 @@ private[doric] trait ColGetters[F[_]] {
     col[Row](colName)
 
   /**
+    * Retrieves a column with the provided name expecting it to be of map type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @tparam K
+    *   the type of the keys of the map.
+    * @tparam V
+    *   the type of the values of the map.
+    * @return
+    *   the map column reference.
+    */
+  def colMap[K: SparkType, V: SparkType](colName: String)(implicit
+      location: Location
+  ): F[Map[K, V]] =
+    col[Map[K, V]](colName)
+
+  /**
+    * Retrieves a column with the provided name expecting it to be of map type.
+    *
+    * @param colName
+    *   the name of the column to find.
+    * @param location
+    *   error location.
+    * @tparam V
+    *   the type of the values of the map.
+    * @return
+    *   the map column reference.
+    */
+  def colMapString[V: SparkType](colName: String)(implicit
+      location: Location
+  ): F[Map[String, V]] =
+    col[Map[String, V]](colName)
+
+  /**
     * Retrieves a column of the provided dataframe. Useful to prevent column
     * ambiguity errors.
     *

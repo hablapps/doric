@@ -19,7 +19,7 @@ jobs:
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-      - name: Test & coverage # TODO running tests twice
+      - name: Test & coverage
         run: sbt coverage core/test coverageReport coverageAggregate
       - uses: codecov/codecov-action@v2
         with:

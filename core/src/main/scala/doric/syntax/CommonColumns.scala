@@ -4,7 +4,7 @@ package syntax
 import cats.implicits._
 import doric.sem.Location
 import doric.types.{Casting, SparkType, UnsafeCasting}
-
+import org.apache.spark.sql.catalyst.expressions.ArrayRepeat
 import org.apache.spark.sql.{Column, functions => f}
 
 private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
@@ -203,6 +203,20 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       *   Boolean DoricColumn
       */
     def isNotNull: BooleanColumn = column.elem.map(_.isNotNull).toDC
+
+    /**
+      * Creates an array containing the left argument repeated the number of times given by the
+      * right argument.
+      *
+      * @group All Types
+      * @see [[org.apache.spark.sql.functions.array_repeat(left* org.apache.spark.sql.functions.array_repeat]]
+      */
+    def repeatArray(times: IntegerColumn): ArrayColumn[T] =
+      (column.elem, times.elem)
+        .mapN((c1, c2) => {
+          new Column(ArrayRepeat(c1.expr, c2.expr))
+        })
+        .toDC
 
   }
 

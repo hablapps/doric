@@ -55,12 +55,6 @@ private[sem] trait AggregationOps
       * @example {{{
       *   // Compute the average for all numeric columns cubed by department and group.
       *   ds.cube("department".cname, "group".cname).avg()
-      *
-      *   // Compute the max age and average salary, cubed by department and gender.
-      *   ds.cube("department".cname, "gender".cname).agg(Map(
-      *     "salary" -> "avg",
-      *     "age" -> "max"
-      *   ))
       * }}}
       * @see [[doric.doc.DRelationalGroupedDataset]] for all the available aggregate functions.
       * @see [[org.apache.spark.sql.Dataset.cube(col1:* org.apache.spark.sql.Dataset.cube]]
@@ -91,14 +85,7 @@ private[sem] trait AggregationOps
       * @example {{{
       *   // Compute the average for all numeric columns rolled up by department and group.
       *   ds.rollup("department".cname, "group".cname).avg()
-      *
-      *   // Compute the max age and average salary, rolled up by department and gender.
-      *   ds.rollup("department".cname, "gender".cname).agg(Map(
-      *     "salary" -> "avg",
-      *     "age" -> "max"
-      *   ))
       * }}}
-      * @todo this example is not from doric
       * @see [[doric.doc.DRelationalGroupedDataset]] for all the available aggregate functions.
       * @see [[org.apache.spark.sql.Dataset.rollup(col1:* org.apache.spark.sql.Dataset.rollup]]
       * @group Group Dataframe operation

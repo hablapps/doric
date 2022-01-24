@@ -219,4 +219,28 @@ class BinaryColumnsSpec
     }
   }
 
+  describe("concatBinary doric function") {
+    import spark.implicits._
+
+    it("should work as spark concat function") {
+      val df = List(
+        (Array[Byte](1, 2, 3, 4, 5), Array[Byte](6, 7)),
+        (Array[Byte](1, 2, 3, 4, 5), null),
+        (null, Array[Byte](1, 2, 3, 4, 5)),
+        (null, null)
+      ).toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (c1, c2) => concatBinary(colBinary(c1), colBinary(c2)),
+        (c1, c2) => f.concat(f.col(c1), f.col(c2)),
+        List(
+          Some(Array[Byte](1, 2, 3, 4, 5, 6, 7)),
+          None,
+          None,
+          None
+        )
+      )
+    }
+  }
+
 }
