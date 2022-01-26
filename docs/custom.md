@@ -156,7 +156,7 @@ val changeScore: IntegerColumn = when[Int]
   .caseW(col[UserState]("state") === Relation, col[Int]("score") * 10)
   .otherwise(col[Int]("score") * 12)
 // changeScore: IntegerColumn = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$1475/160387210@b15da69)
+//   Kleisli(cats.data.Kleisli$$Lambda$1475/618674810@b15da69)
 // )
 ```
 
