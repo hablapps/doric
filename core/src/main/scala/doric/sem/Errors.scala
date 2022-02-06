@@ -78,7 +78,7 @@ case class ColumnMultyTypeError(
 
   override def message: String =
     s"The matched column with name '$columnName' is of type $foundType and it was expected to be one of ${expectedTypes
-      .mkString("[", ", ", "]")}"
+        .mkString("[", ", ", "]")}"
 }
 
 case class ColumnTypeError(
@@ -101,7 +101,7 @@ case class ChildColumnNotFound(
 ) extends DoricSingleError(None) {
   override def message: String =
     s"No such struct field $columnName among nested columns ${validColumns
-      .mkString("(", ", ", ")")}"
+        .mkString("(", ", ", ")")}"
 }
 
 case class SparkErrorWrapper(sparkCause: Throwable)(implicit
