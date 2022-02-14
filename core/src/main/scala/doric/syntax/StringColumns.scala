@@ -623,20 +623,5 @@ private[syntax] trait StringColumns {
           new Column(new ParseToTimestamp(str.expr, tsFormat.expr))
         )
         .toDC
-
-    /**
-      * ********************************************************
-      *                     MISC FUNCTIONS
-      * ********************************************************
-      */
-
-    /**
-      * Throws an exception with the provided error message.
-      *
-      * @throws java.lang.RuntimeException with the error message
-      * @group String Type
-      * @see [[org.apache.spark.sql.functions.raise_error]]
-      */
-    def raiseError: NullColumn = s.elem.map(f.raise_error).toDC
   }
 }

@@ -7,7 +7,6 @@ import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
 import org.apache.spark.sql.{functions => f}
-import org.apache.spark.sql.types.NullType
 
 class StringColumnsSpec
     extends DoricTestElements
@@ -843,28 +842,6 @@ class StringColumnsSpec
     }
   }
 
-  describe("raiseError doric function") {
-    import spark.implicits._
-
-    val df = List("this is an error").toDF("errorMsg")
-
-    it("should work as spark raise_error function") {
-      import java.lang.{RuntimeException => exception}
-
-      val doricErr = intercept[exception] {
-        val res = df.select(colString("errorMsg").raiseError)
-
-        res.schema.head.dataType shouldBe NullType
-        res.collect()
-      }
-      val sparkErr = intercept[exception] {
-        df.select(f.raise_error(f.col("errorMsg"))).collect()
-      }
-
-      doricErr.getMessage shouldBe sparkErr.getMessage
-    }
-  }
-
   describe("encode doric function") {
     import spark.implicits._
 
@@ -929,10 +906,13 @@ class StringColumnsSpec
     }
 
     it("should fail if malformed format") {
-      intercept[java.lang.IllegalArgumentException](
-        df.select(colString("dateCol").unixTimestamp("yabcd".lit))
-          .collect()
-      )
+
+      if (spark.version.take(3) > "3.0") {
+        intercept[java.lang.IllegalArgumentException](
+          df.select(colString("dateCol").unixTimestamp("yabcd".lit))
+            .collect()
+        )
+      }
     }
   }
 

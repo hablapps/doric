@@ -4,8 +4,8 @@ package syntax
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
-import org.apache.spark.sql.Column
-import org.apache.spark.sql.{functions => f}
+
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime, Rand, Randn}
 
 private[syntax] trait NumericColumns {
@@ -14,7 +14,7 @@ private[syntax] trait NumericColumns {
     * Returns the current Unix timestamp (in seconds) as a long.
     *
     * @note All calls of `unix_timestamp` within the same query return the same value
-    * (i.e. the current timestamp is calculated at the start of query evaluation).
+    *       (i.e. the current timestamp is calculated at the start of query evaluation).
     *
     * @group Numeric Type
     * @see [[org.apache.spark.sql.functions.unix_timestamp()* org.apache.spark.sql.functions.unix_timestamp]]
@@ -169,15 +169,6 @@ private[syntax] trait NumericColumns {
           new Column(FormatNumber(c.expr, d.expr))
         })
         .toDC
-
-    /**
-      * Creates timestamp from the number of seconds since UTC epoch.
-      *
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.timestamp_seconds]]
-      */
-    def timestampSeconds: TimestampColumn =
-      column.elem.map(f.timestamp_seconds).toDC
 
     /**
       * Checks if the value of the column is not a number

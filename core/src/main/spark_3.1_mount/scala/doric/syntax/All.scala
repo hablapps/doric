@@ -18,3 +18,7 @@ private[doric] trait All
     with CNameOps
     with BinaryColumns
     with Interpolators
+    with AggregationColumns31
+    with BooleanColumns31
+    with NumericColumns31
+    with StringColumns31
