@@ -9,6 +9,7 @@ permalink: docs/
 __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
+![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)
 
 _Sbt_
 ```scala
