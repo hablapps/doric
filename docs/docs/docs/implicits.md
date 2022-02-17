@@ -91,7 +91,7 @@ thus choosing to apply no conversion
 Let's see what happens:
 
 ```scala mdoc
-dfEq.show
+dfEq.withColumn("eq", f.col("int") === f.col("str")).show
 ```
 
 Option 3 wins, but you can only learn this by trial and error. With doric, you can depart from all this magic and 
