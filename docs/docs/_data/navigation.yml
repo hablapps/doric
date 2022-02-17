@@ -9,7 +9,7 @@ docs:
       - title: "Doric validations"
         url: /docs/validations/
       - title: "Error reporting"
-        url: /docs/errors
+        url: /docs/errors/
       - title: "Modularity"
         url: /docs/modularity/
       #- title: "Doric column ADT"
