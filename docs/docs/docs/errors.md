@@ -1,6 +1,6 @@
 ---
 title: Doric Documentation
-permalink: docs/validations/
+permalink: docs/errors/
 ---
 
 ```scala mdoc:invisible
