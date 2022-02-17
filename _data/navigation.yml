@@ -2,20 +2,22 @@ docs:
   - title: Learn Doric
     url: /docs/
     children:
-      - title: "Installation"
-        url: /docs/installation/
-      - title: "Introduction"
+      - title: "Quick start"
         url: /docs/
-      - title: "Typed Columns"
-        url: /docs/typed/
-      - title: "Doric column ADT"
-        url: /docs/adt-columns/
-      - title: "Error location"
+      - title: "Syntactic sugar"
+        url: /docs/syntax/
+      - title: "Doric validations"
+        url: /docs/validations/
+      - title: "Error reporting"
         url: /docs/errors/
-      - title: Advance API elements
-        url: /docs/advanced
-      - title: "Custom types"
-        url: /docs/custom/
+      - title: "Modularity"
+        url: /docs/modularity/
+      #- title: "Doric column ADT"
+      #  url: /docs/adt-columns/
+      #- title: Advance API elements
+      #  url: /docs/advanced
+      #- title: "Custom types"
+      #  url: /docs/custom/
 
 main:
   - title: "Documentation"
