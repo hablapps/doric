@@ -1,5 +1,7 @@
 import sbt.{Compile, Def}
 
+val sparkDefaultShortVersion = "3.1"
+
 val spark24Version = "2.4.8"
 val spark30Version = "3.0.3"
 val spark31Version = "3.1.3"
@@ -25,7 +27,7 @@ ThisBuild / developers := List(
     url("https://github.com/alfonsorr")
   ),
   Developer(
-    "AlfonsoRR",
+    "eruizalo",
     "Eduardo Ruiz",
     "",
     url("https://github.com/eruizalo")
@@ -60,7 +62,9 @@ updateOptions := updateOptions.value.withLatestSnapshots(false)
 val sparkVersion = settingKey[String]("Spark version")
 
 val configSpark = Seq(
-  sparkVersion := sparkShort(System.getProperty("sparkVersion", "3.1"))
+  sparkVersion := sparkShort(
+    System.getProperty("sparkVersion", sparkDefaultShortVersion)
+  )
 )
 
 lazy val core = project
