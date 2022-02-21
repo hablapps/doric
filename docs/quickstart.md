@@ -27,7 +27,7 @@ _Maven_
 Doric is committed to use the most modern APIs first.
 * Doric is compatible with Spark version 3.1.2.
 * The latest stable version of doric is 0.0.2.
-* The latest experimental version of doric is 0.0.2+11-31b21c95-SNAPSHOT.
+* The latest experimental version of doric is 0.0.2+12-8973a492-SNAPSHOT.
 
 __Import statements__
 
