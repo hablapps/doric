@@ -1,6 +1,6 @@
 # [doric](https://en.wikipedia.org/wiki/Doric_order)
 
-Type-safe columns for DataFrames!
+Type-safe columns for spark DataFrames!
 
 [![CI](https://github.com/hablapps/doric/actions/workflows/ci.yml/badge.svg)](https://github.com/hablapps/doric/actions/workflows/ci.yml)
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
@@ -31,20 +31,31 @@ of use and rationale (also available through the
 [binder](https://mybinder.org/v2/gh/hablapps/doric/HEAD?filepath=notebooks/README.ipynb)
 link).
 
+You can also check our [documentation page](https://www.hablapps.com/doric/)
+
 ## Installation
 
 Fetch the JAR from Maven:
 
+_Sbt_
 ```scala
-libraryDependencies += "org.hablapps" %% "doric" % "0.0.1"
+libraryDependencies += "org.hablapps" % "doric_2.12" % "0.0.2"
+```
+_Maven_
+```xml
+<dependency>
+  <groupId>org.hablapps</groupId>
+  <artifactId>doric_2.12</artifactId>
+  <version>0.0.2</version>
+</dependency>
 ```
 
 `Doric` depends on Spark internals, and it's been tested against the
 following spark versions.
 
-| Spark | Scala | doric  |
+| Spark | Scala | doric |
 |-------|-------|-------|
-| 3.1.0 | 2.12  | 0.0.1 |
+| 3.1.0 | 2.12  | 0.0.2 |
 
 
 ## Contributing 
@@ -53,3 +64,5 @@ Doric is intended to offer a type-safe version of the whole Spark
 Column API. Please, check the list of [open
 issues](https://github.com/hablapps/doric/issues) and help us to
 achieve that goal!
+
+Please read the [contribution guide](CONTRIBUTING.md) 📋

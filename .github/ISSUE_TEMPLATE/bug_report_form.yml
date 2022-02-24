@@ -1,0 +1,58 @@
+name: Bug Report form
+description: Report a bug using a form. Use this option by default
+title: "[Bug report]: "
+labels: ["bug"]
+#assignees:
+#  - octocat
+body:
+#  - type: markdown
+#    attributes:
+#      value: |
+#        Thanks for your contribution!
+  - type: checkboxes
+    id: issue_not_duplicated
+    attributes:
+      label: Issue duplicity
+      description: Please, before creating a new issue, check if there is another one like this one.
+      options:
+        - label: I have checked the current created issues and it seems there is no other issue like this one.
+          required: true
+  - type: input
+    id: version
+    attributes:
+      label: Doric version
+      description: What version of doric are you using?
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Please, tell us what happend and how this affects to your use case.
+      placeholder: What happened?
+      value: "Boom! Big reveal! I turned myself into a pickle!"
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened?
+      description: What did you expect to happen?
+      placeholder: What should have happened?
+      value: "I programmed you to believe that."
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+#  - type: checkboxes
+#    id: terms
+#    attributes:
+#      label: Code of Conduct
+#      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+#      options:
+#        - label: I agree to follow this project's Code of Conduct
+#          required: true
