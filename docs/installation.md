@@ -4,11 +4,11 @@ permalink: docs/installation/
 ---
 Not yet sorry
 # Installing doric
-Doric is compatible with spark version 3.1.2. Just add the dependency in your build tool.
+Doric is compatible with spark version 3.1.3. Just add the dependency in your build tool.
 
 The latest stable version of doric is 0.0.2.
 
-The latest experimental version of doric is 0.0.2+15-4a3733ad-SNAPSHOT.
+The latest experimental version of doric is 0.0.2+16-60d19458-SNAPSHOT.
 
 ## Sbt
 ```scala
