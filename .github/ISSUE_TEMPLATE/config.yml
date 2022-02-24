@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Doric website
+    url: https://www.habla.dev/doric/
+    about: Please visit our doric website
+  - name: Habla Computing website
+    url: https://hablapps.com/
+    about: You can take a look to our company website
+  - name: Habla Computing blog
+    url: https://blog.hablapps.com/
+    about: You can also take a look to our blog

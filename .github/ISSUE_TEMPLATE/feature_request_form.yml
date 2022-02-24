@@ -1,0 +1,45 @@
+name: Feature request form
+description: Create a feature request using a form. Use this option by default
+title: "[Feature request]: "
+labels: ["enhancement"]
+#assignees:
+#  - octocat
+body:
+#  - type: markdown
+#    attributes:
+#      value: |
+#        Thanks for contributing!
+  - type: checkboxes
+    id: feature_request_not_duplicated
+    attributes:
+      label: Feature request duplicity
+      description: Please, check there is no other feature request like this one to avoid duplicates.
+      options:
+        - label: It seems this feature is not requested yet
+          required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Feature suggestion
+      description: Also tell us, what do you expect to happen?
+      placeholder: Feature suggestion
+      value: "Lisa Needs Braces!"
+    validations:
+      required: true
+  - type: textarea
+    id: current_behaviour
+    attributes:
+      label: Current behaviour
+      description: If this is related to a current doric behaviour, tell us what is happening.
+      placeholder: Current behaviour
+      value: "Dental plan!"
+    validations:
+      required: false
+#  - type: checkboxes
+#    id: terms
+#    attributes:
+#      label: Code of Conduct  # and contributing.md
+#      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+#      options:
+#        - label: I agree to follow this project's Code of Conduct
+#          required: true
