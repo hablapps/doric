@@ -45,7 +45,7 @@ scmInfo := Some(
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
-val sparkVersion = "3.1.2"
+val sparkVersion = "3.1.3"
 lazy val core = project
   .in(file("core"))
   .settings(
