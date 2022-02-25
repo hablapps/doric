@@ -24,3 +24,5 @@ main:
     url: /docs/
   - title: "API"
     url: /docs/api/latest/
+  - title: "Github"
+    url: https://github.com/hablapps/doric
