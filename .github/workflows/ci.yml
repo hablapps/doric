@@ -5,6 +5,10 @@ on:
       - gh-pages
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     #if: github.event.pull_request.draft == false

@@ -5,6 +5,10 @@ on:
       - '*doc/*'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   publish:
     if: github.GITHUB_REPOSITORY != 'hablapps/doric'
