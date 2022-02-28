@@ -1,17 +1,29 @@
 import sbt.{Compile, Def}
 
 val sparkDefaultShortVersion = "3.1"
+val spark30Version           = "3.0.3"
+val spark31Version           = "3.1.3"
+val spark32Version           = "3.2.1"
 
-val spark24Version = "2.4.8"
-val spark30Version = "3.0.3"
-val spark31Version = "3.1.3"
-val spark32Version = "3.2.1"
+val scala212 = "2.12.15"
+val scala213 = "2.13.8"
 
 val sparkShort: String => String = {
-  case "2.4" => spark24Version
   case "3.0" => spark30Version
   case "3.1" => spark31Version
   case "3.2" => spark32Version
+}
+
+val sparkLong2ShortVersion: String => String = {
+  case `spark30Version` => "3_0"
+  case `spark31Version` => "3_1"
+  case `spark32Version` => "3_2"
+}
+
+val scalaVersionSelect: String => String = {
+  case `spark30Version` => scala212
+  case `spark31Version` => scala212
+  case `spark32Version` => scala212
 }
 
 ThisBuild / organization := "org.hablapps"
@@ -33,8 +45,13 @@ ThisBuild / developers := List(
     url("https://github.com/eruizalo")
   )
 )
-
-Global / scalaVersion := "2.12.15"
+val sparkVersion = settingKey[String]("Spark version")
+Global / sparkVersion := sparkShort(
+  System.getProperty("sparkVersion", sparkDefaultShortVersion)
+)
+Global / scalaVersion    := scalaVersionSelect(sparkVersion.value)
+Global / publish / skip  := true
+Global / publishArtifact := false
 
 // scaladoc settings
 Compile / doc / scalacOptions ++= Seq("-groups")
@@ -59,8 +76,6 @@ scmInfo := Some(
 
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
-val sparkVersion = settingKey[String]("Spark version")
-
 val configSpark = Seq(
   sparkVersion := sparkShort(
     System.getProperty("sparkVersion", sparkDefaultShortVersion)
@@ -71,8 +86,11 @@ lazy val core = project
   .in(file("core"))
   .settings(
     configSpark,
-    name       := "doric",
-    run / fork := true,
+    name            := "doric_" + sparkLong2ShortVersion(sparkVersion.value),
+    run / fork      := true,
+    publish / skip  := false,
+    publishArtifact := true,
+    scalaVersion    := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql"     % sparkVersion.value % "provided",
       "org.typelevel"    %% "cats-core"     % "2.7.0",
@@ -93,24 +111,19 @@ lazy val core = project
     ),
     Compile / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case `spark24Version` =>
-          Seq(
-            (Compile / sourceDirectory)(_ / "spark_2.4_mount" / "scala")
-          ).join.value
         case `spark30Version` =>
           Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.0_mount" / "scala")
+            (Compile / sourceDirectory)(_ / "spark_3.0_mount" / "scala"),
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
           ).join.value
         case `spark31Version` =>
           Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0" / "scala"),
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1_mount" / "scala")
           ).join.value
         case `spark32Version` =>
           Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.2" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.2_mount" / "scala")
@@ -119,20 +132,14 @@ lazy val core = project
     },
     Test / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case `spark24Version` =>
-          Seq.empty[Def.Initialize[File]].join.value
         case `spark30Version` =>
-          Seq(
-            (Test / sourceDirectory)(_ / "spark_3.0" / "scala")
-          ).join.value
+          Seq.empty[Def.Initialize[File]].join.value
         case `spark31Version` =>
           Seq(
-            (Test / sourceDirectory)(_ / "spark_3.0" / "scala"),
             (Test / sourceDirectory)(_ / "spark_3.1" / "scala")
           ).join.value
         case `spark32Version` =>
           Seq(
-            (Test / sourceDirectory)(_ / "spark_3.0" / "scala"),
             (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Test / sourceDirectory)(_ / "spark_3.2" / "scala")
           ).join.value
@@ -145,16 +152,19 @@ lazy val docs = project
   .dependsOn(core)
   .settings(
     configSpark,
-    run / fork := true,
+    run / fork      := true,
+    publish / skip  := true,
+    publishArtifact := false,
     run / javaOptions += "-XX:MaxJavaStackTraceDepth=10",
-    mdocIn := baseDirectory.value / "docs",
+    scalaVersion := scalaVersionSelect(sparkVersion.value),
+    mdocIn       := baseDirectory.value / "docs",
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value
     ),
     mdocVariables := Map(
       "VERSION"        -> version.value,
       "STABLE_VERSION" -> "0.0.2",
-      "SPARK_VERSION"  -> spark31Version
+      "SPARK_VERSION"  -> sparkVersion.value
     ),
     mdocExtraArguments := Seq(
       "--clean-target"

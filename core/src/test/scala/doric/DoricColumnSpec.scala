@@ -121,9 +121,9 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
       val error = dCol.elem.run(df).toEither.left.value.head
 
       error shouldBe an[SparkErrorWrapper]
-      error.getMessage should include(
-        "cannot resolve '`nonExistentCol`' given input columns"
-      )
+      error.getMessage should include("cannot resolve '")
+      error.getMessage should include("nonExistentCol")
+      error.getMessage should include("' given input columns")
     }
   }
 

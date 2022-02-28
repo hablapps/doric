@@ -27,9 +27,9 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
       val originalColumn = sparkCol("error").asDoric[Int]
       val errors         = originalColumn.elem.run(df).toEither.left.value
       errors.length shouldBe 1
-      errors.head.message.take(
-        57
-      ) shouldBe "cannot resolve '`error`' given input columns: [int, str];"
+      val errorMessage = errors.head.message.take(57)
+      errorMessage should startWith("cannot resolve")
+      errorMessage should include("given input columns: [int, str];")
       errors.head.location.fileName.value shouldBe "AsSpec.scala"
     }
 

@@ -6,7 +6,8 @@ import doric.Equalities._
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.catalyst.expressions.aggregate.Sum
 
 class AggregationColumnsSpec
     extends DoricTestElements
@@ -565,7 +566,9 @@ class AggregationColumnsSpec
       df.testAggregation(
         "keyCol",
         sumDistinct(colLong("col1")),
-        f.sumDistinct(f.col("col1")),
+        new Column(
+          Sum(f.col("col1").expr).toAggregateExpression(isDistinct = true)
+        ),
         List(Some(4L), Some(6L))
       )
     }
@@ -581,7 +584,9 @@ class AggregationColumnsSpec
       df.testAggregation(
         "keyCol",
         sumDistinct(colDouble("col1")),
-        f.sumDistinct(f.col("col1")),
+        new Column(
+          Sum(f.col("col1").expr).toAggregateExpression(isDistinct = true)
+        ),
         List(Some(4.0), Some(6.0))
       )
     }

@@ -4,7 +4,8 @@ package syntax
 import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
 import doric.types.NumericType
 
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.catalyst.expressions.aggregate.Sum
 
 private[syntax] trait AggregationColumns {
 
@@ -298,7 +299,11 @@ private[syntax] trait AggregationColumns {
   def sumDistinct[T](col: DoricColumn[T])(implicit
       nt: NumericType[T]
   ): DoricColumn[nt.Sum] =
-    col.elem.map(f.sumDistinct).toDC
+    col.elem
+      .map(e =>
+        new Column(Sum(e.expr).toAggregateExpression(isDistinct = true))
+      )
+      .toDC
 
   /**
     * Aggregate function: alias for `var_samp`.

@@ -1,10 +1,10 @@
 package doric
 package syntax
 
-import doric.implicitConversions.stringCname
-import org.apache.spark.sql.{functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
+
+import org.apache.spark.sql.{functions => f}
 
 class BinaryColumnsSpec
     extends DoricTestElements

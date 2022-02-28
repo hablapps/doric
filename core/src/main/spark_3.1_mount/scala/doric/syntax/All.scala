@@ -22,3 +22,4 @@ private[doric] trait All
     with BooleanColumns31
     with NumericColumns31
     with StringColumns31
+    with BinaryColumns30_31
