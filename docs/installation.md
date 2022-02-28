@@ -8,7 +8,7 @@ Doric is compatible with spark version 3.1.3. Just add the dependency in your bu
 
 The latest stable version of doric is 0.0.2.
 
-The latest experimental version of doric is 0.0.2+18-0216fe2d-SNAPSHOT.
+The latest experimental version of doric is 0.0.2+19-e0deea74-SNAPSHOT.
 
 ## Sbt
 ```scala
