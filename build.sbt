@@ -57,7 +57,7 @@ lazy val core = project
       "com.lihaoyi"         %% "sourcecode"       % "0.2.8",
       "io.monix"            %% "newtypes-core"    % "0.2.1",
       "com.github.mrpowers" %% "spark-daria"      % "1.0.1"      % "test",
-      "com.github.mrpowers" %% "spark-fast-tests" % "1.0.1"      % "test",
+      "com.github.mrpowers" %% "spark-fast-tests" % "1.2.0"      % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.11"     % "test"
     ),
     // docs
