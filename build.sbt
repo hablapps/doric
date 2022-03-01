@@ -56,7 +56,7 @@ lazy val core = project
       "org.typelevel"       %% "cats-core"        % "2.7.0",
       "com.lihaoyi"         %% "sourcecode"       % "0.2.8",
       "io.monix"            %% "newtypes-core"    % "0.2.1",
-      "com.github.mrpowers" %% "spark-daria"      % "1.0.1"      % "test",
+      "com.github.mrpowers" %% "spark-daria"      % "1.2.3"      % "test",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.2.0"      % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.11"     % "test"
     ),
