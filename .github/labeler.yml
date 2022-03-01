@@ -1,0 +1,8 @@
+CI/CD:
+  - .github/**/*.yml
+
+dependencies:
+  - any: ['.github/dependabot.yml', 'build.sbt', 'project/**/*', '.scala-steward.conf', '.scalafix.conf', '.scalafmt.conf']
+
+documentation:
+  - any: ['docs/**/*', 'notebooks/**/*', '*.md']
