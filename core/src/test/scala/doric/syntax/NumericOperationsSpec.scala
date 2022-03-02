@@ -263,10 +263,10 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
       )
     }
 
-    it("should fail if wrong pattern is given") {
-      val df = List(Some(123L), Some(1L), None)
-        .toDF("col1")
-      if (spark.version.take(3) > "3.0") {
+    if (spark.version.take(3) > "3.0") {
+      it("should fail if wrong pattern is given") {
+        val df = List(Some(123L), Some(1L), None)
+          .toDF("col1")
         intercept[java.lang.IllegalArgumentException](
           df.select(colLong("col1").fromUnixTime("wrong pattern".lit))
             .collect()

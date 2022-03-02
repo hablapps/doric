@@ -905,9 +905,8 @@ class StringColumnsSpec
       )
     }
 
-    it("should fail if malformed format") {
-
-      if (spark.version.take(3) > "3.0") {
+    if (spark.version.take(3) > "3.0") {
+      it("should fail if malformed format") {
         intercept[java.lang.IllegalArgumentException](
           df.select(colString("dateCol").unixTimestamp("yabcd".lit))
             .collect()
