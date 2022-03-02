@@ -5,6 +5,7 @@ import cats.implicits.catsSyntaxTuple2Semigroupal
 import doric.types.{BinaryType, SparkType}
 
 import org.apache.spark.sql.Column
+import org.apache.spark.sql.catalyst.expressions.StringDecode
 
 private[syntax] trait BinaryColumns32 {
 

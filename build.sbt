@@ -5,6 +5,8 @@ val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.1"
 
+val versionRegex = """^(.*)\.(.*)\.(.*)$""".r
+
 val scala212 = "2.12.15"
 val scala213 = "2.13.8"
 
@@ -15,15 +17,15 @@ val sparkShort: String => String = {
 }
 
 val sparkLong2ShortVersion: String => String = {
-  case `spark30Version` => "3_0"
-  case `spark31Version` => "3_1"
-  case `spark32Version` => "3_2"
+  case versionRegex("3", "0", _) => "3.0"
+  case versionRegex("3", "1", _) => "3.1"
+  case versionRegex("3", "2", _) => "3.2"
 }
 
 val scalaVersionSelect: String => String = {
-  case `spark30Version` => scala212
-  case `spark31Version` => scala212
-  case `spark32Version` => scala212
+  case versionRegex("3", "0", _) => scala212
+  case versionRegex("3", "1", _) => scala212
+  case versionRegex("3", "2", _) => scala212
 }
 
 ThisBuild / organization := "org.hablapps"
@@ -46,9 +48,13 @@ ThisBuild / developers := List(
   )
 )
 val sparkVersion = settingKey[String]("Spark version")
-Global / sparkVersion := sparkShort(
-  System.getProperty("sparkVersion", sparkDefaultShortVersion)
-)
+Global / sparkVersion :=
+  System.getProperty(
+    "sparkVersion",
+    sparkShort(
+      System.getProperty("sparkShortVersion", sparkDefaultShortVersion)
+    )
+  )
 Global / scalaVersion    := scalaVersionSelect(sparkVersion.value)
 Global / publish / skip  := true
 Global / publishArtifact := false
@@ -77,8 +83,11 @@ scmInfo := Some(
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
 val configSpark = Seq(
-  sparkVersion := sparkShort(
-    System.getProperty("sparkVersion", sparkDefaultShortVersion)
+  sparkVersion := System.getProperty(
+    "sparkVersion",
+    sparkShort(
+      System.getProperty("sparkShortVersion", sparkDefaultShortVersion)
+    )
   )
 )
 
@@ -111,18 +120,18 @@ lazy val core = project
     ),
     Compile / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case `spark30Version` =>
+        case versionRegex("3", "0", _) =>
           Seq(
             (Compile / sourceDirectory)(_ / "spark_3.0_mount" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
           ).join.value
-        case `spark31Version` =>
+        case versionRegex("3", "1", _) =>
           Seq(
             (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1_mount" / "scala")
           ).join.value
-        case `spark32Version` =>
+        case versionRegex("3", "2", _) =>
           Seq(
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.2" / "scala"),
@@ -132,13 +141,13 @@ lazy val core = project
     },
     Test / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case `spark30Version` =>
+        case versionRegex("3", "0", _) =>
           Seq.empty[Def.Initialize[File]].join.value
-        case `spark31Version` =>
+        case versionRegex("3", "1", _) =>
           Seq(
             (Test / sourceDirectory)(_ / "spark_3.1" / "scala")
           ).join.value
-        case `spark32Version` =>
+        case versionRegex("3", "2", _) =>
           Seq(
             (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Test / sourceDirectory)(_ / "spark_3.2" / "scala")
