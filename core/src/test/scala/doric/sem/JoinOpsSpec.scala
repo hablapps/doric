@@ -67,7 +67,9 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
       errors.errors.toChain
         .get(1)
         .get
-        .message shouldBe "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+        .message should startWith(
+        "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+      )
 
       val joinFunction2: DoricJoinColumn =
         LeftDF(colLong(id)) === RightDF.colLong(id)
@@ -87,7 +89,9 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
       errors2.errors.toChain
         .get(1)
         .get
-        .message shouldBe "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+        .message should startWith(
+        "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+      )
     }
 
     it("should prevent key ambiguity with innerJoinDropRightKey") {

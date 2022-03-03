@@ -1,9 +1,10 @@
 package doric
 package syntax
 
-import org.apache.spark.sql.{functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
+
+import org.apache.spark.sql.{functions => f}
 
 class ArrayColumnsSpec
     extends DoricTestElements
@@ -47,7 +48,9 @@ class ArrayColumnsSpec
         .left
         .value
         .head
-        .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .message should startWith(
+        "Cannot resolve column name \"something2\" among (col, something)"
+      )
 
       colArrayInt("col")
         .transform(_ => colString("something"))
@@ -93,7 +96,9 @@ class ArrayColumnsSpec
         .left
         .value
         .head
-        .message shouldBe "Cannot resolve column name \"something2\" among (col, something)"
+        .message should startWith(
+        "Cannot resolve column name \"something2\" among (col, something)"
+      )
     }
 
     it(
@@ -122,8 +127,9 @@ class ArrayColumnsSpec
         .value
 
       errors.toChain.size shouldBe 2
+      val end = if (spark.version.take(3) <= "3.0") ";" else ""
       errors.map(_.message).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)",
+        "Cannot resolve column name \"something2\" among (col, something)" + end,
         "The column with name 'something' is of type StringType and it was expected to be IntegerType"
       )
     }
@@ -158,10 +164,11 @@ class ArrayColumnsSpec
         .value
 
       errors.toChain.size shouldBe 3
+      val end = if (spark.version.take(3) <= "3.0") ";" else ""
       errors.map(_.message).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)",
+        "Cannot resolve column name \"something2\" among (col, something)" + end,
         "The column with name 'something' is of type StringType and it was expected to be IntegerType",
-        "Cannot resolve column name \"something3\" among (col, something)"
+        "Cannot resolve column name \"something3\" among (col, something)" + end
       )
     }
 

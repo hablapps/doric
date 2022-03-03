@@ -1,15 +1,16 @@
 package doric
 
+import scala.reflect._
+import scala.reflect.runtime.universe._
+
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import doric.implicitConversions.stringCname
 import doric.types.{Casting, SparkType}
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
 
-import scala.reflect._
-import scala.reflect.runtime.universe._
+import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
+import org.apache.spark.sql.types._
 
 trait TypedColumnTest extends Matchers with DatasetComparer {
 
@@ -70,8 +71,12 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
         s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
     )
 
-    if (expected.nonEmpty)
-      doricColumns should contain theSameElementsAs expected
+    if (expected.nonEmpty) {
+      doricColumns.map {
+        case Some(x: java.lang.Double) if x.isNaN => None
+        case x                                    => x
+      } should contain theSameElementsAs expected
+    }
   }
 
   implicit class ValidateColumnGroupType(gr: RelationalGroupedDataset) {

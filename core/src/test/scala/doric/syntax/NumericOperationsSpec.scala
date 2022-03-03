@@ -1,15 +1,12 @@
 package doric
 package syntax
 
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.{classTag, ClassTag}
+
 import doric.types.{NumericType, SparkType}
 import org.scalatest.funspec.AnyFunSpecLike
-import org.apache.spark.sql.{functions => f}
-import org.apache.spark.sql.DataFrame
 
-import java.sql.Timestamp
-
-import doric.implicitConversions.stringCname
+import org.apache.spark.sql.{DataFrame, functions => f}
 
 trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
@@ -241,55 +238,6 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
     }
   }
 
-  describe("timestampSeconds doric function") {
-    import spark.implicits._
-
-    it("should work as spark timestamp_seconds function with integers") {
-      val df = List(Some(123), Some(1), None)
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colInt(c).timestampSeconds,
-        c => f.timestamp_seconds(f.col(c)),
-        List(
-          Some(Timestamp.valueOf("1970-01-01 00:02:03")),
-          Some(Timestamp.valueOf("1970-01-01 00:00:01")),
-          None
-        )
-      )
-    }
-
-    it("should work as spark timestamp_seconds function with longs") {
-      val df = List(Some(123L), Some(1L), None)
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colLong(c).timestampSeconds,
-        c => f.timestamp_seconds(f.col(c)),
-        List(
-          Some(Timestamp.valueOf("1970-01-01 00:02:03")),
-          Some(Timestamp.valueOf("1970-01-01 00:00:01")),
-          None
-        )
-      )
-    }
-
-    it("should work as spark timestamp_seconds function with doubles") {
-      val df = List(Some(123.2), Some(1.9), None)
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colDouble(c).timestampSeconds,
-        c => f.timestamp_seconds(f.col(c)),
-        List(
-          Some(Timestamp.valueOf("1970-01-01 00:02:03.2")),
-          Some(Timestamp.valueOf("1970-01-01 00:00:01.9")),
-          None
-        )
-      )
-    }
-  }
-
   describe("fromUnixTime doric function") {
     import spark.implicits._
 
@@ -315,14 +263,15 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
       )
     }
 
-    it("should fail if wrong pattern is given") {
-      val df = List(Some(123L), Some(1L), None)
-        .toDF("col1")
-
-      intercept[java.lang.IllegalArgumentException](
-        df.select(colLong("col1").fromUnixTime("wrong pattern".lit))
-          .collect()
-      )
+    if (spark.version.take(3) > "3.0") {
+      it("should fail if wrong pattern is given") {
+        val df = List(Some(123L), Some(1L), None)
+          .toDF("col1")
+        intercept[java.lang.IllegalArgumentException](
+          df.select(colLong("col1").fromUnixTime("wrong pattern".lit))
+            .collect()
+        )
+      }
     }
   }
 

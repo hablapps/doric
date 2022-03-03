@@ -3,7 +3,8 @@ package syntax
 
 import cats.implicits._
 import doric.types.CollectionType
-import org.apache.spark.sql.{Column, Row, functions => f}
+
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
@@ -469,12 +470,14 @@ private[syntax] trait ArrayColumns {
       * end if `start` is negative) with the specified `length`.
       *
       * @note
-      *   if `start` == 0 an exception will be thrown
+      * if `start` == 0 an exception will be thrown
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
       */
     def slice(start: IntegerColumn, length: IntegerColumn): ArrayColumn[T] =
-      (col.elem, start.elem, length.elem).mapN(f.slice).toDC
+      (col.elem, start.elem, length.elem)
+        .mapN((a, b, c) => new Column(Slice(a.expr, b.expr, c.expr)))
+        .toDC
 
     /**
       * Merge two given arrays, element-wise, into a single array using a function.

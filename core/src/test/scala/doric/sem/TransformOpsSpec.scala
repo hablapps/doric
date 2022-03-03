@@ -119,7 +119,9 @@ class TransformOpsSpec
             "b" -> colLong("id")
           )
       }
-      error.getMessage shouldBe "Found duplicate column(s) in given column names: `a`, `b`"
+      error.getMessage should startWith(
+        "Found duplicate column(s) in given column names: `a`, `b`"
+      )
     }
   }
 }
