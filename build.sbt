@@ -5,21 +5,21 @@ val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.1"
 
-val versionRegex = """^(.*)\.(.*)\.(.*)$""".r
+val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
+val versionRegexShort = """^(.*)\.(.*)$""".r
 
 val scala212 = "2.12.15"
 val scala213 = "2.13.8"
 
-val sparkShort: String => String = {
-  case "3.0" => spark30Version
-  case "3.1" => spark31Version
-  case "3.2" => spark32Version
+val parserSparkVersion: String => String = {
+  case versionRegexShort("3", "0") => spark30Version
+  case versionRegexShort("3", "1") => spark31Version
+  case versionRegexShort("3", "2") => spark32Version
+  case versionRegex(a, b, c)       => s"$a.$b.$c"
 }
 
-val sparkLong2ShortVersion: String => String = {
-  case versionRegex("3", "0", _) => "3.0"
-  case versionRegex("3", "1", _) => "3.1"
-  case versionRegex("3", "2", _) => "3.2"
+val sparkLong2ShortVersion: String => String = { case versionRegex(a, b, _) =>
+  s"$a.$b"
 }
 
 val scalaVersionSelect: String => String = {
@@ -49,11 +49,8 @@ ThisBuild / developers := List(
 )
 val sparkVersion = settingKey[String]("Spark version")
 Global / sparkVersion :=
-  System.getProperty(
-    "sparkVersion",
-    sparkShort(
-      System.getProperty("sparkShortVersion", sparkDefaultShortVersion)
-    )
+  parserSparkVersion(
+    System.getProperty("sparkVersion", sparkDefaultShortVersion)
   )
 Global / scalaVersion    := scalaVersionSelect(sparkVersion.value)
 Global / publish / skip  := true
@@ -83,11 +80,8 @@ scmInfo := Some(
 updateOptions := updateOptions.value.withLatestSnapshots(false)
 
 val configSpark = Seq(
-  sparkVersion := System.getProperty(
-    "sparkVersion",
-    sparkShort(
-      System.getProperty("sparkShortVersion", sparkDefaultShortVersion)
-    )
+  sparkVersion := parserSparkVersion(
+    System.getProperty("sparkVersion", sparkDefaultShortVersion)
   )
 )
 
