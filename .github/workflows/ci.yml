@@ -12,12 +12,23 @@ concurrency:
 jobs:
   build:
     #if: github.event.pull_request.draft == false
+    strategy:
+      fail-fast: false
+      matrix:
+        spark: [ "3.0", "3.1" ]
+        scope: [ "testing" ]
+        include:
+          - spark: 3.2
+            scope: "publish"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Check, build and doc 🎯
+      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
         uses: ./.github/actions/check_build_and_doc
+        env:
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
       - name: Cleaning for cache 🚯
         uses: ./.github/actions/clean_cache
