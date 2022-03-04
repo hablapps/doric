@@ -6,3 +6,12 @@ dependencies:
 
 documentation:
   - any: ['docs/**/*', 'notebooks/**/*', '*.md']
+
+spark_3.0:
+  - core/src/main/spark*3.0*/**/*
+
+spark_3.1:
+  - core/src/main/spark*3.1*/**/*
+
+spark_3.2:
+  - core/src/main/spark*3.2*/**/*
