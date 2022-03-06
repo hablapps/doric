@@ -27,6 +27,7 @@ runs:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
+        flags: ${{ env.SPARK_VERSION }}
     - name: Build the microsite 💻
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} docs/mdoc
       shell: bash
