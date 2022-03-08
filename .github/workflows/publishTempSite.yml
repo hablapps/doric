@@ -11,34 +11,17 @@ concurrency:
 
 jobs:
   publish:
-    if: github.GITHUB_REPOSITORY != 'hablapps/doric'
+    if: github.repository != 'hablapps/doric'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: olafurpg/setup-scala@v13
-      - name: Coursier cache
-        uses: coursier/cache-action@v6
-      - name: Build the microsite
-        run: |
-          sbt docs/mdoc
-      - name: Build the scaladocs
-        run: |
-          sbt core/doc
-      - name: Copy site and docs to gh-pages branch
-        run: |
-          mkdir -p docs/target/mdoc/docs/api/latest
-          cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+      - name: Check, build and doc 🎯
+        uses: ./.github/actions/check_build_and_doc
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs/target/mdoc # The folder the action should deploy.
-      - name: Cleaning for cache
-        run: |
-          rm -rf "$HOME/.ivy2/local" || true
-          find $HOME/Library/Caches/Coursier/v1        -name "ivydata-*.properties" -delete || true
-          find $HOME/.ivy2/cache                       -name "ivydata-*.properties" -delete || true
-          find $HOME/.cache/coursier/v1                -name "ivydata-*.properties" -delete || true
-          find $HOME/.sbt                              -name "*.lock"               -delete || true
+          testing: false
+      - name: Publish documentation 📑
+        uses: ./.github/actions/publish_doc
+      - name: Cleaning for cache 🚯
+        uses: ./.github/actions/clean_cache

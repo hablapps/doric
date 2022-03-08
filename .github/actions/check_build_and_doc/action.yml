@@ -1,0 +1,35 @@
+name: "Check, build & doc 🎯"
+description: "Check the code, build, testing & generate project documentation"
+
+inputs:
+  testing:
+    description: 'Whether to execute tests or not'
+    required: false
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: olafurpg/setup-scala@v13
+    - uses: coursier/cache-action@v6
+    - name: Code Format
+      if: inputs.testing == 'true'
+      run: sbt scalafmtCheckAll
+      shell: bash
+    - name: Test & coverage 📋
+      if: inputs.testing == 'true'
+      run: sbt coverage core/test coverageReport coverageAggregate
+      shell: bash
+    - name: Publish coverage to codecov 📊
+      if: inputs.testing == 'true'
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./target/scala-2.12/scoverage-report/scoverage.xml
+        fail_ci_if_error: true
+        verbose: false
+    - name: Build the microsite 💻
+      run: sbt docs/mdoc
+      shell: bash
+    - name: Build the scaladocs 💻
+      run: sbt core/doc
+      shell: bash

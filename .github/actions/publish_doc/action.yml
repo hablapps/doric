@@ -1,0 +1,16 @@
+name: "Publish documentation 📑"
+description: "Clean cache"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Copy site and docs to gh-pages branch 💾
+      run: |
+        mkdir -p docs/target/mdoc/docs/api/latest
+        cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
+      shell: bash
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: docs/target/mdoc # The folder the action should deploy.
