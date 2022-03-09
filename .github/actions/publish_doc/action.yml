@@ -55,7 +55,7 @@ runs:
 
     - name: Copy site and docs to gh-pages branch 💾 [{{ inputs.spark-3_2 }}]
       run: |
-        mkdir -p docs/target/mdoc/docs/api/3.2
+        mkdir -p docs/target/mdoc/docs/api/latest
         cp -ar tmp/api_spark_${{ inputs.spark-3_2 }}/* docs/target/mdoc/docs/api/latest/
       shell: bash
 

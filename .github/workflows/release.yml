@@ -15,10 +15,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+
       - name: Check, build and doc 🎯
         uses: ./.github/actions/check_build_and_doc
+
       - name: Publish documentation 📑
         uses: ./.github/actions/publish_doc
+
       - name: Maven release 🎁
         run: sbt ci-release
         env:
@@ -26,5 +29,6 @@ jobs:
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
       - name: Cleaning for cache 🚯
         uses: ./.github/actions/clean_cache

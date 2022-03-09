@@ -11,15 +11,33 @@ concurrency:
 
 jobs:
   publish:
-    if: github.repository != 'hablapps/doric'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: Check, build and doc 🎯
+
+      # CHECK & BUILD
+      - name: Check, build and doc 🎯 Spark 3.0
         uses: ./.github/actions/check_build_and_doc
-        with:
-          testing: false
+        env:
+          SPARK_VERSION: "3.0"
+          SCOPE: "docs"
+
+      - name: Check, build and doc 🎯 Spark 3.1
+        uses: ./.github/actions/check_build_and_doc
+        env:
+          SPARK_VERSION: "3.1"
+          SCOPE: "docs"
+
+      - name: Check, build and doc 🎯 Spark 3.2
+        uses: ./.github/actions/check_build_and_doc
+        env:
+          SPARK_VERSION: "3.2"
+          SCOPE: "docs"
+
+        # GENERATE & PUBLISH DOCUMENTATION
       - name: Publish documentation 📑
         uses: ./.github/actions/publish_doc
+
+        # CLEAN CACHE
       - name: Cleaning for cache 🚯
         uses: ./.github/actions/clean_cache
