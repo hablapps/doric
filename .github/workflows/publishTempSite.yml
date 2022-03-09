@@ -10,29 +10,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publish:
+  # GENERATE DOC JOB
+  generateDoc:
+    strategy:
+      fail-fast: false
+      matrix:
+        spark: [ "3.0", "3.1", "3.2" ]
+        scope: [ "docs" ]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
       # CHECK & BUILD
-      - name: Check, build and doc 🎯 Spark 3.0
+      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
         uses: ./.github/actions/check_build_and_doc
         env:
-          SPARK_VERSION: "3.0"
-          SCOPE: "docs"
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
 
-      - name: Check, build and doc 🎯 Spark 3.1
-        uses: ./.github/actions/check_build_and_doc
-        env:
-          SPARK_VERSION: "3.1"
-          SCOPE: "docs"
-
-      - name: Check, build and doc 🎯 Spark 3.2
-        uses: ./.github/actions/check_build_and_doc
-        env:
-          SPARK_VERSION: "3.2"
-          SCOPE: "docs"
+  # PUBLISH JOB
+  publish:
+    needs: [ generateDoc ]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
 
         # GENERATE & PUBLISH DOCUMENTATION
       - name: Publish documentation 📑

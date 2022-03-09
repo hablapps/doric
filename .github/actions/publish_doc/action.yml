@@ -18,51 +18,29 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # BUILD SCALA DOCS
-    - name: Build the scaladocs 💻 [${{ inputs.spark-3_0 }}]
-      run: |
-        sbt -DsparkVersion=${{ inputs.spark-3_0 }} core/doc
-        mkdir -p tmp/api_spark_${{ inputs.spark-3_0 }}
-        cp -ar core/target/scala-2.12/api/* tmp/api_spark_${{ inputs.spark-3_0 }}/
-      shell: bash
-
-    - name: Build the scaladocs 💻 [${{ inputs.spark-3_1 }}]
-      run: |
-        sbt -DsparkVersion=${{ inputs.spark-3_1 }} core/doc
-        mkdir -p tmp/api_spark_${{ inputs.spark-3_1 }}
-        cp -ar core/target/scala-2.12/api/* tmp/api_spark_${{ inputs.spark-3_1 }}/
-      shell: bash
-
-    - name: Build the scaladocs 💻 [${{ inputs.spark-3_2 }}]
-      run: |
-        sbt -DsparkVersion=${{ inputs.spark-3_2 }} core/doc
-        mkdir -p tmp/api_spark_${{ inputs.spark-3_2 }}
-        cp -ar core/target/scala-2.12/api/* tmp/api_spark_${{ inputs.spark-3_2 }}/
-      shell: bash
-
     # BUILD MDOC
     - name: Build the microsite 💻
       run: sbt -DsparkVersion=${{ inputs.spark-3_2 }} docs/mdoc
       shell: bash
 
-    # COPY API DOCS TO MDOC
-    - name: Copy site and docs to gh-pages branch 💾 [{{ inputs.spark-3_0 }}]
-      run: |
-        mkdir -p docs/target/mdoc/docs/api/3.0
-        cp -ar tmp/api_spark_${{ inputs.spark-3_0 }}/* docs/target/mdoc/docs/api/3.0/
-      shell: bash
+    # DOWNLOAD DOCS
+    - name: Download docs ⬇️ [${{ inputs.spark-3_0 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_0 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_0 }}/"
 
-    - name: Copy site and docs to gh-pages branch 💾 [{{ inputs.spark-3_1 }}]
-      run: |
-        mkdir -p docs/target/mdoc/docs/api/3.1
-        cp -ar tmp/api_spark_${{ inputs.spark-3_1 }}/* docs/target/mdoc/docs/api/3.1/
-      shell: bash
+    - name: Download docs ⬇️ [${{ inputs.spark-3_1 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_1 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_1 }}/"
 
-    - name: Copy site and docs to gh-pages branch 💾 [{{ inputs.spark-3_2 }}]
-      run: |
-        mkdir -p docs/target/mdoc/docs/api/latest
-        cp -ar tmp/api_spark_${{ inputs.spark-3_2 }}/* docs/target/mdoc/docs/api/latest/
-      shell: bash
+    - name: Download docs ⬇️ [${{ inputs.spark-3_2 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_2 }}"
+        path: "docs/target/mdoc/docs/api/latest/"
 
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀

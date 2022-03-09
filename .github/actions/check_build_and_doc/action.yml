@@ -9,7 +9,7 @@ runs:
         echo ""
         echo "#####################################################"
         echo "#                                                   #"
-        echo "# Running action for $SPARK_VERSION [scope $SCOPE]"
+        echo "#   Running action using $SPARK_VERSION [scope $SCOPE]"
         echo "#                                                   #"
         echo "#####################################################"
         echo ""
@@ -48,3 +48,11 @@ runs:
     - name: Build the scaladocs 💻
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} core/doc
       shell: bash
+
+      # UPLOAD DOCS
+    - name: Upload docs ⬆️
+      if: env.SCOPE == 'docs'
+      uses: actions/upload-artifact@v3
+      with:
+        name: "api_spark_${{ env.SPARK_VERSION }}"
+        path: "core/target/scala-2.12/api/*"
