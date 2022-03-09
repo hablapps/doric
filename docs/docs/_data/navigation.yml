@@ -22,7 +22,11 @@ docs:
 main:
   - title: "Documentation"
     url: /docs/
-  - title: "API"
+  - title: "API [ latest"
     url: /docs/api/latest/
+  - title: "3.1"
+    url: /docs/api/3.1/
+  - title: "3.0 ]"
+    url: /docs/api/3.0/
   - title: "Github"
     url: https://github.com/hablapps/doric

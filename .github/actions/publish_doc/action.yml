@@ -40,6 +40,11 @@ runs:
         cp -ar core/target/scala-2.12/api/* tmp/api_spark_${{ inputs.spark-3_2 }}/
       shell: bash
 
+    # BUILD MDOC
+    - name: Build the microsite 💻
+      run: sbt -DsparkVersion=${{ inputs.spark-3_2 }} docs/mdoc
+      shell: bash
+
     # COPY API DOCS TO MDOC
     - name: Copy site and docs to gh-pages branch 💾 [{{ inputs.spark-3_0 }}]
       run: |
@@ -57,11 +62,6 @@ runs:
       run: |
         mkdir -p docs/target/mdoc/docs/api/latest
         cp -ar tmp/api_spark_${{ inputs.spark-3_2 }}/* docs/target/mdoc/docs/api/latest/
-      shell: bash
-
-    # BUILD MDOC
-    - name: Build the microsite 💻
-      run: sbt -DsparkVersion=${{ inputs.spark-3_2 }} docs/mdoc
       shell: bash
 
     # DEPLOY TO GITHUB PAGES
