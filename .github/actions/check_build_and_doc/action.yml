@@ -21,7 +21,7 @@ runs:
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage core/test coverageReport coverageAggregate
       shell: bash
     - name: Publish coverage to codecov 📊
-      if: inputs.testing == 'true' && env.SCOPE == 'publish'
+      if: inputs.testing == 'true' && env.SCOPE == 'uploadReports'
       uses: codecov/codecov-action@v2
       with:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml
