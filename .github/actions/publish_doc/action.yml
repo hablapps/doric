@@ -40,7 +40,7 @@ runs:
       uses: actions/download-artifact@v3
       with:
         name: "api_spark_${{ inputs.spark-3_2 }}"
-        path: "docs/target/mdoc/docs/api/latest/"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_2 }}/"
 
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀

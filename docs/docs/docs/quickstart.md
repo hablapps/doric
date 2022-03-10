@@ -9,7 +9,7 @@ permalink: docs/
 __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
-![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)
+[![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_2.12/@STABLE_VERSION@)
 
 _Sbt_
 ```scala
@@ -123,4 +123,3 @@ strDf.select(f.col("str").asDoric[String]).show()
 
 strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show
 ```
-
