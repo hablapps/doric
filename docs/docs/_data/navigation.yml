@@ -14,12 +14,6 @@ docs:
         url: /docs/errors/
       - title: "Modularity"
         url: /docs/modularity/
-      #- title: "Doric column ADT"
-      #  url: /docs/adt-columns/
-      #- title: Advance API elements
-      #  url: /docs/advanced
-      #- title: "Custom types"
-      #  url: /docs/custom/
 
 main:
   - title: "Documentation"
