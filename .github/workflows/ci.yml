@@ -20,14 +20,14 @@ jobs:
             "3.1.0", "3.1.1", "3.1.2",
             "3.2.0"
         ]
-        scope: [ "testing" ]
+        scope: [ "test" ]
         include:
           - spark: "3.0.3"
-            scope: "uploadReports"
+            scope: "test-uploadReport"
           - spark: "3.1.3"
-            scope: "uploadReports"
+            scope: "test-uploadReport"
           - spark: "3.2.1"
-            scope: "uploadReports"
+            scope: "test-uploadReport"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3

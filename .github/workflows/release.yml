@@ -10,20 +10,51 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release:
+  # TESTING, COVERAGE & DOCUMENTATION
+  testAndDoc:
     if: github.repository == 'hablapps/doric'
+    strategy:
+      fail-fast: false
+      matrix:
+        spark: [ "3.0", "3.1", "3.2" ]
+        scope: [ "test-uploadReport-uploadDoc" ]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
-      - name: Check, build and doc 🎯
+      # CHECK & BUILD -- TEST & COVERAGE -- UPLOAD DOC
+      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
         uses: ./.github/actions/check_build_and_doc
+        env:
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
 
+  # PUBLISH DOC JOB
+  publish:
+    needs: [ testAndDoc ]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+        # GENERATE & PUBLISH DOCUMENTATION
       - name: Publish documentation 📑
         uses: ./.github/actions/publish_doc
 
+        # CLEAN CACHE
+      - name: Cleaning for cache 🚯
+        uses: ./.github/actions/clean_cache
+
+  # PUBLISH JARS AT MAVEN CENTRAL
+  mvn_release:
+    needs: [ publish ]
+    strategy:
+      fail-fast: false
+      matrix:
+        spark: [ "3.0", "3.1", "3.2" ]
+    runs-on: ubuntu-20.04
+    steps:
       - name: Maven release 🎁
-        run: sbt ci-release
+        run: sbt -DsparkVersion=${{ matrix.spark }} ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}

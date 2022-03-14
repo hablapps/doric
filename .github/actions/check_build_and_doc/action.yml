@@ -21,18 +21,18 @@ runs:
 
       # CHECK CODE FORMAT
     - name: Code Format
-      if: env.SCOPE == 'testing' || env.SCOPE == 'uploadReports'
+      if: contains(env.SCOPE, 'test')
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} scalafmtCheckAll
       shell: bash
 
       # TESTING & COVERAGE
     - name: Test & coverage 📋
-      if: env.SCOPE == 'testing' || env.SCOPE == 'uploadReports'
+      if: contains(env.SCOPE, 'test')
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage core/test coverageReport coverageAggregate
       shell: bash
 
     - name: Publish coverage to codecov 📊
-      if: env.SCOPE == 'uploadReports'
+      if: contains(env.SCOPE, 'uploadReport')
       uses: codecov/codecov-action@v2
       with:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml
@@ -51,7 +51,7 @@ runs:
 
       # UPLOAD DOCS
     - name: Upload docs ⬆️
-      if: env.SCOPE == 'docs'
+      if: contains(env.SCOPE, 'uploadDoc')
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
