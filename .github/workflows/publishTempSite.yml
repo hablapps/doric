@@ -2,8 +2,8 @@ name: Publish temp site
 
 on:
   push:
-    branches:
-      - '*doc/*'
+#    branches:
+#      - '*doc/*'
   workflow_dispatch:
 
 concurrency:
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  call-workflow-publish-doc:
+  publish-doc:
     uses: ./.github/workflows/wc_publishSite.yml
     with:
       scope: "uploadDoc"

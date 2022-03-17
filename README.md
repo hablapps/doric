@@ -10,9 +10,9 @@ Type-safe columns for spark DataFrames!
 
 | Spark | Maven Central | Codecov |
 |:-----:|:-------------:|:--------|
-| 3.0.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.0.3)](https://codecov.io/gh/hablapps/doric) |
-| 3.1.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.1.3)](https://codecov.io/gh/hablapps/doric) |
-| 3.2.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.2.1)](https://codecov.io/gh/hablapps/doric) |
+| 3.0.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.0.x)](https://codecov.io/gh/hablapps/doric) |
+| 3.1.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.1.x)](https://codecov.io/gh/hablapps/doric) |
+| 3.2.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.2) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=3.2.x)](https://codecov.io/gh/hablapps/doric) |
 ----
 
 Doric offers type-safety in DataFrame column expressions at a minimum
@@ -46,14 +46,14 @@ Fetch the JAR from Maven:
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "@STABLE_VERSION@"
+libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "0.0.2"
 ```
 _Maven_
 ```xml
 <dependency>
     <groupId>org.hablapps</groupId>
     <artifactId>doric_3-2_2.12</artifactId>
-    <version>@STABLE_VERSION@</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 

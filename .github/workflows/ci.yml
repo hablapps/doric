@@ -22,15 +22,16 @@ jobs:
         ]
         scope: [ "test" ]
         include:
-          - spark: "3.0.3"
+          - spark: "3.0"
             scope: "test-uploadReport"
-          - spark: "3.1.3"
+          - spark: "3.1"
             scope: "test-uploadReport"
-          - spark: "3.2.1"
+          - spark: "3.2"
             scope: "test-uploadReport"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+
       - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
         uses: ./.github/actions/check_build_and_doc
         env:

@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  call-workflow-publish-doc:
+  publish-doc:
     if: github.repository == 'hablapps/doric'
     uses: ./.github/workflows/wc_publishSite.yml
     with:
@@ -18,7 +18,7 @@ jobs:
 
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:
-    needs: [ call-workflow-publish-doc ]
+    needs: [ publish-doc ]
     strategy:
       fail-fast: true
       matrix:
