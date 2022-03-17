@@ -46,14 +46,14 @@ Fetch the JAR from Maven:
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_2.12" % "0.0.2"
+libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "@STABLE_VERSION@"
 ```
 _Maven_
 ```xml
 <dependency>
-  <groupId>org.hablapps</groupId>
-  <artifactId>doric_2.12</artifactId>
-  <version>0.0.2</version>
+    <groupId>org.hablapps</groupId>
+    <artifactId>doric_3-2_2.12</artifactId>
+    <version>@STABLE_VERSION@</version>
 </dependency>
 ```
 
