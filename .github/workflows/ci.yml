@@ -36,5 +36,3 @@ jobs:
         env:
           SPARK_VERSION: ${{ matrix.spark }}
           SCOPE: ${{ matrix.scope }}
-      - name: Cleaning for cache 🚯
-        uses: ./.github/actions/clean_cache

@@ -15,7 +15,7 @@ runs:
         echo ""
       shell: bash
 
-      # SETUP
+      # SETUP & CACHE
     - uses: olafurpg/setup-scala@v13
     - uses: coursier/cache-action@v6
 
@@ -56,3 +56,7 @@ runs:
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
         path: "core/target/scala-2.12/api/*"
+
+      # CLEAN PROJECT BEFORE CACHE
+    - name: Cleaning before cache 🚯
+      uses: ./.github/actions/clean_cache

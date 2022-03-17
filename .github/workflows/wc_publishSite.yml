@@ -36,7 +36,3 @@ jobs:
         # GENERATE & PUBLISH DOCUMENTATION
       - name: Publish documentation 📑
         uses: ./.github/actions/publish_doc
-
-        # CLEAN CACHE
-      - name: Cleaning for cache 🚯
-        uses: ./.github/actions/clean_cache
