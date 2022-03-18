@@ -1,8 +1,9 @@
 name: Publish temp site
+
 on:
   push:
-    branches:
-      - '*doc/*'
+#    branches:
+#      - '*doc/*'
   workflow_dispatch:
 
 concurrency:
@@ -10,18 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publish:
-    if: github.repository != 'hablapps/doric'
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Check, build and doc 🎯
-        uses: ./.github/actions/check_build_and_doc
-        with:
-          testing: false
-      - name: Publish documentation 📑
-        uses: ./.github/actions/publish_doc
-      - name: Cleaning for cache 🚯
-        uses: ./.github/actions/clean_cache
+  publish-doc:
+    uses: ./.github/workflows/wc_publishSite.yml
+    with:
+      scope: "uploadDoc"

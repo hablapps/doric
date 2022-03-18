@@ -9,25 +9,37 @@ permalink: docs/
 __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
-![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_2.12" % "@STABLE_VERSION@"
+libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "@STABLE_VERSION@"
 ```
 _Maven_
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
-  <artifactId>doric_2.12</artifactId>
+  <artifactId>doric_3-2_2.12</artifactId>
   <version>@STABLE_VERSION@</version>
 </dependency>
 ```
 
 Doric is committed to use the most modern APIs first.
-* Doric is compatible with Spark version @SPARK_VERSION@.
+<!-- * Doric is compatible with Spark version @SPARK_VERSION@. -->
 * The latest stable version of doric is @STABLE_VERSION@.
 * The latest experimental version of doric is @VERSION@.
+* Doric is compatible with the following Spark versions:
+
+| Spark | Scala | Tested | doric |
+|:-----:|:-----:|:------:|:-----:|
+| 3.0.0 | 2.12  |   ✅   |   -   |
+| 3.0.1 | 2.12  |   ✅   |   -   |
+| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.2) |
+| 3.1.0 | 2.12  |   ✅   |   -   |
+| 3.1.1 | 2.12  |   ✅   |   -   |
+| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.2) |
+| 3.2.0 | 2.12  |   ✅   |   -   |
+| 3.2.1 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.2) |
+
 
 __Import statements__
 
@@ -77,9 +89,9 @@ In order to refer to columns of other data types, doric strictly follows the
 [mapping](https://spark.apache.org/docs/latest/sql-ref-datatypes.html) defined by Spark SQL itself. 
 
 ---
-**NOTE**
+ℹ️ **NOTE** ℹ️
 
-Of course, this only works if you, the programmer, know the intended type 
+> Of course, this only works if you, the programmer, know the intended type 
 of the column at compile-time. In a pure dynamic setting, doric is useless. Note, however, that you don't need to know 
 in advance the whole row type as with Datasets. Thus, doric sits between a wholehearted static setting and a 
 purely dynamic one. It offers type-safety for column expressions at a minimum cost, without compromising performance, 
@@ -123,4 +135,3 @@ strDf.select(f.col("str").asDoric[String]).show()
 
 strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show
 ```
-

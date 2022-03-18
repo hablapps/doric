@@ -202,7 +202,8 @@ private[syntax] trait DateColumns {
       * @note
       *   Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.next_day]]
+      * @see org.apache.spark.sql.functions.next_day
+      * @todo scaladoc link (issue #135)
       */
     def nextDay(dayOfWeek: StringColumn): DateColumn =
       (column.elem, dayOfWeek.elem)

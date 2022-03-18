@@ -4,6 +4,8 @@ docs:
     children:
       - title: "Quick start"
         url: /docs/
+      - title: "API"
+        url: /docs/api/
       - title: "Syntactic sugar"
         url: /docs/syntax/
       - title: "Doric validations"
@@ -12,17 +14,11 @@ docs:
         url: /docs/errors/
       - title: "Modularity"
         url: /docs/modularity/
-      #- title: "Doric column ADT"
-      #  url: /docs/adt-columns/
-      #- title: Advance API elements
-      #  url: /docs/advanced
-      #- title: "Custom types"
-      #  url: /docs/custom/
 
 main:
   - title: "Documentation"
     url: /docs/
   - title: "API"
-    url: /docs/api/latest/
+    url: /docs/api/
   - title: "Github"
     url: https://github.com/hablapps/doric

@@ -9,9 +9,9 @@ import org.apache.spark.sql.catalyst.expressions.StringDecode
 
 private[syntax] trait BinaryColumns32 {
 
-  implicit class BinaryOperationsSyntax32[T: BinaryType : SparkType](
-                                                                      column: DoricColumn[T]
-                                                                    ) {
+  implicit class BinaryOperationsSyntax32[T: BinaryType: SparkType](
+      column: DoricColumn[T]
+  ) {
 
     /**
       * Computes the first argument into a string from a binary using the provided character set

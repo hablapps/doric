@@ -1,35 +1,62 @@
 name: "Check, build & doc 🎯"
 description: "Check the code, build, testing & generate project documentation"
 
-inputs:
-  testing:
-    description: 'Whether to execute tests or not'
-    required: false
-    default: true
-
 runs:
   using: "composite"
   steps:
+    - name: "Printing environment"
+      run: |
+        echo ""
+        echo "#####################################################"
+        echo "#                                                   #"
+        echo "#   Running action using $SPARK_VERSION [scope $SCOPE]"
+        echo "#                                                   #"
+        echo "#####################################################"
+        echo ""
+      shell: bash
+
+      # SETUP & CACHE
     - uses: olafurpg/setup-scala@v13
     - uses: coursier/cache-action@v6
+
+      # CHECK CODE FORMAT
     - name: Code Format
-      if: inputs.testing == 'true'
-      run: sbt scalafmtCheckAll
+      if: contains(env.SCOPE, 'test')
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} scalafmtCheckAll
       shell: bash
+
+      # TESTING & COVERAGE
     - name: Test & coverage 📋
-      if: inputs.testing == 'true'
-      run: sbt coverage core/test coverageReport coverageAggregate
+      if: contains(env.SCOPE, 'test')
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage core/test coverageReport coverageAggregate
       shell: bash
+
     - name: Publish coverage to codecov 📊
-      if: inputs.testing == 'true'
+      if: contains(env.SCOPE, 'uploadReport')
       uses: codecov/codecov-action@v2
       with:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
+        flags: '${{ env.SPARK_VERSION }}.x'
+
+      # CHECK DOCUMENTATION
     - name: Build the microsite 💻
-      run: sbt docs/mdoc
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} docs/mdoc
       shell: bash
+
     - name: Build the scaladocs 💻
-      run: sbt core/doc
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} core/doc
       shell: bash
+
+      # UPLOAD DOCS
+    - name: Upload docs ⬆️
+      if: contains(env.SCOPE, 'uploadDoc')
+      uses: actions/upload-artifact@v3
+      with:
+        name: "api_spark_${{ env.SPARK_VERSION }}"
+        path: "core/target/scala-2.12/api/*"
+
+      # CLEAN PROJECT BEFORE CACHE
+    - name: Cleaning before cache 🚯
+      uses: ./.github/actions/clean_cache

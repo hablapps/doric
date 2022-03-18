@@ -1,14 +1,48 @@
 name: "Publish documentation 📑"
-description: "Clean cache"
+description: "Generate and publish documentation"
+
+inputs:
+  spark-3_0:
+    description: 'Spark version 3.0.X'
+    required: true
+    default: "3.0"
+  spark-3_1:
+    description: 'Spark version 3.1.X'
+    required: true
+    default: "3.1"
+  spark-3_2:
+    description: 'Spark version 3.2.X'
+    required: true
+    default: "3.2"
 
 runs:
   using: "composite"
   steps:
-    - name: Copy site and docs to gh-pages branch 💾
-      run: |
-        mkdir -p docs/target/mdoc/docs/api/latest
-        cp -ar core/target/scala-2.12/api/* docs/target/mdoc/docs/api/latest/
+    # BUILD MDOC
+    - name: Build the microsite 💻
+      run: sbt -DsparkVersion=${{ inputs.spark-3_2 }} docs/mdoc
       shell: bash
+
+    # DOWNLOAD DOCS
+    - name: Download docs ⬇️ [${{ inputs.spark-3_0 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_0 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_0 }}/"
+
+    - name: Download docs ⬇️ [${{ inputs.spark-3_1 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_1 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_1 }}/"
+
+    - name: Download docs ⬇️ [${{ inputs.spark-3_2 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_2 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_2 }}/"
+
+    # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       with:

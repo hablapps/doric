@@ -1,0 +1,38 @@
+name: Reusable workflow - Publish documentation
+
+on:
+  workflow_call:
+    inputs:
+      scope:
+        required: true
+        type: string
+
+jobs:
+  # TESTING, COVERAGE & DOCUMENTATION
+  testAndOrDoc:
+    strategy:
+      fail-fast: false
+      matrix:
+        spark: [ "3.0", "3.1", "3.2" ]
+        scope: [ "${{ inputs.scope }}" ]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      # CHECK & BUILD -- TEST & COVERAGE -- UPLOAD DOC
+      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
+        uses: ./.github/actions/check_build_and_doc
+        env:
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
+
+  # PUBLISH DOC JOB
+  publish:
+    needs: [ testAndOrDoc ]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+        # GENERATE & PUBLISH DOCUMENTATION
+      - name: Publish documentation 📑
+        uses: ./.github/actions/publish_doc
