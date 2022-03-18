@@ -14,20 +14,20 @@ raising a run-time exception:
 ```scala
 // Spark
 List(1,2,3).toDF.select(f.col("id")+1)
-// org.apache.spark.sql.AnalysisException: cannot resolve '`id`' given input columns: [value];
-// 'Project [('id + 1) AS (id + 1)#674]
-// +- LocalRelation [value#670]
+// org.apache.spark.sql.AnalysisException: cannot resolve 'id' given input columns: [value];
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$4027/0x000000010174b040@3922d6ef))]
+// +- LocalRelation [value#292]
 // 
-// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:158)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:155)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$2(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:74)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUp(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$1(TreeNode.scala:339)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$mapChildren$1(TreeNode.scala:408)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:244)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapChildren(TreeNode.scala:406)
+// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:54)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:179)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:175)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$2(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:82)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUpWithPruning(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$1(TreeNode.scala:532)
+// 	at org.apache.spark.sql.catalyst.trees.BinaryLike.mapChildren(TreeNode.scala:1148)
+// 	at org.apache.spark.sql.catalyst.trees.BinaryLike.mapChildren$(TreeNode.scala:1147)
+// 	at org.apache.spark.sql.catalyst.expressions.BinaryExpression.mapChildren(Expression.scala:555)
 ```
 
 ```scala
@@ -44,15 +44,15 @@ List(1,2,3).toDF.select(colInt("id")+1)
 // 	at repl.MdocSession$App$$anonfun$2.apply(validations.md:37)
 // 	at repl.MdocSession$App$$anonfun$2.apply(validations.md:37)
 // Caused by: org.apache.spark.sql.AnalysisException: Cannot resolve column name "id" among (value)
-// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:273)
-// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:264)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.cannotResolveColumnNameAmongFieldsError(QueryCompilationErrors.scala:2261)
+// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:258)
+// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:250)
 // 	at scala.Option.getOrElse(Option.scala:189)
-// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:264)
-// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1372)
-// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1339)
+// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:250)
+// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1352)
+// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1319)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:56)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
-// 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
 // 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
 ```
 

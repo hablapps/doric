@@ -9,25 +9,37 @@ permalink: docs/
 __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
-![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2.12)
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_2.12" % "0.0.2"
+libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "0.0.2"
 ```
 _Maven_
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
-  <artifactId>doric_2.12</artifactId>
+  <artifactId>doric_3-2_2.12</artifactId>
   <version>0.0.2</version>
 </dependency>
 ```
 
 Doric is committed to use the most modern APIs first.
-* Doric is compatible with Spark version 3.1.3.
+<!-- * Doric is compatible with Spark version 3.2.1. -->
 * The latest stable version of doric is 0.0.2.
-* The latest experimental version of doric is 0.0.2+30-4f527291-SNAPSHOT.
+* The latest experimental version of doric is 0.0.0+1-bcd73e30-SNAPSHOT.
+* Doric is compatible with the following Spark versions:
+
+| Spark | Scala | Tested | doric |
+|:-----:|:-----:|:------:|:-----:|
+| 3.0.0 | 2.12  |   ✅   |   -   |
+| 3.0.1 | 2.12  |   ✅   |   -   |
+| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.2) |
+| 3.1.0 | 2.12  |   ✅   |   -   |
+| 3.1.1 | 2.12  |   ✅   |   -   |
+| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.2) |
+| 3.2.0 | 2.12  |   ✅   |   -   |
+| 3.2.1 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.2) |
+
 
 __Import statements__
 
@@ -55,20 +67,20 @@ def df = List(1,2,3).toDF.select($"value" * f.lit(true))
 It's only when we try to construct the DataFrame that an exception is raised at _run-time_:
 ```scala
 df
-// org.apache.spark.sql.AnalysisException: cannot resolve '(`value` * true)' due to data type mismatch: differing types in '(`value` * true)' (int and boolean).;
-// 'Project [(value#633 * true) AS (value * true)#637]
-// +- LocalRelation [value#633]
+// org.apache.spark.sql.AnalysisException: cannot resolve '(value * true)' due to data type mismatch: differing types in '(value * true)' (int and boolean).;
+// 'Project [unresolvedalias((value#257 * true), Some(org.apache.spark.sql.Column$$Lambda$4027/0x000000010174b040@3922d6ef))]
+// +- LocalRelation [value#257]
 // 
 // 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:164)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:155)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$2(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:74)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUp(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$1(TreeNode.scala:339)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$mapChildren$1(TreeNode.scala:408)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:244)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapChildren(TreeNode.scala:406)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:190)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:175)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$2(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:82)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUpWithPruning(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$1(TreeNode.scala:532)
+// 	at org.apache.spark.sql.catalyst.trees.UnaryLike.mapChildren(TreeNode.scala:1122)
+// 	at org.apache.spark.sql.catalyst.trees.UnaryLike.mapChildren$(TreeNode.scala:1121)
+// 	at org.apache.spark.sql.catalyst.expressions.UnaryExpression.mapChildren(Expression.scala:467)
 ```
 
 Using doric, there is no need to wait for so long: errors will be reported at compile-time!
@@ -92,9 +104,9 @@ In order to refer to columns of other data types, doric strictly follows the
 [mapping](https://spark.apache.org/docs/latest/sql-ref-datatypes.html) defined by Spark SQL itself. 
 
 ---
-**NOTE**
+ℹ️ **NOTE** ℹ️
 
-Of course, this only works if you, the programmer, know the intended type 
+> Of course, this only works if you, the programmer, know the intended type 
 of the column at compile-time. In a pure dynamic setting, doric is useless. Note, however, that you don't need to know 
 in advance the whole row type as with Datasets. Thus, doric sits between a wholehearted static setting and a 
 purely dynamic one. It offers type-safety for column expressions at a minimum cost, without compromising performance, 
@@ -158,10 +170,10 @@ strDf.select(f.col("str").asDoric[String]).show()
 
 strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show
 // doric.sem.DoricMultiError: Found 1 error in select
-//   cannot resolve '(CAST(`str` AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(`str` AS DOUBLE) + true)' (double and boolean).;
-//   'Project [(cast(str#647 as double) + true) AS (str + true)#668]
-//   +- Project [value#644 AS str#647]
-//      +- LocalRelation [value#644]
+//   cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
+//   'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4027/0x000000010174b040@3922d6ef))]
+//   +- Project [value#267 AS str#270]
+//      +- LocalRelation [value#267]
 //   
 //   	located at . (quickstart.md:76)
 // 
@@ -172,20 +184,19 @@ strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show
 // 	at repl.MdocSession$App$$anonfun$2.apply$mcV$sp(quickstart.md:76)
 // 	at repl.MdocSession$App$$anonfun$2.apply(quickstart.md:76)
 // 	at repl.MdocSession$App$$anonfun$2.apply(quickstart.md:76)
-// Caused by: org.apache.spark.sql.AnalysisException: cannot resolve '(CAST(`str` AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(`str` AS DOUBLE) + true)' (double and boolean).;
-// 'Project [(cast(str#647 as double) + true) AS (str + true)#668]
-// +- Project [value#644 AS str#647]
-//    +- LocalRelation [value#644]
+// Caused by: org.apache.spark.sql.AnalysisException: cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
+// 'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4027/0x000000010174b040@3922d6ef))]
+// +- Project [value#267 AS str#270]
+//    +- LocalRelation [value#267]
 // 
 // 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:164)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:155)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$2(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:74)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUp(TreeNode.scala:342)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUp$1(TreeNode.scala:339)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$mapChildren$1(TreeNode.scala:408)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:244)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.mapChildren(TreeNode.scala:406)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:190)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$$nestedInanonfun$checkAnalysis$1$2.applyOrElse(CheckAnalysis.scala:175)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$2(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:82)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.transformUpWithPruning(TreeNode.scala:535)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformUpWithPruning$1(TreeNode.scala:532)
+// 	at org.apache.spark.sql.catalyst.trees.UnaryLike.mapChildren(TreeNode.scala:1122)
+// 	at org.apache.spark.sql.catalyst.trees.UnaryLike.mapChildren$(TreeNode.scala:1121)
+// 	at org.apache.spark.sql.catalyst.expressions.UnaryExpression.mapChildren(Expression.scala:467)
 ```
-
