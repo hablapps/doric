@@ -18,6 +18,8 @@ runs:
       # SETUP & CACHE
     - uses: olafurpg/setup-scala@v13
     - uses: coursier/cache-action@v6
+      with:
+        extraKey: "${{ matrix.spark }}"
 
       # CHECK CODE FORMAT
     - name: Code Format
