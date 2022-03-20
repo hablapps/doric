@@ -4,3 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "Dependabot:"
+      include: "scope"

@@ -11,13 +11,13 @@ concurrency:
 
 jobs:
   publish-doc:
-    if: github.repository == 'hablapps/doric'
     uses: ./.github/workflows/wc_publishSite.yml
     with:
       scope: "test-uploadReport-uploadDoc"
 
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:
+    if: github.repository == 'hablapps/doric'
     needs: [ publish-doc ]
     strategy:
       fail-fast: true
