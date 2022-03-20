@@ -40,7 +40,7 @@ runs:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
-        flags: '${{ env.SPARK_VERSION }}.x'
+        flags: 'spark-${{ env.SPARK_VERSION }}.x'
 
       # CHECK DOCUMENTATION
     - name: Build the microsite 💻
