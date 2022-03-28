@@ -1,6 +1,9 @@
 codecov:
   require_ci_to_pass: true
   branch: main
+  notify:
+    wait_for_ci: true
+    after_n_builds: 3
 
 coverage:
   precision: 2
@@ -13,6 +16,15 @@ coverage:
         target: auto
         threshold: 1%
 
+flag_management:
+  default_rules: # the rules that will be followed for any flag added, generally
+    carryforward: false
+    statuses:
+      - name_prefix: "spark-"
+        type: project
+#        target: auto
+#        threshold: 1%
+
 parsers:
   gcov:
     branch_detection:
@@ -22,6 +34,7 @@ parsers:
       macro: no
 
 comment:
-  layout: "reach,diff,flags,files,footer"  # if true: only post the comment if coverage changes
-  behavior: default
-  require_changes: false
+  layout: "reach,diff,flags,files,footer"
+  behavior: once  # once: update, if exists. Otherwise, post new. Skip if deleted.
+  require_changes: false  # if true: only post the comment if coverage changes
+  after_n_builds: 3
