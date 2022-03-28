@@ -1,6 +1,8 @@
 import sbt.{Compile, Def}
 
-val sparkDefaultShortVersion = "3.1"
+val stableVersion = "0.0.3"
+
+val sparkDefaultShortVersion = "3.2"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.1"
@@ -95,7 +97,7 @@ lazy val core = project
     publishArtifact := true,
     scalaVersion    := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
-      "org.apache.spark" %% "spark-sql"     % sparkVersion.value % "provided",
+      "org.apache.spark" %% "spark-sql"     % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel"    %% "cats-core"     % "2.7.0",
       "com.lihaoyi"      %% "sourcecode"    % "0.2.8",
       "io.monix"         %% "newtypes-core" % "0.2.1",
@@ -166,7 +168,7 @@ lazy val docs = project
     ),
     mdocVariables := Map(
       "VERSION"        -> version.value,
-      "STABLE_VERSION" -> "0.0.2",
+      "STABLE_VERSION" -> stableVersion,
       "SPARK_VERSION"  -> sparkVersion.value
     ),
     mdocExtraArguments := Seq(

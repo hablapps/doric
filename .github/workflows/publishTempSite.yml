@@ -4,6 +4,8 @@ on:
   push:
 #    branches:
 #      - '*doc/*'
+    branches-ignore:
+      - main
   workflow_dispatch:
 
 concurrency:
