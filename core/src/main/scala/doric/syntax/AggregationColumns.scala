@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import cats.implicits.{catsSyntaxTuple2Semigroupal, toTraverseOps}
+import cats.implicits._
 import doric.types.NumericType
 
 import org.apache.spark.sql.{Column, functions => f}

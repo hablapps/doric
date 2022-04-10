@@ -1,7 +1,7 @@
 package doric
 
 import cats.data.Kleisli
-import cats.implicits.catsSyntaxTuple2Semigroupal
+import cats.implicits._
 
 import org.apache.spark.sql.{Column, Dataset}
 

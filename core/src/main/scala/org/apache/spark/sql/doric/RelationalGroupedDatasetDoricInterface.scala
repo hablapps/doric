@@ -1,6 +1,6 @@
 package org.apache.spark.sql.doric
 
-import cats.implicits.toTraverseOps
+import cats.implicits._
 import doric.{DoricColumn, DoricValidated}
 
 import org.apache.spark.sql.{DataFrame, RelationalGroupedDataset}

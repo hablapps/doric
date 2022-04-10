@@ -1,7 +1,7 @@
 package doric
 package sem
 
-import cats.implicits.toTraverseOps
+import cats.implicits._
 
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.doric.DataFrameExtras

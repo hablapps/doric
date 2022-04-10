@@ -1,6 +1,6 @@
 package doric
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
+import cats.implicits._
 import doric.syntax.ColGetters
 
 import org.apache.spark.sql.Column

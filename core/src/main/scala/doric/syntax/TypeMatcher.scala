@@ -2,7 +2,7 @@ package doric
 package syntax
 
 import cats.data.Kleisli
-import cats.implicits.catsSyntaxValidatedIdBinCompat0
+import cats.implicits._
 import doric.sem.{ColumnMultyTypeError, Location}
 import doric.types.SparkType
 
