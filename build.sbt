@@ -3,6 +3,7 @@ import sbt.{Compile, Def}
 val stableVersion = "0.0.3"
 
 val sparkDefaultShortVersion = "3.2"
+val spark24Version           = "2.4.8"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.1"
@@ -10,10 +11,12 @@ val spark32Version           = "3.2.1"
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
 
+val scala211 = "2.11.12"
 val scala212 = "2.12.15"
 val scala213 = "2.13.8"
 
 val parserSparkVersion: String => String = {
+  case versionRegexShort("2", "4") => spark24Version
   case versionRegexShort("3", "0") => spark30Version
   case versionRegexShort("3", "1") => spark31Version
   case versionRegexShort("3", "2") => spark32Version
@@ -25,9 +28,15 @@ val sparkLong2ShortVersion: String => String = { case versionRegex(a, b, _) =>
 }
 
 val scalaVersionSelect: String => String = {
+  case versionRegex("2", _, _)   => scala211
   case versionRegex("3", "0", _) => scala212
   case versionRegex("3", "1", _) => scala212
   case versionRegex("3", "2", _) => scala212
+}
+
+val catsVersion: String => String = {
+  case versionRegex("2", _, _) => "2.0.0"
+  case _                       => "2.7.0"
 }
 
 ThisBuild / organization := "org.hablapps"
@@ -98,8 +107,8 @@ lazy val core = project
     scalaVersion    := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
-      "org.typelevel"       %% "cats-core"        % "2.7.0",
-      "com.lihaoyi"         %% "sourcecode"       % "0.2.8",
+      "org.typelevel" %% "cats-core"  % catsVersion(sparkVersion.value),
+      "com.lihaoyi"   %% "sourcecode" % "0.2.8",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.2.0"  % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.11" % "test"
     ),

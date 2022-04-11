@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import cats.implicits.toTraverseOps
+import cats.implicits._
 import doric.types.{BinaryType, SparkType}
 
 import org.apache.spark.sql.{functions => f}

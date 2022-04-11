@@ -1,14 +1,12 @@
 package doric
 package syntax
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
+import cats.implicits._
 import doric.types.TimestampType
-import org.apache.spark.sql.catalyst.expressions.{FromUTCTimestamp, ToUTCTimestamp}
-import org.apache.spark.sql.{Column, functions => f}
-
 import java.sql.Timestamp
 
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.catalyst.expressions.{FromUTCTimestamp, ToUTCTimestamp}
 
 private[syntax] trait TimestampColumns {
 

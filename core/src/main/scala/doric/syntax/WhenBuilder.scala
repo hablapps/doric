@@ -1,9 +1,10 @@
 package doric
 package syntax
 
-import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple2Semigroupal, catsSyntaxTuple3Semigroupal}
+import cats.implicits._
 import doric.types.{Casting, SparkType}
-import org.apache.spark.sql.functions.{lit => sparkLit, when => sparkWhen}
+
+import org.apache.spark.sql.functions.{when => sparkWhen}
 import org.apache.spark.sql.Column
 
 final private[doric] case class WhenBuilder[T](
@@ -13,6 +14,7 @@ final private[doric] case class WhenBuilder[T](
 
   /**
     * Marks the rest of cases as null values of the provided type
+    *
     * @param dt
     *   Type class for spark data type
     * @return
