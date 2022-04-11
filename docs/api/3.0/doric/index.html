@@ -170,9 +170,9 @@
                         <a class="class" href="BooleanOperationsSyntax.html" title=""></a>
                         <a href="BooleanOperationsSyntax.html" title="">BooleanOperationsSyntax</a>
                       </li><li class="current-entities indented1">
-                        <span class="separator"></span>
                         <a class="object" href="CName$.html" title=""></a>
-                        <a href="CName$.html" title="">CName</a>
+                        <a class="class" href="CName.html" title=""></a>
+                        <a href="CName.html" title="">CName</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="syntax/CNameOps$CNameOps.html" title=""></a>
@@ -520,18 +520,18 @@
       
       
     </li><li name="doric.CName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="CName=doric.CName.Type"></a><a id="CName:CName"></a>
+      <a id="CNameextendsProductwithSerializable"></a><a id="CName:CName"></a>
       <span class="permalink">
-      <a href="../doric/index.html#CName=doric.CName.Type" title="Permalink">
+      <a href="../doric/CName.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">type</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CName</span><span class="result alias"> = <a href="CName$.html#Type&lt;:NewEncoding.this.BasewithNewEncoding.this.Tag" class="extmbr" name="doric.CName.Type">doric.CName.Type</a></span>
+        <a title="" href="CName.html"><span class="name">CName</span></a><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -1969,7 +1969,7 @@ using the given separator.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">count</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+        <span class="name">count</span><span class="params">(<span name="colName">colName: <a href="CName.html" class="extype" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Aggregate function: returns the number of items in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the number of items in a group.
@@ -2003,7 +2003,7 @@ using the given separator.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">countDistinct</span><span class="params">(<span name="columnName">columnName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="columnNames">columnNames: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+        <span class="name">countDistinct</span><span class="params">(<span name="columnName">columnName: <a href="CName.html" class="extype" name="doric.CName">CName</a></span>, <span name="columnNames">columnNames: <a href="CName.html" class="extype" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Aggregate function: returns the number of distinct items in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the number of distinct items in a group.
@@ -2186,7 +2186,7 @@ This function takes at least 2 parameters. It will return null iff all parameter
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">grouping</span><span class="params">(<span name="columnName">columnName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="#ByteColumn=doric.DoricColumn[Byte]" class="extmbr" name="doric.ByteColumn">ByteColumn</a></span>
+        <span class="name">grouping</span><span class="params">(<span name="columnName">columnName: <a href="CName.html" class="extype" name="doric.CName">CName</a></span>)</span><span class="result">: <a href="#ByteColumn=doric.DoricColumn[Byte]" class="extmbr" name="doric.ByteColumn">ByteColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Aggregate function: indicates whether a specified column in a GROUP BY list is aggregated
@@ -2224,7 +2224,7 @@ or not, returns 1 for aggregated or 0 for not aggregated in the result set.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">groupingId</span><span class="params">(<span name="colName">colName: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a></span>, <span name="colNames">colNames: <a href="#CName=doric.CName.Type" class="extmbr" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
+        <span class="name">groupingId</span><span class="params">(<span name="colName">colName: <a href="CName.html" class="extype" name="doric.CName">CName</a></span>, <span name="colNames">colNames: <a href="CName.html" class="extype" name="doric.CName">CName</a>*</span>)</span><span class="result">: <a href="#LongColumn=doric.DoricColumn[Long]" class="extmbr" name="doric.LongColumn">LongColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Aggregate function: returns the level of grouping, equals to
@@ -2984,7 +2984,7 @@ variant of the xxHash algorithm, and returns the result as a long column.
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="CName$.html"><span class="name">CName</span></a><span class="result"> extends <a href="https://javadoc.io/page/io.monix/newtypes-core_2.12/0.2.1/monix/newtypes/NewtypeWrapped.html#monix.newtypes.NewtypeWrapped" class="extype" name="monix.newtypes.NewtypeWrapped">NewtypeWrapped</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <a title="" href="CName$.html"><span class="name">CName</span></a><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
