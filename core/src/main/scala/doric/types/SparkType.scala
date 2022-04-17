@@ -133,19 +133,19 @@ object SparkType {
 
   implicit val fromStringDf: Primitive[String] = SparkType[String](StringType)
 
-  implicit val fromLocalDate: Primitive[LocalDate] =
-    SparkType[LocalDate](org.apache.spark.sql.types.DateType)
+  implicit val fromLocalDate: Primitive[Date] =
+    SparkType[Date](org.apache.spark.sql.types.DateType)
 
-  implicit val fromInstant: Primitive[Instant] =
-    SparkType[Instant](org.apache.spark.sql.types.TimestampType)
+  implicit val fromInstant: Primitive[Timestamp] =
+    SparkType[Timestamp](org.apache.spark.sql.types.TimestampType)
 
   implicit val fromByte: Primitive[Byte] = SparkType[Byte](ByteType)
 
-  implicit val fromDate: Custom[Date, LocalDate] =
-    SparkType[LocalDate].customType[Date](Date.valueOf)
+  implicit val fromDate: Custom[LocalDate, Date] =
+    SparkType[Date].customType[LocalDate](_.toLocalDate)
 
-  implicit val fromTimestamp: Custom[Timestamp, Instant] =
-    SparkType[Instant].customType[Timestamp](Timestamp.from)
+  implicit val fromTimestamp: Custom[Instant, Timestamp] =
+    SparkType[Timestamp].customType[Instant](_.toInstant)
 
   implicit val fromInt: Primitive[Int] = SparkType[Int](IntegerType)
 
@@ -254,6 +254,9 @@ object SparkType {
       st: SparkType[A]
   ): Custom[Option[A], st.OriginalSparkType] =
     new SparkType[Option[A]] {
+
+      override def isEqual(column: DataType): Boolean = st.isEqual(column)
+
       override def dataType: DataType = st.dataType
 
       override type OriginalSparkType = st.OriginalSparkType

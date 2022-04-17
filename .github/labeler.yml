@@ -2,10 +2,13 @@ CI/CD:
   - .github/**/*.yml
 
 dependencies:
-  - any: ['.github/dependabot.yml', 'build.sbt', 'project/**/*', '.scala-steward.conf', '.scalafix.conf', '.scalafmt.conf']
+  - any: [ '.github/dependabot.yml', 'build.sbt', 'project/**/*', '.scala-steward.conf', '.scalafix.conf', '.scalafmt.conf' ]
 
 documentation:
-  - any: ['docs/**/*', 'notebooks/**/*', '*.md']
+  - any: [ 'docs/**/*', 'notebooks/**/*', '*.md' ]
+
+spark_2.4:
+  - core/src/main/spark*2.4*/**/*
 
 spark_3.0:
   - core/src/main/spark*3.0*/**/*

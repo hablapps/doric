@@ -55,17 +55,17 @@ object LiteralSparkType {
 
   implicit val fromStringDf: Primitive[String] = createPrimitive[String]
 
-  implicit val fromLocalDate: Primitive[LocalDate] =
-    createPrimitive[LocalDate]
+  implicit val fromLocalDate: Primitive[Date] =
+    createPrimitive[Date]
 
-  implicit val fromInstant: Primitive[Instant] =
-    createPrimitive[Instant]
+  implicit val fromInstant: Primitive[Timestamp] =
+    createPrimitive[Timestamp]
 
-  implicit val fromDate: Custom[Date, LocalDate] =
-    LiteralSparkType[LocalDate].customType[Date](_.toLocalDate)
+  implicit val fromDate: Custom[LocalDate, Date] =
+    LiteralSparkType[Date].customType[LocalDate](Date.valueOf)
 
-  implicit val fromTimestamp: Custom[Timestamp, Instant] =
-    LiteralSparkType[Instant].customType[Timestamp](_.toInstant)
+  implicit val fromTimestamp: Custom[Instant, Timestamp] =
+    LiteralSparkType[Timestamp].customType[Instant](Timestamp.from)
 
   implicit val fromInt: Primitive[Int] = createPrimitive[Int]
 

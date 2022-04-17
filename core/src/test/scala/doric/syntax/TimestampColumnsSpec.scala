@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import Equalities._
+import doric.Equalities._
 import java.sql.{Date, Timestamp}
 import java.time.{LocalDate, LocalDateTime}
 import org.scalatest.EitherValues
@@ -22,10 +22,7 @@ class TimestampColumnsSpec
     val df = List(("1", "1")).toDF("col1", "col2")
 
     it("should work as spark current_timestamp function") {
-      df.testColumn(
-        currentTimestamp(),
-        f.current_timestamp()
-      )
+      df.testColumn(currentTimestamp(), f.current_timestamp())
     }
   }
 
@@ -65,11 +62,13 @@ class TimestampColumnsSpec
       )
     }
 
-    it("should fail if invalid timeZone") {
-      intercept[java.time.DateTimeException](
-        df.select(colTimestamp("timestampCol").fromUtc("wrong timeZone".lit))
-          .collect()
-      )
+    if (spark.version.take(1) == "3") {
+      it("should fail if invalid timeZone") {
+        intercept[java.time.DateTimeException](
+          df.select(colTimestamp("timestampCol").fromUtc("wrong timeZone".lit))
+            .collect()
+        )
+      }
     }
   }
 
@@ -87,37 +86,13 @@ class TimestampColumnsSpec
       )
     }
 
-    it("should fail if invalid timeZone") {
-      intercept[java.time.DateTimeException](
-        df.select(colTimestamp("timestampCol").toUtc("wrong timeZone".lit))
-          .collect()
-      )
-    }
-  }
-
-  describe("addMonths doric function with column") {
-    import spark.implicits._
-
-    val df = List(
-      (Timestamp.valueOf(now), Some(1)),
-      (Timestamp.valueOf(now), Some(-1)),
-      (Timestamp.valueOf(now), None),
-      (null, Some(1)),
-      (null, None)
-    ).toDF("timestampCol", "monthCol")
-
-    it("should work as spark add_months function with column") {
-      df.testColumns2("timestampCol", "monthCol")(
-        (d, m) => colTimestamp(d).addMonths(colInt(m)),
-        (d, m) => f.add_months(f.col(d), f.col(m)),
-        List(
-          Date.valueOf(now.plusMonths(1).toLocalDate),
-          Date.valueOf(now.minusMonths(1).toLocalDate),
-          null,
-          null,
-          null
-        ).map(Option(_))
-      )
+    if (spark.version.take(1) == "3") {
+      it("should fail if invalid timeZone") {
+        intercept[java.time.DateTimeException](
+          df.select(colTimestamp("timestampCol").toUtc("wrong timeZone".lit))
+            .collect()
+        )
+      }
     }
   }
 
@@ -139,32 +114,6 @@ class TimestampColumnsSpec
         (d, m) => colTimestamp(d).addDays(m.lit),
         (d, m) => f.date_add(f.col(d), m),
         List(Date.valueOf(now.minusDays(3).toLocalDate), null).map(Option(_))
-      )
-    }
-  }
-
-  describe("addDays doric function with column") {
-    import spark.implicits._
-
-    val df = List(
-      (Timestamp.valueOf(now), Some(1)),
-      (Timestamp.valueOf(now), Some(-1)),
-      (Timestamp.valueOf(now), None),
-      (null, Some(1)),
-      (null, None)
-    ).toDF("timestampCol", "monthCol")
-
-    it("should work as spark date_add function with column") {
-      df.testColumns2("timestampCol", "monthCol")(
-        (d, m) => colTimestamp(d).addDays(colInt(m)),
-        (d, m) => f.date_add(f.col(d), f.col(m)),
-        List(
-          Date.valueOf(now.plusDays(1).toLocalDate),
-          Date.valueOf(now.minusDays(1).toLocalDate),
-          null,
-          null,
-          null
-        ).map(Option(_))
       )
     }
   }
@@ -209,32 +158,6 @@ class TimestampColumnsSpec
         (d, m) => colTimestamp(d).subDays(m.lit),
         (d, m) => f.date_sub(f.col(d), m),
         List(Date.valueOf(now.plusDays(3).toLocalDate), null).map(Option(_))
-      )
-    }
-  }
-
-  describe("subDays doric function with column") {
-    import spark.implicits._
-
-    val df = List(
-      (Timestamp.valueOf(now), Some(1)),
-      (Timestamp.valueOf(now), Some(-1)),
-      (Timestamp.valueOf(now), None),
-      (null, Some(1)),
-      (null, None)
-    ).toDF("timestampCol", "monthCol")
-
-    it("should work as spark date_sub function with column") {
-      df.testColumns2("timestampCol", "monthCol")(
-        (d, m) => colTimestamp(d).subDays(colInt(m)),
-        (d, m) => f.date_sub(f.col(d), f.col(m)),
-        List(
-          Date.valueOf(now.minusDays(1).toLocalDate),
-          Date.valueOf(now.plusDays(1).toLocalDate),
-          null,
-          null,
-          null
-        ).map(Option(_))
       )
     }
   }

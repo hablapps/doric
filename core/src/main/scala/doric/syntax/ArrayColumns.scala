@@ -420,22 +420,6 @@ private[syntax] trait ArrayColumns {
     def explodeOuter: DoricColumn[T] = col.elem.map(f.explode_outer).toDC
 
     /**
-      * Returns whether a predicate holds for every element in the array.
-      * @example {{{
-      *   df.select(colArray("i").forAll(x => x % 2 === 0))
-      * }}}
-      *
-      * @group Array Type
-      * @see [[org.apache.spark.sql.functions.forall]]
-      */
-    def forAll(fun: DoricColumn[T] => BooleanColumn): BooleanColumn =
-      (col.elem, fun(x).elem)
-        .mapN((c, f) => {
-          new Column(ArrayForAll(c.expr, lam1(f.expr)))
-        })
-        .toDC
-
-    /**
       * Returns an array with reverse order of elements.
       *
       * @group Array Type

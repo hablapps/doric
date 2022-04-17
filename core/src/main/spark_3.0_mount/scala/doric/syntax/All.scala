@@ -18,3 +18,7 @@ private[doric] trait All
     with BinaryColumns
     with Interpolators
     with BinaryColumns30_31
+    with ArrayColumns3x
+    with CommonColumns3x
+    with MapColumns3x
+    with StringColumn3x

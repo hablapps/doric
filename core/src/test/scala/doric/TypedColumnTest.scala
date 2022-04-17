@@ -53,14 +53,12 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       .na
       .fill(Map(equalsColumn -> false))
 
-    implicit val enc: Encoder[(Option[T], Option[T], Boolean)] =
-      result.sparkSession.implicits
-        .newProductEncoder[(Option[T], Option[T], Boolean)]
-
     val (doricColumns, sparkColumns, boolResColumns) = result
-      .as[(Option[T], Option[T], Boolean)]
-      .collect()
-      .toList
+      .collectCols(
+        col[Option[T]](doricCol),
+        col[Option[T]](sparkCol),
+        colBoolean(equalsColumn)
+      )
       .unzip3
 
     assert(

@@ -3,10 +3,10 @@ package syntax
 
 import cats.implicits._
 import doric.types.{DateType, SparkType}
-import org.apache.spark.sql.catalyst.expressions.{DateFormatClass, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
-import org.apache.spark.sql.{Column, functions => f}
-
 import java.sql.Date
+
+import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.catalyst.expressions.{AddMonths, DateAdd, DateFormatClass, DateSub, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
 
 private[syntax] trait DateColumns {
 
@@ -28,28 +28,32 @@ private[syntax] trait DateColumns {
       *
       * @group Date & Timestamp Type
       * @param nMonths
-      *   the number of months to add, can be negative to subtract.
+      * the number of months to add, can be negative to subtract.
       * @return
-      *   Date column after adding months
+      * Date column after adding months
       * @note
-      *   Timestamp columns will be truncated to Date column
+      * Timestamp columns will be truncated to Date column
       * @see [[org.apache.spark.sql.functions.add_months(startDate:org\.apache\.spark\.sql\.Column,numMonths:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.add_months]]
       */
     def addMonths(nMonths: IntegerColumn): DateColumn =
-      (column.elem, nMonths.elem).mapN(f.add_months).toDC
+      (column.elem, nMonths.elem)
+        .mapN((x, y) => new Column(AddMonths(x.expr, y.expr)))
+        .toDC
 
     /**
       * Returns the date that is `days` days after date column
       *
       * @param days
-      *   A column of the number of days to add to date column, can be negative to subtract days
+      * A column of the number of days to add to date column, can be negative to subtract days
       * @note
-      *   Timestamp columns will be truncated to Date column
+      * Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
       * @see [[org.apache.spark.sql.functions.date_add(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_add]]
       */
     def addDays(days: IntegerColumn): DateColumn =
-      (column.elem, days.elem).mapN(f.date_add).toDC
+      (column.elem, days.elem)
+        .mapN((x, y) => new Column(DateAdd(x.expr, y.expr)))
+        .toDC
 
     /**
       * Converts a date to a value of string in the format specified by the date
@@ -75,14 +79,16 @@ private[syntax] trait DateColumns {
       * Returns the date that is `days` days before date column
       *
       * @param days
-      *   A column of the number of days to subtract from date column, can be negative to add days
+      * A column of the number of days to subtract from date column, can be negative to add days
       * @note
-      *   Timestamp columns will be truncated to Date column
+      * Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
       * @see [[org.apache.spark.sql.functions.date_sub(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_sub]]
       */
     def subDays(days: IntegerColumn): DateColumn =
-      (column.elem, days.elem).mapN(f.date_sub).toDC
+      (column.elem, days.elem)
+        .mapN((x, y) => new Column(DateSub(x.expr, y.expr)))
+        .toDC
 
     /**
       * Returns the number of days from date column to `dateCol`.
