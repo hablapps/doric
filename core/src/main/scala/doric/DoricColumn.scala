@@ -10,7 +10,7 @@ import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
 
-sealed trait DoricColumn[T] {
+sealed trait DoricColumn[T] extends DynamicFieldAccessor[T]{
   val elem: Doric[Column]
 }
 

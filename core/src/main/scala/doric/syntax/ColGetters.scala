@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import scala.reflect.ClassTag
+import scala.language.dynamics
 
 import doric.sem.Location
 import doric.types.SparkType
@@ -32,6 +33,24 @@ private[doric] trait ColGetters[F[_]] {
       location: Location
   ): F[T] =
     constructSide(SparkType[T].validate(colName), colName)
+
+  /**
+   * The object `row` stands for the top-level row of the DataFrame.
+   */
+  object row extends Dynamic{
+
+    /**
+     * The expression `row.name[T]` is syntactic sugar for `col[T](name)`.
+     *
+     * @param name
+     * @param location
+     * @param st
+     * @tparam A
+     * @return the doric column referenced by the row field `name`
+     */
+    def selectDynamic[A: ClassTag](name: String)(implicit location: Location, st: SparkType[A]): F[A] =
+      col[A](name)
+  }
 
   /**
     * Retrieves a column with the provided name expecting it to be of string type.
