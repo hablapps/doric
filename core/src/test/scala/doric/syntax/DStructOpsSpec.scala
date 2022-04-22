@@ -55,7 +55,7 @@ class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
         .toEither
         .left
         .value
-        .head shouldBe ColumnTypeError("age", StringType, IntegerType)
+        .head shouldBe ColumnTypeError("col.age", StringType, IntegerType)
     }
   }
 
