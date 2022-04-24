@@ -104,7 +104,11 @@ private[syntax] trait DStructs {
      * @tparam A
      * @return The column which refers to the given field. If the parent column is not a struct, a `ColumnTypeError` is thrown.
      */
-    def selectDynamic[A: ClassTag](name: String)(implicit location: Location, st: SparkType[A]): DoricColumn[A] =
+    def selectDynamic[A: ClassTag](name: String)(implicit
+                                                 location: Location,
+                                                 st: SparkType[A],
+                                                 w: T =:= Row
+    ): DoricColumn[A] =
       self.getChild[A](name)
   }
 
