@@ -18,7 +18,7 @@ class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
     .toDF("col", "delete")
     .select("col")
 
-  describe("Dinamic struct column") {
+  describe("Dynamic struct column") {
     it("can get values subcolumns") {
       df.validateColumnType(colStruct("col").getChild[String]("name"))
       df.validateColumnType(colStruct("col").getChild[Int]("age"))

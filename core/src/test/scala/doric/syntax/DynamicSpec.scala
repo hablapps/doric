@@ -14,31 +14,28 @@ class DynamicSpec extends DoricTestElements with EitherValues with Matchers {
   import spark.implicits._
 
   private val df = List((User("John", "doe", 34), 1))
-    .toDF("col", "delete")
+    .toDF("user", "delete")
 
-  describe("Dynamic accessors") {
+  describe("Dynamic invocations") {
 
-    xx
-    it("can get values from sub-columns of struct columns") {
-      df.validateColumnType(colStruct("col").name[String])
-      df.validateColumnType(colStruct("col").age[Int])
+    it("can get values from sub-columns of `Row`` columns") {
+      df.validateColumnType(colStruct("user").name[String])
+      df.validateColumnType(colStruct("user").age[Int])
     }
 
     it("can get values from sub-sub-columns") {
       List(((("1", 2.0),2),true)).toDF.validateColumnType(colStruct("_1")._1[Row]._1[String])
     }
 
-    it("can get values from top row") {
-      df.validateColumnType(row.col[Row])
-      df.validateColumnType(row.col[Row].age[Int])
+    it("can get values from the top-level row") {
+      df.validateColumnType(row.user[Row])
+      df.validateColumnType(row.user[Row].age[Int])
       List(("1", 2, true)).toDF.validateColumnType(row._1[String])
       List((("1",2),true)).toDF.validateColumnType(row._1[Row]._2[Int])
     }
 
-
     it("should not compile if the parent column is not a row"){
-      // Unfortunately, scalatest fails to detect the compilation error
-      // """spark.range(1).toDF.select(col[Long]("id").name[String])""" shouldNot compile
+      """val c: DoricColumn[String] = col[Int]("id").name[String]""" shouldNot compile
     }
   }
 }
