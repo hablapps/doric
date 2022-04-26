@@ -59,16 +59,25 @@ class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
         .head shouldBe ColumnTypeError("col.age", StringType, IntegerType)
     }
 
-    it("throws an error if the user forces a field access for non-row columns"){
-      colInt("delete").asInstanceOf[RowColumn]
+    it(
+      "throws an error if the user forces a field access for non-row columns"
+    ) {
+      colInt("delete")
+        .asInstanceOf[RowColumn]
         .getChild[Int]("name")
         .elem
-        .run(List((User("John", "doe", 34), 1))
-          .toDF("col", "delete"))
+        .run(
+          List((User("John", "doe", 34), 1))
+            .toDF("col", "delete")
+        )
         .toEither
         .left
         .value
-        .head shouldBe ColumnTypeError("delete", SparkType[Row].dataType, IntegerType)
+        .head shouldBe ColumnTypeError(
+        "delete",
+        SparkType[Row].dataType,
+        IntegerType
+      )
     }
   }
 
