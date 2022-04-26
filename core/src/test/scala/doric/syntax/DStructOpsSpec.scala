@@ -2,9 +2,10 @@ package doric
 package syntax
 
 import doric.sem.{ChildColumnNotFound, ColumnTypeError}
+import doric.types.SparkType
+import org.apache.spark.sql.Row
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-
 import org.apache.spark.sql.types.{IntegerType, StringType}
 
 case class User(name: String, surname: String, age: Int)
@@ -56,6 +57,18 @@ class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
         .left
         .value
         .head shouldBe ColumnTypeError("col.age", StringType, IntegerType)
+    }
+
+    it("throws an error if the user forces a field access for non-row columns"){
+      colInt("delete").asInstanceOf[RowColumn]
+        .getChild[Int]("name")
+        .elem
+        .run(List((User("John", "doe", 34), 1))
+          .toDF("col", "delete"))
+        .toEither
+        .left
+        .value
+        .head shouldBe ColumnTypeError("delete", SparkType[Row].dataType, IntegerType)
     }
   }
 
