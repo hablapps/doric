@@ -35,20 +35,22 @@ private[doric] trait ColGetters[F[_]] {
     constructSide(SparkType[T].validate(colName), colName)
 
   /**
-   * The object `row` stands for the top-level row of the DataFrame.
-   */
-  object row extends Dynamic{
+    * The object `row` stands for the top-level row of the DataFrame.
+    */
+  object row extends Dynamic {
 
     /**
-     * The expression `row.name[T]` is syntactic sugar for `col[T](name)`.
-     *
-     * @param name
-     * @param location
-     * @param st
-     * @tparam A
-     * @return the doric column referenced by the row field `name`
-     */
-    def selectDynamic[A: ClassTag](name: String)(implicit location: Location, st: SparkType[A]): F[A] =
+      * The expression `row.name[T]` is syntactic sugar for `col[T](name)`.
+      *
+      * @param name
+      * @param location
+      * @param st
+      * @tparam A
+      * @return the doric column referenced by the row field `name`
+      */
+    def selectDynamic[A: ClassTag](
+        name: String
+    )(implicit location: Location, st: SparkType[A]): F[A] =
       col[A](name)
   }
 
