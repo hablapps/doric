@@ -4,6 +4,7 @@ package syntax
 import scala.language.dynamics
 import cats.arrow.FunctionK
 import cats.data.{Kleisli, NonEmptyChain}
+import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Location}
 import doric.types.SparkType
@@ -12,7 +13,6 @@ import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
 import scala.reflect.ClassTag
-import scala.util.Try
 
 private[syntax] trait DStructs {
 
@@ -37,7 +37,7 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  implicit class DStructOps[T](private val col: DoricColumn[T]) {
+  implicit class DStructOps(private val col: DoricColumn[Row]) {
 
     /**
       * Retreaves the child row of the Struct column
@@ -59,13 +59,8 @@ private[syntax] trait DStructs {
         .flatMap(vcolumn =>
           Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
             val fatherColumn = df.select(vcolumn).schema.head
-            Try(fatherColumn.dataType.asInstanceOf[StructType]).fold(
-              _ => ColumnTypeError(
-                fatherColumn.name,
-                SparkType[Row].dataType,
-                fatherColumn.dataType
-              ).leftNec[Column],
-              fatherStructType =>
+            fatherColumn.dataType match {
+              case fatherStructType: StructType =>
                 fatherStructType.find(_.name == subColumnName)
                   .fold[DoricEither[Column]](
                     ChildColumnNotFound(
@@ -79,12 +74,18 @@ private[syntax] trait DStructs {
                         .asRight[NonEmptyChain[DoricSingleError]]
                     else
                       ColumnTypeError(
-                        fatherColumn.name +  "." + subColumnName,
+                        fatherColumn.name + "." + subColumnName,
                         SparkType[T].dataType,
                         st.dataType
                       ).leftNec[Column]
                   )
-            )
+              case _ => // should not happen
+                ColumnTypeError(
+                  fatherColumn.name,
+                  SparkType[Row].dataType,
+                  fatherColumn.dataType
+                ).leftNec[Column]
+            }
           })
         )
         .mapK(toValidated)
@@ -107,9 +108,9 @@ private[syntax] trait DStructs {
     def selectDynamic[A: ClassTag](name: String)(implicit
                                                  location: Location,
                                                  st: SparkType[A],
-                                                 w: T =:= Row
+                                                 w: T Is Row
     ): DoricColumn[A] =
-      self.getChild[A](name)
+      w.lift[DoricColumn].coerce(self).getChild[A](name)
   }
 
 }
