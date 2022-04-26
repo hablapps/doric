@@ -110,7 +110,7 @@ lazy val core = project
       "org.typelevel" %% "cats-core"  % catsVersion(sparkVersion.value),
       "com.lihaoyi"   %% "sourcecode" % "0.2.8",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.2.0"  % "test",
-      "org.scalatest"       %% "scalatest"        % "3.2.11" % "test"
+      "org.scalatest"       %% "scalatest"        % "3.2.12" % "test"
     ),
     // docs
     run / fork                      := true,
