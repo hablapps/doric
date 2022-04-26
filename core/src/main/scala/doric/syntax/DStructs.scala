@@ -8,11 +8,10 @@ import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Location}
 import doric.types.SparkType
+
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
-
-import scala.reflect.ClassTag
 
 private[syntax] trait DStructs {
 
@@ -37,7 +36,7 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  implicit class DStructOps(private val col: DoricColumn[Row]) {
+  implicit class DStructOps(private val col: RowColumn) {
 
     /**
       * Retreaves the child row of the Struct column
@@ -105,7 +104,7 @@ private[syntax] trait DStructs {
      * @tparam A
      * @return The column which refers to the given field. If the parent column is not a struct, a `ColumnTypeError` is thrown.
      */
-    def selectDynamic[A: ClassTag](name: String)(implicit
+    def selectDynamic[A](name: String)(implicit
                                                  location: Location,
                                                  st: SparkType[A],
                                                  w: T Is Row
