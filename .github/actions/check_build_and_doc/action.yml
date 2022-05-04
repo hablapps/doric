@@ -58,7 +58,10 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
-        path: "core/target/scala-*/api/*"
+        path: |
+          "core/target/scala-2.11/api/*"
+          "core/target/scala-2.12/api/*"
+          "core/target/scala-2.13/api/*"
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯
