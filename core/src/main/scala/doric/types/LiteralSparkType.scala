@@ -1,10 +1,17 @@
 package doric
 package types
 
-import scala.reflect.ClassTag
+import cats.implicits.catsSyntaxValidatedIdBinCompat0
+import doric.sem.SparkErrorWrapper
+import org.apache.spark.sql.catalyst.CatalystTypeConverters
+import org.apache.spark.sql.catalyst.expressions.Literal
+import org.apache.spark.sql.{Column, Row, functions => f}
 
+import scala.reflect.runtime.universe._
+import scala.reflect.ClassTag
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
+import scala.reflect.runtime.universe
 
 trait LiteralSparkType[T] {
   self =>
@@ -12,7 +19,12 @@ trait LiteralSparkType[T] {
 
   val classTag: ClassTag[OriginalSparkType]
 
+  val ttag: TypeTag[OriginalSparkType]
+
   val literalTo: T => OriginalSparkType
+
+  def literal(t: T): DoricValidated[Column] =
+    f.typedlit[OriginalSparkType](literalTo(t))(ttag).validNec
 
   def customType[O](
       f: O => T
@@ -21,6 +33,7 @@ trait LiteralSparkType[T] {
   ): LiteralSparkType.Custom[O, self.OriginalSparkType] =
     new LiteralSparkType[O]() {
       override type OriginalSparkType = self.OriginalSparkType
+      val ttag                                       = self.ttag
       val classTag: ClassTag[self.OriginalSparkType] = self.classTag
       override val literalTo: O => OriginalSparkType = f andThen self.literalTo
     }
@@ -41,13 +54,13 @@ object LiteralSparkType {
   ): Custom[T, litc.OriginalSparkType] =
     litc
 
-  @inline private def createPrimitive[T: ClassTag](implicit
-      spark: SparkType.Primitive[T]
-  ): Primitive[T] = new LiteralSparkType[T] {
-    override type OriginalSparkType = spark.OriginalSparkType
-    val classTag: ClassTag[T]                      = implicitly[ClassTag[T]]
-    override val literalTo: T => OriginalSparkType = identity
-  }
+  @inline private def createPrimitive[T: ClassTag: TypeTag]: Primitive[T] =
+    new LiteralSparkType[T] {
+      override type OriginalSparkType = T
+      val classTag: ClassTag[T]                      = implicitly[ClassTag[T]]
+      val ttag                                       = typeTag[T]
+      override val literalTo: T => OriginalSparkType = identity
+    }
 
   implicit val fromNull: Primitive[Null] = createPrimitive[Null]
 
@@ -75,6 +88,26 @@ object LiteralSparkType {
 
   implicit val fromDouble: Primitive[Double] = createPrimitive[Double]
 
+  implicit def fromProduct[T <: Product: TypeTag: ClassTag]: Primitive[T] =
+    createPrimitive[T]
+
+  implicit val fromRow: Primitive[Row] = new LiteralSparkType[Row] {
+    override type OriginalSparkType = Row
+    override val classTag: ClassTag[Row]     = implicitly[ClassTag[Row]]
+    override val ttag: universe.TypeTag[Row] = typeTag[Row]
+    override val literalTo                   = identity
+    override def literal(t: Row): DoricValidated[Column] =
+      if (t.schema == null)
+        SparkErrorWrapper(new Exception("Row without schema")).invalidNec
+      else
+        new Column(
+          Literal(
+            CatalystTypeConverters.createToCatalystConverter(t.schema)(t),
+            t.schema
+          )
+        ).validNec
+  }
+
   implicit def fromMap[K, V](implicit
       stk: LiteralSparkType[K],
       stv: LiteralSparkType[V]
@@ -83,6 +116,8 @@ object LiteralSparkType {
 
       override type OriginalSparkType =
         Map[stk.OriginalSparkType, stv.OriginalSparkType]
+
+      val ttag = maptt(stk.ttag, stv.ttag)
 
       override val literalTo: Map[K, V] => OriginalSparkType =
         _.map(x => (stk.literalTo(x._1), stv.literalTo(x._2))).toMap
@@ -102,6 +137,8 @@ object LiteralSparkType {
         _.map(lst.literalTo)
       override val classTag: ClassTag[List[lst.OriginalSparkType]] =
         implicitly[ClassTag[List[lst.OriginalSparkType]]]
+
+      val ttag = listtt(lst.ttag)
     }
 
   implicit def fromArray[A](implicit
@@ -119,6 +156,8 @@ object LiteralSparkType {
 
       override val classTag: ClassTag[Array[lst.OriginalSparkType]] =
         lst.classTag.wrap
+
+      val ttag = arraytt(lst.ttag)
     }
 
   implicit def fromOption[A](implicit
@@ -134,5 +173,12 @@ object LiteralSparkType {
       }
       override val classTag: ClassTag[lst.OriginalSparkType] =
         lst.classTag
+
+      val ttag = lst.ttag
     }
+
+  def optiontt[T: TypeTag]: TypeTag[Option[T]]          = typeTag[Option[T]]
+  def maptt[K: TypeTag, V: TypeTag]: TypeTag[Map[K, V]] = typeTag[Map[K, V]]
+  def listtt[T: TypeTag]: TypeTag[List[T]]              = typeTag[List[T]]
+  def arraytt[T: TypeTag]: TypeTag[Array[T]]            = typeTag[Array[T]]
 }

@@ -3,10 +3,13 @@ package types
 
 import scala.annotation.implicitNotFound
 import scala.reflect.ClassTag
-
+import scala.reflect.runtime.universe.TypeTag
+import shapeless._, shapeless.labelled._
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
+import org.apache.spark.sql.catalyst.ScalaReflection
+
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 
@@ -171,6 +174,42 @@ object SparkType {
     override val rowFieldTransform: Any => Row       = _.asInstanceOf[Row]
   }
 
+  implicit val fromHNil: Custom[HNil, Row] = new SparkType[HNil] {
+    override type OriginalSparkType = Row
+    override val dataType: DataType            = StructType(Seq())
+    override val transform: Row => HNil        = _ => HNil
+    override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
+  }
+
+  implicit def fromHCons[V, K <: Symbol, VO, T <: HList](implicit
+      W: Witness.Aux[K],
+      ST: SparkType.Custom[V, VO],
+      TS: SparkType.Custom[T, Row]
+  ): Custom[FieldType[K, V] :: T, Row] = new SparkType[FieldType[K, V] :: T] {
+    override def dataType: DataType =
+      StructType(
+        StructField(W.value.name, ST.dataType, false) +: TS.dataType
+          .asInstanceOf[StructType]
+          .fields
+      )
+    override type OriginalSparkType = Row
+    override val transform: Row => FieldType[K, V] :: T = row =>
+      field[K](ST.transform(row.getAs[VO](W.value.name))) :: TS.transform(row)
+    override val rowFieldTransform: Any => OriginalSparkType =
+      _.asInstanceOf[Row]
+  }
+
+  implicit def fromProduct[A <: Product: TypeTag, L <: HList](implicit
+      lg: LabelledGeneric.Aux[A, L],
+      hlistST: SparkType.Custom[L, Row]
+  ): SparkType.Custom[A, Row] =
+    new SparkType[A] {
+      override type OriginalSparkType = Row
+      override val dataType            = ScalaReflection.schemaFor[A].dataType
+      override val transform: Row => A = hlistST.transform andThen lg.from
+      override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
+    }
+
   implicit def fromMap[K: SparkType, V: SparkType](implicit
       stk: SparkType[K],
       stv: SparkType[V]
@@ -205,7 +244,8 @@ object SparkType {
   ): Custom[Array[A], Array[O]] =
     new SparkType[Array[A]] {
       override def dataType: DataType = ArrayType(
-        st.dataType
+        st.dataType,
+        false
       )
 
       override type OriginalSparkType = Array[st.OriginalSparkType]
@@ -230,7 +270,8 @@ object SparkType {
   ): Custom[List[A], List[st.OriginalSparkType]] =
     new SparkType[List[A]] {
       override def dataType: DataType = ArrayType(
-        SparkType[A].dataType
+        SparkType[A].dataType,
+        false
       )
 
       override type OriginalSparkType = List[st.OriginalSparkType]

@@ -2,6 +2,7 @@ package doric
 package types
 
 import doric.types.customTypes.User
+import User.{userst, userlst}
 
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.StringType
