@@ -37,7 +37,7 @@ runs:
       if: contains(env.SCOPE, 'uploadReport')
       uses: codecov/codecov-action@v2
       with:
-        files: ./target/scala-2.12/scoverage-report/scoverage.xml
+        files: ./target/scala-*/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
@@ -58,7 +58,7 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
-        path: "core/target/scala-2.12/api/*"
+        path: "core/target/scala-*/api/*"
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯

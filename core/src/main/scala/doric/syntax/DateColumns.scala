@@ -33,7 +33,6 @@ private[syntax] trait DateColumns {
       * Date column after adding months
       * @note
       * Timestamp columns will be truncated to Date column
-      * @see [[org.apache.spark.sql.functions.add_months(startDate:org\.apache\.spark\.sql\.Column,numMonths:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.add_months]]
       */
     def addMonths(nMonths: IntegerColumn): DateColumn =
       (column.elem, nMonths.elem)
@@ -48,7 +47,6 @@ private[syntax] trait DateColumns {
       * @note
       * Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.date_add(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_add]]
       */
     def addDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem)
@@ -83,7 +81,6 @@ private[syntax] trait DateColumns {
       * @note
       * Timestamp columns will be truncated to Date column
       * @group Date & Timestamp Type
-      * @see [[org.apache.spark.sql.functions.date_sub(start:org\.apache\.spark\.sql\.Column,days:org\.apache\.spark\.sql\.Column):* org.apache.spark.sql.functions.date_sub]]
       */
     def subDays(days: IntegerColumn): DateColumn =
       (column.elem, days.elem)
