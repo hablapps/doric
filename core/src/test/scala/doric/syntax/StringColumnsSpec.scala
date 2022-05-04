@@ -322,12 +322,14 @@ class StringColumnsSpec
       )
     }
 
-    it("should raise an error if group > regex group result") {
-      intercept[java.lang.IllegalArgumentException] {
-        df.withColumn(
-          "res",
-          colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
-        ).collect()
+    if (spark.version >= "2.4.6") {
+      it("should raise an error if group > regex group result") {
+        intercept[java.lang.IllegalArgumentException] {
+          df.withColumn(
+            "res",
+            colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
+          ).collect()
+        }
       }
     }
   }

@@ -44,6 +44,7 @@ runs:
 
       # CHECK DOCUMENTATION
     - name: Build the microsite 💻
+      if: startsWith(env.SPARK_VERSION, '2.4') != true
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} docs/mdoc
       shell: bash
 
