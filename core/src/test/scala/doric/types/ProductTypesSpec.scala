@@ -6,7 +6,7 @@ import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.types.{LongType, StructType}
 
-class ProductTypesSpec extends DoricTestElements{
+class ProductTypesSpec extends DoricTestElements {
 
   // Auxiliary definitions
 
@@ -16,15 +16,18 @@ class ProductTypesSpec extends DoricTestElements{
 
   case class User(name: String, age: Int)
   object User {
-    val schema: StructType = ScalaReflection.schemaFor[User].dataType.asInstanceOf[StructType]
+    val schema: StructType =
+      ScalaReflection.schemaFor[User].dataType.asInstanceOf[StructType]
   }
 
-  val tuple2Schema = ScalaReflection.schemaFor[(String, Int)].dataType.asInstanceOf[StructType]
+  val tuple2Schema =
+    ScalaReflection.schemaFor[(String, Int)].dataType.asInstanceOf[StructType]
 
-  val dfUsers = List((User("name1", 1), 1), (User("name2", 2), 2), (User("name3", 3), 3))
-    .toDF("user", "delete")
+  val dfUsers =
+    List((User("name1", 1), 1), (User("name2", 2), 2), (User("name3", 3), 3))
+      .toDF("user", "delete")
 
-  val dfTuples = List(((1,true), ""), ((2, false), ""), ((3, true), ""))
+  val dfTuples = List(((1, true), ""), ((2, false), ""), ((3, true), ""))
     .toDF("field", "delete")
 
   // Testing
@@ -40,46 +43,63 @@ class ProductTypesSpec extends DoricTestElements{
       SparkType[(String, Int)].transform(tupleRow) shouldBe ("j", 1)
     }
 
-    it("should allow us to collect case class instances"){
+    it("should allow us to collect case class instances") {
 
       dfTuples.collectCols(col[(Int, Boolean)]("field")) shouldBe
-        List((1,true), (2, false), (3, true))
+        List((1, true), (2, false), (3, true))
 
       dfUsers.collectCols(col[User]("user")) shouldBe
-        List(User("name1",1), User("name2", 2), User("name3", 3))
+        List(User("name1", 1), User("name2", 2), User("name3", 3))
     }
 
-    it("should return a type mismatch error if the expected and DF data types are not equal"){
-      col[User]("id")
-        .elem
+    it(
+      "should return a type mismatch error if the expected and DF data types are not equal"
+    ) {
+      col[User]("id").elem
         .run(spark.range(1))
-        .toEither.left.get.head shouldBe ColumnTypeError("id", User.schema, LongType)
+        .toEither
+        .left
+        .get
+        .head shouldBe ColumnTypeError("id", User.schema, LongType)
 
-      col[(String, Int)]("user")
-        .elem
+      col[(String, Int)]("user").elem
         .run(dfUsers)
-        .toEither.left.get.head  shouldBe ColumnTypeError("user", tuple2Schema, User.schema)
+        .toEither
+        .left
+        .get
+        .head shouldBe ColumnTypeError("user", tuple2Schema, User.schema)
     }
   }
 
-  describe("Literal Spark Types for products"){
+  describe("Literal Spark Types for products") {
 
-    it("should create columns of the right type"){
+    it("should create columns of the right type") {
 
-      spark.emptyDataFrame.select(User("name", 1).lit)
-        .schema.fields.head.dataType shouldBe User.schema
+      spark.emptyDataFrame
+        .select(User("name", 1).lit)
+        .schema
+        .fields
+        .head
+        .dataType shouldBe User.schema
 
-      spark.emptyDataFrame.select(("name", 1).lit)
-        .schema.fields.head.dataType shouldBe tuple2Schema
+      spark.emptyDataFrame
+        .select(("name", 1).lit)
+        .schema
+        .fields
+        .head
+        .dataType shouldBe tuple2Schema
     }
 
-    it("should work in selects, filters, ..."){
+    it("should work in selects, filters, ...") {
 
-      spark.range(1).select(User("name", 1).lit.as("user"))
+      spark
+        .range(1)
+        .select(User("name", 1).lit.as("user"))
         .collectCols(col[User]("user")) shouldBe
         List(User("name", 1))
 
-      dfUsers.filter(col[User]("user") === User("name1", 1).lit)
+      dfUsers
+        .filter(col[User]("user") === User("name1", 1).lit)
         .collectCols(col[User]("user")) shouldBe
         List(User("name1", 1))
     }
