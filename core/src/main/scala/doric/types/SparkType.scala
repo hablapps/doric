@@ -98,7 +98,7 @@ sealed trait SparkType[T] {
   }
 }
 
-object SparkType {
+object SparkType extends SparkTypeLPI {
 
   type Primitive[T] = SparkType[T] {
     type OriginalSparkType = T
@@ -173,42 +173,6 @@ object SparkType {
     override val transform: OriginalSparkType => Row = identity
     override val rowFieldTransform: Any => Row       = _.asInstanceOf[Row]
   }
-
-  implicit val fromHNil: Custom[HNil, Row] = new SparkType[HNil] {
-    override type OriginalSparkType = Row
-    override val dataType: DataType            = StructType(Seq())
-    override val transform: Row => HNil        = _ => HNil
-    override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
-  }
-
-  implicit def fromHCons[V, K <: Symbol, VO, T <: HList](implicit
-      W: Witness.Aux[K],
-      ST: SparkType.Custom[V, VO],
-      TS: SparkType.Custom[T, Row]
-  ): Custom[FieldType[K, V] :: T, Row] = new SparkType[FieldType[K, V] :: T] {
-    override def dataType: DataType =
-      StructType(
-        StructField(W.value.name, ST.dataType, false) +: TS.dataType
-          .asInstanceOf[StructType]
-          .fields
-      )
-    override type OriginalSparkType = Row
-    override val transform: Row => FieldType[K, V] :: T = row =>
-      field[K](ST.transform(row.getAs[VO](W.value.name))) :: TS.transform(row)
-    override val rowFieldTransform: Any => OriginalSparkType =
-      _.asInstanceOf[Row]
-  }
-
-  implicit def fromProduct[A <: Product: TypeTag, L <: HList](implicit
-      lg: LabelledGeneric.Aux[A, L],
-      hlistST: SparkType.Custom[L, Row]
-  ): SparkType.Custom[A, Row] =
-    new SparkType[A] {
-      override type OriginalSparkType = Row
-      override val dataType            = ScalaReflection.schemaFor[A].dataType
-      override val transform: Row => A = hlistST.transform andThen lg.from
-      override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
-    }
 
   implicit def fromMap[K: SparkType, V: SparkType](implicit
       stk: SparkType[K],
@@ -311,4 +275,44 @@ object SparkType {
         case x    => st.rowFieldTransform(x)
       }
     }
+}
+
+trait SparkTypeLPI { self: SparkType.type =>
+
+  implicit val fromHNil: Custom[HNil, Row] = new SparkType[HNil] {
+    override type OriginalSparkType = Row
+    override val dataType: DataType            = StructType(Seq())
+    override val transform: Row => HNil        = _ => HNil
+    override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
+  }
+
+  implicit def fromHCons[V, K <: Symbol, VO, T <: HList](implicit
+      W: Witness.Aux[K],
+      ST: SparkType.Custom[V, VO],
+      TS: SparkType.Custom[T, Row]
+  ): Custom[FieldType[K, V] :: T, Row] = new SparkType[FieldType[K, V] :: T] {
+    override def dataType: DataType =
+      StructType(
+        StructField(W.value.name, ST.dataType, false) +: TS.dataType
+          .asInstanceOf[StructType]
+          .fields
+      )
+    override type OriginalSparkType = Row
+    override val transform: Row => FieldType[K, V] :: T = row =>
+      field[K](ST.transform(row.getAs[VO](W.value.name))) :: TS.transform(row)
+    override val rowFieldTransform: Any => OriginalSparkType =
+      _.asInstanceOf[Row]
+  }
+
+  implicit def fromProduct[A <: Product: TypeTag, L <: HList](implicit
+      lg: LabelledGeneric.Aux[A, L],
+      hlistST: SparkType.Custom[L, Row]
+  ): SparkType.Custom[A, Row] =
+    new SparkType[A] {
+      override type OriginalSparkType = Row
+      override val dataType            = ScalaReflection.schemaFor[A].dataType
+      override val transform: Row => A = hlistST.transform andThen lg.from
+      override val rowFieldTransform: Any => Row = _.asInstanceOf[Row]
+    }
+
 }

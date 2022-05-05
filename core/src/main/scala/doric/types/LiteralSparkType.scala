@@ -39,7 +39,7 @@ trait LiteralSparkType[T] {
     }
 }
 
-object LiteralSparkType {
+object LiteralSparkType extends LiteralSparkTypeLPI {
 
   type Primitive[T] = LiteralSparkType[T] {
     type OriginalSparkType = T
@@ -54,7 +54,7 @@ object LiteralSparkType {
   ): Custom[T, litc.OriginalSparkType] =
     litc
 
-  @inline private def createPrimitive[T: ClassTag: TypeTag]: Primitive[T] =
+  @inline protected def createPrimitive[T: ClassTag: TypeTag]: Primitive[T] =
     new LiteralSparkType[T] {
       override type OriginalSparkType = T
       val classTag: ClassTag[T]                      = implicitly[ClassTag[T]]
@@ -87,9 +87,6 @@ object LiteralSparkType {
   implicit val fromFloat: Primitive[Float] = createPrimitive[Float]
 
   implicit val fromDouble: Primitive[Double] = createPrimitive[Double]
-
-  implicit def fromProduct[T <: Product: TypeTag: ClassTag]: Primitive[T] =
-    createPrimitive[T]
 
   implicit val fromRow: Primitive[Row] = new LiteralSparkType[Row] {
     override type OriginalSparkType = Row
@@ -181,4 +178,11 @@ object LiteralSparkType {
   def maptt[K: TypeTag, V: TypeTag]: TypeTag[Map[K, V]] = typeTag[Map[K, V]]
   def listtt[T: TypeTag]: TypeTag[List[T]]              = typeTag[List[T]]
   def arraytt[T: TypeTag]: TypeTag[Array[T]]            = typeTag[Array[T]]
+}
+
+trait LiteralSparkTypeLPI { self: LiteralSparkType.type =>
+
+  implicit def fromProduct[T <: Product: TypeTag: ClassTag]: Primitive[T] =
+    createPrimitive[T]
+
 }
