@@ -8,7 +8,6 @@ import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import doric.types.SparkType
-
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.catalyst.expressions.ExtractValue
 import org.apache.spark.sql.functions.{struct => sparkStruct}
@@ -26,7 +25,9 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  implicit class DStructOps(private val col: RowColumn) {
+  implicit class DStructOps[T](private val col: DoricColumn[T])(implicit
+      st: SparkType.Custom[_, Row]
+  ) {
 
     /**
       * Retreaves the child row of the Struct column

@@ -104,4 +104,19 @@ class ProductTypesSpec extends DoricTestElements {
         List(User("name1", 1))
     }
   }
+
+  describe("Dynamic field access") {
+
+    it("should work for product types") {
+      dfUsers
+        .select(col[User]("user").getChild[Int]("age") as "age")
+        .collectCols(col[Int]("age")) shouldBe
+        List(1, 2, 3)
+
+      dfUsers
+        .select(col[User]("user").getChild[String]("name") as "name")
+        .collectCols(col[String]("name")) shouldBe
+        List("name1", "name2", "name3")
+    }
+  }
 }
