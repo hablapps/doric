@@ -24,7 +24,7 @@ trait LiteralSparkType[T] {
   val literalTo: T => OriginalSparkType
 
   def literal(t: T): DoricValidated[Column] =
-    f.typedlit[OriginalSparkType](literalTo(t))(ttag).validNec
+    f.typedLit[OriginalSparkType](literalTo(t))(ttag).validNec
 
   def customType[O](
       f: O => T
