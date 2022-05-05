@@ -111,22 +111,27 @@ private[syntax] trait DStructs {
   }
 
   @annotation.implicitNotFound(msg = "No field ${K} in record ${L}")
-  trait SelectorWithSparkType[L <: HList, K <: Symbol]{
+  trait SelectorWithSparkType[L <: HList, K <: Symbol] {
     type V
     val st: SparkType[V]
   }
 
   object SelectorWithSparkType extends SelectorLPI {
-    type Aux[L <: HList, K <: Symbol, _V] = SelectorWithSparkType[L, K] { type V = _V }
-
-    implicit def Found[K <: Symbol, _V: SparkType, T <: HList] = new SelectorWithSparkType[FieldType[K, _V] :: T, K] {
+    type Aux[L <: HList, K <: Symbol, _V] = SelectorWithSparkType[L, K] {
       type V = _V
-      val st = SparkType[_V]
     }
+
+    implicit def Found[K <: Symbol, _V: SparkType, T <: HList] =
+      new SelectorWithSparkType[FieldType[K, _V] :: T, K] {
+        type V = _V
+        val st = SparkType[_V]
+      }
   }
 
   trait SelectorLPI {
-    implicit def KeepFinding[K1, V1, T <: HList, K <: Symbol](implicit T: SelectorWithSparkType[T, K]) =
+    implicit def KeepFinding[K1, V1, T <: HList, K <: Symbol](implicit
+        T: SelectorWithSparkType[T, K]
+    ) =
       new SelectorWithSparkType[FieldType[K1, V1] :: T, K] {
         type V = T.V
         val st = T.st
@@ -134,9 +139,13 @@ private[syntax] trait DStructs {
   }
 
   implicit class StructOps[T, L <: HList](dc: DoricColumn[T])(implicit
-    lg: LabelledGeneric.Aux[T, L], st: SparkType.Custom[T, Row]
-  ){
-    def getChildSafe[K <: Symbol](k: Witness.Aux[K])(implicit S: SelectorWithSparkType[L, K], location: Location) : DoricColumn[S.V] =
+      lg: LabelledGeneric.Aux[T, L],
+      st: SparkType.Custom[T, Row]
+  ) {
+    def getChildSafe[K <: Symbol](k: Witness.Aux[K])(implicit
+        S: SelectorWithSparkType[L, K],
+        location: Location
+    ): DoricColumn[S.V] =
       new DStructOps(dc).getChild[S.V](k.value.name)(S.st, location)
   }
 

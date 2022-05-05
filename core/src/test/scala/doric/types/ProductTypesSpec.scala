@@ -119,15 +119,15 @@ class ProductTypesSpec extends DoricTestElements {
         List("name1", "name2", "name3")
     }
 
-    it("should work statically as well"){
-      //dfUsers.select(col[User]("user").getChildSafe('age))
+    it("should work statically as well") {
+      // dfUsers.select(col[User]("user").getChildSafe('age))
       dfUsers
         .select(col[User]("user").getChildSafe('name) as "name")
         .collectCols(col[String]("name")) shouldBe
         List("name1", "name2", "name3")
     }
 
-    it("should not work statically if the field doesn't exist"){
+    it("should not work statically if the field doesn't exist") {
       """col[User]("user").getChildSafe('nameeee)""" shouldNot compile
     }
   }
