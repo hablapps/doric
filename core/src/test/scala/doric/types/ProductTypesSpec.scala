@@ -105,9 +105,9 @@ class ProductTypesSpec extends DoricTestElements {
     }
   }
 
-  describe("Dynamic field access") {
+  describe("Field access") {
 
-    it("should work for product types") {
+    it("should work for product types, dynamically") {
       dfUsers
         .select(col[User]("user").getChild[Int]("age") as "age")
         .collectCols(col[Int]("age")) shouldBe
@@ -118,5 +118,18 @@ class ProductTypesSpec extends DoricTestElements {
         .collectCols(col[String]("name")) shouldBe
         List("name1", "name2", "name3")
     }
+
+    it("should work statically as well"){
+      //dfUsers.select(col[User]("user").getChildSafe('age))
+      dfUsers
+        .select(col[User]("user").getChildSafe('name) as "name")
+        .collectCols(col[String]("name")) shouldBe
+        List("name1", "name2", "name3")
+    }
+
+    it("should not work statically if the field doesn't exist"){
+      """col[User]("user").getChildSafe('nameeee)""" shouldNot compile
+    }
   }
+
 }
