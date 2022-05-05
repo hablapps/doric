@@ -64,16 +64,21 @@ class ProductTypesSpec extends DoricTestElements{
 
   describe("Literal Spark Types for products"){
 
-    it("should work in selects"){
+    it("should create columns of the right type"){
 
-      LiteralSparkType[User](LiteralSparkType.fromProduct[User])
+      spark.emptyDataFrame.select(User("name", 1).lit)
+        .schema.fields.head.dataType shouldBe User.schema
+
+      spark.emptyDataFrame.select(("name", 1).lit)
+        .schema.fields.head.dataType shouldBe tuple2Schema
+    }
+
+    it("should work in selects, filters, ..."){
 
       spark.range(1).select(User("name", 1).lit.as("user"))
         .collectCols(col[User]("user")) shouldBe
         List(User("name", 1))
-    }
 
-    it("should work in filters"){
       dfUsers.filter(col[User]("user") === User("name1", 1).lit)
         .collectCols(col[User]("user")) shouldBe
         List(User("name1", 1))
