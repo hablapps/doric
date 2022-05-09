@@ -5,7 +5,7 @@ import doric.types.SparkType
 
 import org.apache.spark.sql.Dataset
 
-private[sem] trait CollectOps {
+private[doric] trait CollectOps {
 
   implicit class CollectSyntax[A](df: Dataset[A]) {
 

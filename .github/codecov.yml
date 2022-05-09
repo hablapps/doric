@@ -22,8 +22,8 @@ flag_management:
     statuses:
       - name_prefix: "spark-"
         type: project
-#        target: auto
-#        threshold: 1%
+        target: auto
+        threshold: 1%
 
 parsers:
   gcov:

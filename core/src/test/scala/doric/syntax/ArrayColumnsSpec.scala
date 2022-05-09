@@ -231,30 +231,6 @@ class ArrayColumnsSpec
     }
   }
 
-  describe("filterWIndex doric function") {
-    import spark.implicits._
-
-    it("should work as spark filter((Column, Column) => Column) function") {
-      val df = List((Array("a", "b", "c", "d"), "b"))
-        .toDF("col1", "col2")
-
-      df.testColumns2("col1", "col2")(
-        (c1, c2) =>
-          colArrayString(c1).filterWIndex((x, i) => {
-            i === 0.lit or x === colString(c2)
-          }),
-        (c1, c2) =>
-          f.filter(
-            f.col(c1),
-            (x, i) => {
-              i === 0 or x === f.col(c2)
-            }
-          ),
-        List(Some(Array("a", "b")))
-      )
-    }
-  }
-
   describe("contains doric function") {
     import spark.implicits._
 
@@ -508,21 +484,6 @@ class ArrayColumnsSpec
     }
   }
 
-  describe("exists doric function") {
-    import spark.implicits._
-
-    it("should work as spark exists function") {
-      val df = List(Array(":a", "b", null, ":c", "d"), Array("z"), null)
-        .toDF("col1")
-
-      df.testColumns2("col1", ":")(
-        (c, s) => colArrayString(c).exists(_.startsWith(s.lit)),
-        (c, s) => f.exists(f.col(c), _.startsWith(s)),
-        List(Some(true), Some(false), None)
-      )
-    }
-  }
-
   describe("explode doric function") {
     import spark.implicits._
 
@@ -583,21 +544,6 @@ class ArrayColumnsSpec
         Some("2", "e"),
         Some("3", null),
         Some("4", null)
-      )
-    }
-  }
-
-  describe("forAll doric function") {
-    import spark.implicits._
-
-    it("should work as spark forall function") {
-      val df = List(Array("c", "b", null, "a", "d"), Array("z"), null)
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colArrayString(c).forAll(_.isNotNull),
-        c => f.forall(f.col(c), _.isNotNull),
-        List(Some(false), Some(true), None)
       )
     }
   }
@@ -702,25 +648,6 @@ class ArrayColumnsSpec
 
       intercept[java.lang.RuntimeException](
         df.select(colArrayString("col1").slice(0.lit, 2.lit)).collect()
-      )
-    }
-  }
-
-  describe("zipWith doric function") {
-    import spark.implicits._
-
-    it("should work as spark zip_with function") {
-      val df = List(
-        (Array("a", "b", "c", "d"), Array("b", "a", "e")),
-        (Array("a"), null),
-        (null, Array("b")),
-        (null, null)
-      ).toDF("col1", "col2")
-
-      df.testColumns2("col1", "col2")(
-        (c1, c2) => colArrayString(c1).zipWith(col(c2), concat(_, _)),
-        (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
-        List(Some(Array("ab", "ba", "ce", null)), None, None, None)
       )
     }
   }

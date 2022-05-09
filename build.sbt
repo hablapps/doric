@@ -123,19 +123,27 @@ lazy val core = project
     ),
     Compile / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
+        case versionRegex("2", "4", _) =>
+          Seq(
+            (Compile / sourceDirectory)(_ / "spark_2.4_mount" / "scala"),
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
+          ).join.value
         case versionRegex("3", "0", _) =>
           Seq(
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.0_mount" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
           ).join.value
         case versionRegex("3", "1", _) =>
           Seq(
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1_mount" / "scala")
           ).join.value
         case versionRegex("3", "2", _) =>
           Seq(
+            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.2" / "scala"),
             (Compile / sourceDirectory)(_ / "spark_3.2_mount" / "scala")
@@ -144,20 +152,33 @@ lazy val core = project
     },
     Test / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case versionRegex("3", "0", _) =>
+        case versionRegex("2", "4", _) =>
           Seq.empty[Def.Initialize[File]].join.value
+        case versionRegex("3", "0", _) =>
+          Seq(
+            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
+          ).join.value
         case versionRegex("3", "1", _) =>
           Seq(
-            (Test / sourceDirectory)(_ / "spark_3.1" / "scala")
+            (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
+            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
           ).join.value
         case versionRegex("3", "2", _) =>
           Seq(
             (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
-            (Test / sourceDirectory)(_ / "spark_3.2" / "scala")
+            (Test / sourceDirectory)(_ / "spark_3.2" / "scala"),
+            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
           ).join.value
       }
     }
   )
+
+val plugins = parserSparkVersion(
+  System.getProperty("sparkVersion", sparkDefaultShortVersion)
+) match {
+  case versionRegex("2", "4", _) => List.empty[Plugins]
+  case _                         => List(MdocPlugin)
+}
 
 lazy val docs = project
   .in(file("docs"))
@@ -182,7 +203,7 @@ lazy val docs = project
       "--clean-target"
     )
   )
-  .enablePlugins(MdocPlugin)
+  .enablePlugins(plugins: _*)
 
 Global / scalacOptions ++= Seq(
   "-encoding",

@@ -2,6 +2,10 @@ name: "Publish documentation 📑"
 description: "Generate and publish documentation"
 
 inputs:
+  spark-2_4:
+    description: 'Spark version 2.4.X'
+    required: true
+    default: "2.4"
   spark-3_0:
     description: 'Spark version 3.0.X'
     required: true
@@ -24,6 +28,12 @@ runs:
       shell: bash
 
     # DOWNLOAD DOCS
+    - name: Download docs ⬇️ [${{ inputs.spark-2_4 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-2_4 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-2_4 }}/"
+
     - name: Download docs ⬇️ [${{ inputs.spark-3_0 }}]
       uses: actions/download-artifact@v3
       with:

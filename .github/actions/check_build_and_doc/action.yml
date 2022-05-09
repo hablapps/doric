@@ -35,15 +35,16 @@ runs:
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
-        files: ./target/scala-2.12/scoverage-report/scoverage.xml
+        files: ./target/scala-2.11/scoverage-report/scoverage.xml,./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
 
       # CHECK DOCUMENTATION
     - name: Build the microsite 💻
+      if: startsWith(env.SPARK_VERSION, '2.4') != true
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} docs/mdoc
       shell: bash
 
@@ -57,7 +58,10 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
-        path: "core/target/scala-2.12/api/*"
+        path: |
+          "core/target/scala-2.11/api/*"
+          "core/target/scala-2.12/api/*"
+          "core/target/scala-2.13/api/*"
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯

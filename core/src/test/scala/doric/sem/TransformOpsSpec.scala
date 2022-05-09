@@ -120,8 +120,10 @@ class TransformOpsSpec
           )
       }
       error.getMessage should startWith(
-        "Found duplicate column(s) in given column names: `a`, `b`"
+        "Found duplicate column(s) in given column names:"
       )
+      error.getMessage should include("`a`")
+      error.getMessage should include("`b`")
     }
   }
 }
