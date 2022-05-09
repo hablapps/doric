@@ -62,7 +62,7 @@ class TimestampColumnsSpec
       )
     }
 
-    if (spark.version.take(1) == "3") {
+    if (spark.version.take(1).toInt > 2) {
       it("should fail if invalid timeZone") {
         intercept[java.time.DateTimeException](
           df.select(colTimestamp("timestampCol").fromUtc("wrong timeZone".lit))
@@ -86,7 +86,7 @@ class TimestampColumnsSpec
       )
     }
 
-    if (spark.version.take(1) == "3") {
+    if (spark.version.take(1).toInt > 2) {
       it("should fail if invalid timeZone") {
         intercept[java.time.DateTimeException](
           df.select(colTimestamp("timestampCol").toUtc("wrong timeZone".lit))
