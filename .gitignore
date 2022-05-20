@@ -6,6 +6,9 @@ project/boot/
 .idea
 *.iml
 
+# Scala worksheet
+*.sc
+
 *.swp
 
 .DS_Store

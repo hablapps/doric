@@ -1,14 +1,13 @@
 package doric
 package syntax
 
-import cats.data.NonEmptyChain
 import doric.matchers.CustomMatchers.includeErrors
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 import doric.types.SparkType
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.{IntegerType, StringType}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-import org.apache.spark.sql.types.{IntegerType, StringType}
 
 case class User(name: String, surname: String, age: Int)
 
@@ -51,20 +50,14 @@ class DStructOpsSpec extends DoricTestElements with EitherValues with Matchers {
 
     it("throws an error if the sub column is not of the provided type") {
       intercept[DoricMultiError] {
-        df.select(colStruct("col").getChild[String]("age"))
+        df.select(
+          //colStruct("col").getChild[Int]("name"),
+          colStruct("col").getChild[String]("age")
+        )
       } should includeErrors(
-        ColumnTypeError("age", StringType, IntegerType),
-        ColumnTypeError("agea", StringType, IntegerType),
+        //ColumnTypeError("name", IntegerType, StringType),
+        ColumnTypeError("age", StringType, IntegerType)
       )
-//      err shouldBe ColumnTypeError("age", StringType, IntegerType)
-//      colStruct("col")
-//        .getChild[String]("age")
-//        .elem
-//        .run(df)
-//        .toEither
-//        .left
-//        .value
-//        .head shouldBe ColumnTypeError("age", StringType, IntegerType)
     }
 
     it(

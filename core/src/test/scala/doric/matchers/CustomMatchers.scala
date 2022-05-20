@@ -14,17 +14,28 @@ object CustomMatchers extends CustomMatchers
   * Custom Doric errors matcher
   */
 trait CustomMatchers {
-  class DoricErrorMatcher(exception: DoricSingleError*)
+  class DoricErrorMatcher(exceptions: DoricSingleError*)
       extends Matcher[DoricMultiError] {
-    override def apply(multiError: DoricMultiError): MatchResult = MatchResult(
-      matches = multiError.errors == NonEmptyChain(exception),
-      rawFailureMessage =
-        s"Expected\n${NonEmptyChain(exception)}\nbut found\n${multiError.errors}",
-      rawNegatedFailureMessage = s"Doric errors expected and found:\n${multiError.errors}"
-    )
+    override def apply(multiError: DoricMultiError): MatchResult = {
+
+      val order: DoricSingleError => (String, String) = dse =>
+        (dse.getClass.getSimpleName, dse.getMessage)
+
+      val errors         = multiError.errors.sortBy(order)
+      val expectedErrors = NonEmptyChain.fromSeq(exceptions).get.sortBy(order)
+
+      MatchResult(
+        matches = errors == expectedErrors,
+        rawFailureMessage =
+          s"Expected\n${NonEmptyChain(exceptions)}\nbut found\n${multiError.errors}",
+        rawNegatedFailureMessage =
+          s"Doric errors expected and found:\n${multiError.errors}"
+      )
+    }
   }
 
-  def includeErrors(exception: DoricSingleError*) = new DoricErrorMatcher(
-    exception: _*
-  )
+  def includeErrors(
+      exception: DoricSingleError,
+      exceptions: DoricSingleError*
+  ) = new DoricErrorMatcher(exception +: exceptions: _*)
 }
