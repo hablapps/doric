@@ -8,7 +8,7 @@ import org.scalatest.EitherValues
 class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
 
   import doric._
-  
+
   private val id          = "id"
   private val otherColumn = "otherColumn"
   private val left = spark
