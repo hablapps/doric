@@ -40,13 +40,14 @@ class WhenBuilderSpec
     }
 
     it("puts null otherwiseNull is selected in rest of cases") {
+      val whenStructure: DoricColumn[Int] = when[Int]
+        .caseW(colInt("c1") === lit(100), 1)
+        .otherwiseNull
       val df = List((100, Some(1)), (8, None), (2, None))
         .toDF("c1", "whenExpected")
         .withColumn(
           whenResult,
-          when[Int]
-            .caseW(colInt("c1") === lit(100), 1)
-            .otherwiseNull
+          whenStructure
         )
 
       colInt("c1") === 100
