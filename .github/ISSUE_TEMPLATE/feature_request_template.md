@@ -12,7 +12,8 @@ assignees: ''
 <!------------------------------------------------------------------->
 
 Please, check there is no other feature request like this one to avoid duplicates: [see doric issues](https://github.com/hablapps/doric/issues)
-- [ ] It seems this feature is not requested yet
+- It seems this feature is not requested yet:
+  - YES / NO
 
 ## Expected Behavior
 <!--------------------------------->

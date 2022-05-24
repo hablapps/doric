@@ -9,14 +9,24 @@ body:
 #    attributes:
 #      value: |
 #        Thanks for your contribution!
-  - type: checkboxes
+# - type: checkboxes
+#   id: issue_not_duplicated
+#   attributes:
+#     label: Issue duplicity
+#     description: Please, before creating a new issue, check if there is another one like this one.
+#     options:
+#       - label: I have checked the current created issues, and it seems there is no other issue like this one.
+#         required: true
+  - type: dropdown
     id: issue_not_duplicated
     attributes:
       label: Issue duplicity
       description: Please, before creating a new issue, check if there is another one like this one.
       options:
-        - label: I have checked the current created issues and it seems there is no other issue like this one.
-          required: true
+        - NO
+        - YES
+    validations:
+      required: true
   - type: input
     id: version
     attributes:
@@ -28,7 +38,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: Please, tell us what happend and how this affects to your use case.
+      description: Please, tell us what happened and how this affects to your use case.
       placeholder: What happened?
       value: "Boom! Big reveal! I turned myself into a pickle!"
     validations:

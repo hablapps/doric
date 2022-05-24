@@ -15,7 +15,8 @@ assignees: ''
 <!-- Please, before creating a new issue, check if there is -->
 <!-- another one like this one                              -->
 <!------------------------------------------------------------>
-- [ ] I have checked the current created issues and it seems there is no other issue like this one
+- I have checked the current created issues, and it seems there is no other issue like this one:
+  - YES / NO
 
 ## Doric version *
 <!------------------------------------------->
