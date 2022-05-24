@@ -2,21 +2,30 @@ package doric
 
 import scala.reflect._
 import scala.reflect.runtime.universe._
-
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import doric.Equalities._
 import doric.implicitConversions.stringCname
-import doric.types.{Casting, SparkType}
+import doric.types.{Casting, LiteralSparkType, SparkType}
+import org.apache.spark.sql.catalyst.ScalaReflection
+import org.apache.spark.sql.catalyst.ScalaReflection.Schema
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
-
-import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
+import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, SparkSession, functions => f}
 import org.apache.spark.sql.types._
+import org.scalatest.matchers.{BeMatcher, MatchResult, Matcher}
 
 trait TypedColumnTest extends Matchers with DatasetComparer {
 
   private lazy val doricCol = "dcol"
   private lazy val sparkCol = "scol"
+
+  def testDataTypeFor[T: TypeTag: LiteralSparkType: SparkType](value: T)(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark.emptyDataFrame
+      .select(value.lit)
+      .schema
+      .fields
+      .head
+      .dataType shouldBe ScalaReflection.schemaFor[T].dataType
 
   /**
     * Compare two columns (doric & spark).

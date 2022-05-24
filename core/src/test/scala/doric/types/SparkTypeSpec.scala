@@ -2,10 +2,12 @@ package doric
 package types
 
 import doric.types.customTypes.User
-import User.{userst, userlst}
-
+import User.{userlst, userst}
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.StringType
+import org.scalactic.source
+
+import scala.collection.generic.CanBuildFrom
 
 class SparkTypeSpec extends DoricTestElements {
 
@@ -13,11 +15,11 @@ class SparkTypeSpec extends DoricTestElements {
 
   def testFlow[T: SparkType: LiteralSparkType](
       element: T
-  ): Unit = {
+  )(implicit pos: source.Position) : Unit = {
     spark
       .range(1)
       .select(element.lit.as("value"))
-      .collectCols(col[T]("value")) === List(element)
+      .collectCols(col[T]("value")) shouldBe List(element)
   }
 
   it("Option should work with basic types") {
@@ -26,6 +28,12 @@ class SparkTypeSpec extends DoricTestElements {
       .select(lit(Option(1)) as "some", lit(None: Option[Int]) as "none")
       .collectCols(col[Option[Int]]("some"), col[Option[Int]]("none"))
       .head shouldBe (Some(1), None)
+  }
+
+  it("Collections should work"){
+    testFlow(List(1,2,3))
+    testFlow(Seq(1,2,3))
+    testFlow(IndexedSeq(1,2,3))
   }
 
   it("Row should work") {

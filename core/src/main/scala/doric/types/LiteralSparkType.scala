@@ -10,7 +10,7 @@ import org.apache.spark.sql.{Column, Row, functions => f}
 import scala.reflect.runtime.universe._
 import scala.reflect.ClassTag
 import java.sql.{Date, Timestamp}
-import java.time.{Instant, LocalDate}
+import java.time.{Instant, LocalDate, LocalDateTime}
 import scala.reflect.runtime.universe
 
 trait LiteralSparkType[T] {
@@ -80,7 +80,14 @@ object LiteralSparkType extends LiteralSparkTypeLPI {
   implicit val fromTimestamp: Custom[Instant, Timestamp] =
     LiteralSparkType[Timestamp].customType[Instant](Timestamp.from)
 
+  implicit val fromLocalDateTime: Primitive[LocalDateTime] =
+    createPrimitive[LocalDateTime]
+
   implicit val fromInt: Primitive[Int] = createPrimitive[Int]
+
+  implicit val fromByte: Primitive[Byte] = createPrimitive[Byte]
+
+  implicit val fromShort: Primitive[Short] = createPrimitive[Short]
 
   implicit val fromLong: Primitive[Long] = createPrimitive[Long]
 
@@ -123,20 +130,37 @@ object LiteralSparkType extends LiteralSparkTypeLPI {
         implicitly[ClassTag[Map[stk.OriginalSparkType, stv.OriginalSparkType]]]
     }
 
-  implicit def fromList[A](implicit
-      lst: LiteralSparkType[A]
-  ): Custom[List[A], List[lst.OriginalSparkType]] =
-    new LiteralSparkType[List[A]] {
+  implicit def fromSeq[A, CC[x] <: Seq[x]](implicit
+                                           lst: LiteralSparkType[A]
+                                          ): Custom[CC[A], Seq[lst.OriginalSparkType]] =
+    new LiteralSparkType[CC[A]] {
 
-      override type OriginalSparkType = List[lst.OriginalSparkType]
+      override type OriginalSparkType = Seq[lst.OriginalSparkType]
 
-      override val literalTo: List[A] => OriginalSparkType =
+      override val literalTo: CC[A] => OriginalSparkType =
         _.map(lst.literalTo)
-      override val classTag: ClassTag[List[lst.OriginalSparkType]] =
-        implicitly[ClassTag[List[lst.OriginalSparkType]]]
+      override val classTag: ClassTag[Seq[lst.OriginalSparkType]] =
+        implicitly[ClassTag[Seq[lst.OriginalSparkType]]]
 
-      val ttag = listtt(lst.ttag)
+      val ttag = seqtt(lst.ttag)
     }
+
+  implicit def fromSet[A, CC[x] <: Set[x]](implicit
+                                           lst: LiteralSparkType[A]
+                                          ): Custom[CC[A], Set[lst.OriginalSparkType]] =
+    new LiteralSparkType[CC[A]] {
+
+      override type OriginalSparkType = Set[lst.OriginalSparkType]
+
+      override val literalTo: CC[A] => OriginalSparkType =
+        _.map(lst.literalTo)
+      override val classTag: ClassTag[Set[lst.OriginalSparkType]] =
+        implicitly[ClassTag[Set[lst.OriginalSparkType]]]
+
+      val ttag = settt(lst.ttag)
+    }
+
+
 
   implicit def fromArray[A](implicit
       lst: LiteralSparkType[A]
@@ -176,7 +200,8 @@ object LiteralSparkType extends LiteralSparkTypeLPI {
 
   def optiontt[T: TypeTag]: TypeTag[Option[T]]          = typeTag[Option[T]]
   def maptt[K: TypeTag, V: TypeTag]: TypeTag[Map[K, V]] = typeTag[Map[K, V]]
-  def listtt[T: TypeTag]: TypeTag[List[T]]              = typeTag[List[T]]
+  def seqtt[T: TypeTag]: TypeTag[Seq[T]]              = typeTag[Seq[T]]
+  def settt[T: TypeTag]: TypeTag[Set[T]]              = typeTag[Set[T]]
   def arraytt[T: TypeTag]: TypeTag[Array[T]]            = typeTag[Array[T]]
 }
 

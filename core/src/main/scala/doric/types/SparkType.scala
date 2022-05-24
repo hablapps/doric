@@ -4,17 +4,19 @@ package types
 import scala.annotation.implicitNotFound
 import scala.reflect.ClassTag
 import scala.reflect.runtime.universe.TypeTag
-import shapeless._, shapeless.labelled._
+import shapeless._
+import shapeless.labelled._
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import org.apache.spark.sql.catalyst.ScalaReflection
 
 import java.sql.{Date, Timestamp}
-import java.time.{Instant, LocalDate}
-
+import java.time.{Instant, LocalDate, LocalDateTime}
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.types._
+
+import scala.collection.generic.{CanBuildFrom, IsSeqLike}
 
 /**
   * Typeclass to relate a type T with it's spark DataType
@@ -149,7 +151,12 @@ object SparkType extends SparkTypeLPI {
   implicit val fromTimestamp: Custom[Instant, Timestamp] =
     SparkType[Timestamp].customType[Instant](_.toInstant)
 
+  //implicit val fromDateTime: Primitive[LocalDateTime] =
+//    SparkType[LocalDateTime](ScalaReflection.schemaFor[LocalDateTime].dataType)
+
   implicit val fromInt: Primitive[Int] = SparkType[Int](IntegerType)
+
+  implicit val fromShort: Primitive[Short] = SparkType[Short](ShortType)
 
   implicit val fromLong: Primitive[Long] = SparkType[Long](LongType)
 
@@ -229,30 +236,20 @@ object SparkType extends SparkTypeLPI {
 
     }
 
-  implicit def fromList[A](implicit
-      st: SparkType[A]
-  ): Custom[List[A], List[st.OriginalSparkType]] =
-    new SparkType[List[A]] {
-      override def dataType: DataType = ArrayType(
-        SparkType[A].dataType,
-        false
-      )
 
-      override type OriginalSparkType = List[st.OriginalSparkType]
+  implicit def fromSeq[A: ClassTag, O: ClassTag, C[X] <: Seq[X]](implicit
+                                                                 st: SparkType[A]{ type OriginalSparkType = O },
+                                                                 cbf: CanBuildFrom[_, A, C[A]]
+                                                                ): SparkType[C[A]] {
+    type OriginalSparkType = Array[st.OriginalSparkType]
+  } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
 
-      override def isEqual(column: DataType): Boolean = column match {
-        case ArrayType(left, _) => st.isEqual(left)
-        case _                  => false
-      }
-
-      override val transform: OriginalSparkType => List[A] =
-        _.map(st.transform)
-
-      override val rowFieldTransform: Any => OriginalSparkType =
-        _.asInstanceOf[DoricArray.Collection[st.OriginalSparkType]]
-          .map(st.rowFieldTransform)
-          .toList
-    }
+  implicit def fromSet[A: ClassTag, O: ClassTag, C[X] <: Set[X]](implicit
+                                                                 st: SparkType[A]{ type OriginalSparkType = O },
+                                                                 cbf: CanBuildFrom[_, A, C[A]]
+                                                                ): SparkType[C[A]] {
+    type OriginalSparkType = Array[st.OriginalSparkType]
+  } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
 
   implicit def fromOption[A](implicit
       st: SparkType[A]

@@ -4,7 +4,7 @@ package types
 import doric.sem.ColumnTypeError
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.ScalaReflection
-import org.apache.spark.sql.types.{LongType, StructType}
+import org.apache.spark.sql.types.{DataType, LongType, StructType}
 
 class ProductTypesSpec extends DoricTestElements {
 
@@ -18,6 +18,8 @@ class ProductTypesSpec extends DoricTestElements {
   object User {
     val schema: StructType =
       ScalaReflection.schemaFor[User].dataType.asInstanceOf[StructType]
+    val schemaDT: DataType =
+      ScalaReflection.schemaFor[User].dataType
   }
 
   val tuple2Schema =
@@ -74,20 +76,8 @@ class ProductTypesSpec extends DoricTestElements {
   describe("Literal Spark Types for products") {
 
     it("should create columns of the right type") {
-
-      spark.emptyDataFrame
-        .select(User("name", 1).lit)
-        .schema
-        .fields
-        .head
-        .dataType shouldBe User.schema
-
-      spark.emptyDataFrame
-        .select(("name", 1).lit)
-        .schema
-        .fields
-        .head
-        .dataType shouldBe tuple2Schema
+      testDataTypeFor(User("name", 1))
+      testDataTypeFor(("name", 1))
     }
 
     it("should work in selects, filters, ...") {
@@ -120,7 +110,6 @@ class ProductTypesSpec extends DoricTestElements {
     }
 
     it("should work statically as well") {
-      // dfUsers.select(col[User]("user").getChildSafe('age))
       dfUsers
         .select(col[User]("user").getChildSafe('name) as "name")
         .collectCols(col[String]("name")) shouldBe
