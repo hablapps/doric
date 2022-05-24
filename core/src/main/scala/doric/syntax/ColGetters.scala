@@ -38,15 +38,10 @@ private[doric] trait ColGetters[F[_]] {
     * The object `row` stands for the top-level row of the DataFrame.
     */
   object row extends Dynamic {
-
     /**
       * The expression `row.name[T]` is syntactic sugar for `col[T](name)`.
       *
-      * @param name
-      * @param location
-      * @param st
-      * @tparam A
-      * @return the doric column referenced by the row field `name`
+      * @return the doric column referenced by the top-level row field `name`
       */
     def selectDynamic[A: ClassTag](
         name: String

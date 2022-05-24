@@ -103,7 +103,8 @@ private[syntax] trait DStructs {
       * @param location
       * @param st
       * @tparam A
-      * @return The column which refers to the given field. If the parent column is not a struct, a `ColumnTypeError` is thrown.
+      * @return The column which refers to the given field
+      * @throws doric.sem.ColumnTypeError if the parent column is not a struct
       */
     def selectDynamic[A](name: String)(implicit
         location: Location,
