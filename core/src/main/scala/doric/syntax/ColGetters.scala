@@ -38,6 +38,7 @@ private[doric] trait ColGetters[F[_]] {
     * The object `row` stands for the top-level row of the DataFrame.
     */
   object row extends Dynamic {
+
     /**
       * The expression `row.name[T]` is syntactic sugar for `col[T](name)`.
       *
