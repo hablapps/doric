@@ -59,6 +59,11 @@ sealed abstract class DoricSingleError(val cause: Option[Throwable])
     message + s"\n\tlocated at . ${location.getLocation}"
 }
 
+/**
+  * ???????
+  * @param sideError ???????
+  * @param isLeft ???????
+  */
 case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
     extends DoricSingleError(sideError.cause) {
   override def message: String = sideError.message
@@ -77,8 +82,8 @@ case class ColumnMultyTypeError(
 ) extends DoricSingleError(None) {
 
   override def message: String =
-    s"The matched column with name '$columnName' is of type $foundType and it was expected to be one of ${expectedTypes
-        .mkString("[", ", ", "]")}"
+    s"The matched column with name '$columnName' was expected to be one of ${expectedTypes
+        .mkString("[", ", ", "]")} but is of type $foundType"
 }
 
 case class ColumnTypeError(
@@ -90,7 +95,7 @@ case class ColumnTypeError(
 ) extends DoricSingleError(None) {
 
   override def message: String =
-    s"The column with name '$columnName' is of type $foundType and it was expected to be $expectedType"
+    s"The column with name '$columnName' was expected to be $expectedType but is of type $foundType"
 }
 
 case class ChildColumnNotFound(

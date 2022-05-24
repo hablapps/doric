@@ -2,10 +2,9 @@ package doric
 package sem
 
 import doric.implicitConversions._
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.EitherValues
+import org.apache.spark.sql.types.{LongType, StringType}
 
-class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
+class JoinOpsSpec extends DoricTestElements {
 
   private val id          = "id"
   private val otherColumn = "otherColumn"
@@ -39,13 +38,15 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
       left.join(right, "inner", colLong(id))
       left.join(right, "outer", colLong(id))
 
-      val errors = intercept[DoricMultiError] {
+      intercept[DoricMultiError] {
         val value1 = colLong(id)
         left.join(badRight, "left", value1)
-      }
-
-      errors.errors.length shouldBe 1
-      errors.errors.head.message shouldBe "The column with name '" + id + "' is of type StringType and it was expected to be LongType"
+      } should includeErrors(
+        JoinDoricSingleError(
+          ColumnTypeError("id", LongType, StringType),
+          isLeft = false
+        )
+      )
     }
 
     it("should join typesafety") {
@@ -59,17 +60,21 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
         LeftDF.colString(id) ===
           RightDF.colString(id + "entifier")
 
-      val errors = intercept[DoricMultiError] {
+      intercept[DoricMultiError] {
         left.join(right, "inner", badJoinFunction)
-      }
-
-      errors.errors.length shouldBe 2
-      errors.errors.head.message shouldBe "The column with name '" + id + "' is of type LongType and it was expected to be StringType"
-      errors.errors.toChain
-        .get(1)
-        .get
-        .message should startWith(
-        "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+      } should includeErrors(
+        JoinDoricSingleError(
+          ColumnTypeError("id", StringType, LongType),
+          isLeft = true
+        ),
+        JoinDoricSingleError(
+          SparkErrorWrapper(
+            new Exception(
+              "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+            )
+          ),
+          isLeft = false
+        )
       )
 
       val joinFunction2: DoricJoinColumn =
@@ -81,17 +86,21 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
         LeftDF(colString(id)) ===
           RightDF(colString(id + "entifier"))
 
-      val errors2 = intercept[DoricMultiError] {
+      intercept[DoricMultiError] {
         left.join(right, "inner", badJoinFunction2)
-      }
-
-      errors2.errors.length shouldBe 2
-      errors2.errors.head.message shouldBe "The column with name '" + id + "' is of type LongType and it was expected to be StringType"
-      errors2.errors.toChain
-        .get(1)
-        .get
-        .message should startWith(
-        "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+      } should includeErrors(
+        JoinDoricSingleError(
+          ColumnTypeError("id", StringType, LongType),
+          isLeft = true
+        ),
+        JoinDoricSingleError(
+          SparkErrorWrapper(
+            new Exception(
+              "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
+            )
+          ),
+          isLeft = false
+        )
       )
     }
 
