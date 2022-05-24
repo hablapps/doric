@@ -30,8 +30,9 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
   describe("join ops") {
 
     it("works with join of same name and type columns") {
+      val col1 = colLong(id).cast[String]
       val badRight = right
-        .withColumn(id, colLong(id).cast[String])
+        .withColumn(id, col1)
 
       left.join(right, "left", colLong(id))
       left.join(right, "right", colLong(id))
@@ -98,7 +99,8 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
       val resultDF = left.innerJoinKeepLeftKeys(right, colLong(id))
 
       val keyAsString = "keyAsString"
-      resultDF.withColumn(keyAsString, colLong(id).cast[String])
+      val col2        = colLong(id).cast[String]
+      resultDF.withColumn(keyAsString, col2)
       resultDF.schema.length shouldBe 3
     }
 
@@ -107,15 +109,17 @@ class JoinOpsSpec extends DoricTestElements with Matchers with EitherValues {
 
       val nonKeyColRight = "nonKeyColRight"
       val nonKeyColLeft  = "nonKeyColLeft"
+      val value1         = colFromDF[String](otherColumn, right)
+      val value2         = colFromDF[String](otherColumn, left)
       resultDF
-        .withColumn(nonKeyColRight, colFromDF[String](otherColumn, right))
-        .withColumn(nonKeyColLeft, colFromDF[String](otherColumn, left))
+        .withColumn(nonKeyColRight, value1)
+        .withColumn(nonKeyColLeft, value2)
         .collectCols(
           (colString(
             nonKeyColRight
-          ) === colFromDF[String](otherColumn, right)) && (colString(
+          ) === value1) && (colString(
             nonKeyColLeft
-          ) === colFromDF[String](otherColumn, left))
+          ) === value2)
         )
         .forall(identity) shouldBe true
       resultDF.schema.length shouldBe 3
