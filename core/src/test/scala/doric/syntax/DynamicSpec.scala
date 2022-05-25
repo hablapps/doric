@@ -35,8 +35,9 @@ class DynamicSpec extends DoricTestElements with EitherValues with Matchers {
       List((("1", 2), true)).toDF.validateColumnType(row._1[Row]._2[Int])
     }
 
-    it("should not compile if the parent column is not a row") {
-      """val c: DoricColumn[String] = col[Int]("id").name[String]""" shouldNot compile
-    }
+    if (minorScalaVersion >= 12)
+      it("should not compile if the parent column is not a row") {
+        """val c: DoricColumn[String] = col[Int]("id").name[String]""" shouldNot compile
+      }
   }
 }
