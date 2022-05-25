@@ -79,27 +79,21 @@ List(1,2,3).toDF.select(col[Int]("value") * lit(true))
 ```
 
 As you may see, changes in column expressions are minimal: just annotate column references with the intended type, 
-i.e. `col[Int]("name")`, instead of `col("name")`. If you are not used to generic parameters, aliases `colInt`, `colString`, etc., are also available as column selectors.
-In this way, we can write `colInt("name")` instead of `col[Int]("name")`. We can't avoid generic parameters when
-selecting arrays, though: `colArray[Int]("name")` stands for `col[Array[Int]]("name")`.
-
-In either case, with this extra bit of type information, we are not only
+i.e. `col[Int]("name")`, instead of `col("name")`. With this extra bit of type information, we are not only
 referring to a column named `name`: we are signalling that the expected Spark data type of that column is `Integer`. 
-In order to refer to columns of other data types, doric strictly follows the 
-[mapping](https://spark.apache.org/docs/latest/sql-ref-datatypes.html) defined by Spark SQL itself. 
 
 ---
 ℹ️ **NOTE** ℹ️
 
-> Of course, this only works if you, the programmer, know the intended type 
-of the column at compile-time. In a pure dynamic setting, doric is useless. Note, however, that you don't need to know 
-in advance the whole row type as with Datasets. Thus, doric sits between a wholehearted static setting and a 
-purely dynamic one. It offers type-safety for column expressions at a minimum cost, without compromising performance, 
+> Of course, this only works if we know the intended type
+of the column at compile-time. In a pure dynamic setting, doric is useless. Note, however, that you don't need to know
+in advance the whole row type, as with Datasets. Thus, doric sits between a wholehearted static setting and a
+purely dynamic one. It offers type-safety for column expressions at a minimum cost, without compromising performance,
 i.e. sticking to DataFrames.
 
 ---
 
-Finally, once we have constructed a doric column expression, we can use it within the context of a `withColumn` expression, 
+Finally, once we have constructed a doric column expression, we can use it within the context of a `withColumn` expression,
 or, in general, wherever we may use plain Spark columns: joins, filters, etc.:
 
 ```scala mdoc

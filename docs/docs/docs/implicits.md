@@ -17,14 +17,56 @@ import doric._
 Before delving into the specific topics of [validations](validations.md) 
 and [modularity](modularity.md), let's discuss some general considerations around syntax. 
 
+### Alternative syntax for doric columns
+
+Besides the syntax `col[T](field)`, there are two other ways to create typed columns in doric: 
+
+#### Column aliases
+
+If you are not used to generic parameters, aliases `colInt`, `colString`, etc., are also available as column selectors.
+In this way, we can write `colInt("name")` instead of `col[Int]("name")`. We can't avoid generic parameters when
+selecting arrays or maps, though: e.g., `colArray[Int]("name")` stands for `col[Array[Int]]("name")`.
+
+This is the whole list of column alias:
+
+| Doric column type |           Column alias            | 
+|:-----------------:|:----------------------------------:|
+|     `String`      |             colString              |
+|      `Null`       |              colNull               |
+|       `Int`       |               colInt               |
+|      `Long`       |              colLong               |
+|     `Double`      |             colDouble              |
+|      `Float`      |              colFloat              |
+|     `Boolean`     |             colBoolean             |
+|     `Instant`     |             colInstant             |
+|    `LocalDate`    |            colLocalDate            |
+|    `Timestamp`    |            colTimestamp            |
+|      `Date`       |              colDate               |
+|    `Array[T]`     |       colArray[T: ClassTag]        |
+|   `Array[Int]`    |            colArrayInt             |
+|   `Array[Byte]`   |             colBinary              |
+|  `Array[String]`  |           colArrayString           |
+|       `Row`       |             colStruct              |
+|    `Map[K, V]`    | colMap[K: SparkType, V: SparkType] |
+| `Map[String, V]`  |     colMapString[V: SparkType]     |
+
+You can check the latest API for each type of column [here](3.0/scala-2.12/api/doric/index.html).
+
+#### Scala Dynamic
+
+We can also write `row.name[Int]` instead of `col[Int]("name")`. In this case, `row` refers to
+the top-level row of the DataFrame (you can think of it in similar terms to the `this` keyword). This syntax is
+particularly appealing when accessing inner fields of struct columns. Thus, we can write `row.person[Row].age[Int]`,
+instead of `colStruct("person").getChild[Int]("age")`.
+
 ### Dot syntax
 
-Doric embraces the _dot notation_ of common idiomatic Scala code wherever possible, instead of the functional style of Spark SQL. For instance, given the following DataFrame:
+Doric embraces the _dot notation_ of common idiomatic Scala code whenever possible, instead of the functional style of Spark SQL. For instance, given the following DataFrame:
 ```scala mdoc
 val dfArrays = List(("string", Array(1,2,3))).toDF("str", "arr")
 ```
 
-a common transformation in the SQL style would go as follows:
+a common transformation in the SQL/functional style would go as follows:
 
 ```scala mdoc
 val complexS: Column = 
