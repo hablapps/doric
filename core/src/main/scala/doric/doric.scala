@@ -11,7 +11,8 @@ package object doric extends syntax.All with sem.All {
 
   lazy val minorScalaVersion: Int = {
     val minorScalaVersionRegexp = """[^.]*\.([^.]*)\..*""".r
-    val minorScalaVersionRegexp(minorScalaVersionStr) = util.Properties.versionNumberString
+    val minorScalaVersionRegexp(minorScalaVersionStr) =
+      util.Properties.versionNumberString
     minorScalaVersionStr.toInt
   }
 
