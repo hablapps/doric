@@ -50,11 +50,11 @@ This is the whole list of column alias:
 |    `Map[K, V]`    | colMap[K: SparkType, V: SparkType] |
 | `Map[String, V]`  |     colMapString[V: SparkType]     |
 
-You can check the latest API for each type of column [here](3.0/scala-2.12/api/doric/index.html).
+You can check the latest API for each type of column [here](api).
 
 #### Scala Dynamic
 
-We can also write `row.name[Int]` instead of `col[Int]("name")`. In this case, `row` refers to
+We can also write `row.name[Int]` instead of `col[Int]("name")`, where `row` refers to
 the top-level row of the DataFrame (you can think of it in similar terms to the `this` keyword). This syntax is
 particularly appealing when accessing inner fields of struct columns. Thus, we can write `row.person[Row].age[Int]`,
 instead of `colStruct("person").getChild[Int]("age")`.
