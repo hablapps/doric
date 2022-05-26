@@ -414,7 +414,7 @@
     </span>
       
     </li><li name="doric.DoricColumn" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DoricColumn[T]extendsAnyRef"></a>
+      <a id="DoricColumn[T]extendsdoric.DynamicFieldAccessor[T]"></a>
       <a id="DoricColumn[T]:DoricColumn[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -422,10 +422,10 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="DoricColumn.html"><span class="name">DoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <a href="DoricColumn.html"><span class="name">DoricColumn</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="#DynamicFieldAccessor[T]extendsDynamic" class="extmbr" name="doric.DynamicFieldAccessor">DynamicFieldAccessor</a>[<span class="extype" name="doric.DoricColumn.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@DoricColumn[T]extendsAnyRef" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@DoricColumn[T]extendsdoric.DynamicFieldAccessor[T]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -498,6 +498,23 @@
       </a>
     </span>
       
+    </li><li name="doric.syntax.DStructs.DynamicFieldAccessor" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="DynamicFieldAccessor[T]extendsDynamic"></a>
+      <a id="DynamicFieldAccessor[T]:DynamicFieldAccessor[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DynamicFieldAccessor</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Dynamic" class="extype" target="_top">Dynamic</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@DynamicFieldAccessor[T]extendsDynamic" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd></dl></div>
     </li><li name="doric.FloatColumn" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="FloatColumn=doric.DoricColumn[Float]"></a>
       <a id="FloatColumn:FloatColumn"></a>
@@ -1316,7 +1333,7 @@ the name of the column to find.</p></dd><dt class="param">location</dt><dd class
 error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
 the column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colArray" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colArray[T](colName:String)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]"></a>
+      <a id="colArray[T](colName:String)(implicitevidence$3:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]"></a>
       <a id="colArray[T](String)(ClassTag[T],Location,SparkType[Array[T]]):F[Array[T]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1327,7 +1344,7 @@ the column reference</p></dd></dl><dl class="attributes block"> <dt>Definition C
         <span class="name">colArray</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>, <span name="st">st: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>)</span><span class="result">: <span class="extype" name="doric.syntax.ColGetters.F">F</span>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="doric.syntax.ColGetters.colArray.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@colArray[T](colName:String)(implicitevidence$2:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@colArray[T](colName:String)(implicitevidence$3:scala.reflect.ClassTag[T],implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[Array[T]]):F[Array[T]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1491,7 +1508,7 @@ the name of the column to find.</p></dd><dt class="param">location</dt><dd class
 error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
 the float column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colFromDF" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$6:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a>
+      <a id="colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$7:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a>
       <a id="colFromDF[T](String,Dataset[_])(SparkType[T],Location):F[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1502,7 +1519,7 @@ the float column reference</p></dd></dl><dl class="attributes block"> <dt>Defini
         <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="originDF">originDF: <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Dataset" class="extype" target="_top">Dataset</a>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <span class="extype" name="doric.syntax.ColGetters.F">F</span>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$6:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@colFromDF[T](colName:String,originDF:org.apache.spark.sql.Dataset[_])(implicitevidence$7:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1599,7 +1616,7 @@ the name of the column to find.</p></dd><dt class="param">location</dt><dd class
 error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
 the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colMap[K,V](colName:String)(implicitevidence$3:doric.types.SparkType[K],implicitevidence$4:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]"></a>
+      <a id="colMap[K,V](colName:String)(implicitevidence$4:doric.types.SparkType[K],implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]"></a>
       <a id="colMap[K,V](String)(SparkType[K],SparkType[V],Location):F[Map[K,V]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1610,7 +1627,7 @@ the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definit
         <span class="name">colMap</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMap.K">K</span>]</span>, <span name="arg1">arg1: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMap.V">V</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <span class="extype" name="doric.syntax.ColGetters.F">F</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="doric.syntax.ColGetters.colMap.K">K</span>, <span class="extype" name="doric.syntax.ColGetters.colMap.V">V</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@colMap[K,V](colName:String)(implicitevidence$3:doric.types.SparkType[K],implicitevidence$4:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@colMap[K,V](colName:String)(implicitevidence$4:doric.types.SparkType[K],implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[K,V]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1622,7 +1639,7 @@ the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definit
   error location.</p></dd><dt>returns</dt><dd class="cmt"><p>
   the map column reference.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.syntax.ColGetters#colMapString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="colMapString[V](colName:String)(implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]"></a>
+      <a id="colMapString[V](colName:String)(implicitevidence$6:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]"></a>
       <a id="colMapString[V](String)(SparkType[V],Location):F[Map[String,V]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1633,7 +1650,7 @@ the long column reference</p></dd></dl><dl class="attributes block"> <dt>Definit
         <span class="name">colMapString</span><span class="tparams">[<span name="V">V</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colMapString.V">V</span>]</span>, <span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <span class="extype" name="doric.syntax.ColGetters.F">F</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="doric.syntax.ColGetters.colMapString.V">V</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@colMapString[V](colName:String)(implicitevidence$5:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@colMapString[V](colName:String)(implicitevidence$6:doric.types.SparkType[V],implicitlocation:doric.sem.Location):F[Map[String,V]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2482,6 +2499,23 @@ array for key should not be null.
     </span>
       <p class="shortcomment cmt">Aggregate function: returns the maximum value of the expression in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the maximum value of the expression in a group.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@min(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.min</a></p></span></dd></dl></div>
+    </li><li name="doric#minorScalaVersion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="minorScalaVersion:Int"></a>
+      <a id="minorScalaVersion:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minorScalaVersion</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@minorScalaVersion:Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="doric.syntax.NumericColumns#monotonicallyIncreasingId" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="monotonicallyIncreasingId():doric.LongColumn"></a>
       <a id="monotonicallyIncreasingId():LongColumn"></a>
@@ -2604,6 +2638,24 @@ the standard normal distribution.
 the standard normal distribution.</p><div class="fullcomment"><div class="comment cmt"><p>Generate a column with independent and identically distributed (i.i.d.) samples from
 the standard normal distribution.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>NumericColumns</dd><dt>Note</dt><dd><span class="cmt"><p>The function is non-deterministic in general case.</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@randn():org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.randn</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.ColGetters.row" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="row"></a>
+      <a id="row:row"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <span class="name">row</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Dynamic" class="extype" target="_top">Dynamic</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@row" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The object <code>row</code> stands for the top-level row of the DataFrame.</p><div class="fullcomment"><div class="comment cmt"><p>The object <code>row</code> stands for the top-level row of the DataFrame.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>ColGetters</dd></dl></div>
     </li><li name="doric.sem" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="sem"></a>
       <a id="sem:sem"></a>

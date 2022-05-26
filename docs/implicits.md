@@ -9,15 +9,57 @@ permalink: docs/syntax/
 Before delving into the specific topics of [validations](validations.md) 
 and [modularity](modularity.md), let's discuss some general considerations around syntax. 
 
+### Alternative syntax for doric columns
+
+Besides the syntax `col[T](field)`, there are two other ways to create typed columns in doric: 
+
+#### Column aliases
+
+If you are not used to generic parameters, aliases `colInt`, `colString`, etc., are also available as column selectors.
+In this way, we can write `colInt("name")` instead of `col[Int]("name")`. We can't avoid generic parameters when
+selecting arrays or maps, though: e.g., `colArray[Int]("name")` stands for `col[Array[Int]]("name")`.
+
+This is the whole list of column alias:
+
+| Doric column type |           Column alias            | 
+|:-----------------:|:----------------------------------:|
+|     `String`      |             colString              |
+|      `Null`       |              colNull               |
+|       `Int`       |               colInt               |
+|      `Long`       |              colLong               |
+|     `Double`      |             colDouble              |
+|      `Float`      |              colFloat              |
+|     `Boolean`     |             colBoolean             |
+|     `Instant`     |             colInstant             |
+|    `LocalDate`    |            colLocalDate            |
+|    `Timestamp`    |            colTimestamp            |
+|      `Date`       |              colDate               |
+|    `Array[T]`     |       colArray[T: ClassTag]        |
+|   `Array[Int]`    |            colArrayInt             |
+|   `Array[Byte]`   |             colBinary              |
+|  `Array[String]`  |           colArrayString           |
+|       `Row`       |             colStruct              |
+|    `Map[K, V]`    | colMap[K: SparkType, V: SparkType] |
+| `Map[String, V]`  |     colMapString[V: SparkType]     |
+
+You can check the latest API for each type of column [here](api).
+
+#### Scala Dynamic
+
+We can also write `row.name[Int]` instead of `col[Int]("name")`, where `row` refers to
+the top-level row of the DataFrame (you can think of it in similar terms to the `this` keyword). This syntax is
+particularly appealing when accessing inner fields of struct columns. Thus, we can write `row.person[Row].age[Int]`,
+instead of `colStruct("person").getChild[Int]("age")`.
+
 ### Dot syntax
 
-Doric embraces the _dot notation_ of common idiomatic Scala code wherever possible, instead of the functional style of Spark SQL. For instance, given the following DataFrame:
+Doric embraces the _dot notation_ of common idiomatic Scala code whenever possible, instead of the functional style of Spark SQL. For instance, given the following DataFrame:
 ```scala
 val dfArrays = List(("string", Array(1,2,3))).toDF("str", "arr")
 // dfArrays: org.apache.spark.sql.package.DataFrame = [str: string, arr: array<int>]
 ```
 
-a common transformation in the SQL style would go as follows:
+a common transformation in the SQL/functional style would go as follows:
 
 ```scala
 val complexS: Column = 
@@ -43,7 +85,7 @@ val complexCol: DoricColumn[Int] =
       .transform(_ + 1.lit)
       .aggregate(0.lit)(_ + _)
 // complexCol: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@1b079e81)
+//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@71ad1d0b)
 // )
   
 dfArrays.select(complexCol as "complexTransformation").show
@@ -235,7 +277,7 @@ The default doric syntax is a little stricter and forces us to transform these v
 ```scala
 val colD = colInt("int") + 1.lit
 // colD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@7ef6a063)
+//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@44bbf5e3)
 // )
 
 intDF.select(colD).show
@@ -256,11 +298,11 @@ we have to _explicitly_ add the following import statement:
 import doric.implicitConversions.literalConversion
 val colSugarD = colInt("int") + 1
 // colSugarD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@1cd7bc66)
+//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@613bebb9)
 // )
 val columConcatLiterals = concat("this", "is","doric") // concat expects DoricColumn[String] values, the conversion puts them as expected
 // columConcatLiterals: StringColumn = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@34b56a5a)
+//   Kleisli(cats.data.Kleisli$$Lambda$2837/0x000000010121b840@463e0b6a)
 // ) // concat expects DoricColumn[String] values, the conversion puts them as expected
 
 intDF.select(colSugarD, columConcatLiterals).show

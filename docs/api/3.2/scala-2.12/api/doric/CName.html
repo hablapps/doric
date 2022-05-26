@@ -207,6 +207,10 @@
                         <a href="DoricJoinColumn.html" title="">DoricJoinColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="trait" href="DynamicFieldAccessor.html" title=""></a>
+                        <a href="DynamicFieldAccessor.html" title="">DynamicFieldAccessor</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="IntegerOperationsSyntax.html" title=""></a>
                         <a href="IntegerOperationsSyntax.html" title="">IntegerOperationsSyntax</a>
                       </li><li class="current-entities indented1">
@@ -301,6 +305,10 @@
                         <span class="separator"></span>
                         <a class="class" href="syntax/Interpolators$doricStringInterpolator.html" title=""></a>
                         <a href="syntax/Interpolators$doricStringInterpolator.html" title="">doricStringInterpolator</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="row$.html" title="The object row stands for the top-level row of the DataFrame."></a>
+                        <a href="row$.html" title="The object row stands for the top-level row of the DataFrame.">row</a>
                       </li>
               </ul>
             </div>
@@ -856,6 +864,28 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="doric.CName.columnByName#selectDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="selectDynamic[A](name:String)(implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[A],implicitw:cats.evidence.Is[T,org.apache.spark.sql.Row]):doric.DoricColumn[A]"></a><a id="selectDynamic[A](String)(Location,SparkType[A],Is[T,Row]):DoricColumn[A]"></a>
+      <span class="permalink">
+      <a href="../doric/CName.html#selectDynamic[A](name:String)(implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[A],implicitw:cats.evidence.Is[T,org.apache.spark.sql.Row]):doric.DoricColumn[A]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit">selectDynamic</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>, <span name="st">st: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.DStructs.DynamicFieldAccessor.selectDynamic.A">A</span>]</span>, <span name="w">w: <a href="http://typelevel.org/cats/api/cats/evidence/Is.html#cats.evidence.Is" class="extype" name="cats.evidence.Is">Is</a>[<span class="extype" name="doric.CName.columnByName.T">T</span>, <a href="https://spark.apache.org/docs/3.2.1/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.DStructs.DynamicFieldAccessor.selectDynamic.A">A</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Allows for accessing fields of struct columns using the syntax <code>rowcol.name[T]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Allows for accessing fields of struct columns using the syntax <code>rowcol.name[T]</code>.
+This expression stands for <code>rowcol.getChild[T](name)</code>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The column which refers to the given field</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.CName">CName</a> to
+            <a href="NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.CName.columnByName.T">T</span>] performed by method columnByName in <a href="CName$.html" class="extype" name="doric.CName">doric.CName</a>.
+            This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.CName.columnByName.T">T</span>] is in scope.
+          </dd><dt>Definition Classes</dt><dd>DynamicFieldAccessor</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="sem/ColumnTypeError.html" class="extype" name="doric.sem.ColumnTypeError"><code>doric.sem.ColumnTypeError</code></a> if the parent column is not a struct</p></span></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

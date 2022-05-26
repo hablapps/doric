@@ -53,7 +53,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.io.Serializable" class="extype" target="_top">Serializable</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>], <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.io.Serializable" class="extype" target="_top">Serializable</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>], <a href="package.html#DynamicFieldAccessor[T]extendsDynamic" class="extmbr" name="doric.DynamicFieldAccessor">doric.DynamicFieldAccessor</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>], <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Dynamic" class="extype" target="_top">Dynamic</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="doric.NamedDoricColumn"><span>NamedDoricColumn</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="doric.DoricColumn"><span>DoricColumn</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="doric.NamedDoricColumn"><span>NamedDoricColumn</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="doric.DoricColumn"><span>DoricColumn</span></li><li class="in" name="doric.syntax.DStructs.DynamicFieldAccessor"><span>DynamicFieldAccessor</span></li><li class="in" name="scala.Dynamic"><span>Dynamic</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -2325,6 +2325,25 @@ string column.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.TimestampType (T: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>).
           </dd><dt>Definition Classes</dt><dd>TimestampColumnLikeSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@second(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.second</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.DStructs.DynamicFieldAccessor#selectDynamic" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="selectDynamic[A](name:String)(implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[A],implicitw:cats.evidence.Is[T,org.apache.spark.sql.Row]):doric.DoricColumn[A]"></a>
+      <a id="selectDynamic[A](String)(Location,SparkType[A],Is[T,Row]):DoricColumn[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">selectDynamic</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>, <span name="st">st: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.DStructs.DynamicFieldAccessor.selectDynamic.A">A</span>]</span>, <span name="w">w: <a href="http://typelevel.org/cats/api/index.html#cats.evidence.Is" class="extype" target="_top">Is</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>, <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.DStructs.DynamicFieldAccessor.selectDynamic.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.NamedDoricColumn@selectDynamic[A](name:String)(implicitlocation:doric.sem.Location,implicitst:doric.types.SparkType[A],implicitw:cats.evidence.Is[T,org.apache.spark.sql.Row]):doric.DoricColumn[A]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Allows for accessing fields of struct columns using the syntax <code>rowcol.name[T]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Allows for accessing fields of struct columns using the syntax <code>rowcol.name[T]</code>.
+This expression stands for <code>rowcol.getChild[T](name)</code>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The column which refers to the given field</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>DynamicFieldAccessor</dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="sem/ColumnTypeError.html" class="extype" name="doric.sem.ColumnTypeError"><code>doric.sem.ColumnTypeError</code></a> if the parent column is not a struct</p></span></dd></dl></div>
     </li><li name="doric.syntax.NumericColumns.IntegerOperationsSyntax#sequence" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="sequence(to:doric.IntegerColumn):doric.ArrayColumn[Int]"></a>
       <a id="sequence(IntegerColumn):ArrayColumn[Int]"></a>
@@ -3311,6 +3330,10 @@ using the default timezone and the default locale.
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
             </div><div class="parent" name="doric.DoricColumn">
               <h3>Inherited from <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</h3>
+            </div><div class="parent" name="doric.syntax.DStructs.DynamicFieldAccessor">
+              <h3>Inherited from <a href="package.html#DynamicFieldAccessor[T]extendsDynamic" class="extmbr" name="doric.DynamicFieldAccessor">doric.DynamicFieldAccessor</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</h3>
+            </div><div class="parent" name="scala.Dynamic">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Dynamic" class="extype" target="_top">Dynamic</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
