@@ -1,6 +1,6 @@
 import sbt.{Compile, Def}
 
-val stableVersion = "0.0.3"
+val stableVersion = "0.0.4"
 
 val sparkDefaultShortVersion = "3.2"
 val spark24Version           = "2.4.8"
