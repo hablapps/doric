@@ -14,41 +14,64 @@ object CustomMatchers extends CustomMatchers
   * Custom Doric errors matcher
   */
 trait CustomMatchers {
-  class DoricErrorMatcher(exceptions: DoricSingleError*)
+  private def msgErrors(
+      dme: Set[DoricSingleError],
+      expectedDme: Set[DoricSingleError]
+  ): Either[String, Option[String]] = {
+
+    if (dme.size == expectedDme.size) {
+      val errors: Set[
+        Either[(DoricSingleError, DoricSingleError), DoricSingleError]
+      ] = dme.zip(expectedDme).map { case (f, e) =>
+        if (f == e) Right(e)
+        else Left(e, f)
+      }
+
+      if (errors.exists(_.isLeft)) {
+        val fmtErrors = errors.map {
+          case Left((e, f)) =>
+            val tuples = f.cause match {
+              case Some(c: AnalysisException) =>
+                (e.toString, s"${f.getClass.getName}(${c.message})")
+              case _ => (e.toString, f.toString)
+            }
+            s"‼️ ==> Expected ${tuples._1}\nbut found\n${tuples._2}"
+          case Right(x) =>
+            s"✅ ==> Expected and found ${x.getClass.getName}(${x.message})\n"
+        }
+        Right(Some(fmtErrors.mkString("\n======\n")))
+      } else
+        Right(None)
+    } else
+      Left(
+        s"‼️ Expected\n${expectedDme.map(_.toString + "\n")}\n" +
+          s"but found\n${dme.map(_.toString + "\n")}"
+      )
+  }
+
+  /**
+    * DoricSingleError custom matcher
+    * @param exceptions TODO
+    */
+  class DoricErrorMatcher(exceptions: Seq[DoricSingleError])
       extends Matcher[DoricMultiError] {
     override def apply(multiError: DoricMultiError): MatchResult = {
 
-      val order: DoricSingleError => (String, String, String) = dse =>
-        (dse.getClass.getSimpleName, dse.message, dse.location.toString)
-
-      val errors         = multiError.errors.sortBy(order)
-      val expectedErrors = NonEmptyChain.fromSeq(exceptions).get.sortBy(order)
-
-      val checkFunctions = errors.map(x => {
-        x.cause match {
-          case Some(_: AnalysisException) =>
-            val fun: DoricSingleError => Boolean = n =>
-              (
-                if (x.message.last == ';')
-                  x.message.substring(0, x.message.length - 1)
-                else x.message
-              ) == n.message
-            fun
-          case _ =>
-            val fun: DoricSingleError => Boolean = n => x == n
-            fun
-        }
-      })
-      val res = checkFunctions
-        .zipWith(expectedErrors)((f, e) => f(e))
+      val errors         = multiError.errors.toChain.toList.toSet
+      val expectedErrors = exceptions.toSet
+      val msg = msgErrors(errors, expectedErrors) match {
+        case Right(Some(x)) => x
+        case Left(x)        => x
+        case _ =>
+          "If you see this message, something went south when comparing doric errors..." +
+            " Please check/open an issue to review it: https://github.com/hablapps/doric/issues"
+      }
 
       MatchResult(
-        matches = res.reduceRight(_ && _),
-        // TODO show real errors only? like, if there are two exceptions, but only one failed, show that one
-        rawFailureMessage = // TODO this custom matcher shadows real assertions?
-          s"Expected\n${NonEmptyChain(exceptions)}\nbut found\n${multiError.errors}",
+        matches = errors == expectedErrors,
+        rawFailureMessage = msg,
         rawNegatedFailureMessage =
-          s"Doric errors expected and found:\n${multiError.errors}"
+          s"Doric errors expected and found:\n${multiError.errors}" // TODO
       )
     }
   }
@@ -56,5 +79,5 @@ trait CustomMatchers {
   def includeErrors(
       exception: DoricSingleError,
       exceptions: DoricSingleError*
-  ) = new DoricErrorMatcher(exception +: exceptions: _*)
+  ) = new DoricErrorMatcher(exception +: exceptions)
 }

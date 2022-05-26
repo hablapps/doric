@@ -1,7 +1,8 @@
 package doric
 package syntax
 
-import doric.sem.{DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ColumnMultiTypeError, DoricMultiError, SparkErrorWrapper}
+import org.apache.spark.sql.types.{IntegerType, StringType}
 
 class TypeMatcherSpec
     extends DoricTestElements
@@ -97,10 +98,10 @@ class TypeMatcherSpec
         intercept[DoricMultiError] {
           df.select(testColumn)
         } should includeErrors(
-          SparkErrorWrapper(
-            new Exception(
-              "The matched column with name 'colArr' is of type IntegerType and it was expected to be one of [StringType, IntegerType]"
-            )
+          ColumnMultiTypeError(
+            "colArr",
+            List(StringType, IntegerType),
+            IntegerType
           )
         )
       }

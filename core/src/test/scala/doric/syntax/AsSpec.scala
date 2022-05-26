@@ -1,12 +1,11 @@
 package doric
 package syntax
 
-import org.scalatest.EitherValues
-import org.scalatest.matchers.should.Matchers
-
+import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import org.apache.spark.sql.functions.{col => sparkCol}
+import org.apache.spark.sql.types.{IntegerType, StringType}
 
-class AsSpec extends DoricTestElements with EitherValues with Matchers {
+class AsSpec extends DoricTestElements {
 
   describe("as method") {
     import spark.implicits._
@@ -25,20 +24,26 @@ class AsSpec extends DoricTestElements with EitherValues with Matchers {
 
     it("should return a SparkError if the column doesn't exist") {
       val originalColumn = sparkCol("error").asDoric[Int]
-      val errors         = originalColumn.elem.run(df).toEither.left.value
-      errors.length shouldBe 1
-      val errorMessage = errors.head.message.take(57)
-      errorMessage should startWith("cannot resolve")
-      errorMessage should include("given input columns: [int, str];")
-      errors.head.location.fileName.value shouldBe "AsSpec.scala"
+
+      intercept[DoricMultiError] {
+        df.select(originalColumn)
+      } should includeErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "cannot resolve 'error' given input columns: [int, str]"
+          )
+        )
+      )
     }
 
     it("should return a SparkError if the column doesn't match the type") {
       val originalColumn = sparkCol("int").asDoric[String]
-      val errors         = originalColumn.elem.run(df).toEither.left.value
-      errors.length shouldBe 1
-      errors.head.message shouldBe "The column with name 'int' is of type IntegerType and it was expected to be StringType"
-      errors.head.location.fileName.value shouldBe "AsSpec.scala"
+
+      intercept[DoricMultiError] {
+        df.select(originalColumn)
+      } should includeErrors(
+        ColumnTypeError("int", StringType, IntegerType)
+      )
     }
   }
 

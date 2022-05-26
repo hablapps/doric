@@ -2,7 +2,7 @@ package doric
 package sem
 
 import cats.data.NonEmptyChain
-
+import org.apache.spark.sql.AnalysisException
 import org.apache.spark.sql.types.DataType
 
 case class DoricMultiError(
@@ -59,11 +59,6 @@ sealed abstract class DoricSingleError(val cause: Option[Throwable])
     message + s"\n\tlocated at . ${location.getLocation}"
 }
 
-/**
-  * ???????
-  * @param sideError ???????
-  * @param isLeft ???????
-  */
 case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
     extends DoricSingleError(sideError.cause) {
   override def message: String = sideError.message
@@ -73,7 +68,7 @@ case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
   val isRight: Boolean = !isLeft
 }
 
-case class ColumnMultyTypeError(
+case class ColumnMultiTypeError(
     columnName: String,
     expectedTypes: List[DataType],
     foundType: DataType
@@ -113,6 +108,27 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
     val location: Location
 ) extends DoricSingleError(Some(sparkCause)) {
   override def message: String = sparkCause.getMessage
+
+  private lazy val eqSpark: String => String = a =>
+    if (a.last == ';') a.substring(0, a.length - 1) else a
+
+  override def equals(obj: Any): Boolean = obj match {
+    case exp: SparkErrorWrapper =>
+      (sparkCause, exp.cause) match {
+        case (c1: AnalysisException, Some(c2)) =>
+          eqSpark(c1.message) == eqSpark(c2.getMessage)
+        case (c1, Some(c2)) =>
+          c1.getClass.getName == c2.getClass.getName &&
+          c1.getMessage == c2.getMessage
+        case _ => false
+      }
+    case _ => false
+  }
+
+  override def hashCode(): Int = sparkCause.getCause match {
+    case a: AnalysisException => eqSpark(a.message).##
+    case _                    => super.hashCode()
+  }
 }
 
 object Location {
