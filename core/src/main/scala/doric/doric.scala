@@ -9,6 +9,13 @@ import org.apache.spark.sql.{Column, Dataset, Row}
 
 package object doric extends syntax.All with sem.All {
 
+  lazy val minorScalaVersion: Int = {
+    val minorScalaVersionRegexp = """[^.]*\.([^.]*)\..*""".r
+    val minorScalaVersionRegexp(minorScalaVersionStr) =
+      util.Properties.versionNumberString
+    minorScalaVersionStr.toInt
+  }
+
   type DoricValidated[T] = ValidatedNec[DoricSingleError, T]
   type Doric[T]          = Kleisli[DoricValidated, Dataset[_], T]
   type DoricJoin[T]      = Kleisli[DoricValidated, (Dataset[_], Dataset[_]), T]
