@@ -8,11 +8,12 @@ Type-safe columns for spark DataFrames!
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/hablapps/doric/main?filepath=notebooks)
 
-| Spark | Maven Central | Codecov |
-|:-----:|:-------------:|:--------|
-| 3.0.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.3) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.0.x)](https://codecov.io/gh/hablapps/doric) |
-| 3.1.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.3) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.1.x)](https://codecov.io/gh/hablapps/doric) |
-| 3.2.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.3) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.2.x)](https://codecov.io/gh/hablapps/doric) |
+| Spark |                                                                        Maven Central                                                                         | Codecov                                                                                                                                                |
+|:-----:|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2.4.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.4) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-2.4.x)](https://codecov.io/gh/hablapps/doric) |
+| 3.0.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.4) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.0.x)](https://codecov.io/gh/hablapps/doric) |
+| 3.1.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.4) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.1.x)](https://codecov.io/gh/hablapps/doric) |
+| 3.2.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.4) | [![codecov](https://codecov.io/gh/hablapps/doric/branch/main/graph/badge.svg?token=N7ZXUXZX1I?flag=spark-3.2.x)](https://codecov.io/gh/hablapps/doric) |
 ----
 
 Doric offers type-safety in DataFrame column expressions at a minimum
@@ -46,14 +47,14 @@ Fetch the JAR from Maven:
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "0.0.3"
+libraryDependencies += "org.hablapps" %% "doric_3-2" % "0.0.4"
 ```
 _Maven_
 ```xml
 <dependency>
     <groupId>org.hablapps</groupId>
     <artifactId>doric_3-2_2.12</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -62,14 +63,22 @@ following spark versions.
 
 | Spark | Scala | Tested | doric |
 |:-----:|:-----:|:------:|:-----:|
-| 3.0.0 | 2.12  |   ✅   |   -   |
-| 3.0.1 | 2.12  |   ✅   |   -   |
-| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.3) |
-| 3.1.0 | 2.12  |   ✅   |   -   |
-| 3.1.1 | 2.12  |   ✅   |   -   |
-| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.3) |
-| 3.2.0 | 2.12  |   ✅   |   -   |
-| 3.2.1 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.3) |
+| 2.4.1 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.2 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.3 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.4 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.5 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.6 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.7 | 2.11  |   ✅   |                                                                              -                                                                               |
+| 2.4.8 | 2.11  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_2-4_2.11/0.0.4) |
+| 3.0.0 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.0.1 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.4) |
+| 3.1.0 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.1.1 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.4) |
+| 3.2.0 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.2.1 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.4) |
 
 
 ## Contributing 
