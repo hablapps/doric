@@ -47,28 +47,21 @@ class DStructOpsSpec extends DoricTestElements {
           colStruct("col").getChild[String]("age")
         )
       } should includeErrors(
-        ColumnTypeError("age", StringType, IntegerType)
+        ColumnTypeError("col.age", StringType, IntegerType)
       )
     }
 
     it(
       "throws an error if the user forces a field access for non-row columns"
     ) {
-      colInt("delete")
-        .asInstanceOf[RowColumn]
-        .getChild[Int]("name")
-        .elem
-        .run(
-          List((User("John", "doe", 34), 1))
-            .toDF("col", "delete")
-        )
-        .toEither
-        .left
-        .value
-        .head shouldBe ColumnTypeError(
-        "delete",
-        SparkType[Row].dataType,
-        IntegerType
+      intercept[DoricMultiError] {
+        List((User("John", "doe", 34), 1))
+          .toDF("col", "delete")
+          .select(
+            colInt("delete").asInstanceOf[RowColumn].getChild[Int]("name")
+          )
+      } should includeErrors(
+        ColumnTypeError("delete", SparkType[Row].dataType, IntegerType)
       )
     }
   }
