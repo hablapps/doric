@@ -41,7 +41,7 @@ class JoinOpsSpec extends DoricTestElements {
       intercept[DoricMultiError] {
         val value1 = colLong(id)
         left.join(badRight, "left", value1)
-      } should includeErrors(
+      } should containAllErrors(
         JoinDoricSingleError(
           ColumnTypeError("id", LongType, StringType),
           isLeft = false
@@ -62,7 +62,7 @@ class JoinOpsSpec extends DoricTestElements {
 
       intercept[DoricMultiError] {
         left.join(right, "inner", badJoinFunction)
-      } should includeErrors(
+      } should containAllErrors(
         JoinDoricSingleError(
           ColumnTypeError("id", StringType, LongType),
           isLeft = true
@@ -88,7 +88,7 @@ class JoinOpsSpec extends DoricTestElements {
 
       intercept[DoricMultiError] {
         left.join(right, "inner", badJoinFunction2)
-      } should includeErrors(
+      } should containAllErrors(
         JoinDoricSingleError(
           ColumnTypeError("id", StringType, LongType),
           isLeft = true

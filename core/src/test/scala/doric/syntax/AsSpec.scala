@@ -27,7 +27,7 @@ class AsSpec extends DoricTestElements {
 
       intercept[DoricMultiError] {
         df.select(originalColumn)
-      } should includeErrors(
+      } should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "cannot resolve 'error' given input columns: [int, str]"
@@ -41,7 +41,7 @@ class AsSpec extends DoricTestElements {
 
       intercept[DoricMultiError] {
         df.select(originalColumn)
-      } should includeErrors(
+      } should containAllErrors(
         ColumnTypeError("int", StringType, IntegerType)
       )
     }

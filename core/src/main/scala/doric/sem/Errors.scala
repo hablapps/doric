@@ -109,8 +109,24 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
 ) extends DoricSingleError(Some(sparkCause)) {
   override def message: String = sparkCause.getMessage
 
-  private lazy val eqSpark: String => String = a =>
-    if (a.last == ';') a.substring(0, a.length - 1) else a
+  private lazy val eqSpark: String => String = {
+    case str
+        if str.startsWith("Cannot resolve column name")
+          && (str.last == ';') // Not present since spark 3.0.0
+        =>
+      str.substring(0, str.length - 1)
+    case str
+        if str.startsWith("cannot resolve '")
+          && str.contains("`") // Not present since spark 3.2.1
+          && str.contains("given input columns") =>
+      str.replace("`", "")
+    case str => str
+  }
+
+  override def canEqual(that: Any): Boolean = that match {
+    case _: SparkErrorWrapper => true
+    case _                    => false
+  }
 
   override def equals(obj: Any): Boolean = obj match {
     case exp: SparkErrorWrapper =>

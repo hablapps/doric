@@ -61,7 +61,7 @@ class TypeMatcherSpec
 
         intercept[DoricMultiError] {
           df.select(testColumn)
-        } should includeErrors(
+        } should containAllErrors(
           SparkErrorWrapper(
             new Exception(
               "Cannot resolve column name \"int2\" among (colArr, int, str)"
@@ -80,7 +80,7 @@ class TypeMatcherSpec
 
         intercept[DoricMultiError] {
           df.select(testColumn)
-        } should includeErrors(
+        } should containAllErrors(
           SparkErrorWrapper(
             new Exception(
               "Cannot resolve column name \"int3\" among (colArr, int, str)"
@@ -97,7 +97,7 @@ class TypeMatcherSpec
 
         intercept[DoricMultiError] {
           df.select(testColumn)
-        } should includeErrors(
+        } should containAllErrors(
           ColumnMultiTypeError(
             "colArr",
             List(StringType, IntegerType),

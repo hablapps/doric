@@ -45,7 +45,7 @@ class ArrayColumnsSpec extends DoricTestElements {
           colArrayInt("col")
             .transform(_ => colString("something"))
         )
-      } should includeErrors(
+      } should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "Cannot resolve column name \"something2\" among (col, something)"
@@ -78,7 +78,7 @@ class ArrayColumnsSpec extends DoricTestElements {
           colArrayInt(testColumn)
             .transformWithIndex(_ + _ + colInt("something2"))
         )
-      } should includeErrors(
+      } should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "Cannot resolve column name \"something2\" among (col, something)"
@@ -111,7 +111,7 @@ class ArrayColumnsSpec extends DoricTestElements {
           colArrayInt(testColumn)
             .aggregate(colInt("something2"))(_ + _ + colInt("something"))
         )
-      } should includeErrors(
+      } should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "Cannot resolve column name \"something2\" among (col, something)"
@@ -148,7 +148,7 @@ class ArrayColumnsSpec extends DoricTestElements {
               x => (x + colInt("something3")).cast
             )
         )
-      } should includeErrors(
+      } should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "Cannot resolve column name \"something2\" among (col, something)"

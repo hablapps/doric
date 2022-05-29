@@ -36,7 +36,7 @@ class DStructOpsSpec extends DoricTestElements {
         df.select(
           colStruct("col").getChild[String]("jander")
         )
-      } should includeErrors(
+      } should containAllErrors(
         ChildColumnNotFound("jander", List("name", "surname", "age"))
       )
     }
@@ -46,7 +46,7 @@ class DStructOpsSpec extends DoricTestElements {
         df.select(
           colStruct("col").getChild[String]("age")
         )
-      } should includeErrors(
+      } should containAllErrors(
         ColumnTypeError("col.age", StringType, IntegerType)
       )
     }
@@ -60,7 +60,7 @@ class DStructOpsSpec extends DoricTestElements {
           .select(
             colInt("delete").asInstanceOf[RowColumn].getChild[Int]("name")
           )
-      } should includeErrors(
+      } should containAllErrors(
         ColumnTypeError("delete", SparkType[Row].dataType, IntegerType)
       )
     }
