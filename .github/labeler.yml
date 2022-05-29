@@ -9,12 +9,16 @@ documentation:
 
 spark_2.4:
   - core/src/main/spark*2.4*/**/*
+  - core/src/main/scala/**/*
 
 spark_3.0:
   - core/src/main/spark*3.0*/**/*
+  - core/src/main/scala/**/*
 
 spark_3.1:
   - core/src/main/spark*3.1*/**/*
+  - core/src/main/scala/**/*
 
 spark_3.2:
   - core/src/main/spark*3.2*/**/*
+  - core/src/main/scala/**/*
