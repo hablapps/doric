@@ -4,9 +4,8 @@ package syntax
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
-
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{FormatNumber, FromUnixTime, Rand, Randn}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight}
 
 private[syntax] trait NumericColumns {
 
@@ -95,6 +94,9 @@ private[syntax] trait NumericColumns {
   def monotonicallyIncreasingId(): LongColumn =
     DoricColumn(f.monotonically_increasing_id())
 
+  /**
+    * GENERIC NUMERIC OPERATIONS
+    */
   implicit class NumericOperationsSyntax[T: NumericType](
       column: DoricColumn[T]
   ) {
@@ -178,8 +180,86 @@ private[syntax] trait NumericColumns {
       */
     def isNaN: BooleanColumn = column.elem.map(_.isNaN).toDC
 
+    /**
+      * Computes the absolute value of a numeric value.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.abs]]
+      */
+    def abs: DoricColumn[T] = column.elem.map(f.abs).toDC
+
+    /**
+      * Inverse cosine of `column` in radians, as if computed by `java.lang.Math.acos`
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.abs]]
+      */
+    def acos: DoubleColumn = column.elem.map(f.acos).toDC
+
+    def acosh: DoubleColumn = column.elem.map(f.acosh).toDC
+
+    def asin: DoubleColumn = column.elem.map(f.asin).toDC
+
+    def asinh: DoubleColumn = column.elem.map(f.asinh).toDC
+
+    def atan: DoubleColumn = column.elem.map(f.atan).toDC
+
+    def atan2(yCoordinates: DoricColumn[T]): DoubleColumn =
+      (yCoordinates.elem, column.elem).mapN(f.atan2).toDC
+
+    def bin: DoubleColumn = column.elem.map(f.bin).toDC
+
+    def cbrt: DoubleColumn = column.elem.map(f.cbrt).toDC
+
+    def cos: DoubleColumn = column.elem.map(f.cos).toDC
+
+    def cosh: DoubleColumn = column.elem.map(f.cosh).toDC
+
+    def degrees: DoubleColumn = column.elem.map(f.degrees).toDC
+
+    def exp: DoubleColumn = column.elem.map(f.exp).toDC
+
+    def expm1: DoubleColumn = column.elem.map(f.expm1).toDC
+
+    def factorial: LongColumn = column.elem.map(f.factorial).toDC
+
+    def hypot(right: DoricColumn[T]): DoubleColumn =
+      (column.elem, right.elem).mapN(f.hypot).toDC
+
+    def log: DoubleColumn = column.elem.map(f.log).toDC
+
+    def log10: DoubleColumn = column.elem.map(f.log10).toDC
+
+    def log1p: DoubleColumn = column.elem.map(f.log1p).toDC
+
+    def log2: DoubleColumn = column.elem.map(f.log2).toDC
+
+    def log2(right: DoricColumn[T]): DoubleColumn =
+      (column.elem, right.elem).mapN(f.pow).toDC
+
+    def pMod(divisor: DoricColumn[T]): DoricColumn[T] =
+      (column.elem, divisor.elem).mapN(f.pmod).toDC
+
+    def radians: DoubleColumn = column.elem.map(f.radians).toDC
+
+    def rint: DoubleColumn = column.elem.map(f.rint).toDC
+
+    def signum: DoubleColumn = column.elem.map(f.signum).toDC
+
+    def sin: DoubleColumn = column.elem.map(f.sin).toDC
+
+    def sinh: DoubleColumn = column.elem.map(f.sinh).toDC
+
+    def sqrt: DoubleColumn = column.elem.map(f.sqrt).toDC
+
+    def tan: DoubleColumn = column.elem.map(f.tan).toDC
+
+    def tanh: DoubleColumn = column.elem.map(f.tanh).toDC
   }
 
+  /**
+    * LONG OPERATIONS
+    */
   implicit class LongOperationsSyntax(
       column: LongColumn
   ) {
@@ -211,8 +291,23 @@ private[syntax] trait NumericColumns {
         })
         .toDC
 
+    // LongType, BinaryType, StringType
+    def hex: StringColumn = column.elem.map(f.hex).toDC
+
+    // IN => Int/Long => Returns the same
+    def shiftLeft(numBits: IntegerColumn): DoubleColumn = (column.elem, numBits.elem)
+      .mapN((c, n) => new Column(ShiftLeft(c.expr, n.expr)))
+      .toDC
+
+    // IN => Int/Long => Returns the same
+    def shiftRight(numBits: IntegerColumn): DoubleColumn = (column.elem, numBits.elem)
+      .mapN((c, n) => new Column(ShiftRight(c.expr, n.expr)))
+      .toDC
   }
 
+  /**
+    * INTEGER OPERATIONS
+    */
   implicit class IntegerOperationsSyntax(
       column: IntegerColumn
   ) {
@@ -235,6 +330,36 @@ private[syntax] trait NumericColumns {
       */
     def sequence(to: IntegerColumn): ArrayColumn[Int] =
       (column.elem, to.elem).mapN(f.sequence).toDC
+  }
+
+  /**
+    * DOUBLE OPERATIONS
+    */
+  implicit class DoubleOperationsSyntax(
+      column: DoubleColumn
+  ) {
+
+    def atanh: DoubleColumn = column.elem.map(f.atanh).toDC
+
+    def bRound: DoubleColumn = column.elem.map(f.bround).toDC
+
+    def bRound(scale: IntegerColumn): DoubleColumn =
+      (column.elem, scale.elem)
+        .mapN((c, s) => new Column(BRound(c.expr, s.expr)))
+        .toDC
+
+    // DoubleType, DecimalType // TODO RETURN DOUBLE OR LONG
+    def ceil: DoubleColumn = column.elem.map(f.ceil).toDC
+
+    // DoubleType, DecimalType // TODO RETURN DOUBLE OR LONG
+    def floor: DoubleColumn = column.elem.map(f.floor).toDC
+
+    // returns decimal type or T??
+    def round: DoubleColumn = column.elem.map(f.round).toDC
+
+    def round(scale: IntegerColumn): DoubleColumn = (column.elem, scale.elem)
+      .mapN((c, s) => new Column(Round(c.expr, s.expr)))
+      .toDC
   }
 
 }

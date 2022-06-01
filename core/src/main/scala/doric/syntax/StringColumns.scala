@@ -586,5 +586,12 @@ private[syntax] trait StringColumns {
           new Column(new ParseToTimestamp(str.expr, tsFormat.expr))
         )
         .toDC
+
+    def conv(fromBase: IntegerColumn, toBase: IntegerColumn): DoubleColumn =
+      (s.elem, fromBase.elem, toBase.elem).mapN((str, f, t) => new Column(
+        Conv(str.expr, f.expr, t.expr)
+      )).toDC
+
+    def unHex: BinaryColumn = s.elem.map(f.unhex).toDC
   }
 }
