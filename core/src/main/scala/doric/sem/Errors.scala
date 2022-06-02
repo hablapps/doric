@@ -141,7 +141,7 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
     case _ => false
   }
 
-  override def hashCode(): Int = sparkCause.getCause match {
+  override def hashCode(): Int = sparkCause match {
     case a: AnalysisException => eqSpark(a.message).##
     case _                    => super.hashCode()
   }
