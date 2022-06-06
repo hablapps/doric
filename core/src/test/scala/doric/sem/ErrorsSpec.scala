@@ -3,6 +3,7 @@ package sem
 
 import doric.SparkSessionTestWrapper
 import org.apache.spark.sql.AnalysisException
+import org.apache.spark.sql.types.StringType
 import org.scalatest.funspec.AnyFunSpecLike
 import org.scalatest.matchers.should.Matchers
 
@@ -53,6 +54,29 @@ class ErrorsSpec
       )
 
       err.hashCode() shouldNot be(err2.hashCode())
+    }
+
+    it(
+      "should be equals if an AnalysisException and any other exception has he same message"
+    ) {
+      import spark.implicits._
+      val err = intercept[DoricMultiError] {
+        Seq(1, 2, 3).toDF("value").select(colInt("notFound"))
+      }
+      val err2 = SparkErrorWrapper(
+        new Exception("Cannot resolve column name \"notFound\" among (value)")
+      )
+
+      err.errors.head.equals(err2) shouldBe true
+    }
+
+    it("should NOT be equals if the second is a different DoricSingleError") {
+      val err = SparkErrorWrapper(
+        new Exception("this")
+      )
+      val err2 = ColumnTypeError("myColumn", StringType, StringType)
+
+      err.equals(err2) shouldBe false
     }
   }
 

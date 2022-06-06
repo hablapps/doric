@@ -109,6 +109,9 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
 ) extends DoricSingleError(Some(sparkCause)) {
   override def message: String = sparkCause.getMessage
 
+  /**
+    * This will get a "common" message across all spark versions.
+    */
   private lazy val eqSpark: String => String = {
     case str
         if str.startsWith("Cannot resolve column name")
@@ -128,17 +131,12 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
     case _                    => false
   }
 
-  override def equals(obj: Any): Boolean = obj match {
-    case exp: SparkErrorWrapper =>
-      (sparkCause, exp.cause) match {
-        case (c1: AnalysisException, Some(c2)) =>
-          eqSpark(c1.message) == eqSpark(c2.getMessage)
-        case (c1, Some(c2)) =>
-          c1.getClass.getName == c2.getClass.getName &&
-          c1.getMessage == c2.getMessage
-        case _ => false
-      }
-    case _ => false
+  override def equals(obj: Any): Boolean = (sparkCause, obj) match {
+    case (ae: AnalysisException, SparkErrorWrapper(exc)) =>
+      // As we cannot create an Analysis exception, we only compare messages
+      eqSpark(ae.message) == eqSpark(exc.getMessage)
+    case (ae, SparkErrorWrapper(exc)) => ae == exc
+    case _                            => false
   }
 
   override def hashCode(): Int = sparkCause match {
