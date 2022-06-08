@@ -1,8 +1,9 @@
 package doric
 
-import doric.sem.SparkErrorWrapper
+import doric.sem.{DoricMultiError, SparkErrorWrapper}
 import doric.syntax.User
 import doric.types.SparkType
+
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 
@@ -118,12 +119,15 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
       val dCol: DoricColumn[_] =
         DoricColumn.uncheckedType(f.col("nonExistentCol"))
 
-      val error = dCol.elem.run(df).toEither.left.value.head
-
-      error shouldBe an[SparkErrorWrapper]
-      error.getMessage should include("cannot resolve '")
-      error.getMessage should include("nonExistentCol")
-      error.getMessage should include("' given input columns")
+      intercept[DoricMultiError] {
+        df.select(dCol)
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "cannot resolve 'nonExistentCol' given input columns: [myColumn]"
+          )
+        )
+      )
     }
   }
 

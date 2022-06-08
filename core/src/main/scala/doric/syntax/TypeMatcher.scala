@@ -3,7 +3,7 @@ package syntax
 
 import cats.data.Kleisli
 import cats.implicits._
-import doric.sem.{ColumnMultyTypeError, Location}
+import doric.sem.{ColumnMultiTypeError, Location}
 import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset}
@@ -108,7 +108,7 @@ private[doric] case class NonEmptyTypeMatcher[A: SparkType](
     Kleisli[DoricValidated, Dataset[_], Column] { df =>
       getFirstValid(df)
         .fold[DoricValidated[Column]](
-          ColumnMultyTypeError(
+          ColumnMultiTypeError(
             columnName,
             transformations.map(_.stype),
             SparkType[A].dataType

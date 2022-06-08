@@ -1,21 +1,18 @@
 package doric
 package syntax
 
-import org.scalatest.EitherValues
-import org.scalatest.matchers.should.Matchers
-
+import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import org.apache.spark.sql.types.{IntegerType, StringType}
 import org.apache.spark.sql.{functions => f}
 
-class ArrayColumnsSpec
-    extends DoricTestElements
-    with EitherValues
-    with Matchers {
+class ArrayColumnsSpec extends DoricTestElements {
 
   import spark.implicits._
 
   describe("ArrayOps") {
     val result     = "result"
     val testColumn = "col"
+
     it("should extract a index") {
       val df = List((List(1, 2, 3), 1))
         .toDF(testColumn, "something")
@@ -40,27 +37,22 @@ class ArrayColumnsSpec
 
     it("should capture the error if anything in the lambda is wrong") {
       val df = List((List(1, 2, 3), 7)).toDF(testColumn, "something")
-      colArrayInt("col")
-        .transform(_ + colInt("something2"))
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
-        .head
-        .message should startWith(
-        "Cannot resolve column name \"something2\" among (col, something)"
-      )
 
-      colArrayInt("col")
-        .transform(_ => colString("something"))
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
-        .head
-        .message shouldBe "The column with name 'something' is of type IntegerType and it was expected to be StringType"
+      intercept[DoricMultiError] {
+        df.select(
+          colArrayInt("col")
+            .transform(_ + colInt("something2")),
+          colArrayInt("col")
+            .transform(_ => colString("something"))
+        )
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("something", StringType, IntegerType)
+      )
     }
 
     it(
@@ -78,26 +70,21 @@ class ArrayColumnsSpec
 
     it("should capture errors in transform with index") {
       val df = List((List(10, 20, 30), "7")).toDF(testColumn, "something")
-      colArrayInt(testColumn)
-        .transformWithIndex(_ + _ + colInt("something"))
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
-        .head
-        .message shouldBe "The column with name 'something' is of type StringType and it was expected to be IntegerType"
 
-      colArrayInt(testColumn)
-        .transformWithIndex(_ + _ + colInt("something2"))
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
-        .head
-        .message should startWith(
-        "Cannot resolve column name \"something2\" among (col, something)"
+      intercept[DoricMultiError] {
+        df.select(
+          colArrayInt(testColumn)
+            .transformWithIndex(_ + _ + colInt("something")),
+          colArrayInt(testColumn)
+            .transformWithIndex(_ + _ + colInt("something2"))
+        )
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("something", IntegerType, StringType)
       )
     }
 
@@ -118,19 +105,19 @@ class ArrayColumnsSpec
 
     it("should capture errors in aggregate") {
       val df = List((List(10, 20, 30), "7")).toDF(testColumn, "something")
-      val errors = colArrayInt(testColumn)
-        .aggregate(colInt("something2"))(_ + _ + colInt("something"))
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
 
-      errors.toChain.size shouldBe 2
-      val end = if (spark.version.take(3) <= "3.0") ";" else ""
-      errors.map(_.message).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)" + end,
-        "The column with name 'something' is of type StringType and it was expected to be IntegerType"
+      intercept[DoricMultiError] {
+        df.select(
+          colArrayInt(testColumn)
+            .aggregate(colInt("something2"))(_ + _ + colInt("something"))
+        )
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("something", IntegerType, StringType)
       )
     }
 
@@ -152,23 +139,27 @@ class ArrayColumnsSpec
 
     it("should capture errors in aggregate with final transform") {
       val df = List((List(10, 20, 30), "7")).toDF(testColumn, "something")
-      val errors = colArrayInt(testColumn)
-        .aggregateWT[Int, String](colInt("something2"))(
-          _ + _ + colInt("something"),
-          x => (x + colInt("something3")).cast
-        )
-        .elem
-        .run(df)
-        .toEither
-        .left
-        .value
 
-      errors.toChain.size shouldBe 3
-      val end = if (spark.version.take(3) <= "3.0") ";" else ""
-      errors.map(_.message).toChain.toList shouldBe List(
-        "Cannot resolve column name \"something2\" among (col, something)" + end,
-        "The column with name 'something' is of type StringType and it was expected to be IntegerType",
-        "Cannot resolve column name \"something3\" among (col, something)" + end
+      intercept[DoricMultiError] {
+        df.select(
+          colArrayInt(testColumn)
+            .aggregateWT[Int, String](colInt("something2"))(
+              _ + _ + colInt("something"),
+              x => (x + colInt("something3")).cast
+            )
+        )
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something3\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("something", IntegerType, StringType)
       )
     }
 

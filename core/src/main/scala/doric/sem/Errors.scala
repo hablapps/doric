@@ -2,7 +2,7 @@ package doric
 package sem
 
 import cats.data.NonEmptyChain
-
+import org.apache.spark.sql.AnalysisException
 import org.apache.spark.sql.types.DataType
 
 case class DoricMultiError(
@@ -68,7 +68,7 @@ case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)
   val isRight: Boolean = !isLeft
 }
 
-case class ColumnMultyTypeError(
+case class ColumnMultiTypeError(
     columnName: String,
     expectedTypes: List[DataType],
     foundType: DataType
@@ -77,8 +77,8 @@ case class ColumnMultyTypeError(
 ) extends DoricSingleError(None) {
 
   override def message: String =
-    s"The matched column with name '$columnName' is of type $foundType and it was expected to be one of ${expectedTypes
-        .mkString("[", ", ", "]")}"
+    s"The matched column with name '$columnName' was expected to be one of ${expectedTypes
+        .mkString("[", ", ", "]")} but is of type $foundType"
 }
 
 case class ColumnTypeError(
@@ -90,7 +90,7 @@ case class ColumnTypeError(
 ) extends DoricSingleError(None) {
 
   override def message: String =
-    s"The column with name '$columnName' is of type $foundType and it was expected to be $expectedType"
+    s"The column with name '$columnName' was expected to be $expectedType but is of type $foundType"
 }
 
 case class ChildColumnNotFound(
@@ -108,6 +108,41 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
     val location: Location
 ) extends DoricSingleError(Some(sparkCause)) {
   override def message: String = sparkCause.getMessage
+
+  /**
+    * This will get a "common" message across all spark versions.
+    */
+  private lazy val eqSpark: String => String = {
+    case str
+        if str.startsWith("Cannot resolve column name")
+          && (str.last == ';') // Not present since spark 3.0.0
+        =>
+      str.substring(0, str.length - 1)
+    case str
+        if str.startsWith("cannot resolve '")
+          && str.contains("`") // Not present since spark 3.2.1
+          && str.contains("given input columns") =>
+      str.replace("`", "")
+    case str => str
+  }
+
+  override def canEqual(that: Any): Boolean = that match {
+    case _: SparkErrorWrapper => true
+    case _                    => false
+  }
+
+  override def equals(obj: Any): Boolean = (sparkCause, obj) match {
+    case (ae: AnalysisException, SparkErrorWrapper(exc)) =>
+      // As we cannot create an Analysis exception, we only compare messages
+      eqSpark(ae.message) == eqSpark(exc.getMessage)
+    case (ae, SparkErrorWrapper(exc)) => ae == exc
+    case _                            => false
+  }
+
+  override def hashCode(): Int = sparkCause match {
+    case a: AnalysisException => eqSpark(a.message).##
+    case _                    => super.hashCode()
+  }
 }
 
 object Location {
