@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import scala.language.dynamics
+
 import cats.arrow.FunctionK
 import cats.data.{Kleisli, NonEmptyChain}
 import cats.evidence.Is
@@ -10,6 +11,8 @@ import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Locati
 import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset, Row}
+import org.apache.spark.sql.catalyst.analysis.UnresolvedExtractValue
+import org.apache.spark.sql.catalyst.expressions.UnresolvedNamedLambdaVariable
 import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
@@ -56,37 +59,48 @@ private[syntax] trait DStructs {
       col.elem
         .mapK(toEither)
         .flatMap(vcolumn =>
-          Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
-            val fatherColumn = df.select(vcolumn).schema.head
-            fatherColumn.dataType match {
-              case fatherStructType: StructType =>
-                fatherStructType
-                  .find(_.name == subColumnName)
-                  .fold[DoricEither[Column]](
-                    ChildColumnNotFound(
-                      subColumnName,
-                      fatherStructType.names
-                    ).leftNec
-                  )(st =>
-                    if (SparkType[T].isEqual(st.dataType))
-                      vcolumn
-                        .getItem(subColumnName)
-                        .asRight[NonEmptyChain[DoricSingleError]]
-                    else
-                      ColumnTypeError(
-                        fatherColumn.name + "." + subColumnName,
-                        SparkType[T].dataType,
-                        st.dataType
-                      ).leftNec[Column]
-                  )
-              case _ => // should not happen
-                ColumnTypeError(
-                  fatherColumn.name,
-                  SparkType[Row].dataType,
-                  fatherColumn.dataType
-                ).leftNec[Column]
+          if (
+            vcolumn.expr match {
+              case _: UnresolvedNamedLambdaVariable => true
+              case _: UnresolvedExtractValue        => true
+              case _                                => false
             }
-          })
+          )
+            Kleisli[DoricEither, Dataset[_], Column]((_: Dataset[_]) => {
+              Right(vcolumn(subColumnName))
+            })
+          else
+            Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
+              val fatherColumn = df.select(vcolumn).schema.head
+              fatherColumn.dataType match {
+                case fatherStructType: StructType =>
+                  fatherStructType
+                    .find(_.name == subColumnName)
+                    .fold[DoricEither[Column]](
+                      ChildColumnNotFound(
+                        subColumnName,
+                        fatherStructType.names
+                      ).leftNec
+                    )(st =>
+                      if (SparkType[T].isEqual(st.dataType))
+                        vcolumn
+                          .getItem(subColumnName)
+                          .asRight[NonEmptyChain[DoricSingleError]]
+                      else
+                        ColumnTypeError(
+                          fatherColumn.name + "." + subColumnName,
+                          SparkType[T].dataType,
+                          st.dataType
+                        ).leftNec[Column]
+                    )
+                case _ => // should not happen
+                  ColumnTypeError(
+                    fatherColumn.name,
+                    SparkType[Row].dataType,
+                    fatherColumn.dataType
+                  ).leftNec[Column]
+              }
+            })
         )
         .mapK(toValidated)
         .toDC

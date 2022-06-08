@@ -20,6 +20,15 @@ private[syntax] trait DateColumns {
     */
   def currentDate(): DateColumn = f.current_date().asDoric[Date]
 
+  /**
+    * Returns the current date at the start of query evaluation as a date column typed with the provided T.
+    * All calls of current_date within the same query return the same value.
+    *
+    * @group Date Type
+    * @see [[org.apache.spark.sql.functions.current_date]]
+    */
+  def currentDateT[T: DateType: SparkType](): DoricColumn[T] = f.current_date().asDoric[T]
+
   implicit class DateColumnLikeSyntax[T: DateType: SparkType](
       column: DoricColumn[T]
   ) {

@@ -2,8 +2,9 @@ package doric
 package syntax
 
 import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+
+import org.apache.spark.sql.{Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, StringType}
-import org.apache.spark.sql.{functions => f}
 
 class ArrayColumnsSpec extends DoricTestElements {
 
@@ -44,6 +45,25 @@ class ArrayColumnsSpec extends DoricTestElements {
             .transform(_ + colInt("something2")),
           colArrayInt("col")
             .transform(_ => colString("something"))
+        )
+      } should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("something", StringType, IntegerType)
+      )
+
+      val df2 = List((List((1, "a"), (2, "b"), (3, "c")), 7))
+        .toDF(testColumn, "something")
+
+      intercept[DoricMultiError] {
+        df2.select(
+          colArray[Row](testColumn)
+            .transform(_.getChild[Int]("_3") + colInt("something2")),
+          colArray[Row](testColumn)
+            .transform(_.getChild[Long]("_1") + colInt("something2").cast)
         )
       } should containAllErrors(
         SparkErrorWrapper(

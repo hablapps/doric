@@ -161,7 +161,12 @@ private[syntax] trait ArrayColumns {
     )(
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]
     ): DoricColumn[A] =
-      (col.elem, zero.elem, merge(x, y).elem).mapN { (a, z, m) =>
+      (
+        col.elem,
+        zero.elem,
+        merge(x, y).elem,
+        merge(zero, col.getIndex(0)).elem
+      ).mapN { (a, z, m, _) =>
         new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), identity))
       }.toDC
 
