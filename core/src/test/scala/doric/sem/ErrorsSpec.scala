@@ -1,11 +1,13 @@
 package doric
 package sem
 
+import cats.data.NonEmptyChain
 import doric.SparkSessionTestWrapper
-import org.apache.spark.sql.AnalysisException
-import org.apache.spark.sql.types.StringType
 import org.scalatest.funspec.AnyFunSpecLike
 import org.scalatest.matchers.should.Matchers
+import sourcecode.{FileName, Line}
+
+import org.apache.spark.sql.types.StringType
 
 class ErrorsSpec
     extends AnyFunSpecLike
@@ -80,4 +82,30 @@ class ErrorsSpec
     }
   }
 
+  describe("SparkMultyError") {
+    it("should return unique errors") {
+
+      val fileName1: FileName = implicitly[FileName]
+      val line1: Line         = implicitly[Line]
+
+      DoricMultiError(
+        "test",
+        NonEmptyChain(
+          SparkErrorWrapper(new Throwable(""))(Location(fileName1, line1)),
+          SparkErrorWrapper(new Throwable(""))(Location(fileName1, line1))
+        )
+      ).uniqueErrors.length shouldBe 1
+
+      val fileName2: FileName = implicitly[FileName]
+      val line2: Line         = implicitly[Line]
+
+      DoricMultiError(
+        "test",
+        NonEmptyChain(
+          SparkErrorWrapper(new Throwable(""))(Location(fileName1, line1)),
+          SparkErrorWrapper(new Throwable(""))(Location(fileName2, line2))
+        )
+      ).uniqueErrors.length shouldBe 2
+    }
+  }
 }

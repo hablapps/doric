@@ -1,7 +1,9 @@
 package doric
 package sem
 
-import cats.data.NonEmptyChain
+import cats.data.{NonEmptyChain, NonEmptySet}
+import cats.Order
+
 import org.apache.spark.sql.AnalysisException
 import org.apache.spark.sql.types.DataType
 
@@ -9,8 +11,14 @@ case class DoricMultiError(
     functionType: String,
     errors: NonEmptyChain[DoricSingleError]
 ) extends Throwable(errors.head.getCause) {
+
+  lazy val uniqueErrors: NonEmptySet[DoricSingleError] = {
+    val list1: List[DoricSingleError] = errors.toNonEmptyList.toList
+    NonEmptySet.fromSet(scala.collection.immutable.SortedSet(list1: _*)).get
+  }
+
   override def getMessage: String = {
-    val length = errors.length
+    val length = uniqueErrors.length
 
     implicit class StringOps(s: String) {
       private val indentation = "  "
@@ -31,16 +39,16 @@ case class DoricMultiError(
           )
     }
 
-    def getSingularOrPlural(nErrors: Long): String =
+    def getSingularOrPlural(nErrors: Int): String =
       if (nErrors > 1) "errors" else "error"
 
     val leftErrors  = errors.collectSide(true).map(_.getMessage)
     val rightErrors = errors.collectSide(false).map(_.getMessage)
-    val restErrors = NonEmptyChain
-      .fromChain(
-        errors.filter(x => !x.isInstanceOf[JoinDoricSingleError])
+    val restErrors = NonEmptySet
+      .fromSet(
+        uniqueErrors.filter(x => !x.isInstanceOf[JoinDoricSingleError])
       )
-      .map(_.map(_.getMessage).iterator.mkString("\n"))
+      .map(_.map(_.getMessage).toNonEmptyList.sorted.toList.mkString("\n"))
     val stringErrors =
       List(restErrors, leftErrors, rightErrors).flatten.mkString("\n").withTabs
 
@@ -57,6 +65,24 @@ sealed abstract class DoricSingleError(val cause: Option[Throwable])
 
   override def getMessage: String =
     message + s"\n\tlocated at . ${location.getLocation}"
+}
+
+object DoricSingleError {
+
+  implicit val order: Order[DoricSingleError] = Order.by(x =>
+    (
+      x.location.fileName.value,
+      x.location.lineNumber.value,
+      x.message,
+      x match {
+        case x: JoinDoricSingleError if x.isLeft => 1
+        case _: JoinDoricSingleError             => 2
+        case _                                   => 0
+      }
+    )
+  )
+
+  implicit val ordering: Ordering[DoricSingleError] = order.toOrdering
 }
 
 case class JoinDoricSingleError(sideError: DoricSingleError, isLeft: Boolean)

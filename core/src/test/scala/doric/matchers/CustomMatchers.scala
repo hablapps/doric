@@ -1,7 +1,6 @@
 package doric.matchers
 
 import doric.sem.{DoricMultiError, DoricSingleError}
-import org.apache.spark.sql.AnalysisException
 import org.scalatest.matchers._
 
 /**
@@ -19,7 +18,7 @@ trait CustomMatchers {
       err: DoricMultiError,
       exp: Seq[DSE]
   ): (Set[DSE], Set[DSE], Set[DSE], Set[DSE], Set[DSE]) = {
-    val errors         = err.errors.toChain.toList.toSet
+    val errors         = err.uniqueErrors.toSortedSet
     val expectedErrors = exp.toSet
 
     val found          = errors.intersect(expectedErrors)
