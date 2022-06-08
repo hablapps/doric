@@ -90,7 +90,7 @@ val age = user[Int]("name")
 val team = user[String]("team")
 userDF.select(age, team)
 // doric.sem.DoricMultiError: Found 2 errors in select
-//   The column with name 'name_user' is of type StringType and it was expected to be IntegerType
+//   The column with name 'name_user' was expected to be IntegerType but is of type StringType
 //   	located at . (modularity.md:79)
 //   Cannot resolve column name "team_user" among (name_user, city_user, age_user)
 //   	located at . (modularity.md:79)
@@ -125,7 +125,7 @@ val age = user[Int]("name")
 val team = user[String]("team")
 userDF.select(age, team)
 // doric.sem.DoricMultiError: Found 2 errors in select
-//   The column with name 'name_user' is of type StringType and it was expected to be IntegerType
+//   The column with name 'name_user' was expected to be IntegerType but is of type StringType
 //   	located at . (modularity.md:135)
 //   Cannot resolve column name "team_user" among (name_user, city_user, age_user)
 //   	located at . (modularity.md:136)
