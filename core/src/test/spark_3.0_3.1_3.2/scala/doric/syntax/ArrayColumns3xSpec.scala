@@ -77,7 +77,13 @@ class ArrayColumns3xSpec
       ).toDF("col1", "col2")
 
       df.testColumns2("col1", "col2")(
-        (c1, c2) => colArrayString(c1).zipWith(col(c2), concat(_, _)),
+        (
+            c1,
+            c2
+        ) =>
+          colArrayString(c1).zipWith[String, String](concat(_, _))(
+            colArrayString(c2)
+          ),
         (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
         List(Some(Array("ab", "ba", "ce", null)), None, None, None)
       )

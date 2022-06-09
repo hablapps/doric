@@ -11,8 +11,7 @@ import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Locati
 import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset, Row}
-import org.apache.spark.sql.catalyst.analysis.UnresolvedExtractValue
-import org.apache.spark.sql.catalyst.expressions.UnresolvedNamedLambdaVariable
+import org.apache.spark.sql.catalyst.expressions.{Expression, UnresolvedNamedLambdaVariable}
 import org.apache.spark.sql.functions.{struct => sparkStruct}
 import org.apache.spark.sql.types.StructType
 
@@ -39,6 +38,13 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
+  private def isLambda(expression: Expression): Boolean = {
+    expression match {
+      case _: UnresolvedNamedLambdaVariable => true
+      case _ => expression.children.exists(isLambda)
+    }
+  }
+
   implicit class DStructOps(private val col: RowColumn) {
 
     /**
@@ -59,13 +65,7 @@ private[syntax] trait DStructs {
       col.elem
         .mapK(toEither)
         .flatMap(vcolumn =>
-          if (
-            vcolumn.expr match {
-              case _: UnresolvedNamedLambdaVariable => true
-              case _: UnresolvedExtractValue        => true
-              case _                                => false
-            }
-          )
+          if (isLambda(vcolumn.expr))
             Kleisli[DoricEither, Dataset[_], Column]((_: Dataset[_]) => {
               Right(vcolumn(subColumnName))
             })

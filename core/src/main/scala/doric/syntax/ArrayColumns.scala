@@ -85,8 +85,8 @@ private[syntax] trait ArrayColumns {
     def transform[A](
         fun: DoricColumn[T] => DoricColumn[A]
     ): DoricColumn[F[A]] =
-      (col.elem, fun(x).elem)
-        .mapN((a, f) => new Column(ArrayTransform(a.expr, lam1(f.expr))))
+      (col.elem, fun(x).elem, fun(col.getIndex(0)).elem)
+        .mapN((a, f, _) => new Column(ArrayTransform(a.expr, lam1(f.expr))))
         .toDC
 
     /**
@@ -107,8 +107,9 @@ private[syntax] trait ArrayColumns {
     def transformWithIndex[A](
         fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
     ): DoricColumn[F[A]] =
-      (col.elem, fun(x, y).elem).mapN { (a, f) =>
-        new Column(ArrayTransform(a.expr, lam2(f.expr)))
+      (col.elem, fun(x, y).elem, fun(col.getIndex(0), 1.lit).elem).mapN {
+        (a, f, _) =>
+          new Column(ArrayTransform(a.expr, lam2(f.expr)))
       }.toDC
 
     /**
@@ -135,9 +136,15 @@ private[syntax] trait ArrayColumns {
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
         finish: DoricColumn[A] => DoricColumn[B]
     ): DoricColumn[B] =
-      (col.elem, zero.elem, merge(x, y).elem, finish(x).elem).mapN {
-        (a, z, m, f) =>
-          new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), lam1(f.expr)))
+      (
+        col.elem,
+        zero.elem,
+        merge(x, y).elem,
+        finish(x).elem,
+        merge(zero, col.getIndex(0)).elem,
+        finish(zero).elem
+      ).mapN { (a, z, m, f, _, _) =>
+        new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), lam1(f.expr)))
       }.toDC
 
     /**
@@ -182,8 +189,8 @@ private[syntax] trait ArrayColumns {
       * @todo scaladoc link (issue #135)
       */
     def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[F[T]] =
-      (col.elem, p(x).elem)
-        .mapN((a, f) => new Column(ArrayFilter(a.expr, lam1(f.expr))))
+      (col.elem, p(x).elem, p(col.getIndex(0)).elem)
+        .mapN((a, f, _) => new Column(ArrayFilter(a.expr, lam1(f.expr))))
         .toDC
 
     /**
@@ -202,7 +209,11 @@ private[syntax] trait ArrayColumns {
     def filterWIndex(
         function: (DoricColumn[T], IntegerColumn) => BooleanColumn
     ): ArrayColumn[T] = {
-      (col.elem, function(x, y).elem).mapN { (a, f) =>
+      (
+        col.elem,
+        function(x, y).elem,
+        function(col.getIndex(0), 1.lit).elem
+      ).mapN { (a, f, _) =>
         new Column(ArrayFilter(a.expr, lam2(f.expr)))
       }.toDC
     }
@@ -401,8 +412,8 @@ private[syntax] trait ArrayColumns {
       * @see [[org.apache.spark.sql.functions.exists]]
       */
     def exists(fun: DoricColumn[T] => BooleanColumn): BooleanColumn =
-      (col.elem, fun(x).elem)
-        .mapN((c, f) => {
+      (col.elem, fun(x).elem, fun(col.getIndex(0)).elem)
+        .mapN((c, f, _) => {
           new Column(ArrayExists(c.expr, lam1(f.expr)))
         })
         .toDC
@@ -479,13 +490,28 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.zip_with]]
       */
-    def zipWith(
-        col2: ArrayColumn[T],
-        function: (DoricColumn[T], DoricColumn[T]) => DoricColumn[T]
-    ): ArrayColumn[T] = {
-      (col.elem, col2.elem, function(x, y).elem).mapN { (a, b, f) =>
+    def zipWith[T2, O](
+        function: (DoricColumn[T], DoricColumn[T2]) => DoricColumn[O]
+    )(
+        col2: ArrayColumn[T2]
+    ): ArrayColumn[O] = {
+      (
+        col.elem,
+        col2.elem,
+        function(x, y).elem,
+        function(col.getIndex(0), col2.getIndex(0)).elem
+      ).mapN { (a, b, f, _) =>
         new Column(ZipWith(a.expr, b.expr, lam2(f.expr)))
       }.toDC
     }
+  }
+
+  implicit class ArrayArrayColumnSyntax[T, F[_]: CollectionType, G[
+      _
+  ]: CollectionType](
+      private val col: DoricColumn[F[G[T]]]
+  ) {
+    def flatten: DoricColumn[F[T]] =
+      col.elem.map(f.flatten).toDC
   }
 }

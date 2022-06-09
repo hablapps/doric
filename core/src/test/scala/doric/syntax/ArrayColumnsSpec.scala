@@ -1,10 +1,10 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 
 import org.apache.spark.sql.{Row, functions => f}
-import org.apache.spark.sql.types.{IntegerType, StringType}
+import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
 
 class ArrayColumnsSpec extends DoricTestElements {
 
@@ -58,21 +58,79 @@ class ArrayColumnsSpec extends DoricTestElements {
       val df2 = List((List((1, "a"), (2, "b"), (3, "c")), 7))
         .toDF(testColumn, "something")
 
-      intercept[DoricMultiError] {
+      df2
+        .select(col[Array[Row]](testColumn).getIndex(0).getChild[Int]("_1"))
+        .show()
+
+      val errors = intercept[DoricMultiError] {
         df2.select(
           colArray[Row](testColumn)
             .transform(_.getChild[Int]("_3") + colInt("something2")),
           colArray[Row](testColumn)
-            .transform(_.getChild[Long]("_1") + colInt("something2").cast)
+            .transform(_.getChild[Long]("_1") + colInt("something").cast)
         )
-      } should containAllErrors(
+      }
+      errors.errors.toNonEmptyList.toList.foreach(println)
+      errors should containAllErrors(
         SparkErrorWrapper(
           new Exception(
             "Cannot resolve column name \"something2\" among (col, something)"
           )
         ),
-        ColumnTypeError("something", StringType, IntegerType)
+        ColumnTypeError("col[0]._1", LongType, IntegerType),
+        ChildColumnNotFound("_3", List("_1", "_2"))
       )
+    }
+
+    it(
+      "should work with complex types that mix Row and Array and return errors if needed"
+    ) {
+
+      val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
+        .toDF(testColumn, "something")
+
+      df3.printSchema()
+      df3.select(
+        col[Array[Array[Row]]](testColumn)
+          .transform(_.transform(_.getChild[Int]("_1")))
+      )
+
+      df3.select(
+        col[Array[Array[Row]]](testColumn)
+          .transform(_.getIndex(0).getChild[Int]("_1"))
+      )
+
+      intercept[DoricMultiError] {
+        df3.select(
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Int]("_3"))),
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Long]("_1")))
+        )
+      } should containAllErrors(
+        ChildColumnNotFound("_3", List("_1", "_2")),
+        ColumnTypeError("col[0][0]._1", LongType, IntegerType)
+      )
+
+      val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
+      val df4 = List((value, 7))
+        .toDF(testColumn, "something")
+
+      val colTransform = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1").transform(_.getChild[Int]("_1"))
+        )
+        .flatten as "l"
+      val colTransform2 = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1")
+        )
+        .flatten as "l"
+      df4
+        .select(
+          colTransform.zipWith[Row, Row]((a, b) => struct(a, b))(colTransform2)
+        )
+        .transform(df => { df.printSchema(); df.show(false); df })
     }
 
     it(

@@ -27,7 +27,8 @@ private[syntax] trait DateColumns {
     * @group Date Type
     * @see [[org.apache.spark.sql.functions.current_date]]
     */
-  def currentDateT[T: DateType: SparkType](): DoricColumn[T] = f.current_date().asDoric[T]
+  def currentDateT[T: DateType: SparkType](): DoricColumn[T] =
+    f.current_date().asDoric[T]
 
   implicit class DateColumnLikeSyntax[T: DateType: SparkType](
       column: DoricColumn[T]
