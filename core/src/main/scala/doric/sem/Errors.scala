@@ -2,6 +2,7 @@ package doric
 package sem
 
 import cats.data.{NonEmptyChain, NonEmptySet}
+import cats.implicits._
 import cats.Order
 
 import org.apache.spark.sql.AnalysisException
