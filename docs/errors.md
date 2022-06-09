@@ -57,12 +57,12 @@ val col3 = colInt("unknown") // non-existing column
 ```scala
 dfPair.select(col1, col2, col3)
 // doric.sem.DoricMultiError: Found 3 errors in select
-//   The column with name 'str' was expected to be IntegerType but is of type StringType
-//   	located at . (errors.md:39)
-//   The column with name 'int' was expected to be StringType but is of type IntegerType
-//   	located at . (errors.md:42)
 //   Cannot resolve column name "unknown" among (str, int)
 //   	located at . (errors.md:45)
+//   The column with name 'int' was expected to be StringType but is of type IntegerType
+//   	located at . (errors.md:42)
+//   The column with name 'str' was expected to be IntegerType but is of type StringType
+//   	located at . (errors.md:39)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
 // 	at cats.data.Validated.fold(Validated.scala:29)
