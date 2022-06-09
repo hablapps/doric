@@ -48,7 +48,7 @@ trait CustomMatchers {
         "Expected NOT to match the following errors"
       )
 
-      MatchResult(errors.size == found.size, msg, msgNot)
+      MatchResult(errors.size == found.size && notFound.isEmpty, msg, msgNot)
     }
   }
 

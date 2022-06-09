@@ -45,12 +45,23 @@ class CustomMatchersSpec extends DoricTestElements {
       )
     }
 
-    it("should fail if actual and expected number of errors differ") {
+    it("should fail if expected errors < than actual errors") {
       intercept[TestFailedException] {
         intercept[DoricMultiError](
           throwErrors(sparkErrorWrapper, columnTypeError)
         ) should containAllErrors(
           columnTypeError
+        )
+      }
+    }
+
+    it("should fail if expected errors > than actual errors") {
+      intercept[TestFailedException] {
+        intercept[DoricMultiError](
+          throwErrors(sparkErrorWrapper, sparkErrorWrapper)
+        ) should containAllErrors(
+          columnTypeError,
+          sparkErrorWrapper
         )
       }
     }
