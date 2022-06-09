@@ -76,8 +76,8 @@ class ProductTypesSpec extends DoricTestElements {
   describe("Literal Spark Types for products") {
 
     it("should create columns of the right type") {
-      testDataTypeFor(User("name", 1))
-      testDataTypeFor(("name", 1))
+      testDataTypeForLiterals(User("name", 1))
+      testDataTypeForLiterals(("name", 1))
     }
 
     it("should work in selects, filters, ...") {

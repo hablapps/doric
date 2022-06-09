@@ -1,69 +1,126 @@
-package doric.types
+package doric
+package types
 
-import doric.DoricTestElements
+import doric.types.SparkType.Primitive
 import doric.types.customTypes.User
 import doric.types.customTypes.User.{userlst, userst}
-import org.apache.spark.sql.Row
+import org.apache.spark.sql.{Encoder, Row, SparkSession}
 import org.apache.spark.sql.catalyst.{CatalystTypeConverters, ScalaReflection}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.catalyst.ScalaReflection.schemaFor
 import org.apache.spark.sql.catalyst.expressions.Literal
+import org.apache.spark.sql.types.{DataType, Decimal, DecimalType, StructType}
+import org.apache.spark.unsafe.types.CalendarInterval
+import org.scalactic.source
 
 import java.sql.Timestamp
 import java.time.{Instant, LocalDate, LocalDateTime}
 
 class PrimitiveTypesSpec extends DoricTestElements {
 
-  describe("Primitive types"){
-    it("should have expected Spark data types"){
-      testDataTypeFor(null)
-      testDataTypeFor(Option(1))
-      // UserDefinedType?
-      testDataTypeFor(Array[Byte]())
-      testDataTypeFor(Array[Int](1,2,3))
-      // testDataTypeFor(Array[Option[Int]](Some(1), None)) // wrong nullability
-      testDataTypeFor(Seq(1,2,3))
-      testDataTypeFor(List(1,2,3))
-      testDataTypeFor(IndexedSeq(1,2,3))
-      testDataTypeFor(Map[Int, String]())
-      testDataTypeFor(Set[Int]())
-      testDataTypeFor("")
-      testDataTypeFor( Instant.EPOCH)
-      testDataTypeFor(new Timestamp(0))
-      //testDataTypeFor(LocalDateTime.MAX)
-      testDataTypeFor(LocalDate.MAX)
-      testDataTypeFor(new java.sql.Date(0))
-      /*
-      Schema(CalendarIntervalType, nullable = true) shouldBe theDataTypeFor(// CalendarInterval)
-      testDataTypeFor(new java.time.Duration)
-      testDataTypeFor(new java.time.Period)
-      Schema(DecimalType.SYSTEM_DEFAULT, nullable = true) shouldBe theDataTypeFor(// BigDecimal)
-      testDataTypeFor(new java.math.BigDecimal)
-      testDataTypeFor(new java.math.BigInteger)
-      Schema(DecimalType.BigIntDecimal, nullable = true) shouldBe theDataTypeFor(// scala.math.BigInt)
-      Schema(DecimalType.SYSTEM_DEFAULT, nullable = true) shouldBe theDataTypeFor(// Decimal)
-      */
-      /*
-      testDataTypeFor[java.lang.Integer](0)
-      testDataTypeFor[java.lang.Long](0)
-      testDataTypeFor[java.lang.Double](0.0)
-      testDataTypeFor[java.lang.Float](0.0)
-      testDataTypeFor[java.lang.Short](0)
-      testDataTypeFor[java.lang.Byte](0)
-      testDataTypeFor[java.lang.Boolean](true)
-      testDataTypeFor[java.lang.Enum[_]]()
+  import spark.implicits._
 
-       */
-      testDataTypeFor[Int](0)
-      testDataTypeFor[Long](0)
-      testDataTypeFor[Double](0.0)
-      testDataTypeFor[Float](0.0F)
-      testDataTypeFor[Short](0)
-      testDataTypeFor[Byte](0)
-      testDataTypeFor(true)
-      // Enumeration#Value
+  describe("Simple Java/Scala types") {
+
+    it("should match Atomic Spark SQL types") {
+      // Note: checked out from https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/ScalaReflection.scala#L745
+
+      // Null type
+
+      testDataType[Null]
+
+      // Numeric types
+
+      testDataType[Int]
+      testDataType[Long]
+      testDataType[Float]
+      testDataType[Double]
+      testDataType[Short]
+      testDataType[Byte]
+
+      testDataType[java.lang.Integer]
+      testDataType[java.lang.Long]
+      testDataType[java.lang.Double]
+      testDataType[java.lang.Float]
+      testDataType[java.lang.Short]
+      testDataType[java.lang.Byte]
+
+      testDataType[BigDecimal]
+      testDataType[java.math.BigDecimal]
+      testDataType[java.math.BigInteger]
+      testDataType[scala.math.BigInt]
+      testDataType[Decimal]
+
+      // String types
+
+      testDataType[String]
+      //*VarcharType
+      //*CharType
+
+      // Binary type
+
+      testDataType[Array[Byte]]
+
+      // Boolean type
+
+      testDataType[Boolean]
+      testDataType[java.lang.Boolean]
+
+      // Datetime type
+
+      testDataType[java.sql.Date]
+      testDataType[java.sql.Timestamp]
+      testDataType[java.time.LocalDate]
+      testDataType[java.time.Instant]
+      testDataType[CalendarInterval]
+
+      // Interval type
+
+      testDataType[java.time.Duration]
+      testDataType[java.time.Period]
+    }
+  }
+
+  describe("Collection types"){
+
+    it("should match Spark Array types") {
+
+      testDataType[Array[Int]]
+      testDataType[Seq[Int]]
+      testDataType[List[Int]]
+      testDataType[IndexedSeq[Int]]
+      testDataType[Set[Int]]
+    }
+
+    it("should match Spark Map types") {
+
+      testDataType[Map[Int, String]]
+    }
+
+    it("should match Spark Option types") {
+
+      testDataType[Option[Int]]
+    }
+  }
+
+  case class User(name: String, age: Int)
+
+  describe("Product types"){
+
+    it("should match StructTypes") {
+
+      testDataType[(Int, String)]
+      testDataType[User]
+      testDataType[(List[Int], User, Map[Int, Option[User]])]
     }
   }
 
 
+  // TBD
+
+  // Enumeration#Value / java.lang.Enum[_] => StringType
+  // SQLUserDefinedType
+  // UDTRegistration
 }
+
+

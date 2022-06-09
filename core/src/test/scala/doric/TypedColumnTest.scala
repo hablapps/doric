@@ -19,13 +19,22 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   private lazy val doricCol = "dcol"
   private lazy val sparkCol = "scol"
 
-  def testDataTypeFor[T: TypeTag: LiteralSparkType: SparkType](value: T)(implicit spark: SparkSession, pos: source.Position): Unit =
+  def testDataTypeForLiterals[T: TypeTag: LiteralSparkType: SparkType](value: T)(implicit spark: SparkSession, pos: source.Position): Unit =
     spark.emptyDataFrame
       .select(value.lit)
       .schema
       .fields
       .head
       .dataType shouldBe ScalaReflection.schemaFor[T].dataType
+
+  def testDataTypeFromDataset[T: SparkType: Encoder](implicit spark: SparkSession, pos: source.Position): Unit =
+    noException shouldBe thrownBy{
+      spark.emptyDataset[T].toDF
+        .select(col[T]("value"))
+    }
+
+  def testDataType[T: TypeTag: SparkType](implicit pos: source.Position): Unit =
+    SparkType[T].dataType shouldBe ScalaReflection.schemaFor[T].dataType
 
   /**
     * Compare two columns (doric & spark).
