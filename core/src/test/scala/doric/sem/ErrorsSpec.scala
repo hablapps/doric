@@ -82,7 +82,7 @@ class ErrorsSpec
     }
   }
 
-  describe("SparkMultyError") {
+  describe("SparkMultiError") {
     it("should return unique errors") {
 
       val fileName1: FileName = implicitly[FileName]
