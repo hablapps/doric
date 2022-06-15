@@ -1,10 +1,11 @@
 package doric
 package syntax
 
+import cats.data.Kleisli
 import cats.implicits._
 import doric.types.CollectionType
 
-import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.{Column, Dataset, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
@@ -67,7 +68,22 @@ private[syntax] trait ArrayColumns {
       * the DoricColumn with the selected element.
       */
     def getIndex(n: Int): DoricColumn[T] =
-      col.elem.map(_.apply(n)).toDC
+      (col.elem, n.lit.elem)
+        .mapN((a, b) => (a, b))
+        .mapK(toEither)
+        .flatMap { case (a, b) =>
+          Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
+            new Column(
+              ExtractValue(
+                a.expr,
+                b.expr,
+                df.sparkSession.sessionState.analyzer.resolver
+              )
+            ).asRight
+          })
+        }
+        .mapK(toValidated)
+        .toDC
 
     /**
       * Transform each element with the provided function.
@@ -84,10 +100,14 @@ private[syntax] trait ArrayColumns {
       */
     def transform[A](
         fun: DoricColumn[T] => DoricColumn[A]
-    ): DoricColumn[F[A]] =
-      (col.elem, fun(x).elem, fun(col.getIndex(0)).elem)
-        .mapN((a, f, _) => new Column(ArrayTransform(a.expr, lam1(f.expr))))
+    ): DoricColumn[F[A]] = {
+      val xv = x(col.getIndex(0))
+      (col.elem, fun(xv).elem, xv.elem)
+        .mapN((a, f, x) =>
+          new Column(ArrayTransform(a.expr, lam1(f.expr, x.expr)))
+        )
         .toDC
+    }
 
     /**
       * Transform each element of the array with the provided function that
@@ -106,11 +126,18 @@ private[syntax] trait ArrayColumns {
       */
     def transformWithIndex[A](
         fun: (DoricColumn[T], IntegerColumn) => DoricColumn[A]
-    ): DoricColumn[F[A]] =
-      (col.elem, fun(x, y).elem, fun(col.getIndex(0), 1.lit).elem).mapN {
-        (a, f, _) =>
-          new Column(ArrayTransform(a.expr, lam2(f.expr)))
+    ): DoricColumn[F[A]] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(1.lit)
+      (
+        col.elem,
+        fun(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(ArrayTransform(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
+    }
 
     /**
       * Aggregates (reduce) the array with the provided functions, similar to
@@ -135,17 +162,27 @@ private[syntax] trait ArrayColumns {
     def aggregateWT[A, B](zero: DoricColumn[A])(
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A],
         finish: DoricColumn[A] => DoricColumn[B]
-    ): DoricColumn[B] =
+    ): DoricColumn[B] = {
+      val xv = x(zero)
+      val yv = y(col.getIndex(0))
       (
         col.elem,
         zero.elem,
-        merge(x, y).elem,
-        finish(x).elem,
-        merge(zero, col.getIndex(0)).elem,
-        finish(zero).elem
-      ).mapN { (a, z, m, f, _, _) =>
-        new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), lam1(f.expr)))
+        merge(xv, yv).elem,
+        finish(xv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, z, m, f, x, y) =>
+        new Column(
+          ArrayAggregate(
+            a.expr,
+            z.expr,
+            lam2(m.expr, x.expr, y.expr),
+            lam1(f.expr, x.expr)
+          )
+        )
       }.toDC
+    }
 
     /**
       * Aggregates (reduce) the array with the provided functions, similar to
@@ -167,15 +204,21 @@ private[syntax] trait ArrayColumns {
         zero: DoricColumn[A]
     )(
         merge: (DoricColumn[A], DoricColumn[T]) => DoricColumn[A]
-    ): DoricColumn[A] =
+    ): DoricColumn[A] = {
+      val xv = x(zero)
+      val yv = y(col.getIndex(0))
       (
         col.elem,
         zero.elem,
-        merge(x, y).elem,
-        merge(zero, col.getIndex(0)).elem
-      ).mapN { (a, z, m, _) =>
-        new Column(ArrayAggregate(a.expr, z.expr, lam2(m.expr), identity))
+        merge(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, z, m, x, y) =>
+        new Column(
+          ArrayAggregate(a.expr, z.expr, lam2(m.expr, x.expr, y.expr), identity)
+        )
       }.toDC
+    }
 
     /**
       * Filters the array elements using the provided condition.
@@ -188,10 +231,14 @@ private[syntax] trait ArrayColumns {
       * @see org.apache.spark.sql.functions.filter
       * @todo scaladoc link (issue #135)
       */
-    def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[F[T]] =
-      (col.elem, p(x).elem, p(col.getIndex(0)).elem)
-        .mapN((a, f, _) => new Column(ArrayFilter(a.expr, lam1(f.expr))))
+    def filter(p: DoricColumn[T] => BooleanColumn): DoricColumn[F[T]] = {
+      val xv = x(col.getIndex(0))
+      (col.elem, p(xv).elem, xv.elem)
+        .mapN((a, f, x) =>
+          new Column(ArrayFilter(a.expr, lam1(f.expr, x.expr)))
+        )
         .toDC
+    }
 
     /**
       * Returns an array of elements for which a predicate holds in a given array.
@@ -209,12 +256,15 @@ private[syntax] trait ArrayColumns {
     def filterWIndex(
         function: (DoricColumn[T], IntegerColumn) => BooleanColumn
     ): ArrayColumn[T] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(1.lit)
       (
         col.elem,
-        function(x, y).elem,
-        function(col.getIndex(0), 1.lit).elem
-      ).mapN { (a, f, _) =>
-        new Column(ArrayFilter(a.expr, lam2(f.expr)))
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(ArrayFilter(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
 
@@ -411,12 +461,14 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.exists]]
       */
-    def exists(fun: DoricColumn[T] => BooleanColumn): BooleanColumn =
-      (col.elem, fun(x).elem, fun(col.getIndex(0)).elem)
-        .mapN((c, f, _) => {
-          new Column(ArrayExists(c.expr, lam1(f.expr)))
+    def exists(fun: DoricColumn[T] => BooleanColumn): BooleanColumn = {
+      val xv = x(col.getIndex(0))
+      (col.elem, fun(xv).elem, xv.elem)
+        .mapN((c, f, x) => {
+          new Column(ArrayExists(c.expr, lam1(f.expr, x.expr)))
         })
         .toDC
+    }
 
     /**
       * Creates a new row for each element in the given array column.
@@ -495,13 +547,16 @@ private[syntax] trait ArrayColumns {
     )(
         col2: ArrayColumn[T2]
     ): ArrayColumn[O] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(col2.getIndex(0))
       (
         col.elem,
         col2.elem,
-        function(x, y).elem,
-        function(col.getIndex(0), col2.getIndex(0)).elem
-      ).mapN { (a, b, f, _) =>
-        new Column(ZipWith(a.expr, b.expr, lam2(f.expr)))
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, b, f, x, y) =>
+        new Column(ZipWith(a.expr, b.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
   }

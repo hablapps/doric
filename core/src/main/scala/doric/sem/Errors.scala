@@ -120,17 +120,6 @@ case class ColumnTypeError(
     s"The column with name '$columnName' was expected to be $expectedType but is of type $foundType"
 }
 
-case class ChildColumnNotFound(
-    columnName: String,
-    validColumns: Seq[String]
-)(implicit
-    val location: Location
-) extends DoricSingleError(None) {
-  override def message: String =
-    s"No such struct field $columnName among nested columns ${validColumns
-        .mkString("(", ", ", ")")}"
-}
-
 case class SparkErrorWrapper(sparkCause: Throwable)(implicit
     val location: Location
 ) extends DoricSingleError(Some(sparkCause)) {

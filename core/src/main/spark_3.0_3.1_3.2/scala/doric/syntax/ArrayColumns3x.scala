@@ -23,11 +23,13 @@ trait ArrayColumns3x {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.forall]]
       */
-    def forAll(fun: DoricColumn[T] => BooleanColumn): BooleanColumn =
-      (col.elem, fun(x).elem)
-        .mapN((c, f) => {
-          new Column(ArrayForAll(c.expr, lam1(f.expr)))
+    def forAll(fun: DoricColumn[T] => BooleanColumn): BooleanColumn = {
+      val xv = x(col.getIndex(0))
+      (col.elem, fun(xv).elem, xv.elem)
+        .mapN((c, f, x) => {
+          new Column(ArrayForAll(c.expr, lam1(f.expr, x.expr)))
         })
         .toDC
+    }
   }
 }

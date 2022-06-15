@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 
 import org.apache.spark.sql.{Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
@@ -77,7 +77,7 @@ class ArrayColumnsSpec extends DoricTestElements {
             "Cannot resolve column name \"something2\" among (col, something)"
           )
         ),
-        ColumnTypeError("col[0]._1", LongType, IntegerType),
+        ColumnTypeError("_1", LongType, IntegerType),
         ChildColumnNotFound("_3", List("_1", "_2"))
       )
     }
@@ -86,6 +86,7 @@ class ArrayColumnsSpec extends DoricTestElements {
       "should work with complex types that mix Row and Array and return errors if needed"
     ) {
 
+      val li = org.apache.spark.sql.functions.typedLit(4).expr
       val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
         .toDF(testColumn, "something")
 
@@ -109,7 +110,7 @@ class ArrayColumnsSpec extends DoricTestElements {
         )
       } should containAllErrors(
         ChildColumnNotFound("_3", List("_1", "_2")),
-        ColumnTypeError("col[0][0]._1", LongType, IntegerType)
+        ColumnTypeError("_1", LongType, IntegerType)
       )
 
       val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))

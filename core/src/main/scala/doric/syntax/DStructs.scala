@@ -3,29 +3,17 @@ package syntax
 
 import scala.language.dynamics
 
-import cats.arrow.FunctionK
-import cats.data.{Kleisli, NonEmptyChain}
+import cats.data.Kleisli
 import cats.evidence.Is
 import cats.implicits._
-import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricSingleError, Location}
+import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import doric.types.SparkType
 
 import org.apache.spark.sql.{Column, Dataset, Row}
-import org.apache.spark.sql.catalyst.expressions.{Expression, UnresolvedNamedLambdaVariable}
+import org.apache.spark.sql.catalyst.expressions.ExtractValue
 import org.apache.spark.sql.functions.{struct => sparkStruct}
-import org.apache.spark.sql.types.StructType
 
 private[syntax] trait DStructs {
-
-  private type DoricEither[A] = Either[NonEmptyChain[DoricSingleError], A]
-
-  private val toValidated = new FunctionK[DoricEither, DoricValidated] {
-    override def apply[A](fa: DoricEither[A]): DoricValidated[A] =
-      fa.toValidated
-  }
-  private val toEither = new FunctionK[DoricValidated, DoricEither] {
-    override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
-  }
 
   /**
     * Creates a struct with the columns
@@ -38,85 +26,69 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  private def isLambda(expression: Expression): Boolean = {
-    expression match {
-      case _: UnresolvedNamedLambdaVariable => true
-      case _ => expression.children.exists(isLambda)
-    }
-  }
-
   implicit class DStructOps(private val col: RowColumn) {
 
     /**
       * Retreaves the child row of the Struct column
+      *
       * @group Struct Type
       * @param subColumnName
-      *   the column name expected to find in the struct.
+      * the column name expected to find in the struct.
       * @param location
-      *   the location if an error is generated
+      * the location if an error is generated
       * @tparam T
-      *   the expected type of the child column.
+      * the expected type of the child column.
       * @return
-      *   a reference to the child column of the provided type.
+      * a reference to the child column of the provided type.
       */
     def getChild[T: SparkType](
         subColumnName: String
     )(implicit location: Location): DoricColumn[T] = {
-      col.elem
+      (col.elem, subColumnName.lit.elem)
+        .mapN((a, b) => (a, b))
         .mapK(toEither)
-        .flatMap(vcolumn =>
-          if (isLambda(vcolumn.expr))
-            Kleisli[DoricEither, Dataset[_], Column]((_: Dataset[_]) => {
-              Right(vcolumn(subColumnName))
-            })
-          else
-            Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
-              val fatherColumn = df.select(vcolumn).schema.head
-              fatherColumn.dataType match {
-                case fatherStructType: StructType =>
-                  fatherStructType
-                    .find(_.name == subColumnName)
-                    .fold[DoricEither[Column]](
-                      ChildColumnNotFound(
-                        subColumnName,
-                        fatherStructType.names
-                      ).leftNec
-                    )(st =>
-                      if (SparkType[T].isEqual(st.dataType))
-                        vcolumn
-                          .getItem(subColumnName)
-                          .asRight[NonEmptyChain[DoricSingleError]]
-                      else
-                        ColumnTypeError(
-                          fatherColumn.name + "." + subColumnName,
-                          SparkType[T].dataType,
-                          st.dataType
-                        ).leftNec[Column]
-                    )
-                case _ => // should not happen
+        .flatMap { case (vcolumn, litVal) =>
+          Kleisli[DoricEither, Dataset[_], Column]((df: Dataset[_]) => {
+            try {
+              if (SparkType[Row].isEqual(vcolumn.expr.dataType)) {
+                val subColumn = new Column(
+                  ExtractValue(
+                    vcolumn.expr,
+                    litVal.expr,
+                    df.sparkSession.sessionState.analyzer.resolver
+                  )
+                )
+                if (SparkType[T].isEqual(subColumn.expr.dataType))
+                  subColumn.asRight
+                else
                   ColumnTypeError(
-                    fatherColumn.name,
-                    SparkType[Row].dataType,
-                    fatherColumn.dataType
-                  ).leftNec[Column]
+                    subColumnName,
+                    SparkType[T].dataType,
+                    subColumn.expr.dataType
+                  ).leftNec
+              } else {
+                ColumnTypeError(
+                  "",
+                  SparkType[Row].dataType,
+                  vcolumn.expr.dataType
+                ).leftNec
               }
-            })
-        )
+            } catch {
+              case e: Throwable =>
+                SparkErrorWrapper(e).leftNec
+            }
+          })
+        }
         .mapK(toValidated)
         .toDC
     }
   }
-
   trait DynamicFieldAccessor[T] extends Dynamic { self: DoricColumn[T] =>
 
     /**
       * Allows for accessing fields of struct columns using the syntax `rowcol.name[T]`.
       * This expression stands for `rowcol.getChild[T](name)`.
       *
-      * @param name
-      * @param location
-      * @param st
-      * @tparam A
       * @return The column which refers to the given field
       * @throws doric.sem.ColumnTypeError if the parent column is not a struct
       */
