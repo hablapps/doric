@@ -40,12 +40,12 @@ trait DateOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
   ): Unit =
     df.validateColumnType(
       f(
-        col[T1](getName[T1](tagName)),
-        col[T2](getName[T1](tagName))
+        col[T1](getName(tagName)),
+        col[T2](getName(tagName))
       )
     )
 
-  def getName[T: ClassTag](tagName: String, pos: Int = 1): String =
+  def getName(tagName: String, pos: Int = 1): String =
     s"col_${tagName}_$pos"
 }
 
@@ -66,10 +66,10 @@ class DateColumnsSpec
         Instant.ofEpochMilli(1653669106840L)
       )
     ).toDF(
-      getName[Date]("date"),
-      getName[LocalDate]("localDate"),
-      getName[Timestamp]("timestamp"),
-      getName[Instant]("instant")
+      getName("date"),
+      getName("localDate"),
+      getName("timestamp"),
+      getName("instant")
     )
 
   df.show()
