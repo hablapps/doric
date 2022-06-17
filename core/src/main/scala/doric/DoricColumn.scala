@@ -9,6 +9,7 @@ import doric.types.{LiteralSparkType, SparkType}
 import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
+import org.apache.spark.sql.types.DataType
 
 sealed trait DoricColumn[T] extends DynamicFieldAccessor[T] {
   val elem: Doric[Column]
@@ -62,30 +63,32 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
   private[doric] def apply[T](dcolumn: Doric[Column]): DoricColumn[T] =
     TransformationDoricColumn(dcolumn)
 
+  private[doric] def apply[T](f: Dataset[_] => Column): DoricColumn[T] =
+    Kleisli[DoricValidated, Dataset[_], Column](f(_).valid).toDC
+
   override protected def constructSide[T](
       column: Doric[Column],
       colName: String
   ): NamedDoricColumn[T] = NamedDoricColumn(column, colName)
-
-  private[doric] def uncheckedTypeAndExistence[T](
-      col: Column
-  ): DoricColumn[T] = {
-    Kleisli[DoricValidated, Dataset[_], Column]((_: Dataset[_]) => col.valid)
-  }.toDC
 
   def apply[T: SparkType](
       column: Column
   )(implicit location: Location): DoricColumn[T] =
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
-        val head = df.select(column).schema.head
-        if (SparkType[T].isEqual(head.dataType))
+        val dataType: DataType =
+          try {
+            column.expr.dataType
+          } catch {
+            case _: Throwable => df.select(column).schema.head.dataType
+          }
+        if (SparkType[T].isEqual(dataType))
           Validated.valid(column)
         else
           ColumnTypeError(
-            head.name,
+            df.select(column).schema.head.name,
             SparkType[T].dataType,
-            head.dataType
+            dataType
           ).invalidNec
       } catch {
         case e: Throwable => SparkErrorWrapper(e).invalidNec
