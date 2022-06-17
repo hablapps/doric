@@ -43,7 +43,7 @@ private[sem] trait TransformOps {
     def withColumns(
         namesAndCols: (String, DoricColumn[_])*
     ): DataFrame = {
-      if (namesAndCols.isEmpty) df.toDF
+      if (namesAndCols.isEmpty) df.toDF()
       else
         namesAndCols.toList
           .traverse(_._2.elem)
@@ -64,7 +64,7 @@ private[sem] trait TransformOps {
     def withColumns(
         namesAndCols: Map[String, DoricColumn[_]]
     ): DataFrame = {
-      if (namesAndCols.isEmpty) df.toDF
+      if (namesAndCols.isEmpty) df.toDF()
       else
         withColumns(namesAndCols.toList: _*)
     }
@@ -79,7 +79,7 @@ private[sem] trait TransformOps {
     def withNamedColumns(
         namedColumns: NamedDoricColumn[_]*
     ): DataFrame = {
-      if (namedColumns.isEmpty) df.toDF
+      if (namedColumns.isEmpty) df.toDF()
       else
         withColumns(
           namedColumns.iterator.map(x => (x.columnName, x)).toList: _*

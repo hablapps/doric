@@ -112,7 +112,9 @@ object LiteralSparkType {
       override type OriginalSparkType = Array[lst.OriginalSparkType]
 
       override val literalTo: Array[A] => OriginalSparkType = {
-        _.map(lst.literalTo).toArray(lst.classTag)
+        implicit val a = lst.classTag
+        _.map(lst.literalTo)
+          .toArray(lst.classTag)
       }
 
       override val classTag: ClassTag[Array[lst.OriginalSparkType]] =

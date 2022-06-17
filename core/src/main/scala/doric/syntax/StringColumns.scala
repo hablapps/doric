@@ -82,7 +82,7 @@ private[syntax] trait StringColumns {
     * @group String Type
     * @see [[org.apache.spark.sql.functions.input_file_name]]
     */
-  def inputFileName(): StringColumn = DoricColumn(f.input_file_name)
+  def inputFileName(): StringColumn = DoricColumn(f.input_file_name())
 
   /**
     * Creates a string column for the file name of the current Spark task.
