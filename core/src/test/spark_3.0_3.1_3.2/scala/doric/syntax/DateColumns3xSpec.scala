@@ -2,16 +2,32 @@ package doric
 package syntax
 
 import java.sql.Date
-import java.time.LocalDate
+import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{DataFrame, functions => f}
 
 class DateColumns3xSpec
     extends DoricTestElements
     with EitherValues
-    with Matchers {
+    with Matchers
+    with DateColumnTest {
+
+  import spark.implicits._
+
+  def df: DataFrame =
+    List(
+      (
+        LocalDate.parse("2022-05-27"),
+        Instant.ofEpochMilli(1653669106840L)
+      )
+    ).toDF(
+      getName("localDate"),
+      getName("instant")
+    )
+
+  test[LocalDate]("localDate")
+  test[Instant]("instant")
 
   describe("addMonths doric function with column") {
     import spark.implicits._

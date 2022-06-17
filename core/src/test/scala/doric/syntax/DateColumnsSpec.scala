@@ -1,59 +1,17 @@
 package doric
 package syntax
 
-import doric.types.{DateType, SparkType}
-
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 import org.apache.spark.sql.{DataFrame, functions => f}
-import org.scalatest.funspec.AnyFunSpecLike
-
-import scala.reflect.{ClassTag, classTag}
-
-trait DateOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
-
-  def df: DataFrame
-
-  def test[T: DateType: SparkType: ClassTag](tagName: String): Unit = {
-
-    describe(s"Date type $tagName") {
-      it(">") {
-        test[T, T, Boolean](tagName, (a, b) => a > b)
-      }
-      it(">=") {
-        test[T, T, Boolean](tagName, (a, b) => a >= b)
-      }
-      it("<") {
-        test[T, T, Boolean](tagName, (a, b) => a < b)
-      }
-      it("<=") {
-        test[T, T, Boolean](tagName, (a, b) => a <= b)
-      }
-    }
-  }
-
-  def test[T1: SparkType: ClassTag, T2: SparkType: ClassTag, O: SparkType](
-      tagName: String,
-      f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
-  ): Unit =
-    df.validateColumnType(
-      f(
-        col[T1](getName(tagName)),
-        col[T2](getName(tagName))
-      )
-    )
-
-  def getName(tagName: String, pos: Int = 1): String =
-    s"col_${tagName}_$pos"
-}
 
 class DateColumnsSpec
     extends DoricTestElements
     with EitherValues
     with Matchers
-    with DateOperationsSpec {
+    with DateColumnTest {
 
   import spark.implicits._
 
@@ -61,23 +19,15 @@ class DateColumnsSpec
     List(
       (
         Date.valueOf("2022-05-27"),
-        LocalDate.parse("2022-05-27"),
-        new Timestamp(1653669106840L),
-        Instant.ofEpochMilli(1653669106840L)
+        new Timestamp(1653669106840L)
       )
     ).toDF(
       getName("date"),
-      getName("localDate"),
-      getName("timestamp"),
-      getName("instant")
+      getName("timestamp")
     )
 
-  df.show()
-
   test[Date]("date")
-  test[LocalDate]("localDate")
   test[Timestamp]("timestamp")
-  test[Instant]("instant")
 
   describe("currentDate doric function") {
     import spark.implicits._
