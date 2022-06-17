@@ -33,6 +33,8 @@ jobs:
             scope: "test-uploadReport"
           - spark: "3.2"
             scope: "test-uploadReport"
+          - spark: "3.3"
+            scope: "test-uploadReport"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3

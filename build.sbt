@@ -1,4 +1,4 @@
-import sbt.{Compile, Def}
+import sbt.Compile
 
 val stableVersion = "0.0.4"
 
@@ -7,6 +7,7 @@ val spark24Version           = "2.4.8"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.1"
+val spark33Version           = "3.3.0"
 
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
@@ -20,6 +21,7 @@ val parserSparkVersion: String => String = {
   case versionRegexShort("3", "0") => spark30Version
   case versionRegexShort("3", "1") => spark31Version
   case versionRegexShort("3", "2") => spark32Version
+  case versionRegexShort("3", "3") => spark33Version
   case versionRegex(a, b, c)       => s"$a.$b.$c"
 }
 
@@ -27,11 +29,13 @@ val sparkLong2ShortVersion: String => String = { case versionRegex(a, b, _) =>
   s"$a.$b"
 }
 
-val scalaVersionSelect: String => String = {
-  case versionRegex("2", _, _)   => scala211
-  case versionRegex("3", "0", _) => scala212
-  case versionRegex("3", "1", _) => scala212
-  case versionRegex("3", "2", _) => scala212
+val scalaVersionSelect: String => List[String] = {
+  case versionRegex("2", _, _)   => List(scala211)
+  case versionRegex("3", "0", _) => List(scala212)
+  case versionRegex("3", "1", _) => List(scala212)
+  case versionRegex("3", "2", _) => List(scala212)
+  case versionRegex("3", "3", _) => List(scala212, scala213)
+
 }
 
 val catsVersion: String => String = {
@@ -63,7 +67,7 @@ Global / sparkVersion :=
   parserSparkVersion(
     System.getProperty("sparkVersion", sparkDefaultShortVersion)
   )
-Global / scalaVersion    := scalaVersionSelect(sparkVersion.value)
+Global / scalaVersion    := scalaVersionSelect(sparkVersion.value).head
 Global / publish / skip  := true
 Global / publishArtifact := false
 
@@ -100,11 +104,12 @@ lazy val core = project
   .in(file("core"))
   .settings(
     configSpark,
-    name            := "doric_" + sparkLong2ShortVersion(sparkVersion.value),
-    run / fork      := true,
-    publish / skip  := false,
-    publishArtifact := true,
-    scalaVersion    := scalaVersionSelect(sparkVersion.value),
+    name               := "doric_" + sparkLong2ShortVersion(sparkVersion.value),
+    run / fork         := true,
+    publish / skip     := false,
+    publishArtifact    := true,
+    scalaVersion       := scalaVersionSelect(sparkVersion.value).head,
+    crossScalaVersions := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel" %% "cats-core"  % catsVersion(sparkVersion.value),
@@ -123,52 +128,14 @@ lazy val core = project
     ),
     Compile / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case versionRegex("2", "4", _) =>
-          Seq(
-            (Compile / sourceDirectory)(_ / "spark_2.4_mount" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
-          ).join.value
-        case versionRegex("3", "0", _) =>
-          Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.0_mount" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala")
-          ).join.value
-        case versionRegex("3", "1", _) =>
-          Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.1_mount" / "scala")
-          ).join.value
-        case versionRegex("3", "2", _) =>
-          Seq(
-            (Compile / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.1" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.2" / "scala"),
-            (Compile / sourceDirectory)(_ / "spark_3.2_mount" / "scala")
-          ).join.value
+        case versionRegex(mayor, minor, _) =>
+          (Compile / sourceDirectory).value ** s"spark_*$mayor.$minor*" / "scala" get
       }
     },
     Test / unmanagedSourceDirectories ++= {
       sparkVersion.value match {
-        case versionRegex("2", "4", _) =>
-          Seq.empty[Def.Initialize[File]].join.value
-        case versionRegex("3", "0", _) =>
-          Seq(
-            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
-          ).join.value
-        case versionRegex("3", "1", _) =>
-          Seq(
-            (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
-            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
-          ).join.value
-        case versionRegex("3", "2", _) =>
-          Seq(
-            (Test / sourceDirectory)(_ / "spark_3.1" / "scala"),
-            (Test / sourceDirectory)(_ / "spark_3.2" / "scala"),
-            (Test / sourceDirectory)(_ / "spark_3.0_3.1_3.2" / "scala")
-          ).join.value
+        case versionRegex(mayor, minor, _) =>
+          (Test / sourceDirectory).value ** s"spark_*$mayor.$minor*" / "scala" get
       }
     }
   )
@@ -189,7 +156,7 @@ lazy val docs = project
     publish / skip  := true,
     publishArtifact := false,
     run / javaOptions += "-XX:MaxJavaStackTraceDepth=10",
-    scalaVersion := scalaVersionSelect(sparkVersion.value),
+    scalaVersion := scalaVersionSelect(sparkVersion.value).head,
     mdocIn       := baseDirectory.value / "docs",
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value
