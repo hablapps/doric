@@ -2,9 +2,10 @@ package doric
 package syntax
 
 import cats.implicits._
+import doric.DoricColumn.sparkFunction
 import doric.types.{DateType, SparkType}
-import java.sql.Date
 
+import java.sql.Date
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{AddMonths, DateAdd, DateFormatClass, DateSub, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
 
@@ -22,6 +23,30 @@ private[syntax] trait DateColumns {
   implicit class DateColumnLikeSyntax[T: DateType: SparkType](
       column: DoricColumn[T]
   ) {
+
+    /**
+      * @group Comparable Type
+      */
+    def >=(other: DoricColumn[T]): BooleanColumn =
+      sparkFunction[T, Boolean](column, other, _ >= _)
+
+    /**
+      * @group Comparable Type
+      */
+    def <=(other: DoricColumn[T]): BooleanColumn =
+      sparkFunction[T, Boolean](column, other, _ <= _)
+
+    /**
+      * @group Comparable Type
+      */
+    def >(other: DoricColumn[T]): BooleanColumn =
+      sparkFunction[T, Boolean](column, other, _ > _)
+
+    /**
+      * @group Comparable Type
+      */
+    def <(other: DoricColumn[T]): BooleanColumn =
+      sparkFunction[T, Boolean](column, other, _ < _)
 
     /**
       * Adds to the Date or Timestamp column the number of months

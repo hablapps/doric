@@ -5,13 +5,29 @@ import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{DataFrame, functions => f}
 
 class DateColumnsSpec
     extends DoricTestElements
     with EitherValues
-    with Matchers {
+    with Matchers
+    with DateColumnTest {
+
+  import spark.implicits._
+
+  def df: DataFrame =
+    List(
+      (
+        Date.valueOf("2022-05-27"),
+        new Timestamp(1653669106840L)
+      )
+    ).toDF(
+      getName("date"),
+      getName("timestamp")
+    )
+
+  test[Date]("date")
+  test[Timestamp]("timestamp")
 
   describe("currentDate doric function") {
     import spark.implicits._
