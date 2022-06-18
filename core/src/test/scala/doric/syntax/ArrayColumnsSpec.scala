@@ -89,7 +89,6 @@ class ArrayColumnsSpec extends DoricTestElements {
       val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
         .toDF(testColumn, "something")
 
-      df3.printSchema()
       df3.select(
         col[Array[Array[Row]]](testColumn)
           .transform(_.transform(_.getChild[Int]("_1")))
@@ -109,7 +108,7 @@ class ArrayColumnsSpec extends DoricTestElements {
     }
 
     it(
-      "should detect errors in eaven more complex transformations involving collections and structs"
+      "should work in even more complex transformations involving collections and structs"
     ) {
 
       val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
@@ -126,11 +125,34 @@ class ArrayColumnsSpec extends DoricTestElements {
           _.getChild[Array[Row]]("_1")
         )
         .flatten as "l"
-      df4
-        .select(
-          colTransform.zipWith[Row, Row]((a, b) => struct(a, b))(colTransform2)
+      noException should be thrownBy {
+        df4
+          .select(
+            colTransform.zipWith[Row, Row]((a, b) => struct(a, b))(
+              colTransform2
+            )
+          )
+      }
+    }
+
+    it(
+      "should detect errors in even more complex transformations involving collections and structs"
+    ) {
+      val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
+      val df4 = List((value, 7))
+        .toDF(testColumn, "something")
+
+      val colTransform = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1").transform(_.getChild[Int]("_2"))
         )
-        .transform(df => { df.printSchema(); df.show(false); df })
+        .flatten as "l"
+
+      intercept[DoricMultiError] {
+        df4.select(colTransform)
+      } should containAllErrors(
+        ColumnTypeError("_2", IntegerType, StringType)
+      )
     }
 
     it(
