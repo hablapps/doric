@@ -561,11 +561,15 @@ private[syntax] trait ArrayColumns {
     }
   }
 
-  implicit class ArrayArrayColumnSyntax[T, F[_]: CollectionType, G[
-      _
-  ]: CollectionType](
+  implicit class ArrayArrayColumnSyntax[G[_]: CollectionType, F[_]
+    : CollectionType, T](
       private val col: DoricColumn[F[G[T]]]
   ) {
+
+    /**
+      * Creates a single collection from an collection of collections.
+      * @group Array Type
+      */
     def flatten: DoricColumn[F[T]] =
       col.elem.map(f.flatten).toDC
   }
