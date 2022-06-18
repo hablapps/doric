@@ -83,10 +83,9 @@ class ArrayColumnsSpec extends DoricTestElements {
     }
 
     it(
-      "should work with complex types that mix Row and Array and return errors if needed"
+      "should detect errors in complex transformations involving collections and structs"
     ) {
 
-      val li = org.apache.spark.sql.functions.typedLit(4).expr
       val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
         .toDF(testColumn, "something")
 
@@ -94,11 +93,6 @@ class ArrayColumnsSpec extends DoricTestElements {
       df3.select(
         col[Array[Array[Row]]](testColumn)
           .transform(_.transform(_.getChild[Int]("_1")))
-      )
-
-      df3.select(
-        col[Array[Array[Row]]](testColumn)
-          .transform(_.getIndex(0).getChild[Int]("_1"))
       )
 
       intercept[DoricMultiError] {
@@ -112,6 +106,11 @@ class ArrayColumnsSpec extends DoricTestElements {
         ChildColumnNotFound("_3", List("_1", "_2")),
         ColumnTypeError("_1", LongType, IntegerType)
       )
+    }
+
+    it(
+      "should detect errors in eaven more complex transformations involving collections and structs"
+    ) {
 
       val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
       val df4 = List((value, 7))

@@ -8,6 +8,7 @@ import doric.types.{LiteralSparkType, SparkType}
 
 import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.catalyst.CatalystTypeConverters
+import org.apache.spark.sql.catalyst.analysis.UnresolvedAttribute
 import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.types.DataType
 
@@ -73,27 +74,35 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
 
   def apply[T: SparkType](
       column: Column
-  )(implicit location: Location): DoricColumn[T] =
-    Kleisli[DoricValidated, Dataset[_], Column](df => {
-      try {
-        val dataType: DataType =
+  )(implicit location: Location): DoricColumn[T] = {
+    column.expr match {
+      case UnresolvedAttribute(nameParts) =>
+        col(
+          nameParts.map(x => if (x.contains(".")) s"`$x`" else x).mkString(".")
+        )
+      case _ =>
+        Kleisli[DoricValidated, Dataset[_], Column](df => {
           try {
-            column.expr.dataType
+            val dataType: DataType =
+              try {
+                column.expr.dataType
+              } catch {
+                case _: Throwable => df.select(column).schema.head.dataType
+              }
+            if (SparkType[T].isEqual(dataType))
+              Validated.valid(column)
+            else
+              ColumnTypeError(
+                df.select(column).schema.head.name,
+                SparkType[T].dataType,
+                dataType
+              ).invalidNec
           } catch {
-            case _: Throwable => df.select(column).schema.head.dataType
+            case e: Throwable => SparkErrorWrapper(e).invalidNec
           }
-        if (SparkType[T].isEqual(dataType))
-          Validated.valid(column)
-        else
-          ColumnTypeError(
-            df.select(column).schema.head.name,
-            SparkType[T].dataType,
-            dataType
-          ).invalidNec
-      } catch {
-        case e: Throwable => SparkErrorWrapper(e).invalidNec
-      }
-    }).toDC
+        }).toDC
+    }
+  }
 
   private[doric] def uncheckedType(column: Column): DoricColumn[_] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
