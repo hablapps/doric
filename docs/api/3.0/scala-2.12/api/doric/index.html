@@ -135,6 +135,10 @@
       
     </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="class" href="ArrayArrayColumnSyntax.html" title=""></a>
+                        <a href="ArrayArrayColumnSyntax.html" title="">ArrayArrayColumnSyntax</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="ArrayColumnSyntax.html" title="Extension methods for arrays"></a>
                         <a href="ArrayColumnSyntax.html" title="Extension methods for arrays">ArrayColumnSyntax</a>
                       </li><li class="current-entities indented1">
@@ -377,7 +381,23 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="doric.ArrayColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="doric.syntax.ArrayColumns.ArrayArrayColumnSyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ArrayArrayColumnSyntax[G[_],F[_],T]extendsAnyRef"></a><a id="ArrayArrayColumnSyntax[G[_],F[_],T]:ArrayArrayColumnSyntax[G,F,T]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#ArrayArrayColumnSyntax[G[_],F[_],T]extendsAnyRef" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ArrayArrayColumnSyntax</span><span class="tparams">[<span name="G">G<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="T">T</span>]</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.15/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd></dl></div>
+    </li><li name="doric.ArrayColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ArrayColumn[A]=doric.DoricColumn[Array[A]]"></a><a id="ArrayColumn[A]:ArrayColumn[A]"></a>
       <span class="permalink">
       <a href="../doric/index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" title="Permalink">
@@ -1924,9 +1944,9 @@ on the order of the rows which may be non-deterministic after a shuffle.</p></sp
   a reference of a single DoricColumn with all strings concatenated. If at
   least one is null will return null.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>StringColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/functions$.html#concat(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.concat</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ArrayColumns#concatArrays" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$1:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]"></a><a id="concatArrays[T,F[_]](DoricColumn[F[T]]*)(CollectionType[F]):DoricColumn[F[T]]"></a>
+      <a id="concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$2:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]"></a><a id="concatArrays[T,F[_]](DoricColumn[F[T]]*)(CollectionType[F]):DoricColumn[F[T]]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$1:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]" title="Permalink">
+      <a href="../doric/index.html#concatArrays[T,F[_]](cols:doric.DoricColumn[F[T]]*)(implicitevidence$2:doric.types.CollectionType[F]):doric.DoricColumn[F[T]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2147,6 +2167,24 @@ using the given separator.
       <p class="shortcomment cmt">Returns the current date at the start of query evaluation as a date column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current date at the start of query evaluation as a date column.
 All calls of current_date within the same query return the same value.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/functions$.html#current_date():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.current_date</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.DateColumns#currentDateT" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Date Type">
+      <a id="currentDateT[T]()(implicitevidence$1:doric.types.DateType[T],implicitevidence$2:doric.types.SparkType[T]):doric.DoricColumn[T]"></a><a id="currentDateT[T]()(DateType[T],SparkType[T]):DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#currentDateT[T]()(implicitevidence$1:doric.types.DateType[T],implicitevidence$2:doric.types.SparkType[T]):doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">currentDateT</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/DateType.html" class="extype" name="doric.types.DateType">DateType</a>[<span class="extype" name="doric.syntax.DateColumns.currentDateT.T">T</span>]</span>, <span name="arg1">arg1: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.DateColumns.currentDateT.T">T</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.DateColumns.currentDateT.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the current date at the start of query evaluation as a date column typed with the provided T.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current date at the start of query evaluation as a date column typed with the provided T.
+All calls of current_date within the same query return the same value.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>DateColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/functions$.html#current_date():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.current_date</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.TimestampColumns#currentTimestamp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
       <a id="currentTimestamp():doric.TimestampColumn"></a><a id="currentTimestamp():TimestampColumn"></a>
       <span class="permalink">
@@ -2160,6 +2198,24 @@ All calls of current_date within the same query return the same value.
       </span>
       <span class="symbol">
         <span class="name">currentTimestamp</span><span class="params">()</span><span class="result">: <a href="#TimestampColumn=doric.DoricColumn[java.sql.Timestamp]" class="extmbr" name="doric.TimestampColumn">TimestampColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the current timestamp at the start of query evaluation as a timestamp column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current timestamp at the start of query evaluation as a timestamp column.
+All calls of current_timestamp within the same query return the same value.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>TimestampColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/functions$.html#current_timestamp():org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.current_timestamp</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.TimestampColumns#currentTimestampT" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Timestamp Type">
+      <a id="currentTimestampT[T]()(implicitevidence$1:doric.types.TimestampType[T],implicitevidence$2:doric.types.SparkType[T]):doric.DoricColumn[T]"></a><a id="currentTimestampT[T]()(TimestampType[T],SparkType[T]):DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/index.html#currentTimestampT[T]()(implicitevidence$1:doric.types.TimestampType[T],implicitevidence$2:doric.types.SparkType[T]):doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">currentTimestampT</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/TimestampType.html" class="extype" name="doric.types.TimestampType">TimestampType</a>[<span class="extype" name="doric.syntax.TimestampColumns.currentTimestampT.T">T</span>]</span>, <span name="arg1">arg1: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.TimestampColumns.currentTimestampT.T">T</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.TimestampColumns.currentTimestampT.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Returns the current timestamp at the start of query evaluation as a timestamp column.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the current timestamp at the start of query evaluation as a timestamp column.
