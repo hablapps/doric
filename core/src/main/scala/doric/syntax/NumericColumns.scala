@@ -5,7 +5,7 @@ import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.NumericType
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
 private[syntax] trait NumericColumns {
 
@@ -192,68 +192,240 @@ private[syntax] trait NumericColumns {
       * Inverse cosine of `column` in radians, as if computed by `java.lang.Math.acos`
       *
       * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.abs]]
+      * @see [[org.apache.spark.sql.functions.acos(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.acos]]
       */
     def acos: DoubleColumn = column.elem.map(f.acos).toDC
 
+    /**
+      * Returns inverse hyperbolic cosine of the column
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.acosh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.acosh]]
+      */
     def acosh: DoubleColumn = column.elem.map(f.acosh).toDC
 
+    /**
+      * Inverse sine of the column in radians, as if computed by java.lang.Math.asin
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.asin(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.asin]]
+      */
     def asin: DoubleColumn = column.elem.map(f.asin).toDC
 
+    /**
+      * Inverse hyperbolic sine of the column
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.asinh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.asinh]]
+      */
     def asinh: DoubleColumn = column.elem.map(f.asinh).toDC
 
+    /**
+      * Inverse tangent of the column as if computed by java.lang.Math.atan
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.atan(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.atan]]
+      */
     def atan: DoubleColumn = column.elem.map(f.atan).toDC
 
-    def atan2(yCoordinates: DoricColumn[T]): DoubleColumn =
-      (yCoordinates.elem, column.elem).mapN(f.atan2).toDC
+    /**
+      * The theta component of the point (r, theta) in polar coordinates that corresponds to the point
+      * (x, y) in Cartesian coordinates, as if computed by java.lang.Math.atan2
+      *
+      * The column corresponds to yCoordinates
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.atan2(y:org\.apache\.spark\.sql\.Column,x:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.atan2]]
+      */
+    def atan2(xCoordinates: DoricColumn[T]): DoubleColumn =
+      (column.elem, xCoordinates.elem).mapN(f.atan2).toDC
 
-    def bin: DoubleColumn = column.elem.map(f.bin).toDC
+    /**
+      * An expression that returns the string representation of the binary value of the given long column.
+      * For example, bin("12") returns "1100".
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.bin(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.bin]]
+      */
+    def bin: StringColumn = column.elem.map(f.bin).toDC
 
+    /**
+      * Computes the cube-root of the given value
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.cbrt(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.cbrt]]
+      */
     def cbrt: DoubleColumn = column.elem.map(f.cbrt).toDC
 
+    /**
+      * Cosine of the angle, as if computed by java.lang.Math.cos
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.cos(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.cos]]
+      */
     def cos: DoubleColumn = column.elem.map(f.cos).toDC
 
+    /**
+      * Hyperbolic cosine of the angle, as if computed by java.lang.Math.cosh
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.cosh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.cosh]]
+      */
     def cosh: DoubleColumn = column.elem.map(f.cosh).toDC
 
+    /**
+      * Converts an angle measured in radians to an approximately equivalent angle measured in degrees.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.degrees(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.degrees]]
+      */
     def degrees: DoubleColumn = column.elem.map(f.degrees).toDC
 
+    /**
+      * Computes the exponential of the given column
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.exp(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.exp]]
+      */
     def exp: DoubleColumn = column.elem.map(f.exp).toDC
 
+    /**
+      * Computes the exponential of the given value minus one.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.expm1(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.expm1]]
+      */
     def expm1: DoubleColumn = column.elem.map(f.expm1).toDC
 
+    /**
+      * Computes the factorial of the given value.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.factorial]]
+      */
     def factorial: LongColumn = column.elem.map(f.factorial).toDC
 
+    /**
+      * Computes sqrt(a^2^ + b^2^) without intermediate overflow or underflow.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.hypot(l:org\.apache\.spark\.sql\.Column,r:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.hypot]]
+      */
     def hypot(right: DoricColumn[T]): DoubleColumn =
       (column.elem, right.elem).mapN(f.hypot).toDC
 
+    /**
+      * Computes the natural logarithm of the given value.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.log(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.log]]
+      */
     def log: DoubleColumn = column.elem.map(f.log).toDC
 
+    /**
+      * Computes the logarithm of the given value in base 10.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.log10(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.log10]]
+      */
     def log10: DoubleColumn = column.elem.map(f.log10).toDC
 
+    /**
+      * Computes the natural logarithm of the given value plus one.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.log1p(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.log1p]]
+      */
     def log1p: DoubleColumn = column.elem.map(f.log1p).toDC
 
+    /**
+      * Computes the logarithm of the given value in base 2.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.log2(expr:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.log2]]
+      */
     def log2: DoubleColumn = column.elem.map(f.log2).toDC
 
-    def log2(right: DoricColumn[T]): DoubleColumn =
+    /**
+      * Returns the value of the first argument raised to the power of the second argument.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.pow(l:org\.apache\.spark\.sql\.Column,r:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.pow]]
+      */
+    def pow(right: DoricColumn[T]): DoubleColumn =
       (column.elem, right.elem).mapN(f.pow).toDC
 
+    /**
+      * Returns the positive value of dividend mod divisor.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.pmod]]
+      */
     def pMod(divisor: DoricColumn[T]): DoricColumn[T] =
       (column.elem, divisor.elem).mapN(f.pmod).toDC
 
+    /**
+      * Converts an angle measured in degrees to an approximately equivalent angle measured in radians.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.radians(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.radians]]
+      */
     def radians: DoubleColumn = column.elem.map(f.radians).toDC
 
+    /**
+      * Returns the double value that is closest in value to the argument and is equal to a mathematical integer.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.rint(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.rint]]
+      */
     def rint: DoubleColumn = column.elem.map(f.rint).toDC
 
+    /**
+      * Computes the signum of the given value.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.signum(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.signum]]
+      */
     def signum: DoubleColumn = column.elem.map(f.signum).toDC
 
+    /**
+      * Sine of the angle, as if computed by java.lang.Math.sin
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sin(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sin]]
+      */
     def sin: DoubleColumn = column.elem.map(f.sin).toDC
 
+    /**
+      * Hyperbolic sine of the given value, as if computed by java.lang.Math.sinh
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sinh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sinh]]
+      */
     def sinh: DoubleColumn = column.elem.map(f.sinh).toDC
 
+    /**
+      * Computes the square root of the specified float value
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sqrt(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sqrt]]
+      */
     def sqrt: DoubleColumn = column.elem.map(f.sqrt).toDC
 
+    /**
+      * Tangent of the given value, as if computed by java.lang.Math.tan
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.tan(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.tan]]
+      */
     def tan: DoubleColumn = column.elem.map(f.tan).toDC
 
+    /**
+      * Hyperbolic tangent of the given value, as if computed by java.lang.Math.tanh
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.tanh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.tanh]]
+      */
     def tanh: DoubleColumn = column.elem.map(f.tanh).toDC
   }
 
@@ -290,26 +462,13 @@ private[syntax] trait NumericColumns {
           new Column(FromUnixTime(c.expr, f.expr))
         })
         .toDC
-
-    // LongType, BinaryType, StringType
-    def hex: StringColumn = column.elem.map(f.hex).toDC
-
-    // IN => Int/Long => Returns the same
-    def shiftLeft(numBits: IntegerColumn): DoubleColumn = (column.elem, numBits.elem)
-      .mapN((c, n) => new Column(ShiftLeft(c.expr, n.expr)))
-      .toDC
-
-    // IN => Int/Long => Returns the same
-    def shiftRight(numBits: IntegerColumn): DoubleColumn = (column.elem, numBits.elem)
-      .mapN((c, n) => new Column(ShiftRight(c.expr, n.expr)))
-      .toDC
   }
 
   /**
     * INTEGER OPERATIONS
     */
-  implicit class IntegerOperationsSyntax(
-      column: IntegerColumn
+  implicit class IntegerOperationsSyntax[T: IntegralType](
+      column: DoricColumn[T]
   ) {
 
     /**
@@ -318,7 +477,7 @@ private[syntax] trait NumericColumns {
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column,step* org.apache.spark.sql.functions.sequence]]
       */
-    def sequence(to: IntegerColumn, step: IntegerColumn): ArrayColumn[Int] =
+    def sequence(to: IntegerColumn, step: IntegerColumn): ArrayColumn[T] =
       (column.elem, to.elem, step.elem).mapN(f.sequence).toDC
 
     /**
@@ -328,36 +487,123 @@ private[syntax] trait NumericColumns {
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sequence]]
       */
-    def sequence(to: IntegerColumn): ArrayColumn[Int] =
+    def sequence(to: IntegerColumn): ArrayColumn[T] =
       (column.elem, to.elem).mapN(f.sequence).toDC
+
+    /**
+      * Computes hex value of the given column
+      *
+      * group Numeric Type
+      * @see [[org.apache.spark.sql.functions.hex]]
+      */
+    def hex: StringColumn = column.elem.map(f.hex).toDC
+
+    /**
+      * Shift the given value numBits left.
+      *
+      * group Numeric Type
+      * @see [[org.apache.spark.sql.functions.shiftleft]]
+      */
+    def shiftLeft(numBits: IntegerColumn): DoricColumn[T] =
+      (column.elem, numBits.elem)
+        .mapN((c, n) => new Column(ShiftLeft(c.expr, n.expr)))
+        .toDC
+
+    /**
+      * (Signed) shift the given value numBits right.
+      *
+      * group Numeric Type
+      * @see [[org.apache.spark.sql.functions.shiftright]]
+      */
+    def shiftRight(numBits: IntegerColumn): DoricColumn[T] =
+      (column.elem, numBits.elem)
+        .mapN((c, n) => new Column(ShiftRight(c.expr, n.expr)))
+        .toDC
+
+    /**
+      * Unsigned shift the given value numBits right.
+      *
+      * group Numeric Type
+      * @see [[org.apache.spark.sql.functions.shiftrightunsigned]]
+      */
+    def shiftRightUnsigned(numBits: IntegerColumn): DoricColumn[T] =
+      (column.elem, numBits.elem)
+        .mapN((c, n) => new Column(ShiftRightUnsigned(c.expr, n.expr)))
+        .toDC
   }
 
   /**
     * DOUBLE OPERATIONS
     */
-  implicit class DoubleOperationsSyntax(
-      column: DoubleColumn
+  implicit class DoubleOperationsSyntax[T: NumWithDecimalsType](
+      column: DoricColumn[T]
   ) {
 
+    /**
+      * Returns inverse hyperbolic tangent of the column
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.atanh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.atanh]]
+      */
     def atanh: DoubleColumn = column.elem.map(f.atanh).toDC
 
+    /**
+      * Returns the value of the column rounded to 0 decimal places with HALF_EVEN round mode
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.bround(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.bround]]
+      */
     def bRound: DoubleColumn = column.elem.map(f.bround).toDC
 
+    /**
+      * Round the value of e to scale decimal places with HALF_EVEN round mode if scale is greater than
+      * or equal to 0 or at integral part when scale is less than 0.
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.bround(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.bround]]
+      */
     def bRound(scale: IntegerColumn): DoubleColumn =
       (column.elem, scale.elem)
         .mapN((c, s) => new Column(BRound(c.expr, s.expr)))
         .toDC
 
-    // DoubleType, DecimalType // TODO RETURN DOUBLE OR LONG
-    def ceil: DoubleColumn = column.elem.map(f.ceil).toDC
+    /**
+      * Computes the ceiling of the given value.
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.ceil(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.ceil]]
+      */
+    def ceil: LongColumn = column.elem.map(f.ceil).toDC
 
-    // DoubleType, DecimalType // TODO RETURN DOUBLE OR LONG
-    def floor: DoubleColumn = column.elem.map(f.floor).toDC
+    /**
+      * Computes the floor of the given value
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.floor(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.floor]]
+      */
+    def floor: LongColumn = column.elem.map(f.floor).toDC
 
-    // returns decimal type or T??
-    def round: DoubleColumn = column.elem.map(f.round).toDC
+    /**
+      * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.round]]
+      */
+    def round: DoricColumn[T] = column.elem.map(f.round).toDC
 
-    def round(scale: IntegerColumn): DoubleColumn = (column.elem, scale.elem)
+    /**
+      * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode.
+      *
+      * @TODO decimal type
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.round]]
+      */
+    def round(scale: IntegerColumn): DoricColumn[T] = (column.elem, scale.elem)
       .mapN((c, s) => new Column(Round(c.expr, s.expr)))
       .toDC
   }

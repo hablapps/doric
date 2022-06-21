@@ -587,11 +587,30 @@ private[syntax] trait StringColumns {
         )
         .toDC
 
-    def conv(fromBase: IntegerColumn, toBase: IntegerColumn): DoubleColumn =
-      (s.elem, fromBase.elem, toBase.elem).mapN((str, f, t) => new Column(
-        Conv(str.expr, f.expr, t.expr)
-      )).toDC
+    /**
+      * Convert a number in a string column from one base to another.
+      *
+      * @group String Type
+      * @param fromBase from which base
+      * @param toBase to which base
+      * @see [[org.apache.spark.sql.functions.conv]]
+      */
+    def conv(fromBase: IntegerColumn, toBase: IntegerColumn): StringColumn =
+      (s.elem, fromBase.elem, toBase.elem)
+        .mapN((str, f, t) =>
+          new Column(
+            Conv(str.expr, f.expr, t.expr)
+          )
+        )
+        .toDC
 
+    /**
+      * Inverse of hex. Interprets each pair of characters as a hexadecimal number and converts to the byte
+      * representation of number
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.unhex]]
+      */
     def unHex: BinaryColumn = s.elem.map(f.unhex).toDC
   }
 }

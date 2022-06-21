@@ -9,10 +9,12 @@ import scala.reflect.{ClassTag, classTag}
 
 trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
-  type FromInt[T] = Int => T
-  implicit val longTrans: FromInt[Long]     = _.toLong
-  implicit val doubleTrans: FromInt[Double] = _.toDouble
-  implicit val floatTrans: FromInt[Float]   = _.toFloat
+  private type FromInt[T] = Int => T
+  private implicit val longTrans: FromInt[Long]     = _.toLong
+  private implicit val doubleTrans: FromInt[Double] = _.toDouble
+  private implicit val floatTrans: FromInt[Float]   = _.toFloat
+  private type FromDouble[T] = Double => T
+  private implicit val floatTransD: FromDouble[Float] = _.toFloat
 
   def df: DataFrame
 
@@ -22,7 +24,10 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       fun: Int => T
   ): Unit = {
 
-    describe(s"Numeric ${classTag[T].getClass.getSimpleName}") {
+    val numTypeStr = classTag[T].getClass.getSimpleName
+      .replaceAll("Manifest", "")
+
+    describe(s"Numeric $numTypeStr") {
 
       it("+") {
         test[T, T, T]((a, b) => a + b)
@@ -52,7 +57,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         test[T, T, Boolean]((a, b) => a <= b)
       }
 
-      it(s"abs function ${classTag[T].getClass.getSimpleName}") {
+      it(s"abs function $numTypeStr") {
         testDoricSpark[T, T](
           List(Some(-1), Some(0), Some(1), None),
           List(Some(1), Some(0), Some(1), None),
@@ -61,16 +66,21 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"acos function ${classTag[T].getClass.getSimpleName}") {
+      it(s"acos function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(0), Some(1), None),
-          List(Some(3.141592653589793), Some(1.5707963267948966), Some(0.0), None),
+          List(
+            Some(3.141592653589793),
+            Some(1.5707963267948966),
+            Some(0.0),
+            None
+          ),
           _.acos,
           f.acos
         )
       }
 
-      it(s"acosh function ${classTag[T].getClass.getSimpleName}") {
+      it(s"acosh function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.0), Some(1.3169578969248166), None),
@@ -79,7 +89,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"asin function ${classTag[T].getClass.getSimpleName}") {
+      it(s"asin function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.5707963267948966), Some(1.5707963267948966), None, None),
@@ -88,44 +98,67 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"asinh function ${classTag[T].getClass.getSimpleName}") {
+      it(s"asinh function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.8813735870195428), Some(0.8813735870195429), Some(1.4436354751788103), None),
+          List(
+            Some(-0.8813735870195428),
+            Some(0.8813735870195429),
+            Some(1.4436354751788103),
+            None
+          ),
           _.asinh,
           f.asinh
         )
       }
 
-      it(s"atan function ${classTag[T].getClass.getSimpleName}") {
+      it(s"atan function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.7853981633974483), Some(0.7853981633974483), Some(1.1071487177940904), None),
+          List(
+            Some(-0.7853981633974483),
+            Some(0.7853981633974483),
+            Some(1.1071487177940904),
+            None
+          ),
           _.atan,
           f.atan
         )
       }
 
-//      it(s"atan2 function ${classTag[T].getClass.getSimpleName}") {
-//        testDoricSpark[T, Double](
-//          List(Some(-1), Some(1), Some(2), None),
-//          List(None, Some(0.0), Some(1.31696), None),
-//          _.atan2,
-//          f.atan2
-//        )
-//      }
+      it(s"atan2 function $numTypeStr") {
+        testDoricSpark2[T, T, Double](
+          List(
+            (Some(-1), Some(-1)),
+            (Some(1), Some(1)),
+            (Some(2), Some(0)),
+            (Some(2), None),
+            (None, Some(0)),
+            (None, None)
+          ),
+          List(
+            Some(-2.356194490192345),
+            Some(0.7853981633974483),
+            Some(1.5707963267948966),
+            None,
+            None,
+            None
+          ),
+          _.atan2(_),
+          f.atan2
+        )
+      }
 
-      // TODO STRING
-//      it(s"bin function ${classTag[T].getClass.getSimpleName}") {
-//        testDoricSpark[T, String](
-//          List(Some(-1), Some(1), Some(2), None),
-//          List(None, Some(0.0), Some(1.31696), None),
-//          _.bin,
-//          f.bin
-//        )
-//      }
+      it(s"bin function $numTypeStr") {
+        testDoricSpark[T, String](
+          List(Some(0), Some(1), Some(2), None),
+          List(Some("0"), Some("1"), Some("10"), None),
+          _.bin,
+          f.bin
+        )
+      }
 
-      it(s"cbrt function ${classTag[T].getClass.getSimpleName}") {
+      it(s"cbrt function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.0), Some(1.0), Some(1.2599210498948732), None),
@@ -134,52 +167,77 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"cos function ${classTag[T].getClass.getSimpleName}") {
+      it(s"cos function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(0.5403023058681398), Some(0.5403023058681398), Some(-0.4161468365471424), None),
+          List(
+            Some(0.5403023058681398),
+            Some(0.5403023058681398),
+            Some(-0.4161468365471424),
+            None
+          ),
           _.cos,
           f.cos
         )
       }
 
-      it(s"cosh function ${classTag[T].getClass.getSimpleName}") {
+      it(s"cosh function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(1.543080634815244), Some(1.543080634815244), Some(3.7621956910836314), None),
+          List(
+            Some(1.543080634815244),
+            Some(1.543080634815244),
+            Some(3.7621956910836314),
+            None
+          ),
           _.cosh,
           f.cosh
         )
       }
 
-      it(s"degrees function ${classTag[T].getClass.getSimpleName}") {
+      it(s"degrees function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-57.29577951308232), Some(57.29577951308232), Some(114.59155902616465), None),
+          List(
+            Some(-57.29577951308232),
+            Some(57.29577951308232),
+            Some(114.59155902616465),
+            None
+          ),
           _.degrees,
           f.degrees
         )
       }
 
-      it(s"exp function ${classTag[T].getClass.getSimpleName}") {
+      it(s"exp function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(0.36787944117144233), Some(2.7182818284590455), Some(7.38905609893065), None),
+          List(
+            Some(0.36787944117144233),
+            Some(2.7182818284590455),
+            Some(7.38905609893065),
+            None
+          ),
           _.exp,
           f.exp
         )
       }
 
-      it(s"expm1 function ${classTag[T].getClass.getSimpleName}") {
+      it(s"expm1 function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.6321205588285577), Some(1.718281828459045), Some(6.38905609893065), None),
+          List(
+            Some(-0.6321205588285577),
+            Some(1.718281828459045),
+            Some(6.38905609893065),
+            None
+          ),
           _.expm1,
           f.expm1
         )
       }
 
-      it(s"factorial function ${classTag[T].getClass.getSimpleName}") {
+      it(s"factorial function $numTypeStr") {
         testDoricSpark[T, Long](
           List(Some(-1), Some(1), Some(10), None),
           List(None, Some(1L), Some(3628800L), None),
@@ -188,17 +246,30 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      // TODO
-//      it(s"hypot function ${classTag[T].getClass.getSimpleName}") {
-//        testDoricSpark[T, Int](
-//          List(Some(-1), Some(1), Some(2), None),
-//          List(None, Some(0), Some(1), None),
-//          _.hypot,
-//          f.hypot
-//        )
-//      }
+      it(s"hypot function $numTypeStr") {
+        testDoricSpark2[T, T, Double](
+          List(
+            (Some(-1), Some(1)),
+            (Some(1), Some(1)),
+            (Some(2), Some(1)),
+            (Some(2), None),
+            (None, Some(1)),
+            (None, None)
+          ),
+          List(
+            Some(1.4142135623730951),
+            Some(1.4142135623730951),
+            Some(2.23606797749979),
+            None,
+            None,
+            None
+          ),
+          _.hypot(_),
+          f.hypot
+        )
+      }
 
-      it(s"log function ${classTag[T].getClass.getSimpleName}") {
+      it(s"log function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.0), Some(0.6931471805599453), None),
@@ -207,7 +278,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"log10 function ${classTag[T].getClass.getSimpleName}") {
+      it(s"log10 function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.0), Some(0.3010299956639812), None),
@@ -216,7 +287,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"log1p function ${classTag[T].getClass.getSimpleName}") {
+      it(s"log1p function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.6931471805599453), Some(1.0986122886681096), None),
@@ -225,7 +296,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"log2 function ${classTag[T].getClass.getSimpleName}") {
+      it(s"log2 function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0), Some(1), None),
@@ -234,36 +305,53 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      // TODO
-//      it(s"log2 function ${classTag[T].getClass.getSimpleName}") {
-//        testDoricSpark[T, Double](
-//          List(Some(-1), Some(1), Some(2), None),
-//          List(None, Some(0), Some(1), None),
-//          _.log2,
-//          f.log2
-//        )
-//      }
+      it(s"pow function $numTypeStr") {
+        testDoricSpark2[T, T, Double](
+          List(
+            (Some(-1), Some(2)),
+            (Some(1), Some(5)),
+            (Some(2), Some(2)),
+            (Some(2), None),
+            (None, Some(2)),
+            (None, None)
+          ),
+          List(Some(1), Some(1), Some(4), None, None, None),
+          _.pow(_),
+          f.pow
+        )
+      }
 
-      // TODO
-//      it(s"pMod function ${classTag[T].getClass.getSimpleName}") {
-//        testDoricSpark[T, Double](
-//          List(Some(-1), Some(1), Some(2), None),
-//          List(None, Some(0), Some(1), None),
-//          _.pMod,
-//          f.pmod
-//        )
-//      }
+      it(s"pMod function $numTypeStr") {
+        testDoricSpark2[T, T, T](
+          List(
+            (Some(-10), Some(3)),
+            (Some(10), Some(3)),
+            (Some(2), Some(2)),
+            (Some(2), None),
+            (None, Some(2)),
+            (None, None)
+          ),
+          List(Some(2), Some(1), Some(0), None, None, None),
+          _.pMod(_),
+          f.pmod
+        )
+      }
 
-      it(s"radians function ${classTag[T].getClass.getSimpleName}") {
+      it(s"radians function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.017453292519943295), Some(0.017453292519943295), Some(0.03490658503988659), None),
+          List(
+            Some(-0.017453292519943295),
+            Some(0.017453292519943295),
+            Some(0.03490658503988659),
+            None
+          ),
           _.radians,
           f.radians
         )
       }
 
-      it(s"rint function ${classTag[T].getClass.getSimpleName}") {
+      it(s"rint function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.0), Some(1.0), Some(2.0), None),
@@ -272,7 +360,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"signum function ${classTag[T].getClass.getSimpleName}") {
+      it(s"signum function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(2), None),
           List(Some(-1.0), Some(1.0), None),
@@ -281,25 +369,35 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"sin function ${classTag[T].getClass.getSimpleName}") {
+      it(s"sin function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.8414709848078965), Some(0.8414709848078965), Some(0.9092974268256817), None),
+          List(
+            Some(-0.8414709848078965),
+            Some(0.8414709848078965),
+            Some(0.9092974268256817),
+            None
+          ),
           _.sin,
           f.sin
         )
       }
 
-      it(s"sinh function ${classTag[T].getClass.getSimpleName}") {
+      it(s"sinh function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-1.1752011936438014), Some(1.1752011936438014), Some(3.626860407847019), None),
+          List(
+            Some(-1.1752011936438014),
+            Some(1.1752011936438014),
+            Some(3.626860407847019),
+            None
+          ),
           _.sinh,
           f.sinh
         )
       }
 
-      it(s"sqrt function ${classTag[T].getClass.getSimpleName}") {
+      it(s"sqrt function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(1.0), Some(1.4142135623730951), None),
@@ -308,21 +406,194 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"tan function ${classTag[T].getClass.getSimpleName}") {
+      it(s"tan function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-1.5574077246549023), Some(1.5574077246549023), Some(-2.185039863261519), None),
+          List(
+            Some(-1.5574077246549023),
+            Some(1.5574077246549023),
+            Some(-2.185039863261519),
+            None
+          ),
           _.tan,
           f.tan
         )
       }
 
-      it(s"tanh function ${classTag[T].getClass.getSimpleName}") {
+      it(s"tanh function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.7615941559557649), Some(0.7615941559557649), Some(0.9640275800758169), None),
+          List(
+            Some(-0.7615941559557649),
+            Some(0.7615941559557649),
+            Some(0.9640275800758169),
+            None
+          ),
           _.tanh,
           f.tanh
+        )
+      }
+    }
+  }
+
+  def testIntegrals[T: IntegralType: SparkType: ClassTag: TypeTag]()(implicit
+      spark: SparkSession,
+      fun: Int => T
+  ): Unit = {
+    val numTypeStr = classTag[T].getClass.getSimpleName
+      .replaceAll("Manifest", "")
+
+    describe(s"Integral num $numTypeStr") {
+      it(s"sequence function $numTypeStr") {
+        val to = 5
+        testDoricSpark[T, Array[T]](
+          List(Some(-1), None),
+          List(Some(Array(-1, 0, 1, 2, 3, 4, 5)), None),
+          _.sequence(to.lit),
+          f.sequence(_, f.lit(to))
+        )
+      }
+
+      it(s"sequence function $numTypeStr") {
+        val to = 6
+        val step = 2
+        testDoricSpark[T, Array[T]](
+          List(Some(-1), None),
+          List(Some(Array(-1, 1, 3, 5)), None),
+          _.sequence(to.lit, step.lit),
+          f.sequence(_, f.lit(to), f.lit(step))
+        )
+      }
+
+      it(s"hex function $numTypeStr") {
+        testDoricSpark[T, String](
+          List(Some(0), Some(1), Some(10), None),
+          List(Some("0"), Some("1"), Some("A"), None),
+          _.hex,
+          f.hex
+        )
+      }
+
+      it(s"shiftLeft function $numTypeStr") {
+        val numBits = 2
+        testDoricSpark[T, T](
+          List(Some(0), Some(1), Some(10), None),
+          List(Some(0), Some(4), Some(40), None),
+          _.shiftLeft(numBits.lit),
+          f.shiftleft(_, numBits)
+        )
+      }
+
+      it(s"shiftRight function $numTypeStr") {
+        val numBits = 2
+        testDoricSpark[T, T](
+          List(Some(0), Some(1), Some(-10), None),
+          List(Some(0), Some(0), Some(-3), None),
+          _.shiftRight(numBits.lit),
+          f.shiftright(_, numBits)
+        )
+      }
+
+      it(s"shiftRightUnsigned function $numTypeStr") {
+        val numBits = 2
+        testDoricSpark[T, T](
+          List(Some(0), Some(1), Some(-10), None),
+          List(Some(0), Some(0), Some(1073741821), None),
+          _.shiftRightUnsigned(numBits.lit),
+          f.shiftrightunsigned(_, numBits)
+        )
+      }
+    }
+  }
+
+  def testDecimals[T: NumWithDecimalsType: SparkType: ClassTag: TypeTag]()(
+      implicit
+      spark: SparkSession,
+      fun: Int => T
+  ): Unit = {
+    val numTypeStr = classTag[T].getClass.getSimpleName
+      .replaceAll("Manifest", "")
+
+    def testDoricSparkDecimals[O: SparkType: ClassTag: TypeTag](
+        input: List[Option[Double]],
+        output: List[Option[O]],
+        doricFun: DoricColumn[T] => DoricColumn[O],
+        sparkFun: Column => Column
+    )(implicit
+        spark: SparkSession,
+        funT: Double => T
+    ): Unit = {
+      import spark.implicits._
+      val df = input.map(_.map(funT)).toDF("col1")
+
+      df.testColumns("col1")(
+        c => doricFun(col[T](c)),
+        c => sparkFun(f.col(c)),
+        output
+      )
+    }
+
+    describe(s"Num with Decimals $numTypeStr") {
+      it(s"atanh function $numTypeStr") {
+        testDoricSparkDecimals[Double](
+          List(Some(-0.2), Some(0.4), Some(0.0), None),
+          List(Some(1.0), Some(0.0), Some(0.0), None),
+          _.atanh,
+          f.atanh
+        )
+      }
+
+      it(s"bRound function $numTypeStr") {
+        testDoricSparkDecimals[Double](
+          List(Some(-0.2), Some(0.4), Some(0.0), None),
+          List(Some(1.0), Some(0.0), Some(0.0), None),
+          _.bRound,
+          f.bround
+        )
+      }
+
+      it(s"bRound function with param $numTypeStr") {
+        testDoricSparkDecimals[Double](
+          List(Some(-0.2), Some(0.4), Some(0.0), None),
+          List(Some(1.0), Some(0.0), Some(0.0), None),
+          _.bRound(2.lit),
+          f.bround(_, 2)
+        )
+      }
+
+      it(s"ceil function $numTypeStr") {
+        testDoricSparkDecimals[Long](
+          List(Some(-1.876458), Some(0.12354), Some(1.0), None),
+          List(Some(1L), Some(0L), Some(1L), None),
+          _.ceil,
+          f.ceil
+        )
+      }
+
+      it(s"floor function $numTypeStr") {
+        testDoricSparkDecimals[Long](
+          List(Some(-1.876458), Some(0.12354), Some(1.0), None),
+          List(Some(1L), Some(0L), Some(1L), None),
+          _.floor,
+          f.floor
+        )
+      }
+
+      it(s"round function $numTypeStr") {
+        testDoricSparkDecimals[T](
+          List(Some(-1), Some(0), Some(1), None),
+          List(Some(1.0), Some(0.0), Some(1.0), None),
+          _.round,
+          f.round
+        )
+      }
+
+      it(s"round function with param $numTypeStr") {
+        testDoricSparkDecimals[T](
+          List(Some(-1), Some(0), Some(1), None),
+          List(Some(1.0), Some(0.0), Some(1.0), None),
+          _.round(2.lit),
+          f.round(_, 2)
         )
       }
     }
@@ -342,8 +613,8 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
     s"col_${classTag[T].getClass.getSimpleName}_$pos"
 
   def testDoricSpark[
-      T: NumericType: SparkType: ClassTag: TypeTag,
-      O: NumericType: SparkType: ClassTag: TypeTag
+      T: SparkType: ClassTag: TypeTag,
+      O: SparkType: ClassTag: TypeTag
   ](
       input: List[Option[Int]],
       output: List[Option[O]],
@@ -359,6 +630,32 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
     df.testColumns("col1")(
       c => doricFun(col[T](c)),
       c => sparkFun(f.col(c)),
+      output
+    )
+  }
+
+  def testDoricSpark2[
+      T1: SparkType: ClassTag: TypeTag,
+      T2: SparkType: ClassTag: TypeTag,
+      O: SparkType: ClassTag: TypeTag
+  ](
+      input: List[(Option[Int], Option[Int])],
+      output: List[Option[O]],
+      doricFun: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O],
+      sparkFun: (Column, Column) => Column
+  )(implicit
+      spark: SparkSession,
+      funT1: Int => T1,
+      funT2: Int => T2
+  ): Unit = {
+    import spark.implicits._
+    val df = input
+      .map { case (x, y) => (x.map(funT1), y.map(funT2)) }
+      .toDF("col1", "col2")
+
+    df.testColumns2("col1", "col2")(
+      (c1, c2) => doricFun(col[T1](c1), col[T2](c2)),
+      (c1, c2) => sparkFun(f.col(c1), f.col(c2)),
       output
     )
   }
@@ -381,6 +678,12 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Float]()
   test[Long]()
   test[Double]()
+
+  testIntegrals[Int]()
+  testIntegrals[Long]()
+
+  testDecimals[Float]()
+  testDecimals[Double]()
 
   describe("isNan doric function") {
 
@@ -577,32 +880,6 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
             .collect()
         )
       }
-    }
-  }
-
-  describe("sequence doric function") {
-    import spark.implicits._
-
-    it("should work as spark sequence function") {
-      val df = List(Some(1), None)
-        .toDF("col1")
-
-      df.testColumns2("col1", 4)(
-        (c, d) => colInt(c).sequence(d.lit),
-        (c, d) => f.sequence(f.col(c), f.lit(d)),
-        List(Some(Array(1, 2, 3, 4)), None)
-      )
-    }
-
-    it("should work as spark sequence function with step argument") {
-      val df = List(Some(1), None)
-        .toDF("col1")
-
-      df.testColumns3("col1", 4, 2)(
-        (c, d, s) => colInt(c).sequence(d.lit, s.lit),
-        (c, d, s) => f.sequence(f.col(c), f.lit(d), f.lit(s)),
-        List(Some(Array(1, 3)), None)
-      )
     }
   }
 }
