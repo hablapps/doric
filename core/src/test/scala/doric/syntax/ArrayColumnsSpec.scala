@@ -70,7 +70,6 @@ class ArrayColumnsSpec extends DoricTestElements {
             .transform(_.getChild[Long]("_1") + colInt("something").cast)
         )
       }
-      errors.errors.toNonEmptyList.toList.foreach(println)
       errors should containAllErrors(
         SparkErrorWrapper(
           new Exception(
