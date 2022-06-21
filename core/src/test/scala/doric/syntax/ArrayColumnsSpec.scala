@@ -84,10 +84,12 @@ class ArrayColumnsSpec extends DoricTestElements {
       val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
         .toDF(testColumn, "something")
 
-      df3.select(
-        col[Array[Array[Row]]](testColumn)
-          .transform(_.transform(_.getChild[Int]("_1")))
-      )
+      noException shouldBe thrownBy {
+        df3.select(
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Int]("_1")))
+        )
+      }
 
       intercept[DoricMultiError] {
         df3.select(

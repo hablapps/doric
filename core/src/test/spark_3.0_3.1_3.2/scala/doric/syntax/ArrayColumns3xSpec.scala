@@ -18,9 +18,11 @@ class ArrayColumns3xSpec
       val df = List((Array("a", "b", "c", "d"), "b"))
         .toDF("col1", "col2")
 
-      df.select(colArrayString("col1").filterWIndex((x, i) => {
-        i === 0.lit or x === colString("col2")
-      }))
+      noException shouldBe thrownBy {
+        df.select(colArrayString("col1").filterWIndex((x, i) => {
+          i === 0.lit or x === colString("col2")
+        }))
+      }
 
       df.testColumns2("col1", "col2")(
         (c1, c2) =>
