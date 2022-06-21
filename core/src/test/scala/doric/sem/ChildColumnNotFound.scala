@@ -1,6 +1,4 @@
-package doric.syntax
-
-import doric.sem.SparkErrorWrapper
+package doric.sem
 
 object ChildColumnNotFound {
   def apply(expectedCol: String, foundCols: List[String]): SparkErrorWrapper = {

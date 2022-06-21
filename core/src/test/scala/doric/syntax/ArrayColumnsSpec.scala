@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 
 import org.apache.spark.sql.{Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
@@ -57,7 +57,6 @@ class ArrayColumnsSpec extends DoricTestElements {
 
       val df2 = List((List((1, "a"), (2, "b"), (3, "c")), 7))
         .toDF(testColumn, "something")
-
 
       val errors = intercept[DoricMultiError] {
         df2.select(
@@ -124,9 +123,7 @@ class ArrayColumnsSpec extends DoricTestElements {
       noException should be thrownBy {
         df4
           .select(
-            colTransform.zipWith[Row, Row]((a, b) => struct(a, b))(
-              colTransform2
-            )
+            colTransform.zipWith(colTransform2)((a, b) => struct(a, b))
           )
       }
     }

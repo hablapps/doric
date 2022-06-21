@@ -1,6 +1,8 @@
 package doric
 package syntax
 
+import scala.language.higherKinds
+
 import cats.data.Kleisli
 import cats.implicits._
 import doric.types.CollectionType
@@ -8,6 +10,27 @@ import doric.types.CollectionType
 import org.apache.spark.sql.{Column, Dataset, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
+
+protected final case class Zipper[T1, T2, F[_]: CollectionType](
+    col: DoricColumn[F[T1]],
+    col2: DoricColumn[F[T2]]
+) {
+  def apply[O](
+      f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
+  ): DoricColumn[F[O]] = {
+    val xv = x(col.getIndex(0))
+    val yv = y(col2.getIndex(0))
+    (
+      col.elem,
+      col2.elem,
+      f(xv, yv).elem,
+      xv.elem,
+      yv.elem
+    ).mapN { (a, b, f, x, y) =>
+      new Column(ZipWith(a.expr, b.expr, lam2(f.expr, x.expr, y.expr)))
+    }.toDC
+  }
+}
 
 private[syntax] trait ArrayColumns {
 
@@ -542,22 +565,10 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.zip_with]]
       */
-    def zipWith[T2, O](
-        function: (DoricColumn[T], DoricColumn[T2]) => DoricColumn[O]
-    )(
-        col2: ArrayColumn[T2]
-    ): ArrayColumn[O] = {
-      val xv = x(col.getIndex(0))
-      val yv = y(col2.getIndex(0))
-      (
-        col.elem,
-        col2.elem,
-        function(xv, yv).elem,
-        xv.elem,
-        yv.elem
-      ).mapN { (a, b, f, x, y) =>
-        new Column(ZipWith(a.expr, b.expr, lam2(f.expr, x.expr, y.expr)))
-      }.toDC
+    def zipWith[T2](
+        col2: DoricColumn[F[T2]]
+    ): Zipper[T, T2, F] = {
+      Zipper(col, col2)
     }
   }
 

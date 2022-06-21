@@ -2,7 +2,7 @@ package doric
 package syntax
 
 import doric.implicitConversions._
-import doric.sem.{ColumnTypeError, DoricMultiError}
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 
 import org.apache.spark.sql.{Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, StringType}

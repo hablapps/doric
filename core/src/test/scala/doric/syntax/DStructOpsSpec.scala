@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnTypeError, DoricMultiError}
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 import doric.types.SparkType
 
 import org.apache.spark.sql.Row
