@@ -595,8 +595,6 @@ class AggregationColumnsSpec
   describe("variance & varSamp doric functions") {
     import spark.implicits._
 
-    they("") {}
-
     it("should work as variance spark function") {
       val df = List(
         ("k1", 1.0, 2.0),
