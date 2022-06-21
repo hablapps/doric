@@ -104,11 +104,10 @@ object DoricColumn extends ColGetters[NamedDoricColumn] {
     }
   }
 
-  private[doric] def uncheckedType(column: Column): DoricColumn[_] = {
+  private[doric] def uncheckedType(column: String): DoricColumn[_] = {
     Kleisli[DoricValidated, Dataset[_], Column](df => {
       try {
-        df.select(column)
-        Validated.valid(column)
+        Validated.valid(df(column))
       } catch {
         case e: Throwable => SparkErrorWrapper(e).invalidNec
       }

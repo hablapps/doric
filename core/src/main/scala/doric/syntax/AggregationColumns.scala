@@ -123,7 +123,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.approx_count_distinct(columnName:String,rsd:* org.apache.spark.sql.functions.approx_count_distinct]]
     */
   def aproxCountDistinct(colName: String, rsd: Double): LongColumn =
-    aproxCountDistinct(DoricColumn.uncheckedType(f.col(colName)), rsd)
+    aproxCountDistinct(DoricColumn.uncheckedType(colName), rsd)
 
   /**
     * Aggregate function: returns the approximate number of distinct items in a group.
@@ -132,7 +132,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.approx_count_distinct(columnName:String)* org.apache.spark.sql.functions.approx_count_distinct]]
     */
   def aproxCountDistinct(colName: String): LongColumn =
-    aproxCountDistinct(DoricColumn.uncheckedType(f.col(colName)))
+    aproxCountDistinct(DoricColumn.uncheckedType(colName))
 
   /**
     * Aggregate function: returns the average of the values in a group.

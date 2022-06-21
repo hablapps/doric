@@ -7,7 +7,7 @@ import org.apache.spark.sql.SparkSession
 
 trait SparkSessionTestWrapper {
 
-  lazy val spark: SparkSession = {
+  lazy implicit val spark: SparkSession = {
     Logger.getLogger("org").setLevel(Level.OFF)
 
     val timeZone: String = "UTC"

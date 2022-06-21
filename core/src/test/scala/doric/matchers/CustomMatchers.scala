@@ -21,9 +21,11 @@ trait CustomMatchers {
     val errors         = err.uniqueErrors.toSortedSet
     val expectedErrors = exp.toSet
 
-    val found          = errors.intersect(expectedErrors)
-    val notFound       = expectedErrors.diff(found)
-    val notExpButFound = errors.diff(found)
+    val found = errors.intersect(expectedErrors)
+    val allFound =
+      found.size == errors.size && found.size == expectedErrors.size
+    val notFound = if (allFound) Set.empty[DSE] else expectedErrors.diff(found)
+    val notExpButFound = if (allFound) Set.empty[DSE] else errors.diff(found)
 
     (errors, expectedErrors, found, notFound, notExpButFound)
   }
