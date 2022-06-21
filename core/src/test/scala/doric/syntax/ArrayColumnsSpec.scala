@@ -1,9 +1,10 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
-import org.apache.spark.sql.types.{IntegerType, StringType}
-import org.apache.spark.sql.{functions => f}
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+
+import org.apache.spark.sql.{Row, functions => f}
+import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
 
 class ArrayColumnsSpec extends DoricTestElements {
 
@@ -52,6 +53,100 @@ class ArrayColumnsSpec extends DoricTestElements {
           )
         ),
         ColumnTypeError("something", StringType, IntegerType)
+      )
+
+      val df2 = List((List((1, "a"), (2, "b"), (3, "c")), 7))
+        .toDF(testColumn, "something")
+
+      val errors = intercept[DoricMultiError] {
+        df2.select(
+          colArray[Row](testColumn)
+            .transform(_.getChild[Int]("_3") + colInt("something2")),
+          colArray[Row](testColumn)
+            .transform(_.getChild[Long]("_1") + colInt("something").cast)
+        )
+      }
+      errors should containAllErrors(
+        SparkErrorWrapper(
+          new Exception(
+            "Cannot resolve column name \"something2\" among (col, something)"
+          )
+        ),
+        ColumnTypeError("_1", LongType, IntegerType),
+        ChildColumnNotFound("_3", List("_1", "_2"))
+      )
+    }
+
+    it(
+      "should detect errors in complex transformations involving collections and structs"
+    ) {
+
+      val df3 = List((List(List((1, "a"), (2, "b"), (3, "c"))), 7))
+        .toDF(testColumn, "something")
+
+      noException shouldBe thrownBy {
+        df3.select(
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Int]("_1")))
+        )
+      }
+
+      intercept[DoricMultiError] {
+        df3.select(
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Int]("_3"))),
+          col[Array[Array[Row]]](testColumn)
+            .transform(_.transform(_.getChild[Long]("_1")))
+        )
+      } should containAllErrors(
+        ChildColumnNotFound("_3", List("_1", "_2")),
+        ColumnTypeError("_1", LongType, IntegerType)
+      )
+    }
+
+    it(
+      "should work in even more complex transformations involving collections and structs"
+    ) {
+
+      val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
+      val df4 = List((value, 7))
+        .toDF(testColumn, "something")
+
+      val colTransform = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1").transform(_.getChild[Int]("_1"))
+        )
+        .flatten as "l"
+      val colTransform2 = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1")
+        )
+        .flatten as "l"
+      noException should be thrownBy {
+        df4
+          .select(
+            colTransform.zipWith(colTransform2)((a, b) => struct(a, b))
+          )
+      }
+    }
+
+    it(
+      "should detect errors in even more complex transformations involving collections and structs"
+    ) {
+      val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
+      val df4 = List((value, 7))
+        .toDF(testColumn, "something")
+
+      val colTransform = col[Array[Row]](testColumn)
+        .transform(
+          _.getChild[Array[Row]]("_1").transform(_.getChild[Int]("_2"))
+        )
+        .flatten as "l"
+
+      intercept[DoricMultiError] {
+        df4.select(colTransform)
+      } should containAllErrors(
+        ColumnTypeError("_2", IntegerType, StringType)
       )
     }
 

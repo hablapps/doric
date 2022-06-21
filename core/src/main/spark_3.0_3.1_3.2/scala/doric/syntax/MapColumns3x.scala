@@ -30,8 +30,15 @@ trait MapColumns3x {
     def filter(
         function: (DoricColumn[K], DoricColumn[V]) => BooleanColumn
     ): MapColumn[K, V] = {
-      (map.elem, function(x, y).elem).mapN { (a, f) =>
-        new Column(MapFilter(a.expr, lam2(f.expr)))
+      val xv: DoricColumn[K] = x(map.keys.getIndex(0))
+      val yv: DoricColumn[V] = y(map.values.getIndex(0))
+      (
+        map.elem,
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(MapFilter(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
 
@@ -53,8 +60,20 @@ trait MapColumns3x {
             DoricColumn[V2]
         ) => DoricColumn[R]
     ): MapColumn[K, R] = {
-      (map.elem, map2.elem, function(x, y, z).elem).mapN { (a, b, f) =>
-        new Column(MapZipWith(a.expr, b.expr, lam3(f.expr)))
+      val xv: DoricColumn[K]  = x(map.keys.getIndex(0))
+      val yv: DoricColumn[V]  = y(map.values.getIndex(0))
+      val zv: DoricColumn[V2] = z(map2.values.getIndex(0))
+      (
+        map.elem,
+        map2.elem,
+        function(xv, yv, zv).elem,
+        xv.elem,
+        yv.elem,
+        zv.elem
+      ).mapN { (a, b, f, x, y, z) =>
+        new Column(
+          MapZipWith(a.expr, b.expr, lam3(f.expr, x.expr, y.expr, z.expr))
+        )
       }.toDC
     }
 
@@ -72,8 +91,15 @@ trait MapColumns3x {
     def transformKeys[K2](
         function: (DoricColumn[K], DoricColumn[V]) => DoricColumn[K2]
     ): MapColumn[K2, V] = {
-      (map.elem, function(x, y).elem).mapN { (a, f) =>
-        new Column(TransformKeys(a.expr, lam2(f.expr)))
+      val xv: DoricColumn[K] = x(map.keys.getIndex(0))
+      val yv: DoricColumn[V] = y(map.values.getIndex(0))
+      (
+        map.elem,
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(TransformKeys(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
 
@@ -91,8 +117,15 @@ trait MapColumns3x {
     def transformValues[V2](
         function: (DoricColumn[K], DoricColumn[V]) => DoricColumn[V2]
     ): MapColumn[K, V2] = {
-      (map.elem, function(x, y).elem).mapN { (a, f) =>
-        new Column(TransformValues(a.expr, lam2(f.expr)))
+      val xv: DoricColumn[K] = x(map.keys.getIndex(0))
+      val yv: DoricColumn[V] = y(map.values.getIndex(0))
+      (
+        map.elem,
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(TransformValues(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
 

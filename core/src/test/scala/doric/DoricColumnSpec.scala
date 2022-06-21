@@ -3,7 +3,6 @@ package doric
 import doric.sem.{DoricMultiError, SparkErrorWrapper}
 import doric.syntax.User
 import doric.types.SparkType
-
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 
@@ -95,19 +94,6 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
 
   describe("DoricColumn") {
     val df = Seq("val1", "val2").toDF("myColumn")
-
-    it("should create a column using uncheckedTypeAndExistence") {
-      val unchecked = DoricColumn.uncheckedTypeAndExistence(f.col("myColumn"))
-
-      unchecked.elem.run(df).toEither shouldBe Right(f.col("myColumn"))
-    }
-
-    it("should not fail creating a column using uncheckedTypeAndExistence") {
-      val unchecked =
-        DoricColumn.uncheckedTypeAndExistence(f.col("nonExistentCol"))
-
-      unchecked.elem.run(df).toEither shouldBe Right(f.col("nonExistentCol"))
-    }
 
     it("should create an uncheckedType") {
       val dCol: DoricColumn[_] = DoricColumn.uncheckedType(f.col("myColumn"))

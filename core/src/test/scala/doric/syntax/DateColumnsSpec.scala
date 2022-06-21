@@ -40,6 +40,12 @@ class DateColumnsSpec
         f.current_date(),
         List(Date.valueOf(LocalDate.now)).map(Option(_))
       )
+
+      df.testColumn(
+        currentDateT[LocalDate](),
+        f.current_date(),
+        List(LocalDate.now).map(Option(_))
+      )
     }
   }
 

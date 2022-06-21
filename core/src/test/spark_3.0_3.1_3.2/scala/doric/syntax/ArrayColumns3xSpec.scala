@@ -18,6 +18,12 @@ class ArrayColumns3xSpec
       val df = List((Array("a", "b", "c", "d"), "b"))
         .toDF("col1", "col2")
 
+      noException shouldBe thrownBy {
+        df.select(colArrayString("col1").filterWIndex((x, i) => {
+          i === 0.lit or x === colString("col2")
+        }))
+      }
+
       df.testColumns2("col1", "col2")(
         (c1, c2) =>
           colArrayString(c1).filterWIndex((x, i) => {
@@ -77,7 +83,10 @@ class ArrayColumns3xSpec
       ).toDF("col1", "col2")
 
       df.testColumns2("col1", "col2")(
-        (c1, c2) => colArrayString(c1).zipWith(col(c2), concat(_, _)),
+        (
+            c1,
+            c2
+        ) => colArrayString(c1).zipWith(colArrayString(c2))(concat(_, _)),
         (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
         List(Some(Array("ab", "ba", "ce", null)), None, None, None)
       )

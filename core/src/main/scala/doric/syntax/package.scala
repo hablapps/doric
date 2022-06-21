@@ -1,8 +1,10 @@
 package doric
 
 import cats.implicits._
+import java.util.concurrent.atomic.AtomicReference
+
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{ElementAt, Expression, LambdaFunction, UnresolvedNamedLambdaVariable}
+import org.apache.spark.sql.catalyst.expressions.{ElementAt, Expression, ExprId, LambdaFunction, NamedExpression, NamedLambdaVariable}
 
 package object syntax {
 
@@ -42,21 +44,63 @@ package object syntax {
   ): DoricColumn[T] =
     dc.elem.map(f.reverse).toDC
 
-  @inline private[syntax] def x[A]: DoricColumn[A] =
-    DoricColumn.uncheckedTypeAndExistence[A](new Column(xarg))
-  @inline private[syntax] def y[A]: DoricColumn[A] =
-    DoricColumn.uncheckedTypeAndExistence[A](new Column(yarg))
-  @inline private[syntax] def z[A]: DoricColumn[A] =
-    DoricColumn.uncheckedTypeAndExistence[A](new Column(zarg))
+  @inline private[syntax] def value[A](
+      name: String,
+      dc: DoricColumn[A]
+  ): DoricColumn[A] = {
+    val exprId: ExprId              = NamedExpression.newExprId
+    val value: AtomicReference[Any] = new AtomicReference()
+    dc.elem
+      .map(c =>
+        new Column(
+          NamedLambdaVariable(
+            name,
+            c.expr.dataType,
+            c.expr.nullable,
+            exprId,
+            value
+          )
+        )
+      )
+      .toDC
+  }
 
-  @inline private[syntax] def lam1(e: Expression): LambdaFunction =
-    LambdaFunction(e, Seq(xarg))
-  @inline private[syntax] def lam2(e: Expression): LambdaFunction =
-    LambdaFunction(e, Seq(xarg, yarg))
-  @inline private[syntax] def lam3(e: Expression): LambdaFunction =
-    LambdaFunction(e, Seq(xarg, yarg, zarg))
+  @inline private[syntax] def x[A](dc: DoricColumn[A]): DoricColumn[A] =
+    value("x", dc)
+  @inline private[syntax] def y[A](dc: DoricColumn[A]): DoricColumn[A] =
+    value("y", dc)
+  @inline private[syntax] def z[A](dc: DoricColumn[A]): DoricColumn[A] =
+    value("z", dc)
 
-  private val xarg = UnresolvedNamedLambdaVariable(Seq("x"))
-  private val yarg = UnresolvedNamedLambdaVariable(Seq("y"))
-  private val zarg = UnresolvedNamedLambdaVariable(Seq("z"))
+  @inline private[syntax] def lam1(
+      e: Expression,
+      xarg: Expression
+  ): LambdaFunction =
+    LambdaFunction(e, Seq(xarg.asInstanceOf[NamedLambdaVariable]))
+  @inline private[syntax] def lam2(
+      e: Expression,
+      xarg: Expression,
+      yarg: Expression
+  ): LambdaFunction =
+    LambdaFunction(
+      e,
+      Seq(
+        xarg.asInstanceOf[NamedLambdaVariable],
+        yarg.asInstanceOf[NamedLambdaVariable]
+      )
+    )
+  @inline private[syntax] def lam3(
+      e: Expression,
+      xarg: Expression,
+      yarg: Expression,
+      zarg: Expression
+  ): LambdaFunction =
+    LambdaFunction(
+      e,
+      Seq(
+        xarg.asInstanceOf[NamedLambdaVariable],
+        yarg.asInstanceOf[NamedLambdaVariable],
+        zarg.asInstanceOf[NamedLambdaVariable]
+      )
+    )
 }

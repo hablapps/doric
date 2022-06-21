@@ -1,13 +1,10 @@
 package doric
 package syntax
 
-import cats.data.NonEmptyChain
-import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
-import doric.types.SparkType
-import org.apache.spark.sql.Row
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
+
+import org.apache.spark.sql.Row
 
 class DynamicSpec extends DoricTestElements with EitherValues with Matchers {
 

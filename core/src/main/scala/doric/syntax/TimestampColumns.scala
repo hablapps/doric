@@ -2,8 +2,7 @@ package doric
 package syntax
 
 import cats.implicits._
-import doric.types.TimestampType
-import java.sql.Timestamp
+import doric.types.{SparkType, TimestampType}
 
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{FromUTCTimestamp, ToUTCTimestamp}
@@ -18,7 +17,17 @@ private[syntax] trait TimestampColumns {
     * @see [[org.apache.spark.sql.functions.current_timestamp]]
     */
   def currentTimestamp(): TimestampColumn =
-    f.current_timestamp().asDoric[Timestamp]
+    currentTimestampT()
+
+  /**
+    * Returns the current timestamp at the start of query evaluation as a timestamp column.
+    * All calls of current_timestamp within the same query return the same value.
+    *
+    * @group Timestamp Type
+    * @see [[org.apache.spark.sql.functions.current_timestamp]]
+    */
+  def currentTimestampT[T: TimestampType: SparkType](): DoricColumn[T] =
+    f.current_timestamp().asDoric[T]
 
   implicit class TimestampColumnLikeSyntax[T: TimestampType](
       column: DoricColumn[T]

@@ -2,8 +2,10 @@ package doric
 package syntax
 
 import doric.implicitConversions._
+import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 
-import org.apache.spark.sql.{functions => f}
+import org.apache.spark.sql.{Row, functions => f}
+import org.apache.spark.sql.types.{IntegerType, StringType}
 
 class MapColumns3xSpec extends DoricTestElements with MapColumns {
 
@@ -100,6 +102,22 @@ class MapColumns3xSpec extends DoricTestElements with MapColumns {
           Map.empty[String, String],
           null
         ).map(Option(_))
+      )
+
+      intercept[DoricMultiError] {
+        List(
+          Map("k1" -> ("v1", 1), "k2" -> ("v2", 2)),
+          Map.empty[String, (String, Int)],
+          null
+        ).toDF("col1")
+          .select(
+            col[Map[String, Row]]("col1").transformValues((a, b) =>
+              a + b.getChild("_3") + b.getChild[Int]("_1").cast
+            )
+          )
+      } should containAllErrors(
+        ChildColumnNotFound("_3", List("_1", "_2")),
+        ColumnTypeError("_1", IntegerType, StringType)
       )
     }
   }

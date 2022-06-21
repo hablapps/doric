@@ -7,7 +7,7 @@ import doric.types.{DateType, SparkType}
 
 import java.sql.Date
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{AddMonths, DateAdd, DateFormatClass, DateSub, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
+import org.apache.spark.sql.catalyst.expressions.{AddMonths, CurrentDate, DateAdd, DateFormatClass, DateSub, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
 
 private[syntax] trait DateColumns {
 
@@ -18,7 +18,21 @@ private[syntax] trait DateColumns {
     * @group Date Type
     * @see [[org.apache.spark.sql.functions.current_date]]
     */
-  def currentDate(): DateColumn = f.current_date().asDoric[Date]
+  def currentDate(): DateColumn = currentDateT[Date]()
+
+  /**
+    * Returns the current date at the start of query evaluation as a date column typed with the provided T.
+    * All calls of current_date within the same query return the same value.
+    *
+    * @group Date Type
+    * @see [[org.apache.spark.sql.functions.current_date]]
+    */
+  def currentDateT[T: DateType: SparkType](): DoricColumn[T] =
+    DoricColumn({ df =>
+      new Column(
+        CurrentDate(df.sparkSession.sessionState.conf.sessionLocalTimeZone.some)
+      )
+    })
 
   implicit class DateColumnLikeSyntax[T: DateType: SparkType](
       column: DoricColumn[T]

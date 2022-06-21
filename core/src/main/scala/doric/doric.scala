@@ -1,6 +1,7 @@
 import cats.data.{EitherNec, Kleisli, ValidatedNec}
 import cats.implicits._
 import cats.Parallel
+import cats.arrow.FunctionK
 import doric.sem.DoricSingleError
 import java.sql.{Date, Timestamp}
 import java.time.{Instant, LocalDate}
@@ -31,7 +32,16 @@ package object doric extends syntax.All with sem.All {
       Doric(org.apache.spark.sql.functions.col(colName.value))
   }
 
-  private type DoricEither[A]   = EitherNec[DoricSingleError, A]
+  private[doric] type DoricEither[A] = EitherNec[DoricSingleError, A]
+
+  private[doric] val toValidated = new FunctionK[DoricEither, DoricValidated] {
+    override def apply[A](fa: DoricEither[A]): DoricValidated[A] =
+      fa.toValidated
+  }
+  private[doric] val toEither = new FunctionK[DoricValidated, DoricEither] {
+    override def apply[A](fa: DoricValidated[A]): DoricEither[A] = fa.toEither
+  }
+
   private type SequenceDoric[F] = Kleisli[DoricEither, Dataset[_], F]
 
   implicit private[doric] class SeqPar[A](a: Doric[A])(implicit

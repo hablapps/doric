@@ -3,6 +3,7 @@ package syntax
 
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 import doric.types.SparkType
+
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{IntegerType, StringType}
 
@@ -47,7 +48,7 @@ class DStructOpsSpec extends DoricTestElements {
           colStruct("col").getChild[String]("age")
         )
       } should containAllErrors(
-        ColumnTypeError("col.age", StringType, IntegerType)
+        ColumnTypeError("age", StringType, IntegerType)
       )
     }
 
@@ -61,7 +62,7 @@ class DStructOpsSpec extends DoricTestElements {
             colInt("delete").asInstanceOf[RowColumn].getChild[Int]("name")
           )
       } should containAllErrors(
-        ColumnTypeError("delete", SparkType[Row].dataType, IntegerType)
+        ColumnTypeError("", SparkType[Row].dataType, IntegerType)
       )
     }
   }
