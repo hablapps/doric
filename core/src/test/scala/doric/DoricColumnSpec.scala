@@ -6,7 +6,7 @@ import doric.types.SparkType
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 
-import org.apache.spark.sql.{Encoder, Row, functions => f}
+import org.apache.spark.sql.{Encoder, Row}
 
 class DoricColumnSpec extends DoricTestElements with EitherValues {
 
@@ -98,7 +98,7 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
     it("should create an uncheckedType") {
       val dCol: DoricColumn[_] = DoricColumn.uncheckedType("myColumn")
 
-      dCol.elem.run(df).toEither shouldBe Right(f.col("myColumn"))
+      dCol.elem.run(df).toEither shouldBe Right(df("myColumn"))
     }
 
     it("should fail creating an uncheckedType if not valid") {
