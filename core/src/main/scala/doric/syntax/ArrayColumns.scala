@@ -569,6 +569,7 @@ private[syntax] trait ArrayColumns {
     /**
       * Creates a single collection from an collection of collections.
       * @group Array Type
+      * @see [[org.apache.spark.sql.functions.flatten]]
       */
     def flatten: DoricColumn[F[T]] =
       col.elem.map(f.flatten).toDC
