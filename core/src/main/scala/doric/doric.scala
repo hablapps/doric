@@ -27,9 +27,6 @@ package object doric extends syntax.All with sem.All {
       Kleisli[DoricValidated, Dataset[_], T] { _ =>
         a.valid
       }
-
-    private[doric] def unchecked(colName: CName): Doric[Column] =
-      Doric(org.apache.spark.sql.functions.col(colName.value))
   }
 
   private[doric] type DoricEither[A] = EitherNec[DoricSingleError, A]

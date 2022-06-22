@@ -36,7 +36,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.count(columnName:* org.apache.spark.sql.functions.count]]
     */
   def count(colName: CName): LongColumn =
-    Doric.unchecked(colName).map(f.count).toDC
+    DoricColumn.uncheckedType(colName.value).elem.map(f.count).toDC
 
   /**
     * Aggregate function: returns the first value in a group.
@@ -196,8 +196,8 @@ private[syntax] trait AggregationColumns {
     */
   def countDistinct(columnName: CName, columnNames: CName*): LongColumn =
     countDistinct(
-      Doric.unchecked(columnName).toDC,
-      columnNames.map(Doric.unchecked(_).toDC): _*
+      DoricColumn.uncheckedType(columnName.value),
+      columnNames.map(x => DoricColumn.uncheckedType(x.value)): _*
     )
 
   /**
@@ -350,7 +350,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.grouping(columnName:* org.apache.spark.sql.functions.grouping]]
     */
   def grouping(columnName: CName): ByteColumn =
-    Doric.unchecked(columnName).map(f.grouping).toDC
+    DoricColumn.uncheckedType(columnName.value).elem.map(f.grouping).toDC
 
   /**
     * Aggregate function: returns the level of grouping, equals to
