@@ -19,6 +19,10 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   private lazy val doricCol = "dcol"
   private lazy val sparkCol = "scol"
 
+  def deserializeSparkType[T: TypeTag: SparkType: Equality](data: T)(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark.createDataFrame(Seq((data,0)))
+      .collectCols[T](col[T]("_1")).head should ===(data)
+
   def testDataTypeForLiterals[T: TypeTag: LiteralSparkType: SparkType](value: T)(implicit spark: SparkSession, pos: source.Position): Unit =
     spark.emptyDataFrame
       .select(value.lit)

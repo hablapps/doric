@@ -1,24 +1,20 @@
 package doric
 package types
 
-import scala.annotation.implicitNotFound
-import scala.reflect.ClassTag
-import scala.reflect.runtime.universe.TypeTag
-import shapeless._
-import shapeless.labelled._
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
-import org.apache.spark.sql.catalyst.ScalaReflection
-import org.apache.spark.sql.catalyst.ScalaReflection.{Schema, isSubtype, localTypeOf}
-
-import java.sql.{Date, Timestamp}
-import java.time.{Instant, LocalDate, LocalDateTime}
-import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.unsafe.types.CalendarInterval
+import shapeless._
+import shapeless.labelled._
 
-import scala.collection.generic.{CanBuildFrom, IsSeqLike}
+import scala.annotation.implicitNotFound
+import scala.collection.generic.CanBuildFrom
+import scala.collection.mutable
+import scala.reflect.{ClassTag, classTag}
+import scala.reflect.runtime.universe.TypeTag
 
 /**
   * Typeclass to relate a type T with it's spark DataType
@@ -106,7 +102,7 @@ sealed trait SparkType[T] {
   }
 }
 
-object SparkType extends SparkTypeLPI {
+object SparkType extends SparkTypeLPI{
 
   type Primitive[T] = SparkType[T] {
     type OriginalSparkType = T
@@ -117,26 +113,32 @@ object SparkType extends SparkTypeLPI {
   }
 
   @inline def apply[T](implicit
-      st: SparkType[T]
-  ): Custom[T, st.OriginalSparkType] = st
+                       st: SparkType[T]
+                      ): Custom[T, st.OriginalSparkType] = st
 
-  @inline private def apply[A](dt: DataType, _nullable: Boolean = true): Primitive[A] =
+  @inline protected[doric] def apply[A: ClassTag](dt: DataType, _nullable: Boolean = true): Primitive[A] =
     new SparkType[A] {
 
       /**
-        * The spark DataType
-        *
-        * @return
-        * the spark DataType
-        */
+       * The spark DataType
+       *
+       * @return
+       * the spark DataType
+       */
       override def dataType: DataType = dt
+
       override val nullable: Boolean = _nullable
 
       override type OriginalSparkType = A
 
       override val transform: OriginalSparkType => A = identity
-      override val rowFieldTransform: Any => A       = _.asInstanceOf[A]
+      override val rowFieldTransform: Any => A = _.asInstanceOf[A]
     }
+
+}
+
+trait SparkTypeLPI extends SparkTypeLPI_II{
+  self: SparkType.type =>
 
   implicit val fromNull: Primitive[Null] = SparkType[Null](NullType)
 
@@ -154,11 +156,15 @@ object SparkType extends SparkTypeLPI {
   implicit val fromJavaShort: Primitive[java.lang.Short] = SparkType[java.lang.Short](ShortType)
   implicit val fromJavaByte: Primitive[java.lang.Byte] = SparkType[java.lang.Byte](ByteType)
 
-  implicit val fromBigDecimal: Primitive[BigDecimal] = SparkType[BigDecimal](DecimalType.SYSTEM_DEFAULT)
   implicit val fromJavaBigDecimal: Primitive[java.math.BigDecimal] = SparkType[java.math.BigDecimal](DecimalType.SYSTEM_DEFAULT)
-  implicit val fromJavaBigInteger: Primitive[java.math.BigInteger] = SparkType[java.math.BigInteger](DecimalType(38, 0))
-  implicit val fromBigInt: Primitive[scala.math.BigInt] = SparkType[scala.math.BigInt](DecimalType(38,0))
-  implicit val fromDecimal: Primitive[Decimal] = SparkType[Decimal](DecimalType.SYSTEM_DEFAULT)
+  implicit val fromBigDecimal: Custom[BigDecimal, java.math.BigDecimal] =
+    fromJavaBigDecimal.customType[BigDecimal](BigDecimal.apply)
+  implicit val fromJavaBigInteger: Custom[java.math.BigInteger, java.math.BigDecimal] =
+    SparkType[java.math.BigDecimal](DecimalType(38, 0)).customType[java.math.BigInteger](_.toBigInteger)
+  implicit val fromBigInt: Custom[scala.math.BigInt, java.math.BigDecimal] =
+    fromJavaBigInteger.customType[scala.math.BigInt](scala.math.BigInt.apply)
+  implicit val fromDecimal: Custom[Decimal, java.math.BigDecimal] =
+    fromJavaBigDecimal.customType[Decimal](Decimal.fromDecimal)
 
   implicit val fromBoolean: Primitive[Boolean] = SparkType[Boolean](BooleanType, false)
   implicit val fromJavaBoolean: Primitive[java.lang.Boolean] = SparkType[java.lang.Boolean](BooleanType)
@@ -180,6 +186,9 @@ object SparkType extends SparkTypeLPI {
 
   implicit val fromDuration: Primitive[java.time.Duration] = SparkType[java.time.Duration](DayTimeIntervalType())
   implicit val fromPeriod: Primitive[java.time.Period] = SparkType[java.time.Period](YearMonthIntervalType())
+}
+
+trait SparkTypeLPI_II extends SparkTypeLPI_III { self: SparkType.type =>
 
   implicit def fromMap[K: SparkType, V: SparkType](implicit
       stk: SparkType[K],
@@ -187,7 +196,7 @@ object SparkType extends SparkTypeLPI {
   ): Custom[Map[K, V], Map[stk.OriginalSparkType, stv.OriginalSparkType]] =
     new SparkType[Map[K, V]] {
       override def dataType: DataType =
-        MapType(stk.dataType, stv.dataType)
+        MapType(stk.dataType, stv.dataType, stv.nullable)
 
       override val nullable: Boolean = true
 
@@ -214,16 +223,13 @@ object SparkType extends SparkTypeLPI {
 
   implicit def fromArray[A: ClassTag, O: ClassTag](implicit
       st: SparkType[A] { type OriginalSparkType = O }
-  ): Custom[Array[A], Array[O]] =
+  ): Custom[Array[A], DoricArray.Collection[O]] =
     new SparkType[Array[A]] {
-      override def dataType: DataType = ArrayType(
-        st.dataType,
-        false
-      )
+      override def dataType: DataType = ArrayType(st.dataType, st.nullable)
 
       override val nullable: Boolean = true
 
-      override type OriginalSparkType = Array[st.OriginalSparkType]
+      override type OriginalSparkType = DoricArray.Collection[O]
 
       override def isEqual(column: DataType): Boolean = column match {
         case ArrayType(left, _) => st.isEqual(left)
@@ -235,9 +241,8 @@ object SparkType extends SparkTypeLPI {
           .map(st.transform)
           .toArray
 
-      override val rowFieldTransform: Any => Array[O] =
-        _.asInstanceOf[DoricArray.Collection[O]].toArray
-
+      override val rowFieldTransform: Any => OriginalSparkType =
+        _.asInstanceOf[DoricArray.Collection[O]]
     }
 
 
@@ -245,14 +250,14 @@ object SparkType extends SparkTypeLPI {
                                                                  st: SparkType[A]{ type OriginalSparkType = O },
                                                                  cbf: CanBuildFrom[_, A, C[A]]
                                                                 ): SparkType[C[A]] {
-    type OriginalSparkType = Array[st.OriginalSparkType]
+    type OriginalSparkType = mutable.WrappedArray[st.OriginalSparkType]
   } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
 
   implicit def fromSet[A: ClassTag, O: ClassTag, C[X] <: Set[X]](implicit
                                                                  st: SparkType[A]{ type OriginalSparkType = O },
                                                                  cbf: CanBuildFrom[_, A, C[A]]
                                                                 ): SparkType[C[A]] {
-    type OriginalSparkType = Array[st.OriginalSparkType]
+    type OriginalSparkType = mutable.WrappedArray[st.OriginalSparkType]
   } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
 
   implicit def fromOption[A](implicit
@@ -297,7 +302,7 @@ object SparkType extends SparkTypeLPI {
 
 }
 
-trait SparkTypeLPI { self: SparkType.type =>
+trait SparkTypeLPI_III { self: SparkType.type =>
 
   implicit val fromHNil: Custom[HNil, Row] = new SparkType[HNil] {
     override type OriginalSparkType = Row

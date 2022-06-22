@@ -1,24 +1,11 @@
 package doric
 package types
 
-import doric.types.SparkType.Primitive
-import doric.types.customTypes.User
-import doric.types.customTypes.User.{userlst, userst}
-import org.apache.spark.sql.{Encoder, Row, SparkSession}
-import org.apache.spark.sql.catalyst.{CatalystTypeConverters, ScalaReflection}
-import org.apache.spark.sql.{functions => f}
-import org.apache.spark.sql.catalyst.ScalaReflection.schemaFor
-import org.apache.spark.sql.catalyst.expressions.Literal
-import org.apache.spark.sql.types.{DataType, Decimal, DecimalType, StructType}
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.Decimal
 import org.apache.spark.unsafe.types.CalendarInterval
-import org.scalactic.source
-
-import java.sql.Timestamp
-import java.time.{Instant, LocalDate, LocalDateTime}
 
 class PrimitiveTypesSpec extends DoricTestElements {
-
-  import spark.implicits._
 
   describe("Simple Java/Scala types") {
 
@@ -84,17 +71,25 @@ class PrimitiveTypesSpec extends DoricTestElements {
   describe("Collection types"){
 
     it("should match Spark Array types") {
-
       testDataType[Array[Int]]
       testDataType[Seq[Int]]
       testDataType[List[Int]]
       testDataType[IndexedSeq[Int]]
       testDataType[Set[Int]]
+
+      testDataType[Array[String]]
+      testDataType[Seq[String]]
+      testDataType[List[String]]
+      testDataType[IndexedSeq[String]]
+      testDataType[Set[String]]
     }
 
     it("should match Spark Map types") {
 
       testDataType[Map[Int, String]]
+      testDataType[Map[String, Int]]
+      testDataType[Map[Int, Int]]
+      testDataType[Map[String, String]]
     }
 
     it("should match Spark Option types") {
@@ -105,12 +100,24 @@ class PrimitiveTypesSpec extends DoricTestElements {
 
   case class User(name: String, age: Int)
 
-  describe("Product types"){
+  describe("Struct types"){
 
-    it("should match StructTypes") {
+    ignore("should match `Row`"){
+      testDataType[Row]
+    }
+
+    it("should match case classes") {
 
       testDataType[(Int, String)]
       testDataType[User]
+    }
+  }
+
+  describe("Complex types"){
+    it("should match a combination of Spark types"){
+      testDataType[List[User]]
+      testDataType[Array[List[Int]]]
+      testDataType[Map[Int, Option[List[User]]]]
       testDataType[(List[Int], User, Map[Int, Option[User]])]
     }
   }

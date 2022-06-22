@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import doric.types.NumericType
+import doric.types.{NumericType, SparkType}
 import doric.types.SparkType.Primitive
 import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
@@ -336,11 +336,13 @@ trait NumericOperationsSpec
     }
   }
 
-  def testIntegrals[T: IntegralType: Primitive: ClassTag: TypeTag]()(implicit
+  def testIntegrals[T: IntegralType: ClassTag: TypeTag, O: ClassTag: TypeTag]()(implicit
       spark: SparkSession,
+      sparkTypeT: SparkType.Custom[T, O],
       fun: FromInt[T]
   ): Unit = {
     val numTypeStr = getClassName[T]
+    implicit val AST = SparkType.fromArray[T, O]
 
     describe(s"Integral num $numTypeStr") {
       it(s"sequence function $numTypeStr") {
@@ -530,8 +532,8 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Long]()
   test[Double]()
 
-  testIntegrals[Int]()
-  testIntegrals[Long]()
+  testIntegrals[Int, Int]()
+  testIntegrals[Long, Long]()
 
   testDecimals[Float]()
   testDecimals[Double]()
