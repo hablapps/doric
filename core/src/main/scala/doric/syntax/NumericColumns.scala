@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
-import doric.types.NumericType
+import doric.types.{CollectionType, NumericType}
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
@@ -472,13 +472,22 @@ private[syntax] trait NumericColumns {
   ) {
 
     /**
-      * Generate a sequence of integers from start to stop, incrementing by step.
+      * Generate a sequence of integers from start to stop, incrementing by 1
+      * if start is less than or equal to stop, otherwise -1.
       *
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column,step* org.apache.spark.sql.functions.sequence]]
       */
-    def sequence(to: IntegerColumn, step: IntegerColumn): ArrayColumn[T] =
-      (column.elem, to.elem, step.elem).mapN(f.sequence).toDC
+    def sequence(stop: IntegerColumn): ArrayColumn[T] = sequenceT(stop)
+
+    /**
+      * Generate a sequence of integers from start to stop, incrementing by step.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sequence]]
+      */
+    def sequence(stop: IntegerColumn, step: IntegerColumn): ArrayColumn[T] =
+      sequenceT(stop, step)
 
     /**
       * Generate a sequence of integers from start to stop, incrementing by 1
@@ -487,8 +496,22 @@ private[syntax] trait NumericColumns {
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sequence]]
       */
-    def sequence(to: IntegerColumn): ArrayColumn[T] =
-      (column.elem, to.elem).mapN(f.sequence).toDC
+    def sequenceT[G[_]: CollectionType](
+        stop: IntegerColumn
+    ): DoricColumn[G[T]] =
+      (column.elem, stop.elem).mapN(f.sequence).toDC
+
+    /**
+      * Generate a sequence of integers from start to stop, incrementing by step.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.sequence(start:org\.apache\.spark\.sql\.Column,stop:org\.apache\.spark\.sql\.Column,step* org.apache.spark.sql.functions.sequence]]
+      */
+    def sequenceT[G[_]: CollectionType](
+        stop: IntegerColumn,
+        step: IntegerColumn
+    ): DoricColumn[G[T]] =
+      (column.elem, stop.elem, step.elem).mapN(f.sequence).toDC
 
     /**
       * Computes hex value of the given column
@@ -550,21 +573,21 @@ private[syntax] trait NumericColumns {
     /**
       * Returns the value of the column rounded to 0 decimal places with HALF_EVEN round mode
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.bround(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.bround]]
       */
-    def bRound: DoubleColumn = column.elem.map(f.bround).toDC
+    def bRound: DoricColumn[T] = column.elem.map(f.bround).toDC
 
     /**
       * Round the value of e to scale decimal places with HALF_EVEN round mode if scale is greater than
       * or equal to 0 or at integral part when scale is less than 0.
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.bround(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.bround]]
       */
-    def bRound(scale: IntegerColumn): DoubleColumn =
+    def bRound(scale: IntegerColumn): DoricColumn[T] =
       (column.elem, scale.elem)
         .mapN((c, s) => new Column(BRound(c.expr, s.expr)))
         .toDC
@@ -572,7 +595,7 @@ private[syntax] trait NumericColumns {
     /**
       * Computes the ceiling of the given value.
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.ceil(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.ceil]]
       */
@@ -581,7 +604,7 @@ private[syntax] trait NumericColumns {
     /**
       * Computes the floor of the given value
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.floor(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.floor]]
       */
@@ -590,7 +613,7 @@ private[syntax] trait NumericColumns {
     /**
       * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.round]]
       */
@@ -599,7 +622,7 @@ private[syntax] trait NumericColumns {
     /**
       * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode.
       *
-      * @TODO decimal type
+      * @todo decimal type
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.round]]
       */

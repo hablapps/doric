@@ -4,6 +4,7 @@ import scala.reflect._
 import scala.reflect.runtime.universe._
 
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
+import doric.Equalities._
 import doric.implicitConversions.stringCname
 import doric.types.{Casting, SparkType}
 import org.scalactic._
@@ -73,7 +74,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       doricColumns.map {
         case Some(x: java.lang.Double) if x.isNaN => None
         case x                                    => x
-      } should contain theSameElementsAs expected
+      } === expected
     }
   }
 
