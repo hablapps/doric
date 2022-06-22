@@ -197,7 +197,8 @@ private[syntax] trait StringColumns {
       * characters.
       *
       * @group String Type
-      * @see [[org.apache.spark.sql.functions.lpad]]
+      * @see org.apache.spark.sql.functions.lpad
+      * @todo scaladoc link (issue #135)
       */
     def lpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
@@ -278,7 +279,8 @@ private[syntax] trait StringColumns {
       * characters.
       *
       * @group String Type
-      * @see [[org.apache.spark.sql.functions.rpad]]
+      * @see org.apache.spark.sql.functions.rpad
+      * @todo scaladoc link (issue #135)
       */
     def rpad(len: IntegerColumn, pad: StringColumn): StringColumn =
       (s.elem, len.elem, pad.elem)
