@@ -3,6 +3,7 @@ package syntax
 
 import doric.types.NumericType
 import doric.types.SparkType.Primitive
+import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
 import org.scalatest.funspec.AnyFunSpecLike
 
@@ -418,32 +419,41 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       }
 
       it(s"shiftLeft function $numTypeStr") {
+        // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
+        val shiftLeftBefore32: (Column, Column) => Column =
+          (col, int) => new Column(ShiftLeft(col.expr, int.expr))
         val numBits = 2
         testDoricSpark[T, T](
           List(Some(0), Some(1), Some(10), None),
           List(Some(0), Some(4), Some(40), None),
           _.shiftLeft(numBits.lit),
-          f.shiftleft(_, numBits)
+          shiftLeftBefore32(_, f.lit(numBits))
         )
       }
 
       it(s"shiftRight function $numTypeStr") {
+        // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
+        val shiftRightBefore32: (Column, Column) => Column =
+          (col, int) => new Column(ShiftRight(col.expr, int.expr))
         val numBits = 2
         testDoricSpark[T, T](
           List(Some(0), Some(4), Some(-10), None),
           List(Some(0), Some(1), Some(-3), None),
           _.shiftRight(numBits.lit),
-          f.shiftright(_, numBits)
+          shiftRightBefore32(_, f.lit(numBits))
         )
       }
 
       it(s"shiftRightUnsigned function $numTypeStr") {
+        // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
+        val shiftRightUnsignedBefore32: (Column, Column) => Column =
+          (col, int) => new Column(ShiftRightUnsigned(col.expr, int.expr))
         val numBits = 2
         testDoricSpark[T, T](
           List(Some(0), Some(4), Some(20), None),
           List(Some(0), Some(1), Some(5), None),
           _.shiftRightUnsigned(numBits.lit),
-          f.shiftrightunsigned(_, numBits)
+          shiftRightUnsignedBefore32(_, f.lit(numBits))
         )
       }
     }

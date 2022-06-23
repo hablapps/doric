@@ -465,9 +465,9 @@ private[syntax] trait NumericColumns {
   }
 
   /**
-    * INTEGER OPERATIONS
+    * INTEGRAL OPERATIONS
     */
-  implicit class IntegerOperationsSyntax[T: IntegralType](
+  implicit class IntegralOperationsSyntax[T: IntegralType](
       column: DoricColumn[T]
   ) {
 
@@ -520,45 +520,12 @@ private[syntax] trait NumericColumns {
       * @see [[org.apache.spark.sql.functions.hex]]
       */
     def hex: StringColumn = column.elem.map(f.hex).toDC
-
-    /**
-      * Shift the given value numBits left.
-      *
-      * group Numeric Type
-      * @see [[org.apache.spark.sql.functions.shiftleft]]
-      */
-    def shiftLeft(numBits: IntegerColumn): DoricColumn[T] =
-      (column.elem, numBits.elem)
-        .mapN((c, n) => new Column(ShiftLeft(c.expr, n.expr)))
-        .toDC
-
-    /**
-      * (Signed) shift the given value numBits right.
-      *
-      * group Numeric Type
-      * @see [[org.apache.spark.sql.functions.shiftright]]
-      */
-    def shiftRight(numBits: IntegerColumn): DoricColumn[T] =
-      (column.elem, numBits.elem)
-        .mapN((c, n) => new Column(ShiftRight(c.expr, n.expr)))
-        .toDC
-
-    /**
-      * Unsigned shift the given value numBits right.
-      *
-      * group Numeric Type
-      * @see [[org.apache.spark.sql.functions.shiftrightunsigned]]
-      */
-    def shiftRightUnsigned(numBits: IntegerColumn): DoricColumn[T] =
-      (column.elem, numBits.elem)
-        .mapN((c, n) => new Column(ShiftRightUnsigned(c.expr, n.expr)))
-        .toDC
   }
 
   /**
-    * DOUBLE OPERATIONS
+    * NUM WITH DECIMALS OPERATIONS
     */
-  implicit class DoubleOperationsSyntax[T: NumWithDecimalsType](
+  implicit class NumWithDecimalsOperationsSyntax[T: NumWithDecimalsType](
       column: DoricColumn[T]
   ) {
 
