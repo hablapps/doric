@@ -108,7 +108,7 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
       intercept[DoricMultiError] {
         df.select(dCol)
       } should containAllErrors(
-        ColumnNotFound("nonExistentCol", List("myColumn"), oldFormat = false)
+        ColumnNotFound("nonExistentCol", List("myColumn"))
       )
     }
   }

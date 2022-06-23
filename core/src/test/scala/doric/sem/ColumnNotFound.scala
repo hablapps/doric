@@ -3,11 +3,7 @@ package doric.sem
 import org.apache.spark.sql.SparkSession
 
 object ColumnNotFound {
-  def apply(
-      expectedCol: String,
-      foundCols: List[String],
-      oldFormat: Boolean = true
-  )(implicit
+  def apply(expectedCol: String, foundCols: List[String])(implicit
       location: Location,
       sparkSession: SparkSession
   ): SparkErrorWrapper = {
