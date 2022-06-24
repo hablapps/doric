@@ -20,10 +20,10 @@ private[doric] trait All
     with AggregationColumns31
     with BooleanColumns31
     with NumericColumns31
+    with NumericColumns32
     with StringColumns31
     with BinaryColumns32
     with ArrayColumns3x
     with CommonColumns3x
     with MapColumns3x
     with StringColumn3x
-    with NumericColumns32

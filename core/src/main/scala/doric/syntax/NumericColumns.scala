@@ -197,28 +197,12 @@ private[syntax] trait NumericColumns {
     def acos: DoubleColumn = column.elem.map(f.acos).toDC
 
     /**
-      * Returns inverse hyperbolic cosine of the column
-      *
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.acosh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.acosh]]
-      */
-    def acosh: DoubleColumn = column.elem.map(f.acosh).toDC
-
-    /**
       * Inverse sine of the column in radians, as if computed by java.lang.Math.asin
       *
       * @group Numeric Type
       * @see [[org.apache.spark.sql.functions.asin(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.asin]]
       */
     def asin: DoubleColumn = column.elem.map(f.asin).toDC
-
-    /**
-      * Inverse hyperbolic sine of the column
-      *
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.asinh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.asinh]]
-      */
-    def asinh: DoubleColumn = column.elem.map(f.asinh).toDC
 
     /**
       * Inverse tangent of the column as if computed by java.lang.Math.atan
@@ -528,14 +512,6 @@ private[syntax] trait NumericColumns {
   implicit class NumWithDecimalsOperationsSyntax[T: NumWithDecimalsType](
       column: DoricColumn[T]
   ) {
-
-    /**
-      * Returns inverse hyperbolic tangent of the column
-      *
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.atanh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.atanh]]
-      */
-    def atanh: DoubleColumn = column.elem.map(f.atanh).toDC
 
     /**
       * Returns the value of the column rounded to 0 decimal places with HALF_EVEN round mode

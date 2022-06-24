@@ -7,56 +7,48 @@ import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRi
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
 import org.scalatest.funspec.AnyFunSpecLike
 
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
 
-trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
-
-  private type FromInt[T] = Int => T
-  private implicit val longTrans: FromInt[Long]     = _.toLong
-  private implicit val doubleTrans: FromInt[Double] = _.toDouble
-  private implicit val floatTrans: FromInt[Float]   = _.toFloat
-  private type FromFloat[T] = Float => T
-  private implicit val floatTransD: FromFloat[Double] = _.toDouble
+trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest with NumericUtilsSpec {
 
   def df: DataFrame
 
   import scala.reflect.runtime.universe._
   def test[T: NumericType: Primitive: ClassTag: TypeTag]()(implicit
       spark: SparkSession,
-      fun: Int => T
+      fun: FromInt[T]
   ): Unit = {
 
-    val numTypeStr = classTag[T].getClass.getSimpleName
-      .replaceAll("Manifest", "")
+    val numTypeStr = getClassName[T]
 
     describe(s"Numeric $numTypeStr") {
 
       it("+") {
-        test[T, T, T]((a, b) => a + b)
+        validate[T, T, T](df, (a, b) => a + b)
       }
       it("-") {
-        test[T, T, T]((a, b) => a - b)
+        validate[T, T, T](df, (a, b) => a - b)
       }
       it("*") {
-        test[T, T, T]((a, b) => a * b)
+        validate[T, T, T](df, (a, b) => a * b)
       }
       it("/") {
-        test[T, T, Double]((a, b) => a / b)
+        validate[T, T, Double](df, (a, b) => a / b)
       }
       it("%") {
-        test[T, T, T]((a, b) => a % b)
+        validate[T, T, T](df, (a, b) => a % b)
       }
       it(">") {
-        test[T, T, Boolean]((a, b) => a > b)
+        validate[T, T, Boolean](df, (a, b) => a > b)
       }
       it(">=") {
-        test[T, T, Boolean]((a, b) => a >= b)
+        validate[T, T, Boolean](df, (a, b) => a >= b)
       }
       it("<") {
-        test[T, T, Boolean]((a, b) => a < b)
+        validate[T, T, Boolean](df, (a, b) => a < b)
       }
       it("<=") {
-        test[T, T, Boolean]((a, b) => a <= b)
+        validate[T, T, Boolean](df, (a, b) => a <= b)
       }
 
       it(s"abs function $numTypeStr") {
@@ -77,30 +69,12 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
 
-      it(s"acosh function $numTypeStr") {
-        testDoricSpark[T, Double](
-          List(Some(-1), Some(1), Some(2), None),
-          List(None, Some(0.0), Some(1.31696), None),
-          _.acosh,
-          f.acosh
-        )
-      }
-
       it(s"asin function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.57079), Some(1.57080), None, None),
           _.asin,
           f.asin
-        )
-      }
-
-      it(s"asinh function $numTypeStr") {
-        testDoricSpark[T, Double](
-          List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.88137), Some(0.88137), Some(1.44364), None),
-          _.asinh,
-          f.asinh
         )
       }
 
@@ -361,10 +335,9 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
   def testIntegrals[T: IntegralType: Primitive: ClassTag: TypeTag]()(implicit
       spark: SparkSession,
-      fun: Int => T
+      fun: FromInt[T]
   ): Unit = {
-    val numTypeStr = classTag[T].getClass.getSimpleName
-      .replaceAll("Manifest", "")
+    val numTypeStr = getClassName[T]
 
     describe(s"Integral num $numTypeStr") {
       it(s"sequence function $numTypeStr") {
@@ -464,40 +437,12 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       spark: SparkSession,
       fun: FromFloat[T]
   ): Unit = {
-    val numTypeStr = classTag[T].getClass.getSimpleName
-      .replaceAll("Manifest", "")
-
-    def testDoricSparkDecimals[O: Primitive: ClassTag: TypeTag](
-        input: List[Option[Float]],
-        output: List[Option[O]],
-        doricFun: DoricColumn[T] => DoricColumn[O],
-        sparkFun: Column => Column
-    )(implicit
-        spark: SparkSession,
-        funT: Float => T
-    ): Unit = {
-      import spark.implicits._
-      val df = input.map(_.map(funT)).toDF("col1")
-
-      df.testColumns("col1")(
-        c => doricFun(col[T](c)),
-        c => sparkFun(f.col(c)),
-        output
-      )
-    }
+    val numTypeStr = getClassName[T]
 
     describe(s"Num with Decimals $numTypeStr") {
-      it(s"atanh function $numTypeStr") {
-        testDoricSparkDecimals[Double](
-          List(Some(-0.2f), Some(0.4f), Some(0.0f), None),
-          List(Some(-0.20273), Some(0.423649), Some(0.0), None),
-          _.atanh,
-          f.atanh
-        )
-      }
 
       it(s"bRound function $numTypeStr") {
-        testDoricSparkDecimals[T](
+        testDoricSparkDecimals[T, T](
           List(Some(-0.2f), Some(0.8f), Some(0.0f), None),
           List(Some(0.0f), Some(1.0f), Some(0.0f), None),
           _.bRound,
@@ -507,7 +452,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
       it(s"bRound function with param $numTypeStr") {
         val scale = 2
-        testDoricSparkDecimals[T](
+        testDoricSparkDecimals[T, T](
           List(Some(-0.2567f), Some(0.811f), Some(0.0f), None),
           List(Some(-0.26f), Some(0.81f), Some(0.0f), None),
           _.bRound(scale.lit),
@@ -517,7 +462,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
 
       it(s"bRound function with param=0 $numTypeStr") {
         val scale = 0
-        testDoricSparkDecimals[T](
+        testDoricSparkDecimals[T, T](
           List(Some(-0.2567f), Some(0.811f), Some(0.0f), None),
           List(Some(0.0f), Some(1.0f), Some(0.0f), None),
           _.bRound(scale.lit),
@@ -526,7 +471,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       }
 
       it(s"ceil function $numTypeStr") {
-        testDoricSparkDecimals[Long](
+        testDoricSparkDecimals[T, Long](
           List(Some(-1.876458f), Some(0.12354f), Some(1.0f), None),
           List(Some(-1L), Some(1L), Some(1L), None),
           _.ceil,
@@ -535,7 +480,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       }
 
       it(s"floor function $numTypeStr") {
-        testDoricSparkDecimals[Long](
+        testDoricSparkDecimals[T, Long](
           List(Some(-1.876458f), Some(0.12354f), Some(1.0f), None),
           List(Some(-2L), Some(0L), Some(1L), None),
           _.floor,
@@ -544,7 +489,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       }
 
       it(s"round function $numTypeStr") {
-        testDoricSparkDecimals[T](
+        testDoricSparkDecimals[T, T](
           List(Some(-1.4f), Some(0.7f), Some(1.0f), None),
           List(Some(-1.0f), Some(1.0f), Some(1.0f), None),
           _.round,
@@ -553,7 +498,7 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
       }
 
       it(s"round function with param $numTypeStr") {
-        testDoricSparkDecimals[T](
+        testDoricSparkDecimals[T, T](
           List(Some(-1.466f), Some(0.7111f), Some(1.0f), None),
           List(Some(-1.47f), Some(0.71f), Some(1.0f), None),
           _.round(2.lit),
@@ -561,67 +506,6 @@ trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest {
         )
       }
     }
-  }
-
-  def test[T1: Primitive: ClassTag, T2: Primitive: ClassTag, O: Primitive](
-      f: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O]
-  ): Unit =
-    df.validateColumnType(
-      f(
-        col[T1](getName[T1]()),
-        col[T2](getName[T1]())
-      )
-    )
-
-  def getName[T: ClassTag](pos: Int = 1): String =
-    s"col_${classTag[T].getClass.getSimpleName}_$pos"
-
-  def testDoricSpark[
-      T: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
-  ](
-      input: List[Option[Int]],
-      output: List[Option[O]],
-      doricFun: DoricColumn[T] => DoricColumn[O],
-      sparkFun: Column => Column
-  )(implicit
-      spark: SparkSession,
-      funT: Int => T
-  ): Unit = {
-    import spark.implicits._
-    val df = input.map(_.map(funT)).toDF("col1")
-
-    df.testColumns("col1")(
-      c => doricFun(col[T](c)),
-      c => sparkFun(f.col(c)),
-      output
-    )
-  }
-
-  def testDoricSpark2[
-      T1: Primitive: ClassTag: TypeTag,
-      T2: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
-  ](
-      input: List[(Option[Int], Option[Int])],
-      output: List[Option[O]],
-      doricFun: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O],
-      sparkFun: (Column, Column) => Column
-  )(implicit
-      spark: SparkSession,
-      funT1: Int => T1,
-      funT2: Int => T2
-  ): Unit = {
-    import spark.implicits._
-    val df = input
-      .map { case (x, y) => (x.map(funT1), y.map(funT2)) }
-      .toDF("col1", "col2")
-
-    df.testColumns2("col1", "col2")(
-      (c1, c2) => doricFun(col[T1](c1), col[T2](c2)),
-      (c1, c2) => sparkFun(f.col(c1), f.col(c2)),
-      output
-    )
   }
 }
 

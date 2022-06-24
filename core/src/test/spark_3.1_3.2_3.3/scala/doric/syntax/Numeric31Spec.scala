@@ -1,15 +1,88 @@
 package doric
 package syntax
 
-import java.sql.Timestamp
+import doric.types.NumericType
+import doric.types.SparkType.Primitive
+import org.apache.spark.sql.{DataFrame, SparkSession, functions => f}
 import org.scalatest.funspec.AnyFunSpecLike
 
-import org.apache.spark.sql.{functions => f}
+import java.sql.Timestamp
+import scala.reflect.ClassTag
+
+trait NumericOperations31Spec
+    extends AnyFunSpecLike
+    with TypedColumnTest
+    with NumericUtilsSpec {
+
+  def df: DataFrame
+
+  import scala.reflect.runtime.universe._
+  def test[T: NumericType: Primitive: ClassTag: TypeTag]()(implicit
+      spark: SparkSession,
+      fun: FromInt[T]
+  ): Unit = {
+
+    val numTypeStr = getClassName[T]
+
+    describe(s"Numeric $numTypeStr") {
+
+      it(s"acosh function $numTypeStr") {
+        testDoricSpark[T, Double](
+          List(Some(-1), Some(1), Some(2), None),
+          List(None, Some(0.0), Some(1.31696), None),
+          _.acosh,
+          f.acosh
+        )
+      }
+
+      it(s"asinh function $numTypeStr") {
+        testDoricSpark[T, Double](
+          List(Some(-1), Some(1), Some(2), None),
+          List(Some(-0.88137), Some(0.88137), Some(1.44364), None),
+          _.asinh,
+          f.asinh
+        )
+      }
+    }
+  }
+
+  def testDecimals[T: NumWithDecimalsType: Primitive: ClassTag: TypeTag]()(
+      implicit
+      spark: SparkSession,
+      fun: FromFloat[T]
+  ): Unit = {
+    val numTypeStr = getClassName[T]
+
+    describe(s"Num with Decimals $numTypeStr") {
+      it(s"atanh function $numTypeStr") {
+        testDoricSparkDecimals[T, Double](
+          List(Some(-0.2f), Some(0.4f), Some(0.0f), None),
+          List(Some(-0.20273), Some(0.423649), Some(0.0), None),
+          _.atanh,
+          f.atanh
+        )
+      }
+    }
+  }
+}
 
 class Numeric31Spec
     extends SparkSessionTestWrapper
     with AnyFunSpecLike
-    with TypedColumnTest {
+    with TypedColumnTest
+    with NumericOperations31Spec {
+
+  import spark.implicits._
+
+  implicit val sparkSession: SparkSession = spark
+
+  def df: DataFrame =
+    List((1, 2f, 3L, 4.toDouble)).toDF(
+      getName[Int](),
+      getName[Float](),
+      getName[Long](),
+      getName[Double]()
+    )
 
   describe("timestampSeconds doric function") {
     import spark.implicits._
@@ -59,5 +132,4 @@ class Numeric31Spec
       )
     }
   }
-
 }
