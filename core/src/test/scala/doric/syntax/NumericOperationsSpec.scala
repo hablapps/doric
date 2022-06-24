@@ -9,7 +9,10 @@ import org.scalatest.funspec.AnyFunSpecLike
 
 import scala.reflect.ClassTag
 
-trait NumericOperationsSpec extends AnyFunSpecLike with TypedColumnTest with NumericUtilsSpec {
+trait NumericOperationsSpec
+    extends AnyFunSpecLike
+    with TypedColumnTest
+    with NumericUtilsSpec {
 
   def df: DataFrame
 
