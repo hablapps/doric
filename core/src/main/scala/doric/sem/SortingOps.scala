@@ -12,7 +12,7 @@ private[sem] trait SortingOps {
       col.toList
         .traverse(_.elem)
         .run(df)
-        .map(col => df.orderBy(col: _*))
+        .map(col => df.sort(col: _*))
         .returnOrThrow("sort")
 
     def orderBy(col: DoricColumn[_]*): DataFrame = sort(col: _*)
