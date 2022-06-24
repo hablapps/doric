@@ -22,3 +22,7 @@ spark_3.1:
 spark_3.2:
   - core/src/main/spark*3.2*/**/*
   - core/src/main/scala/**/*
+
+spark_3.3:
+  - core/src/main/spark*3.3*/**/*
+  - core/src/main/scala/**/*

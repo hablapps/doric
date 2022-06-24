@@ -36,7 +36,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.count(columnName:* org.apache.spark.sql.functions.count]]
     */
   def count(colName: CName): LongColumn =
-    Doric.unchecked(colName).map(f.count).toDC
+    DoricColumn.uncheckedType(colName.value).elem.map(f.count).toDC
 
   /**
     * Aggregate function: returns the first value in a group.
@@ -123,7 +123,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.approx_count_distinct(columnName:String,rsd:* org.apache.spark.sql.functions.approx_count_distinct]]
     */
   def aproxCountDistinct(colName: String, rsd: Double): LongColumn =
-    aproxCountDistinct(DoricColumn.uncheckedType(f.col(colName)), rsd)
+    aproxCountDistinct(DoricColumn.uncheckedType(colName), rsd)
 
   /**
     * Aggregate function: returns the approximate number of distinct items in a group.
@@ -132,7 +132,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.approx_count_distinct(columnName:String)* org.apache.spark.sql.functions.approx_count_distinct]]
     */
   def aproxCountDistinct(colName: String): LongColumn =
-    aproxCountDistinct(DoricColumn.uncheckedType(f.col(colName)))
+    aproxCountDistinct(DoricColumn.uncheckedType(colName))
 
   /**
     * Aggregate function: returns the average of the values in a group.
@@ -196,8 +196,8 @@ private[syntax] trait AggregationColumns {
     */
   def countDistinct(columnName: CName, columnNames: CName*): LongColumn =
     countDistinct(
-      Doric.unchecked(columnName).toDC,
-      columnNames.map(Doric.unchecked(_).toDC): _*
+      DoricColumn.uncheckedType(columnName.value),
+      columnNames.map(x => DoricColumn.uncheckedType(x.value)): _*
     )
 
   /**
@@ -350,7 +350,7 @@ private[syntax] trait AggregationColumns {
     * @see [[org.apache.spark.sql.functions.grouping(columnName:* org.apache.spark.sql.functions.grouping]]
     */
   def grouping(columnName: CName): ByteColumn =
-    Doric.unchecked(columnName).map(f.grouping).toDC
+    DoricColumn.uncheckedType(columnName.value).elem.map(f.grouping).toDC
 
   /**
     * Aggregate function: returns the level of grouping, equals to

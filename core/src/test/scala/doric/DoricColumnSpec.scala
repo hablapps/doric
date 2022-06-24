@@ -1,12 +1,12 @@
 package doric
 
-import doric.sem.{DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ColumnNotFound, DoricMultiError}
 import doric.syntax.User
 import doric.types.SparkType
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
 
-import org.apache.spark.sql.{Encoder, Row, functions => f}
+import org.apache.spark.sql.{Encoder, Row}
 
 class DoricColumnSpec extends DoricTestElements with EitherValues {
 
@@ -96,23 +96,19 @@ class DoricColumnSpec extends DoricTestElements with EitherValues {
     val df = Seq("val1", "val2").toDF("myColumn")
 
     it("should create an uncheckedType") {
-      val dCol: DoricColumn[_] = DoricColumn.uncheckedType(f.col("myColumn"))
+      val dCol: DoricColumn[_] = DoricColumn.uncheckedType("myColumn")
 
-      dCol.elem.run(df).toEither shouldBe Right(f.col("myColumn"))
+      dCol.elem.run(df).toEither shouldBe Right(df("myColumn"))
     }
 
     it("should fail creating an uncheckedType if not valid") {
       val dCol: DoricColumn[_] =
-        DoricColumn.uncheckedType(f.col("nonExistentCol"))
+        DoricColumn.uncheckedType("nonExistentCol")
 
       intercept[DoricMultiError] {
         df.select(dCol)
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "cannot resolve 'nonExistentCol' given input columns: [myColumn]"
-          )
-        )
+        ColumnNotFound("nonExistentCol", List("myColumn"))
       )
     }
   }

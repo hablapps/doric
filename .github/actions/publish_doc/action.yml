@@ -18,13 +18,17 @@ inputs:
     description: 'Spark version 3.2.X'
     required: true
     default: "3.2"
+  spark-3_3:
+    description: 'Spark version 3.3.X'
+    required: true
+    default: "3.3"
 
 runs:
   using: "composite"
   steps:
     # BUILD MDOC
     - name: Build the microsite 💻
-      run: sbt -DsparkVersion=${{ inputs.spark-3_2 }} docs/mdoc
+      run: sbt -DsparkVersion=${{ inputs.spark-3_3 }} docs/mdoc
       shell: bash
 
     # DOWNLOAD DOCS
@@ -51,6 +55,12 @@ runs:
       with:
         name: "api_spark_${{ inputs.spark-3_2 }}"
         path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_2 }}/"
+
+    - name: Download docs ⬇️ [${{ inputs.spark-3_3 }}]
+      uses: actions/download-artifact@v3
+      with:
+        name: "api_spark_${{ inputs.spark-3_3 }}"
+        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_3 }}/"
 
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀
