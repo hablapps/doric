@@ -318,4 +318,24 @@ class CommonColumnsSpec
     }
   }
 
+  describe("asc doric function") {
+    import spark.implicits._
+
+    it("should sort a df in ascending order") {
+      val df = List(5, 4, 3, 2, 1)
+        .toDF("col1")
+
+      val res = df.orderBy(colInt("col1").asc).as[Int].collect().toList
+      res shouldBe List(1, 2, 3, 4, 5)
+    }
+
+    it("should sort a df in ascending order for more complex types") {
+      val df = List(List(5, 6), List(4, 4, 5), List(3), List(1, 2), List(1))
+        .toDF("col1")
+
+      val res = df.orderBy(colArrayInt("col1").asc).as[List[Int]].collect().toList
+      res shouldBe List(List(1), List(1, 2), List(3), List(4, 4, 5), List(5, 6))
+    }
+  }
+
 }

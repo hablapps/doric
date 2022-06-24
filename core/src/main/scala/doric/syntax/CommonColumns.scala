@@ -215,6 +215,14 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
         })
         .toDC
 
+    /**
+      * Sorts a column in ascending order
+      * @return
+      *   A DoricColumn of the provided type
+      * @see [[org.apache.spark.sql.Column.asc(left* org.apache.spark.sql.Column.asc]]
+      */
+    def asc: DoricColumn[T] = column.elem.map(col => col.asc).toDC
+
   }
 
 }

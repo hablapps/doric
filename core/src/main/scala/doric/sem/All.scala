@@ -1,3 +1,8 @@
 package doric.sem
 
-trait All extends AggregationOps with TransformOps with JoinOps with CollectOps
+trait All
+    extends AggregationOps
+    with TransformOps
+    with JoinOps
+    with CollectOps
+    with SortingOps
