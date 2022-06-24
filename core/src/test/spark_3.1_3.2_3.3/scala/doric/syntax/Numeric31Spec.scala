@@ -84,6 +84,14 @@ class Numeric31Spec
       getName[Double]()
     )
 
+  test[Int]()
+  test[Float]()
+  test[Long]()
+  test[Double]()
+
+  testDecimals[Float]()
+  testDecimals[Double]()
+
   describe("timestampSeconds doric function") {
     import spark.implicits._
 
