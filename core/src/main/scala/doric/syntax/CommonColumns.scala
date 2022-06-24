@@ -219,7 +219,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in ascending order
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.asc(left* org.apache.spark.sql.Column.asc]]
+      * @see [[org.apache.spark.sql.Column.asc]]
       */
     def asc: DoricColumn[T] = column.elem.map(col => col.asc).toDC
 
@@ -227,7 +227,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in ascending order with null values returned before non-null values
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.asc_nulls_first(left* org.apache.spark.sql.Column.asc_nulls_first]]
+      * @see [[org.apache.spark.sql.Column.asc_nulls_first]]
       */
     def ascNullsFirst: DoricColumn[T] =
       column.elem.map(col => col.asc_nulls_first).toDC
@@ -236,7 +236,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in ascending order with null values returned after non-null values
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.asc_nulls_last(left* org.apache.spark.sql.Column.asc_nulls_last]]
+      * @see [[org.apache.spark.sql.Column.asc_nulls_last]]
       */
     def ascNullsLast: DoricColumn[T] =
       column.elem.map(col => col.asc_nulls_last).toDC
@@ -245,7 +245,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in descending order
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.desc(left* org.apache.spark.sql.Column.desc]]
+      * @see [[org.apache.spark.sql.Column.desc]]
       */
     def desc: DoricColumn[T] = column.elem.map(col => col.desc).toDC
 
@@ -253,7 +253,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in descending order with null values returned before non-null values
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.desc_nulls_first(left* org.apache.spark.sql.Column.desc_nulls_first]]
+      * @see [[org.apache.spark.sql.Column.desc_nulls_first]]
       */
     def descNullsFirst: DoricColumn[T] =
       column.elem.map(col => col.desc_nulls_first).toDC
@@ -262,7 +262,7 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       * Sorts a column in descending order with null values returned after non-null values
       * @return
       *   A DoricColumn of the provided type
-      * @see [[org.apache.spark.sql.Column.desc_nulls_last(left* org.apache.spark.sql.Column.desc_nulls_last]]
+      * @see [[org.apache.spark.sql.Column.desc_nulls_last]]
       */
     def descNullsLast: DoricColumn[T] =
       column.elem.map(col => col.desc_nulls_last).toDC

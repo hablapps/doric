@@ -1,6 +1,6 @@
 package doric.sem
 
-import cats.syntax.traverse._
+import cats.implicits._
 import doric.DoricColumn
 import org.apache.spark.sql.DataFrame
 
