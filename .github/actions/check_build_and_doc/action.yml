@@ -30,14 +30,14 @@ runs:
       # TESTING & COVERAGE
     - name: Test & coverage 📋
       if: contains(env.SCOPE, 'test')
-      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage core/test coverageReport coverageAggregate
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageReport coverageAggregate
       shell: bash
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
       uses: codecov/codecov-action@v3
       with:
-        files: ./target/scala-2.11/scoverage-report/scoverage.xml,./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
+        files: ./target/scala-2.11/scoverage-report/scoverage.xml,./target/scala-2.12/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
