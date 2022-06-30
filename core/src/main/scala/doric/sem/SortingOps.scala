@@ -16,5 +16,12 @@ private[sem] trait SortingOps {
         .returnOrThrow("sort")
 
     def orderBy(col: DoricColumn[_]*): DataFrame = sort(col: _*)
+
+    def sortWithinPartitions(col: DoricColumn[_]*): DataFrame =
+      col.toList
+        .traverse(_.elem)
+        .run(df)
+        .map(col => df.sortWithinPartitions(col: _*))
+        .returnOrThrow("sortWithPartitions")
   }
 }
