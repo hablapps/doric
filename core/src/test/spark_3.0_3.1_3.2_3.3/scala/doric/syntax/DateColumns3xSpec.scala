@@ -106,4 +106,17 @@ class DateColumns3xSpec
       )
     }
   }
+
+  describe("addMonths doric function with literal") {
+    import spark.implicits._
+
+    val df = List(Date.valueOf(LocalDate.now), null).toDF("dateCol")
+    it("should subtract months if num months < 0 with literal") {
+      df.testColumns2("dateCol", -3)(
+        (d, m) => colDate(d).addMonths(m.lit),
+        (d, m) => f.add_months(f.col(d), m),
+        List(Date.valueOf(LocalDate.now.minusMonths(3)), null).map(Option(_))
+      )
+    }
+  }
 }
