@@ -64,10 +64,14 @@ class DateColumnsSpec
     }
 
     it("should subtract months if num months < 0 with literal") {
-      val additionalDays: Int =
-        dateAddMonths(LocalDate.now().toEpochDay.asInstanceOf[Int], -3)
       val expectedDate =
-        LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        if (spark.version.take(1).toInt > 2)
+          LocalDate.now().minusMonths(3)
+        else {
+          val additionalDays =
+            dateAddMonths(LocalDate.now().toEpochDay.asInstanceOf[Int], -3)
+          LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        }
 
       df.testColumns2("dateCol", -3)(
         (d, m) => colDate(d).addMonths(m.lit),
@@ -83,10 +87,14 @@ class DateColumnsSpec
 
       val df = List(Date.valueOf(localDate), null).toDF("dateCol")
 
-      val additionalDays: Int =
-        dateAddMonths(localDate.toEpochDay.asInstanceOf[Int], -3)
       val expectedDate =
-        LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        if (spark.version.take(1).toInt > 2)
+          localDate.minusMonths(3)
+        else {
+          val additionalDays =
+            dateAddMonths(localDate.toEpochDay.asInstanceOf[Int], -3)
+          LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        }
 
       df.testColumns2("dateCol", -3)(
         (d, m) => colDate(d).addMonths(m.lit),
