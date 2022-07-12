@@ -318,4 +318,97 @@ class CommonColumnsSpec
     }
   }
 
+  describe("asc doric function") {
+    import spark.implicits._
+
+    it("should sort a df in ascending order") {
+      val df = List(5, 4, 3, 2, 1)
+        .toDF("col1")
+
+      val res = df.orderBy(colInt("col1").asc).as[Int].collect().toList
+      res shouldBe List(1, 2, 3, 4, 5)
+    }
+
+    it("should sort a df in ascending order for more complex types") {
+      val df = List(List(5, 6), List(4, 4, 5), List(3), List(1, 2), List(1))
+        .toDF("col1")
+
+      val res =
+        df.orderBy(colArrayInt("col1").asc).as[List[Int]].collect().toList
+      res shouldBe List(List(1), List(1, 2), List(3), List(4, 4, 5), List(5, 6))
+    }
+  }
+
+  describe("ascNullsFirst doric function") {
+    import spark.implicits._
+
+    it(
+      "should sort a df in ascending order with null values returned before non-nulls"
+    ) {
+      val df = List("5", "4", null, "3", "2", null, "1")
+        .toDF("col1")
+
+      val res =
+        df.orderBy(colString("col1").ascNullsFirst).as[String].collect().toList
+      res shouldBe List(null, null, "1", "2", "3", "4", "5")
+    }
+  }
+
+  describe("ascNullsLast doric function") {
+    import spark.implicits._
+
+    it(
+      "should sort a df in ascending order with null values returned after non-nulls"
+    ) {
+      val df = List("5", "4", null, "3", "2", null, "1")
+        .toDF("col1")
+
+      val res =
+        df.orderBy(colString("col1").ascNullsLast).as[String].collect().toList
+      res shouldBe List("1", "2", "3", "4", "5", null, null)
+    }
+  }
+
+  describe("desc doric function") {
+    import spark.implicits._
+
+    it("should sort a df in descending order") {
+      val df = List(1, 2, 3, 4, 5)
+        .toDF("col1")
+
+      val res = df.orderBy(colInt("col1").desc).as[Int].collect().toList
+      res shouldBe List(5, 4, 3, 2, 1)
+    }
+  }
+
+  describe("descNullsFirst doric function") {
+    import spark.implicits._
+
+    it(
+      "should sort a df in descending order with null values returned before non-nulls"
+    ) {
+      val df = List("1", "2", null, null, "5", "3", null, "4")
+        .toDF("col1")
+
+      val res =
+        df.orderBy(colString("col1").descNullsFirst).as[String].collect().toList
+      res shouldBe List(null, null, null, "5", "4", "3", "2", "1")
+    }
+  }
+
+  describe("descNullsLast doric function") {
+    import spark.implicits._
+
+    it(
+      "should sort a df in descending order with null values returned after non-nulls"
+    ) {
+      val df = List("1", "2", null, null, "5", "3", null, "4")
+        .toDF("col1")
+
+      val res =
+        df.orderBy(colString("col1").descNullsLast).as[String].collect().toList
+      res shouldBe List("5", "4", "3", "2", "1", null, null, null)
+    }
+  }
+
 }
