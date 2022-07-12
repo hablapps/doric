@@ -125,5 +125,16 @@ class TransformOpsSpec
       error.getMessage should include("`a`")
       error.getMessage should include("`b`")
     }
+
+    it("should work with 'withNamedColumns' as with 'namedColumns'") {
+      val df = spark
+        .range(2)
+        .withNamedColumns(1.lit.as("hi"), col[Long]("id") + 10 as "id")
+      df.columns shouldBe Array("id", "hi")
+      df.collectCols(col[Long]("id"), col[Int]("hi")) shouldBe List(
+        (10, 1),
+        (11, 1)
+      )
+    }
   }
 }
