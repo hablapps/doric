@@ -6,6 +6,7 @@ import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 import org.apache.spark.sql.{DataFrame, functions => f}
+import org.apache.spark.sql.catalyst.util.DateTimeUtils.dateAddMonths
 
 class DateColumnsSpec
     extends DoricTestElements
@@ -63,10 +64,42 @@ class DateColumnsSpec
     }
 
     it("should subtract months if num months < 0 with literal") {
+      val expectedDate =
+        if (spark.version.take(1).toInt > 2)
+          LocalDate.now().minusMonths(3)
+        else {
+          val additionalDays =
+            dateAddMonths(LocalDate.now().toEpochDay.asInstanceOf[Int], -3)
+          LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        }
+
       df.testColumns2("dateCol", -3)(
         (d, m) => colDate(d).addMonths(m.lit),
         (d, m) => f.add_months(f.col(d), m),
-        List(Date.valueOf(LocalDate.now.minusMonths(3)), null).map(Option(_))
+        List(Date.valueOf(expectedDate), null).map(Option(_))
+      )
+    }
+
+    it(
+      "should correctly subtract months if num months < 0 with literal for end of month dates"
+    ) {
+      val localDate = LocalDate.of(2022, 6, 30)
+
+      val df = List(Date.valueOf(localDate), null).toDF("dateCol")
+
+      val expectedDate =
+        if (spark.version.take(1).toInt > 2)
+          localDate.minusMonths(3)
+        else {
+          val additionalDays =
+            dateAddMonths(localDate.toEpochDay.asInstanceOf[Int], -3)
+          LocalDate.of(1970, 1, 1).plusDays(additionalDays.toLong)
+        }
+
+      df.testColumns2("dateCol", -3)(
+        (d, m) => colDate(d).addMonths(m.lit),
+        (d, m) => f.add_months(f.col(d), m),
+        List(Date.valueOf(expectedDate), null).map(Option(_))
       )
     }
   }
