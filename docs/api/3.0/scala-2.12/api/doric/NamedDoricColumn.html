@@ -187,6 +187,10 @@
                         <a href="DataframeJoinSyntax.html" title="">DataframeJoinSyntax</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="class" href="DataframeSortSyntax.html" title=""></a>
+                        <a href="DataframeSortSyntax.html" title="">DataframeSortSyntax</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="DataframeTransformationSyntax.html" title=""></a>
                         <a href="DataframeTransformationSyntax.html" title="">DataframeTransformationSyntax</a>
                       </li><li class="current-entities indented1">
@@ -2182,6 +2186,138 @@ DoricColumn with the alias</p></dd></dl><dl class="attributes block"> <dt class=
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).asCName(colName)</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#asc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asc:doric.DoricColumn[T]"></a><a id="asc:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#asc:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">asc</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).asc</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#asc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asc:doric.DoricColumn[T]"></a><a id="asc:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#asc:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">asc</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).asc</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#ascNullsFirst" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ascNullsFirst:doric.DoricColumn[T]"></a><a id="ascNullsFirst:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#ascNullsFirst:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">ascNullsFirst</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order with null values returned before non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order with null values returned before non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).ascNullsFirst</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc_nulls_first:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc_nulls_first</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#ascNullsFirst" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ascNullsFirst:doric.DoricColumn[T]"></a><a id="ascNullsFirst:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#ascNullsFirst:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">ascNullsFirst</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order with null values returned before non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order with null values returned before non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).ascNullsFirst</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc_nulls_first:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc_nulls_first</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#ascNullsLast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ascNullsLast:doric.DoricColumn[T]"></a><a id="ascNullsLast:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#ascNullsLast:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">ascNullsLast</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order with null values returned after non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order with null values returned after non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).ascNullsLast</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc_nulls_last:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc_nulls_last</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#ascNullsLast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ascNullsLast:doric.DoricColumn[T]"></a><a id="ascNullsLast:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#ascNullsLast:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">ascNullsLast</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in ascending order with null values returned after non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in ascending order with null values returned after non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).ascNullsLast</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#asc_nulls_last:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.asc_nulls_last</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#ascii" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="String Type">
       <a id="ascii:doric.IntegerColumn"></a><a id="ascii:IntegerColumn"></a>
       <span class="permalink">
@@ -2608,6 +2744,138 @@ If either argument is null, the result will also be null.
         context-bounded</a> by doric.types.BinaryType (T: <a href="types/BinaryType.html" class="extype" name="doric.types.BinaryType">BinaryType</a>) and at the same time T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BinaryOperationsSyntax30_31[T]).decode(charset)</pre></div></dd><dt>Definition Classes</dt><dd>BinaryOperationsSyntax30_31</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/functions$.html#decode(value:%3C?%3E,charset:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.decode</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#desc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="desc:doric.DoricColumn[T]"></a><a id="desc:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#desc:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">desc</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).desc</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#desc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="desc:doric.DoricColumn[T]"></a><a id="desc:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#desc:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">desc</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).desc</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#descNullsFirst" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="descNullsFirst:doric.DoricColumn[T]"></a><a id="descNullsFirst:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#descNullsFirst:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">descNullsFirst</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order with null values returned before non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order with null values returned before non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).descNullsFirst</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc_nulls_first:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc_nulls_first</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#descNullsFirst" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="descNullsFirst:doric.DoricColumn[T]"></a><a id="descNullsFirst:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#descNullsFirst:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">descNullsFirst</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order with null values returned before non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order with null values returned before non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).descNullsFirst</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc_nulls_first:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc_nulls_first</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#descNullsLast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="descNullsLast:doric.DoricColumn[T]"></a><a id="descNullsLast:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#descNullsLast:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">descNullsLast</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order with null values returned after non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order with null values returned after non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).descNullsLast</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc_nulls_last:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc_nulls_last</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#descNullsLast" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="descNullsLast:doric.DoricColumn[T]"></a><a id="descNullsLast:DoricColumn[T]"></a>
+      <span class="permalink">
+      <a href="../doric/NamedDoricColumn.html#descNullsLast:doric.DoricColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit shadowed">descNullsLast</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts a column in descending order with null values returned after non-null values</p><div class="fullcomment"><div class="comment cmt"><p>Sorts a column in descending order with null values returned after non-null values</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A DoricColumn of the provided type</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.NamedDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(namedDoricColumn: doric.BasicCol[T]).descNullsLast</pre></div></dd><dt>Definition Classes</dt><dd>BasicCol</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.0.3/api/scala/org/apache/spark/sql/Column.html#desc_nulls_last:org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column.desc_nulls_last</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.DateColumns.DateColumnLikeSyntax#diff" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Date &amp; Timestamp Type">
       <a id="diff(dateCol:doric.DoricColumn[T]):doric.IntegerColumn"></a><a id="diff(DoricColumn[T]):IntegerColumn"></a>
       <span class="permalink">

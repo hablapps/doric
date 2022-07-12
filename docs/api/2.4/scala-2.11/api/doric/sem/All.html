@@ -45,13 +45,13 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">All</span><span class="result"> extends <span class="extype" name="doric.sem.AggregationOps">AggregationOps</span> with <span class="extype" name="doric.sem.TransformOps">TransformOps</span> with <span class="extype" name="doric.sem.JoinOps">JoinOps</span> with <span class="extype" name="doric.sem.CollectOps">CollectOps</span></span>
+        <span class="name">All</span><span class="result"> extends <span class="extype" name="doric.sem.AggregationOps">AggregationOps</span> with <span class="extype" name="doric.sem.TransformOps">TransformOps</span> with <span class="extype" name="doric.sem.JoinOps">JoinOps</span> with <span class="extype" name="doric.sem.CollectOps">CollectOps</span> with <span class="extype" name="doric.sem.SortingOps">SortingOps</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="doric.sem.CollectOps">CollectOps</span>, <span class="extype" name="doric.sem.JoinOps">JoinOps</span>, <span class="extype" name="doric.sem.TransformOps">TransformOps</span>, <span class="extype" name="doric.sem.AggregationOps">AggregationOps</span>, <span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface">RelationalGroupedDatasetDoricInterface</span>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="doric.sem.SortingOps">SortingOps</span>, <span class="extype" name="doric.sem.CollectOps">CollectOps</span>, <span class="extype" name="doric.sem.JoinOps">JoinOps</span>, <span class="extype" name="doric.sem.TransformOps">TransformOps</span>, <span class="extype" name="doric.sem.AggregationOps">AggregationOps</span>, <span class="extype" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface">RelationalGroupedDatasetDoricInterface</span>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -69,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="doric.sem.All"><span>All</span></li><li class="in" name="doric.sem.CollectOps"><span>CollectOps</span></li><li class="in" name="doric.sem.JoinOps"><span>JoinOps</span></li><li class="in" name="doric.sem.TransformOps"><span>TransformOps</span></li><li class="in" name="doric.sem.AggregationOps"><span>AggregationOps</span></li><li class="in" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface"><span>RelationalGroupedDatasetDoricInterface</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="doric.sem.All"><span>All</span></li><li class="in" name="doric.sem.SortingOps"><span>SortingOps</span></li><li class="in" name="doric.sem.CollectOps"><span>CollectOps</span></li><li class="in" name="doric.sem.JoinOps"><span>JoinOps</span></li><li class="in" name="doric.sem.TransformOps"><span>TransformOps</span></li><li class="in" name="doric.sem.AggregationOps"><span>AggregationOps</span></li><li class="in" name="org.apache.spark.sql.doric.RelationalGroupedDatasetDoricInterface"><span>RelationalGroupedDatasetDoricInterface</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -146,6 +146,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>JoinOps</dd></dl></div>
+    </li><li name="doric.sem.SortingOps.DataframeSortSyntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DataframeSortSyntaxextendsAnyRef"></a>
+      <a id="DataframeSortSyntax:DataframeSortSyntax"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DataframeSortSyntax</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.sem.All@DataframeSortSyntaxextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SortingOps</dd></dl></div>
     </li><li name="doric.sem.TransformOps.DataframeTransformationSyntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DataframeTransformationSyntax[A]extendsAnyRef"></a>
       <a id="DataframeTransformationSyntax[A]:DataframeTransformationSyntax[A]"></a>
@@ -808,7 +825,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="doric.sem.CollectOps">
+        <div class="parent" name="doric.sem.SortingOps">
+              <h3>Inherited from <span class="extype" name="doric.sem.SortingOps">SortingOps</span></h3>
+            </div><div class="parent" name="doric.sem.CollectOps">
               <h3>Inherited from <span class="extype" name="doric.sem.CollectOps">CollectOps</span></h3>
             </div><div class="parent" name="doric.sem.JoinOps">
               <h3>Inherited from <span class="extype" name="doric.sem.JoinOps">JoinOps</span></h3>
