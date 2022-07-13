@@ -30,7 +30,7 @@ List(1,2,3).toDF.select(colInt("id")+1)
 // 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:251)
 // 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1417)
 // 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1384)
-// 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:56)
+// 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:55)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
 // 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
 ```
