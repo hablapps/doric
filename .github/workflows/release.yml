@@ -43,6 +43,13 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
+      - name: Publish on gh release the JARS
+        if: github.ref_type == 'tag'
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'core/target/scala-2.**/doric_*.jar'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       # CLEAN PROJECT BEFORE CACHE
       - name: Cleaning for cache 🚯
         uses: ./.github/actions/clean_cache
