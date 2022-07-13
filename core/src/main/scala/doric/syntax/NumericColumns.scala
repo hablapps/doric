@@ -71,7 +71,7 @@ private[syntax] trait NumericColumns {
     * @group Numeric Type
     * @see [[org.apache.spark.sql.functions.spark_partition_id]]
     */
-  def sparkPartitionId(): IntegerColumn = DoricColumn(f.spark_partition_id)
+  def sparkPartitionId(): IntegerColumn = DoricColumn(f.spark_partition_id())
 
   /**
     * A column expression that generates monotonically increasing 64-bit integers.

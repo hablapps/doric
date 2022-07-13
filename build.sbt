@@ -35,8 +35,8 @@ val scalaVersionSelect: String => List[String] = {
   case versionRegex("2", _, _)   => List(scala211)
   case versionRegex("3", "0", _) => List(scala212)
   case versionRegex("3", "1", _) => List(scala212)
-  case versionRegex("3", "2", _) => List(scala212)
-  case versionRegex("3", "3", _) => List(scala212)
+  case versionRegex("3", "2", _) => List(scala212, scala213)
+  case versionRegex("3", "3", _) => List(scala212, scala213)
 
 }
 
@@ -102,6 +102,18 @@ val configSpark = Seq(
   )
 )
 
+val scalaOptionsCommon = Seq(
+  "-encoding",
+  "utf8",             // Option and arguments on same line
+  "-Xfatal-warnings", // New lines for each options
+  "-deprecation",
+  "-unchecked",
+  "-language:implicitConversions",
+  "-language:higherKinds",
+  "-language:existentials",
+  "-language:postfixOps",
+  "-Ywarn-numeric-widen"
+)
 lazy val core = project
   .in(file("core"))
   .settings(
@@ -129,15 +141,31 @@ lazy val core = project
       "org.apache.spark"
     ),
     Compile / unmanagedSourceDirectories ++= {
-      sparkVersion.value match {
+      (sparkVersion.value match {
         case versionRegex(mayor, minor, _) =>
-          (Compile / sourceDirectory).value ** s"spark_*$mayor.$minor*" / "scala" get
-      }
+          (Compile / sourceDirectory).value ** s"*spark_*$mayor.$minor*" / "scala" get
+      }) ++
+        (scalaVersion.value match {
+          case versionRegex(mayor, minor, _) =>
+            (Compile / sourceDirectory).value ** s"*scala_*$mayor.$minor*" / "scala" get
+        })
     },
     Test / unmanagedSourceDirectories ++= {
-      sparkVersion.value match {
+      (sparkVersion.value match {
         case versionRegex(mayor, minor, _) =>
-          (Test / sourceDirectory).value ** s"spark_*$mayor.$minor*" / "scala" get
+          (Test / sourceDirectory).value ** s"*spark_*$mayor.$minor*" / "scala" get
+      }) ++
+        (scalaVersion.value match {
+          case versionRegex(mayor, minor, _) =>
+            (Test / sourceDirectory).value ** s"*scala_*$mayor.$minor*" / "scala" get
+        })
+    },
+    scalacOptions ++= {
+      scalaOptionsCommon ++ {
+        if (scalaVersion.value.startsWith("2.13"))
+          Seq.empty
+        else
+          Seq("-Ypartial-unification")
       }
     }
   )
@@ -170,23 +198,17 @@ lazy val docs = project
     ),
     mdocExtraArguments := Seq(
       "--clean-target"
-    )
+    ),
+    scalacOptions ++= {
+      scalaOptionsCommon ++ {
+        if (scalaVersion.value.startsWith("2.13"))
+          Seq.empty
+        else
+          Seq("-Ypartial-unification")
+      }
+    }
   )
   .enablePlugins(plugins: _*)
-
-Global / scalacOptions ++= Seq(
-  "-encoding",
-  "utf8",             // Option and arguments on same line
-  "-Xfatal-warnings", // New lines for each options
-  "-deprecation",
-  "-unchecked",
-  "-language:implicitConversions",
-  "-language:higherKinds",
-  "-language:existentials",
-  "-language:postfixOps",
-  "-Ypartial-unification",
-  "-Ywarn-numeric-widen"
-)
 
 // Scoverage settings
 Global / coverageEnabled       := false

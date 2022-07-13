@@ -21,15 +21,16 @@ class DynamicSpec extends DoricTestElements with EitherValues with Matchers {
     }
 
     it("can get values from sub-sub-columns") {
-      List(((("1", 2.0), 2), true)).toDF
+      List(((("1", 2.0), 2), true))
+        .toDF()
         .validateColumnType(colStruct("_1")._1[Row]._1[String])
     }
 
     it("can get values from the top-level row") {
       df.validateColumnType(row.user[Row])
       df.validateColumnType(row.user[Row].age[Int])
-      List(("1", 2, true)).toDF.validateColumnType(row._1[String])
-      List((("1", 2), true)).toDF.validateColumnType(row._1[Row]._2[Int])
+      List(("1", 2, true)).toDF().validateColumnType(row._1[String])
+      List((("1", 2), true)).toDF().validateColumnType(row._1[Row]._2[Int])
     }
 
     if (minorScalaVersion >= 12)

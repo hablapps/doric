@@ -2,7 +2,6 @@ package doric
 package types
 
 import scala.annotation.implicitNotFound
-import scala.collection.mutable
 import scala.reflect.ClassTag
 
 import cats.data.{Kleisli, Validated}
@@ -222,7 +221,7 @@ object SparkType {
           .toArray
 
       override val rowFieldTransform: Any => Array[O] =
-        _.asInstanceOf[mutable.WrappedArray[O]].toArray
+        _.asInstanceOf[DoricArray.Collection[O]].toArray
 
     }
 
@@ -245,7 +244,7 @@ object SparkType {
         _.map(st.transform)
 
       override val rowFieldTransform: Any => OriginalSparkType =
-        _.asInstanceOf[mutable.WrappedArray[st.OriginalSparkType]]
+        _.asInstanceOf[DoricArray.Collection[st.OriginalSparkType]]
           .map(st.rowFieldTransform)
           .toList
     }
