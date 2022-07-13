@@ -102,7 +102,7 @@ sealed trait SparkType[T] {
   }
 }
 
-object SparkType extends SparkTypeLPI{
+object SparkType extends SparkTypeLPI_I{
 
   type Primitive[T] = SparkType[T] {
     type OriginalSparkType = T
@@ -137,7 +137,7 @@ object SparkType extends SparkTypeLPI{
 
 }
 
-trait SparkTypeLPI extends SparkTypeLPI_II{
+trait SparkTypeLPI_I extends SparkTypeLPI_II{
   self: SparkType.type =>
 
   implicit val fromNull: Primitive[Null] = SparkType[Null](NullType)

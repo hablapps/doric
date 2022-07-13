@@ -10,8 +10,8 @@ import org.scalactic.source
 import scala.collection.generic.CanBuildFrom
 
 class SparkTypeSpec extends DoricTestElements {
-
-  val user: User = User("name", "surname")
+/*
+  val user: User = User("name", 1)
 
   def testFlow[T: SparkType: LiteralSparkType](
       element: T
@@ -65,5 +65,5 @@ class SparkTypeSpec extends DoricTestElements {
     val intToUsers = Map(1 -> List(Option(user)), 2 -> List(), 3 -> List(None))
     testFlow[Map[Int, List[Option[User]]]](intToUsers)
   }
-
+*/
 }
