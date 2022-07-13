@@ -863,4 +863,32 @@ class StringColumnsSpec
     }
   }
 
+  describe("conv doric function") {
+    import spark.implicits._
+
+    val df = List("100", "10", null).toDF("col1")
+
+    it("should work as spark conv function") {
+      df.testColumns3("col1", 2, 10)(
+        (num, from, to) => colString(num).conv(from.lit, to.lit),
+        (num, from, to) => f.conv(f.col(num), from, to),
+        List(Some("4"), Some("2"), None)
+      )
+    }
+  }
+
+  describe("unHex doric function") {
+    import spark.implicits._
+
+    val df = List("5F", "-", null).toDF("col1")
+
+    it("should work as spark unhex function") {
+      df.testColumns("col1")(
+        hexColName => colString(hexColName).unHex,
+        hexColName => f.unhex(f.col(hexColName)),
+        List(Some(Array[Byte](95)), None, None)
+      )
+    }
+  }
+
 }

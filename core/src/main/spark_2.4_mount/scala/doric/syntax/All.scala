@@ -19,3 +19,4 @@ private[doric] trait All
     with Interpolators
     with BinaryColumns30_31
     with StringColumn24
+    with NumericColumns2_31
