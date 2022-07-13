@@ -336,12 +336,13 @@ trait NumericOperationsSpec
     }
   }
 
-  def testIntegrals[T: IntegralType: ClassTag: TypeTag, O: ClassTag: TypeTag]()(implicit
+  def testIntegrals[T: IntegralType: ClassTag: TypeTag, O: ClassTag: TypeTag]()(
+      implicit
       spark: SparkSession,
       sparkTypeT: SparkType.Custom[T, O],
       fun: FromInt[T]
   ): Unit = {
-    val numTypeStr = getClassName[T]
+    val numTypeStr   = getClassName[T]
     implicit val AST = SparkType.fromArray[T, O]
 
     describe(s"Integral num $numTypeStr") {

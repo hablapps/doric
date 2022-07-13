@@ -37,35 +37,46 @@ object Equalities {
   implicit val eqBigDecimal: Equality[BigDecimal] = new Equality[BigDecimal] {
     override def areEqual(a: BigDecimal, b: Any): Boolean = (a, b) match {
       case (x: BigDecimal, y: BigDecimal) => x === y +- 0.00001
-      case _ => false
+      case _                              => false
     }
   }
 
-  implicit val eqJavaBigDecimal: Equality[java.math.BigDecimal] = new Equality[java.math.BigDecimal] {
-    override def areEqual(a: java.math.BigDecimal, b: Any): Boolean = (a, b) match {
-      case (x: java.math.BigDecimal, y: java.math.BigDecimal) =>
-        x >= (y - 0.00001) && x <= (y + 0.00001)
-      case _ => false
+  implicit val eqJavaBigDecimal: Equality[java.math.BigDecimal] =
+    new Equality[java.math.BigDecimal] {
+      override def areEqual(a: java.math.BigDecimal, b: Any): Boolean =
+        (a, b) match {
+          case (x: java.math.BigDecimal, y: java.math.BigDecimal) =>
+            x >= (y - 0.00001) && x <= (y + 0.00001)
+          case _ => false
+        }
     }
-  }
 
-  implicit val eqSparkDecimal: Equality[org.apache.spark.sql.types.Decimal] = new Equality[org.apache.spark.sql.types.Decimal] {
-    override def areEqual(a: org.apache.spark.sql.types.Decimal, b: Any): Boolean = (a, b) match {
-      case (x: org.apache.spark.sql.types.Decimal, y: org.apache.spark.sql.types.Decimal) =>
-        x.equals(y)
-      case (x, y) =>
-        false
+  implicit val eqSparkDecimal: Equality[org.apache.spark.sql.types.Decimal] =
+    new Equality[org.apache.spark.sql.types.Decimal] {
+      override def areEqual(
+          a: org.apache.spark.sql.types.Decimal,
+          b: Any
+      ): Boolean = (a, b) match {
+        case (
+              x: org.apache.spark.sql.types.Decimal,
+              y: org.apache.spark.sql.types.Decimal
+            ) =>
+          x.equals(y)
+        case (x, y) =>
+          false
+      }
     }
-  }
 
-  implicit val eqJavaBigInteger: Equality[java.math.BigInteger] = new Equality[java.math.BigInteger] {
-    override def areEqual(a: java.math.BigInteger, b: Any): Boolean = (a, b) match {
-      case (x: java.math.BigInteger, y: java.math.BigInteger) =>
-        x.compareTo(y) == 0
-      case (x, y) =>
-        false
+  implicit val eqJavaBigInteger: Equality[java.math.BigInteger] =
+    new Equality[java.math.BigInteger] {
+      override def areEqual(a: java.math.BigInteger, b: Any): Boolean =
+        (a, b) match {
+          case (x: java.math.BigInteger, y: java.math.BigInteger) =>
+            x.compareTo(y) == 0
+          case (x, y) =>
+            false
+        }
     }
-  }
 
   implicit val eqInstant: Equality[Instant] = new Equality[Instant] {
     override def areEqual(a: Instant, b: Any): Boolean = (a, b) match {

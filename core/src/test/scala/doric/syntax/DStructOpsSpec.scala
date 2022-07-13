@@ -68,7 +68,11 @@ class DStructOpsSpec extends DoricTestElements {
   }
 
   val dfUsers =
-    List((User("name1", "", 1), 1), (User("name2", "", 2), 2), (User("name3", "", 3), 3))
+    List(
+      (User("name1", "", 1), 1),
+      (User("name2", "", 2), 2),
+      (User("name3", "", 3), 3)
+    )
       .toDF("user", "delete")
 
   describe("Field access") {

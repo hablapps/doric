@@ -29,7 +29,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
 
       testLitDataType[Int](0)
       testLitDataType[Long](0L)
-      testLitDataType[Float](0.0F)
+      testLitDataType[Float](0.0f)
       testLitDataType[Double](0.0)
       testLitDataType[Short](0)
       testLitDataType[Byte](0)
@@ -48,7 +48,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testLitDataType[java.lang.Float](0.0F)
       testLitDataType[java.lang.Short](java.lang.Short.MAX_VALUE)
       testLitDataType[java.lang.Byte](java.lang.Byte.MAX_VALUE)
-      */
+       */
 
       testDataType[BigDecimal]
       testDataType[java.math.BigDecimal]
@@ -62,7 +62,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testLitDataType[java.math.BigInteger](java.math.BigInteger.ZERO)
       //testLitDataType[scala.math.BigInt](0)
       testLitDataType[Decimal](Decimal(0))
-      */
+       */
 
       // String types
 
@@ -70,13 +70,13 @@ class PrimitiveTypesSpec extends DoricTestElements {
 
       testLitDataType[String]("")
 
-      //*VarcharType
-      //*CharType
+      // *VarcharType
+      // *CharType
 
       // Binary type
 
       testDataType[Array[Byte]]
-      testLitDataType[Array[Byte]](Array(0,0))
+      testLitDataType[Array[Byte]](Array(0, 0))
 
       // Boolean type
 
@@ -84,7 +84,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testDataType[java.lang.Boolean]
 
       testLitDataType[Boolean](true)
-      //testLitDataType[java.lang.Boolean](true)
+      // testLitDataType[java.lang.Boolean](true)
 
       // Datetime type
 
@@ -98,8 +98,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testLitDataType[java.sql.Timestamp](new java.sql.Timestamp(0))
       testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
       testLitDataType[java.time.Instant](java.time.Instant.now())
-      //testLitDataType[CalendarInterval](new CalendarInterval(0, 0, 0))
-
+      // testLitDataType[CalendarInterval](new CalendarInterval(0, 0, 0))
 
       // Interval type
 
@@ -109,11 +108,11 @@ class PrimitiveTypesSpec extends DoricTestElements {
       /*
       testLitDataType[java.time.Duration](java.time.Duration.ZERO)
       testLitDataType[java.time.Period](java.time.Period.ZERO)
-      */
+       */
     }
   }
 
-  describe("Collection types"){
+  describe("Collection types") {
 
     it("should match Spark Array types") {
       testDataType[Array[Int]]
@@ -128,18 +127,17 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testDataType[IndexedSeq[String]]
       testDataType[Set[String]]
 
-      testLitDataType[Array[Int]](Array(0,0))
-      testLitDataType[Seq[Int]](Seq(0,0))
-      testLitDataType[List[Int]](List(0,0))
-      testLitDataType[IndexedSeq[Int]](IndexedSeq(0,0))
-      //testLitDataType[Set[Int]](Set(0,1))
+      testLitDataType[Array[Int]](Array(0, 0))
+      testLitDataType[Seq[Int]](Seq(0, 0))
+      testLitDataType[List[Int]](List(0, 0))
+      testLitDataType[IndexedSeq[Int]](IndexedSeq(0, 0))
+      // testLitDataType[Set[Int]](Set(0,1))
 
-      testLitDataType[Array[String]](Array("",""))
+      testLitDataType[Array[String]](Array("", ""))
       testLitDataType[Seq[String]](Seq("", ""))
       testLitDataType[List[String]](List("", ""))
       testLitDataType[IndexedSeq[String]](IndexedSeq("", ""))
-      //testLitDataType[Set[String]](Set("", "a"))
-
+      // testLitDataType[Set[String]](Set("", "a"))
 
     }
 
@@ -150,10 +148,10 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testDataType[Map[Int, Int]]
       testDataType[Map[String, String]]
 
-      testLitDataType[Map[Int, String]](Map(0->""))
-      testLitDataType[Map[String, Int]](Map(""->0))
-      testLitDataType[Map[Int, Int]](Map(0->0))
-      testLitDataType[Map[String, String]](Map(""->""))
+      testLitDataType[Map[Int, String]](Map(0 -> ""))
+      testLitDataType[Map[String, Int]](Map("" -> 0))
+      testLitDataType[Map[Int, Int]](Map(0 -> 0))
+      testLitDataType[Map[String, String]](Map("" -> ""))
 
     }
 
@@ -168,10 +166,9 @@ class PrimitiveTypesSpec extends DoricTestElements {
 
   case class User(name: String, age: Int)
 
-  describe("Struct types"){
-    import org.apache.spark.sql.{functions => f}
-    spark.range(1).select(f.typedlit[Map[Int, String]](Map[Int,String](1->"", 2->""))).show
-    ignore("should match `Row`"){
+  describe("Struct types") {
+
+    ignore("should match `Row`") {
       testDataType[Row]
     }
 
@@ -179,12 +176,12 @@ class PrimitiveTypesSpec extends DoricTestElements {
 
       testDataType[(Int, String)]
       testDataType[User]
-      //testLitDataType[(Int, String)]((0,""))
-      //testLitDataType[User](User("", 0))
+      // testLitDataType[(Int, String)]((0,""))
+      // testLitDataType[User](User("", 0))
 
     }
   }
-/*
+  /*
   describe("Complex types"){
     it("should match a combination of Spark types"){
       testDataType[List[User]]
@@ -202,7 +199,7 @@ class PrimitiveTypesSpec extends DoricTestElements {
       //testLitDataType[(List[Int], User, Map[Int, Option[User]])]((List(0,0), User("",0), Map(0->None, 1->Some(User("",0)))))
     }
   }
-*/
+   */
 
   // TBD
 
@@ -210,5 +207,3 @@ class PrimitiveTypesSpec extends DoricTestElements {
   // SQLUserDefinedType
   // UDTRegistration
 }
-
-

@@ -36,7 +36,7 @@ trait LiteralSparkType[T] {
     new LiteralSparkType[O]() {
       override type OriginalSparkType = self.OriginalSparkType
       val ttag                                       = self.ttag
-      val cTag: ClassTag[self.OriginalSparkType] = self.cTag
+      val cTag: ClassTag[self.OriginalSparkType]     = self.cTag
       override val literalTo: O => OriginalSparkType = f andThen self.literalTo
     }
 }
@@ -52,15 +52,15 @@ object LiteralSparkType extends LiteralSparkTypeLPI_I {
   }
 
   @inline def apply[T](implicit
-                       litc: LiteralSparkType[T]
-                      ): Custom[T, litc.OriginalSparkType] =
+      litc: LiteralSparkType[T]
+  ): Custom[T, litc.OriginalSparkType] =
     litc
 
-  @inline protected def createPrimitive[T: ClassTag : TypeTag]: Primitive[T] =
+  @inline protected def createPrimitive[T: ClassTag: TypeTag]: Primitive[T] =
     new LiteralSparkType[T] {
       override type OriginalSparkType = T
-      val cTag: ClassTag[T] = implicitly[ClassTag[T]]
-      val ttag = typeTag[T]
+      val cTag: ClassTag[T]                          = implicitly[ClassTag[T]]
+      val ttag                                       = typeTag[T]
       override val literalTo: T => OriginalSparkType = identity
     }
 }
@@ -70,12 +70,12 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
 
   implicit val fromNull: Primitive[Null] = createPrimitive[Null]
 
-  implicit val fromInt: Primitive[Int] = createPrimitive[Int]
-  implicit val fromLong: Primitive[Long] = createPrimitive[Long]
-  implicit val fromFloat: Primitive[Float] = createPrimitive[Float]
+  implicit val fromInt: Primitive[Int]       = createPrimitive[Int]
+  implicit val fromLong: Primitive[Long]     = createPrimitive[Long]
+  implicit val fromFloat: Primitive[Float]   = createPrimitive[Float]
   implicit val fromDouble: Primitive[Double] = createPrimitive[Double]
-  implicit val fromShort: Primitive[Short] = createPrimitive[Short]
-  implicit val fromByte: Primitive[Byte] = createPrimitive[Byte]
+  implicit val fromShort: Primitive[Short]   = createPrimitive[Short]
+  implicit val fromByte: Primitive[Byte]     = createPrimitive[Byte]
 
   // Java numerics: TBD
   // BigDecimal et al.: TBD
@@ -85,9 +85,10 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
 
   implicit val fromStringDf: Primitive[String] = createPrimitive[String]
 
-  implicit val fromLocalDate: Primitive[Date] = createPrimitive[Date]
+  implicit val fromLocalDate: Primitive[Date]    = createPrimitive[Date]
   implicit val fromInstant: Primitive[Timestamp] = createPrimitive[Timestamp]
-  implicit val fromDate: Custom[LocalDate, Date] = LiteralSparkType[Date].customType[LocalDate](Date.valueOf)
+  implicit val fromDate: Custom[LocalDate, Date] =
+    LiteralSparkType[Date].customType[LocalDate](Date.valueOf)
   implicit val fromTimestamp: Custom[Instant, Timestamp] =
     LiteralSparkType[Timestamp].customType[Instant](Timestamp.from)
   // Calendar: TBD
@@ -96,7 +97,7 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   // Period: TBD
 }
 
-trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
+trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III {
   self: LiteralSparkType.type =>
 
   implicit def fromMap[K, V](implicit
@@ -118,8 +119,8 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
     }
 
   implicit def fromArray[A](implicit
-                            lst: LiteralSparkType[A]
-                           ): Custom[Array[A], Array[lst.OriginalSparkType]] =
+      lst: LiteralSparkType[A]
+  ): Custom[Array[A], Array[lst.OriginalSparkType]] =
     new LiteralSparkType[Array[A]] {
 
       override type OriginalSparkType = Array[lst.OriginalSparkType]
@@ -135,8 +136,8 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
     }
 
   implicit def fromSeq[A, CC[x] <: Seq[x]](implicit
-                                           lst: LiteralSparkType[A]
-                                          ): Custom[CC[A], Seq[lst.OriginalSparkType]] =
+      lst: LiteralSparkType[A]
+  ): Custom[CC[A], Seq[lst.OriginalSparkType]] =
     new LiteralSparkType[CC[A]] {
 
       override type OriginalSparkType = Seq[lst.OriginalSparkType]
@@ -150,8 +151,8 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
     }
 
   implicit def fromSet[A, CC[x] <: Set[x]](implicit
-                                           lst: LiteralSparkType[A]
-                                          ): Custom[CC[A], Set[lst.OriginalSparkType]] =
+      lst: LiteralSparkType[A]
+  ): Custom[CC[A], Set[lst.OriginalSparkType]] =
     new LiteralSparkType[CC[A]] {
 
       override type OriginalSparkType = Set[lst.OriginalSparkType]
@@ -183,15 +184,15 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
 
   def optiontt[T: TypeTag]: TypeTag[Option[T]]          = typeTag[Option[T]]
   def maptt[K: TypeTag, V: TypeTag]: TypeTag[Map[K, V]] = typeTag[Map[K, V]]
-  def seqtt[T: TypeTag]: TypeTag[Seq[T]]              = typeTag[Seq[T]]
-  def settt[T: TypeTag]: TypeTag[Set[T]]              = typeTag[Set[T]]
+  def seqtt[T: TypeTag]: TypeTag[Seq[T]]                = typeTag[Seq[T]]
+  def settt[T: TypeTag]: TypeTag[Set[T]]                = typeTag[Set[T]]
   def arraytt[T: TypeTag]: TypeTag[Array[T]]            = typeTag[Array[T]]
 
   implicit val fromRow: Primitive[Row] = new LiteralSparkType[Row] {
     override type OriginalSparkType = Row
-    override val cTag: ClassTag[Row]     = implicitly[ClassTag[Row]]
-    override val ttag: TypeTag[Row] = typeTag[Row]
-    override val literalTo                   = identity
+    override val cTag: ClassTag[Row] = implicitly[ClassTag[Row]]
+    override val ttag: TypeTag[Row]  = typeTag[Row]
+    override val literalTo           = identity
     override def literal(t: Row): DoricValidated[Column] =
       if (t.schema == null)
         SparkErrorWrapper(new Exception("Row without schema")).invalidNec
@@ -206,8 +207,7 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III{
 
 }
 
-
-trait LiteralSparkTypeLPI_III  {
+trait LiteralSparkTypeLPI_III {
   self: LiteralSparkType.type =>
 
   implicit def fromProduct[T <: Product: TypeTag: ClassTag]: Primitive[T] =
@@ -245,6 +245,6 @@ trait LiteralSparkTypeLPI_III  {
       override val ttag: TypeTag[AO] = typeTag[AO]
       override val literalTo: A => AO = (lg.value.to _) andThen hlistLST.value.literalTo andThen lgo.value.from
     }
-*/
+   */
 
 }

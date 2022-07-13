@@ -8,7 +8,7 @@ case class User(name: String, age: Int)
 
 object User {
 
-  object ToInt{
+  object ToInt {
     def unapply(s: String): Option[Int] =
       Try(s.toInt).toOption
   }
@@ -23,5 +23,7 @@ object User {
   implicit val userlst: LiteralSparkType[User] {
     type OriginalSparkType = String
   } =
-    LiteralSparkType[String].customType[User](x => s"${x.name}#${x.age.toString}")
+    LiteralSparkType[String].customType[User](x =>
+      s"${x.name}#${x.age.toString}"
+    )
 }

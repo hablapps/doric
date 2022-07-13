@@ -74,7 +74,7 @@ class CollectOpsSpec extends DoricTestElements {
         List(Array("a", "b"), Array.empty[String])
       test(listOfStrings)
 
-      test(List(List(), List(1,1), List(1,2)))
+      test(List(List(), List(1, 1), List(1, 2)))
     }
 
     it("allows to collect more than one column") {

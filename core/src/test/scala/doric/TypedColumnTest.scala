@@ -17,16 +17,26 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   private lazy val doricCol = "dcol"
   private lazy val sparkCol = "scol"
 
-  def testDataType[T: TypeTag : SparkType](implicit spark: SparkSession, pos: source.Position): Unit =
+  def testDataType[T: TypeTag: SparkType](implicit
+      spark: SparkSession,
+      pos: source.Position
+  ): Unit =
     SparkType[T].dataType shouldBe ScalaReflection.schemaFor[T].dataType
 
-  def testDataTypeForEncoder[T: TypeTag : SparkType: Encoder](implicit spark: SparkSession, pos: source.Position): Unit =
+  def testDataTypeForEncoder[T: TypeTag: SparkType: Encoder](implicit
+      spark: SparkSession,
+      pos: source.Position
+  ): Unit =
     noException shouldBe thrownBy {
-      spark.emptyDataset[T].toDF
+      spark
+        .emptyDataset[T]
+        .toDF
         .select(col[T]("value"))
     }
 
-  def testLitDataType[T: TypeTag : LiteralSparkType : SparkType](value: T)(implicit spark: SparkSession, pos: source.Position): Unit =
+  def testLitDataType[T: TypeTag: LiteralSparkType: SparkType](
+      value: T
+  )(implicit spark: SparkSession, pos: source.Position): Unit =
     spark.emptyDataFrame
       .select(value.lit)
       .schema
@@ -34,13 +44,23 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       .head
       .dataType shouldBe ScalaReflection.schemaFor[T].dataType
 
-  def deserializeSparkType[T: TypeTag: SparkType: Equality](data: T)(implicit spark: SparkSession, pos: source.Position): Unit =
-    spark.createDataFrame(Seq((data,0)))
-      .collectCols[T](col[T]("_1")).head should ===(data)
+  def deserializeSparkType[T: TypeTag: SparkType: Equality](
+      data: T
+  )(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark
+      .createDataFrame(Seq((data, 0)))
+      .collectCols[T](col[T]("_1"))
+      .head should ===(data)
 
-  def serializeSparkType[T: LiteralSparkType: SparkType: Equality](data: T)(implicit spark: SparkSession, pos: source.Position): Unit =
-    spark.range(1).toDF.select(data.lit as "value")
-      .collectCols[T](col[T]("value")).head should ===(data)
+  def serializeSparkType[T: LiteralSparkType: SparkType: Equality](
+      data: T
+  )(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark
+      .range(1)
+      .toDF
+      .select(data.lit as "value")
+      .collectCols[T](col[T]("value"))
+      .head should ===(data)
 
   /**
     * Compare two columns (doric & spark).

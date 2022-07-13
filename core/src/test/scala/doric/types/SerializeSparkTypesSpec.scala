@@ -19,7 +19,7 @@ class SerializeSparkTypeSpec extends DoricTestElements {
 
       serializeSparkType[Int](0)
       serializeSparkType[Long](0L)
-      serializeSparkType[Float](0.0F)
+      serializeSparkType[Float](0.0f)
       serializeSparkType[Double](0.0)
       serializeSparkType[Short](0)
       serializeSparkType[Byte](0)
@@ -37,7 +37,7 @@ class SerializeSparkTypeSpec extends DoricTestElements {
       serializeSparkType[java.math.BigInteger](java.math.BigInteger.ZERO)
       //serializeSparkType[scala.math.BigInt](0)
       serializeSparkType[Decimal](Decimal(0))
-      */
+       */
 
       // String types
 
@@ -47,12 +47,12 @@ class SerializeSparkTypeSpec extends DoricTestElements {
 
       // Binary type
 
-      serializeSparkType[Array[Byte]](Array(0,0))
+      serializeSparkType[Array[Byte]](Array(0, 0))
 
       // Boolean type
 
       serializeSparkType[Boolean](true)
-      //serializeSparkType[java.lang.Boolean](true)
+      // serializeSparkType[java.lang.Boolean](true)
 
       // Datetime type
 
@@ -60,42 +60,40 @@ class SerializeSparkTypeSpec extends DoricTestElements {
       serializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
       serializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
       serializeSparkType[java.time.Instant](java.time.Instant.now())
-      //serializeSparkType[CalendarInterval](new CalendarInterval(0, 0, 0))
+      // serializeSparkType[CalendarInterval](new CalendarInterval(0, 0, 0))
 
       // Interval type
 
-      //serializeSparkType[java.time.Duration](java.time.Duration.ZERO)
-      //serializeSparkType[java.time.Period](java.time.Period.ZERO)
+      // serializeSparkType[java.time.Duration](java.time.Duration.ZERO)
+      // serializeSparkType[java.time.Period](java.time.Period.ZERO)
 
     }
   }
 
-
-  describe("Collection types"){
+  describe("Collection types") {
 
     it("should match Spark Array types") {
 
-      serializeSparkType[Array[Int]](Array(0,0))
-      serializeSparkType[Seq[Int]](Seq(0,0))
-      serializeSparkType[List[Int]](List(0,0))
-      serializeSparkType[IndexedSeq[Int]](IndexedSeq(0,0))
-      //serializeSparkType[Set[Int]](Set(0,1))
+      serializeSparkType[Array[Int]](Array(0, 0))
+      serializeSparkType[Seq[Int]](Seq(0, 0))
+      serializeSparkType[List[Int]](List(0, 0))
+      serializeSparkType[IndexedSeq[Int]](IndexedSeq(0, 0))
+      // serializeSparkType[Set[Int]](Set(0,1))
 
-      serializeSparkType[Array[String]](Array("",""))
+      serializeSparkType[Array[String]](Array("", ""))
       serializeSparkType[Seq[String]](Seq("", ""))
       serializeSparkType[List[String]](List("", ""))
       serializeSparkType[IndexedSeq[String]](IndexedSeq("", ""))
-      //serializeSparkType[Set[String]](Set("", "a"))
-
+      // serializeSparkType[Set[String]](Set("", "a"))
 
     }
 
     it("should match Spark Map types") {
 
-      serializeSparkType[Map[Int, String]](Map(0->""))
-      serializeSparkType[Map[String, Int]](Map(""->0))
-      serializeSparkType[Map[Int, Int]](Map(0->0))
-      serializeSparkType[Map[String, String]](Map(""->""))
+      serializeSparkType[Map[Int, String]](Map(0 -> ""))
+      serializeSparkType[Map[String, Int]](Map("" -> 0))
+      serializeSparkType[Map[Int, Int]](Map(0 -> 0))
+      serializeSparkType[Map[String, String]](Map("" -> ""))
     }
 
     it("should match Spark Option types") {
@@ -107,27 +105,34 @@ class SerializeSparkTypeSpec extends DoricTestElements {
 
   case class User(name: String, age: Int)
 
-  describe("Struct types"){
+  describe("Struct types") {
 
     it("should match case classes") {
 
-      serializeSparkType[(Int, String)]((0,""))
+      serializeSparkType[(Int, String)]((0, ""))
       serializeSparkType[User](User("", 0))
     }
   }
 
-  describe("Complex types"){
-    it("should match a combination of Spark types"){
+  describe("Complex types") {
+    it("should match a combination of Spark types") {
       serializeSparkType[Array[User]](Array(User("", 0)))
       serializeSparkType[List[User]](List(User("", 0)))
       serializeSparkType[(User, Int)]((User("", 0), 1))
       serializeSparkType[Array[Array[Int]]](Array(Array(1)))
-      serializeSparkType[Array[Array[User]]](Array(Array(User("",0), User("",0)), Array()))
-      serializeSparkType[Array[List[User]]](Array(List(User("",0), User("",0)), List()))
-      serializeSparkType[Map[Int, Option[List[User]]]](Map(0->None, 1->Some(List(User("",0)))))
-      serializeSparkType[(List[Int], User, Map[Int, Option[User]])]((List(0,0), User("",0), Map(0->None, 1->Some(User("",0)))))
+      serializeSparkType[Array[Array[User]]](
+        Array(Array(User("", 0), User("", 0)), Array())
+      )
+      serializeSparkType[Array[List[User]]](
+        Array(List(User("", 0), User("", 0)), List())
+      )
+      serializeSparkType[Map[Int, Option[List[User]]]](
+        Map(0 -> None, 1 -> Some(List(User("", 0))))
+      )
+      serializeSparkType[(List[Int], User, Map[Int, Option[User]])](
+        (List(0, 0), User("", 0), Map(0 -> None, 1 -> Some(User("", 0))))
+      )
     }
   }
-
 
 }

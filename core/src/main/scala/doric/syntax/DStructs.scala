@@ -91,21 +91,21 @@ private[syntax] trait DStructs {
     self: DoricColumn[T] =>
 
     /**
-     * Allows for accessing fields of struct columns using the syntax `rowcol.name[T]`.
-     * This expression stands for `rowcol.getChild[T](name)`.
-     *
-     * @param name
-     * @param location
-     * @param st
-     * @tparam A
-     * @return The column which refers to the given field
-     * @throws doric.sem.ColumnTypeError if the parent column is not a struct
-     */
+      * Allows for accessing fields of struct columns using the syntax `rowcol.name[T]`.
+      * This expression stands for `rowcol.getChild[T](name)`.
+      *
+      * @param name
+      * @param location
+      * @param st
+      * @tparam A
+      * @return The column which refers to the given field
+      * @throws doric.sem.ColumnTypeError if the parent column is not a struct
+      */
 
     def selectDynamic[A](name: String)(implicit
-                                       location: Location,
-                                       st: SparkType[A],
-                                       w: T Is Row
+        location: Location,
+        st: SparkType[A],
+        w: T Is Row
     ): DoricColumn[A] =
       w.lift[DoricColumn].coerce(self).getChild[A](name)
   }
