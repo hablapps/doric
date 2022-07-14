@@ -7,7 +7,9 @@ import org.apache.spark.unsafe.types.CalendarInterval
 
 // Note: checked out from https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/ScalaReflection.scala#L745
 
-class PrimitiveTypesSpec extends DoricTestElements with PrimitiveTypesSpec_Specific {
+class PrimitiveTypesSpec
+    extends DoricTestElements
+    with PrimitiveTypesSpec_Specific {
 
   describe("Simple Java/Scala types") {
 

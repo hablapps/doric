@@ -5,7 +5,9 @@ import org.apache.spark.unsafe.types.CalendarInterval
 import Equalities._
 import org.apache.spark.sql.types.Decimal
 
-class DeserializeSparkTypeSpec extends DoricTestElements with DeserializeSparkTypeSpec_Specific {
+class DeserializeSparkTypeSpec
+    extends DoricTestElements
+    with DeserializeSparkTypeSpec_Specific {
 
   describe("Simple Java/Scala types") {
 
