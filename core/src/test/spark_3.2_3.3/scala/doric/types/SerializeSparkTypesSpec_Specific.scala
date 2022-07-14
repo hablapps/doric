@@ -3,7 +3,7 @@ package types
 
 trait SerializeSparkTypeSpec_Specific extends DoricTestElements {
 
-  describe("Simple Java/Scala types") {
+  describe("Simple Java/Scala types (specific version)") {
 
     it("should match Atomic Spark SQL types") {
 
