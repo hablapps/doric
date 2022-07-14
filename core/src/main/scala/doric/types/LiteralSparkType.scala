@@ -79,6 +79,7 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
 
   // Java numerics: TBD
   // BigDecimal et al.: TBD
+  // Binary type: TBD
 
   implicit val fromBoolean: Primitive[Boolean] = createPrimitive[Boolean]
   // Java Boolean: TBD

@@ -96,14 +96,14 @@ Implicit type conversions in Spark are pervasive. For instance, the following co
 val df0 = spark.range(1,10).withColumn("x", f.concat(f.col("id"), f.lit("jander")))
 ```
 
-which means that an implicit conversion from bigint to string will be in effect when we run our DataFrame:
+which means that an implicit conversion from `bigint` to `string` will be in effect when we run our DataFrame:
 
 ```scala mdoc
 df0.select(f.col("x")).show
 ```
 
-Assuming that you are certain that your column holds vales of type bigint, the same code in doric won't compile
-(note that the Spark type `Bigint` corresponds to the Scala type `Long`):
+Assuming that you are certain that your column holds vales of type `bigint`, the same code in doric won't compile
+(note that the Spark type `bigint` corresponds to the Scala type `Long`):
 
 ```scala mdoc:fail
 val df1 = spark.range(1,10).toDF.withColumn("x", concat(colLong("id"), "jander".lit))
