@@ -1,5 +1,3 @@
 package doric.types
 
-trait SparkTypeLPI_I_Specific {
-
-}
+trait SparkTypeLPI_I_Specific {}
