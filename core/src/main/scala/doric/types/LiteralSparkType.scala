@@ -190,9 +190,9 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III {
 
   implicit val fromRow: Primitive[Row] = new LiteralSparkType[Row] {
     override type OriginalSparkType = Row
-    override val cTag: ClassTag[Row] = implicitly[ClassTag[Row]]
-    override val ttag: TypeTag[Row]  = typeTag[Row]
-    override val literalTo           = identity
+    override val cTag: ClassTag[Row]   = implicitly[ClassTag[Row]]
+    override val ttag: TypeTag[Row]    = typeTag[Row]
+    override val literalTo: Row => Row = identity _
     override def literal(t: Row): DoricValidated[Column] =
       if (t.schema == null)
         SparkErrorWrapper(new Exception("Row without schema")).invalidNec

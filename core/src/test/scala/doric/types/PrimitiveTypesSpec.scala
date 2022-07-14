@@ -7,7 +7,7 @@ import org.apache.spark.unsafe.types.CalendarInterval
 
 // Note: checked out from https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/ScalaReflection.scala#L745
 
-class PrimitiveTypesSpec extends DoricTestElements {
+class PrimitiveTypesSpec extends DoricTestElements with PrimitiveTypesSpec_Specific {
 
   describe("Simple Java/Scala types") {
 
@@ -99,16 +99,6 @@ class PrimitiveTypesSpec extends DoricTestElements {
       testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
       testLitDataType[java.time.Instant](java.time.Instant.now())
       // testLitDataType[CalendarInterval](new CalendarInterval(0, 0, 0))
-
-      // Interval type
-
-      testDataType[java.time.Duration]
-      testDataType[java.time.Period]
-
-      /*
-      testLitDataType[java.time.Duration](java.time.Duration.ZERO)
-      testLitDataType[java.time.Period](java.time.Period.ZERO)
-       */
     }
   }
 

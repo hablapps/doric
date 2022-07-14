@@ -140,7 +140,7 @@ object SparkType extends SparkTypeLPI_I {
 
 }
 
-trait SparkTypeLPI_I extends SparkTypeLPI_II {
+trait SparkTypeLPI_I extends SparkTypeLPI_II with SparkTypeLPI_I_Specific {
   self: SparkType.type =>
 
   implicit val fromNull: Primitive[Null] = SparkType[Null](NullType)
@@ -199,11 +199,6 @@ trait SparkTypeLPI_I extends SparkTypeLPI_II {
     SparkType[java.sql.Timestamp].customType[java.time.Instant](_.toInstant)
   implicit val fromCalendarInterval: Primitive[CalendarInterval] =
     SparkType[CalendarInterval](CalendarIntervalType)
-
-  implicit val fromDuration: Primitive[java.time.Duration] =
-    SparkType[java.time.Duration](DayTimeIntervalType())
-  implicit val fromPeriod: Primitive[java.time.Period] =
-    SparkType[java.time.Period](YearMonthIntervalType())
 }
 
 trait SparkTypeLPI_II extends SparkTypeLPI_III { self: SparkType.type =>

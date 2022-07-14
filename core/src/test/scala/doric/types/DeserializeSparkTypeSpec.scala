@@ -5,7 +5,7 @@ import org.apache.spark.unsafe.types.CalendarInterval
 import Equalities._
 import org.apache.spark.sql.types.Decimal
 
-class DeserializeSparkTypeSpec extends DoricTestElements {
+class DeserializeSparkTypeSpec extends DoricTestElements with DeserializeSparkTypeSpec_Specific {
 
   describe("Simple Java/Scala types") {
 
@@ -58,13 +58,6 @@ class DeserializeSparkTypeSpec extends DoricTestElements {
       deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
       deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
       deserializeSparkType[java.time.Instant](java.time.Instant.now())
-      deserializeSparkType[CalendarInterval](new CalendarInterval(0, 0, 0))
-
-      // Interval type
-
-      deserializeSparkType[java.time.Duration](java.time.Duration.ZERO)
-      deserializeSparkType[java.time.Period](java.time.Period.ZERO)
-
     }
   }
 
