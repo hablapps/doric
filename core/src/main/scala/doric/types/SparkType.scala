@@ -201,7 +201,9 @@ trait SparkTypeLPI_I extends SparkTypeLPI_II with SparkTypeLPI_I_Specific {
     SparkType[CalendarInterval](CalendarIntervalType)
 }
 
-trait SparkTypeLPI_II extends SparkTypeLPI_III { self: SparkType.type =>
+trait SparkTypeLPI_II
+    extends SparkTypeLPI_III
+    with SparkTypeLPI_II_Seq_Set_Specific { self: SparkType.type =>
 
   implicit def fromMap[K: SparkType, V: SparkType](implicit
       stk: SparkType[K],
@@ -257,20 +259,6 @@ trait SparkTypeLPI_II extends SparkTypeLPI_III { self: SparkType.type =>
       override val rowFieldTransform: Any => OriginalSparkType =
         _.asInstanceOf[DoricArray.Collection[O]]
     }
-
-  implicit def fromSeq[A: ClassTag, O: ClassTag, C[X] <: Seq[X]](implicit
-      st: SparkType[A] { type OriginalSparkType = O },
-      cbf: CanBuildFrom[_, A, C[A]]
-  ): SparkType[C[A]] {
-    type OriginalSparkType = mutable.WrappedArray[st.OriginalSparkType]
-  } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
-
-  implicit def fromSet[A: ClassTag, O: ClassTag, C[X] <: Set[X]](implicit
-      st: SparkType[A] { type OriginalSparkType = O },
-      cbf: CanBuildFrom[_, A, C[A]]
-  ): SparkType[C[A]] {
-    type OriginalSparkType = mutable.WrappedArray[st.OriginalSparkType]
-  } = fromArray[A, O].customType(array => (cbf.apply ++= array).result)
 
   implicit def fromOption[A](implicit
       st: SparkType[A]

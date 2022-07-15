@@ -98,7 +98,7 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   // Period: TBD
 }
 
-trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III {
+trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III { // with LiteralSparkTypeLPI_II_Array_Specific{
   self: LiteralSparkType.type =>
 
   implicit def fromMap[K, V](implicit
@@ -127,7 +127,8 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III {
       override type OriginalSparkType = Array[lst.OriginalSparkType]
 
       override val literalTo: Array[A] => OriginalSparkType = {
-        _.map(lst.literalTo).toArray(lst.cTag)
+        implicit val lstcTag = lst.cTag // For scala 2.13
+        _.map(lst.literalTo)
       }
 
       override val cTag: ClassTag[Array[lst.OriginalSparkType]] =

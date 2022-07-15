@@ -30,7 +30,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     noException shouldBe thrownBy {
       spark
         .emptyDataset[T]
-        .toDF
+        .toDF()
         .select(col[T]("value"))
     }
 
@@ -57,7 +57,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
   )(implicit spark: SparkSession, pos: source.Position): Unit =
     spark
       .range(1)
-      .toDF
+      .toDF()
       .select(data.lit as "value")
       .collectCols[T](col[T]("value"))
       .head should ===(data)

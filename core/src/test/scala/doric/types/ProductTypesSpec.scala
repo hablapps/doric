@@ -1,7 +1,7 @@
 package doric
 package types
 
-import doric.sem.ColumnTypeError
+import doric.sem.{ColumnTypeError, DoricMultiError}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.types.{DataType, LongType, StructType}
@@ -57,19 +57,15 @@ class ProductTypesSpec extends DoricTestElements {
     it(
       "should return a type mismatch error if the expected and DF data types are not equal"
     ) {
-      col[User]("id").elem
-        .run(spark.range(1))
-        .toEither
-        .left
-        .get
-        .head shouldBe ColumnTypeError("id", User.schema, LongType)
+      intercept[DoricMultiError] {
+        spark.range(1).select(col[User]("id"))
+      } should containAllErrors(ColumnTypeError("id", User.schema, LongType))
 
-      col[(String, Int)]("user").elem
-        .run(dfUsers)
-        .toEither
-        .left
-        .get
-        .head shouldBe ColumnTypeError("user", tuple2Schema, User.schema)
+      intercept[DoricMultiError] {
+        dfUsers.select(col[(String, Int)]("user"))
+      } should containAllErrors(
+        ColumnTypeError("user", tuple2Schema, User.schema)
+      )
     }
   }
 
@@ -111,13 +107,13 @@ class ProductTypesSpec extends DoricTestElements {
 
     it("should work statically as well") {
       dfUsers
-        .select(col[User]("user").getChildSafe('name) as "name")
+        .select(col[User]("user").getChildSafe(Symbol("name")) as "name")
         .collectCols(col[String]("name")) shouldBe
         List("name1", "name2", "name3")
     }
 
     it("should not work statically if the field doesn't exist") {
-      """col[User]("user").getChildSafe('nameeee)""" shouldNot compile
+      """col[User]("user").getChildSafe(Symbol("nameeee"))""" shouldNot compile
     }
   }
 
