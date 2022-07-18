@@ -4,6 +4,7 @@ package types
 import cats.data.{Kleisli, Validated}
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
+import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.unsafe.types.CalendarInterval
@@ -155,32 +156,42 @@ trait SparkTypeLPI_I extends SparkTypeLPI_II with SparkTypeLPI_I_Specific {
 
   implicit val fromJavaInteger: Primitive[java.lang.Integer] =
     SparkType[java.lang.Integer](IntegerType)
+
   implicit val fromJavaLong: Primitive[java.lang.Long] =
     SparkType[java.lang.Long](LongType)
+
   implicit val fromJavaDouble: Primitive[java.lang.Double] =
     SparkType[java.lang.Double](DoubleType)
+
   implicit val fromJavaFloat: Primitive[java.lang.Float] =
     SparkType[java.lang.Float](FloatType)
+
   implicit val fromJavaShort: Primitive[java.lang.Short] =
     SparkType[java.lang.Short](ShortType)
+
   implicit val fromJavaByte: Primitive[java.lang.Byte] =
     SparkType[java.lang.Byte](ByteType)
 
   implicit val fromJavaBigDecimal: Primitive[java.math.BigDecimal] =
     SparkType[java.math.BigDecimal](DecimalType.SYSTEM_DEFAULT)
+
   implicit val fromBigDecimal: Custom[BigDecimal, java.math.BigDecimal] =
     fromJavaBigDecimal.customType[BigDecimal](BigDecimal.apply)
+
   implicit val fromJavaBigInteger
       : Custom[java.math.BigInteger, java.math.BigDecimal] =
     SparkType[java.math.BigDecimal](DecimalType(38, 0))
       .customType[java.math.BigInteger](_.toBigInteger)
+
   implicit val fromBigInt: Custom[scala.math.BigInt, java.math.BigDecimal] =
     fromJavaBigInteger.customType[scala.math.BigInt](scala.math.BigInt.apply)
+
   implicit val fromDecimal: Custom[Decimal, java.math.BigDecimal] =
     fromJavaBigDecimal.customType[Decimal](Decimal.fromDecimal)
 
   implicit val fromBoolean: Primitive[Boolean] =
     SparkType[Boolean](BooleanType, false)
+
   implicit val fromJavaBoolean: Primitive[java.lang.Boolean] =
     SparkType[java.lang.Boolean](BooleanType)
 
@@ -189,14 +200,50 @@ trait SparkTypeLPI_I extends SparkTypeLPI_II with SparkTypeLPI_I_Specific {
   implicit val fromBinary: Primitive[Array[Byte]] =
     SparkType[Array[Byte]](org.apache.spark.sql.types.BinaryType)
 
-  implicit val fromLocalDate: Primitive[java.sql.Date] =
-    SparkType[java.sql.Date](org.apache.spark.sql.types.DateType)
-  implicit val fromInstant: Primitive[java.sql.Timestamp] =
-    SparkType[java.sql.Timestamp](org.apache.spark.sql.types.TimestampType)
-  implicit val fromDate: Custom[java.time.LocalDate, java.sql.Date] =
-    SparkType[java.sql.Date].customType[java.time.LocalDate](_.toLocalDate)
-  implicit val fromTimestamp: Custom[java.time.Instant, java.sql.Timestamp] =
-    SparkType[java.sql.Timestamp].customType[java.time.Instant](_.toInstant)
+  implicit def fromDateST: SparkType[java.sql.Date] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "false"
+    )
+      SparkType[java.sql.Date](org.apache.spark.sql.types.DateType)
+    else
+      fromLocalDateST.customType[java.sql.Date](java.sql.Date.valueOf)
+
+  implicit def fromTimestampST: SparkType[java.sql.Timestamp] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "false"
+    )
+      SparkType[java.sql.Timestamp](org.apache.spark.sql.types.TimestampType)
+    else
+      fromInstantST.customType[java.sql.Timestamp](java.sql.Timestamp.from)
+
+  implicit def fromLocalDateST: SparkType[java.time.LocalDate] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "true"
+    )
+      SparkType[java.time.LocalDate](org.apache.spark.sql.types.DateType)
+    else
+      fromDateST.customType[java.time.LocalDate](d => d.toLocalDate)
+
+  implicit def fromInstantST: SparkType[java.time.Instant] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "true"
+    )
+      SparkType[java.time.Instant](org.apache.spark.sql.types.TimestampType)
+    else
+      fromTimestampST.customType[java.time.Instant](_.toInstant)
+
   implicit val fromCalendarInterval: Primitive[CalendarInterval] =
     SparkType[CalendarInterval](CalendarIntervalType)
 }
@@ -236,7 +283,7 @@ trait SparkTypeLPI_II
           .toMap
     }
 
-  implicit def fromArray[A: ClassTag, O: ClassTag](implicit
+  def fromArray[A: ClassTag, O: ClassTag](implicit
       st: SparkType[A] { type OriginalSparkType = O }
   ): Custom[Array[A], DoricArray.Collection[O]] =
     new SparkType[Array[A]] {
@@ -258,6 +305,31 @@ trait SparkTypeLPI_II
 
       override val rowFieldTransform: Any => OriginalSparkType =
         _.asInstanceOf[DoricArray.Collection[O]]
+    }
+
+  implicit def fromArray2[A: ClassTag](implicit
+      st: SparkType[A]
+  ): Custom[Array[A], DoricArray.Collection[st.OriginalSparkType]] =
+    new SparkType[Array[A]] {
+      override def dataType: DataType = ArrayType(st.dataType, st.nullable)
+
+      override val nullable: Boolean = true
+
+      override type OriginalSparkType =
+        DoricArray.Collection[st.OriginalSparkType]
+
+      override def isEqual(column: DataType): Boolean = column match {
+        case ArrayType(left, _) => st.isEqual(left)
+        case _                  => false
+      }
+
+      override val transform: OriginalSparkType => Array[A] =
+        _.iterator
+          .map(st.transform)
+          .toArray
+
+      override val rowFieldTransform: Any => OriginalSparkType =
+        _.asInstanceOf[DoricArray.Collection[st.OriginalSparkType]]
     }
 
   implicit def fromOption[A](implicit

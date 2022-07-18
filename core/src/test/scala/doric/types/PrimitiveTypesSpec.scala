@@ -92,15 +92,20 @@ class PrimitiveTypesSpec
 
       testDataType[java.sql.Date]
       testDataType[java.sql.Timestamp]
-      testDataType[java.time.LocalDate]
-      testDataType[java.time.Instant]
-      testDataType[CalendarInterval]
+      if (spark.version > "2.4.8") {
+        testDataType[java.time.LocalDate]
+        testDataType[java.time.Instant]
+        testDataType[CalendarInterval]
+      }
 
       testLitDataType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
       testLitDataType[java.sql.Timestamp](new java.sql.Timestamp(0))
-      testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
-      testLitDataType[java.time.Instant](java.time.Instant.now())
-      // testLitDataType[CalendarInterval](new CalendarInterval(0, 0, 0))
+
+      if (spark.version > "2.4.8") {
+        testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
+        testLitDataType[java.time.Instant](java.time.Instant.now())
+        // TBD: testLitDataType[CalendarInterval](CalendarInterval.fromString("1971-01-01"))
+      }
     }
   }
 

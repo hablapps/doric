@@ -1,8 +1,9 @@
 package doric
 package types
 
-import org.apache.spark.unsafe.types.CalendarInterval
 import Equalities._
+import org.apache.spark.sql.internal.SQLConf
+import org.apache.spark.sql.internal.SQLConf.buildConf
 import org.apache.spark.sql.types.Decimal
 
 class DeserializeSparkTypeSpec
@@ -56,10 +57,21 @@ class DeserializeSparkTypeSpec
 
       // Datetime type
 
-      deserializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
-      deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
-      deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
-      deserializeSparkType[java.time.Instant](java.time.Instant.now())
+      SQLConf.withExistingConf(
+        spark.sessionState.conf.copy(DoricTestElements.JAVA8APIENABLED -> false)
+      ) {
+        deserializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
+        deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
+      }
+
+      if (spark.version > "2.4.8")
+        SQLConf.withExistingConf(
+          spark.sessionState.conf
+            .copy(DoricTestElements.JAVA8APIENABLED -> true)
+        ) {
+          deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
+          deserializeSparkType[java.time.Instant](java.time.Instant.now())
+        }
     }
   }
 

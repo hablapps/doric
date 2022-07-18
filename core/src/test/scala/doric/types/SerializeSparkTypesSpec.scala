@@ -2,6 +2,8 @@ package doric
 package types
 
 import doric.Equalities._
+import org.apache.spark.sql.internal.SQLConf
+import org.apache.spark.sql.internal.SQLConf.buildConf
 import org.apache.spark.sql.types.Decimal
 import org.apache.spark.unsafe.types.CalendarInterval
 
@@ -54,15 +56,27 @@ class SerializeSparkTypeSpec
       // Boolean type
 
       serializeSparkType[Boolean](true)
-      // serializeSparkType[java.lang.Boolean](true)
+      serializeSparkType[java.lang.Boolean](true)
 
       // Datetime type
 
-      serializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
-      serializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
-      serializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
-      serializeSparkType[java.time.Instant](java.time.Instant.now())
-      // serializeSparkType[CalendarInterval](new CalendarInterval(0, 0, 0))
+      SQLConf.withExistingConf(
+        spark.sessionState.conf.copy(DoricTestElements.JAVA8APIENABLED -> false)
+      ) {
+        serializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
+        serializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
+      }
+
+      if (spark.version > "2.4.8")
+        SQLConf.withExistingConf(
+          spark.sessionState.conf
+            .copy(DoricTestElements.JAVA8APIENABLED -> true)
+        ) {
+          serializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
+          serializeSparkType[java.time.Instant](java.time.Instant.now())
+        }
+
+      // TBD: CalendarIntervalType
     }
   }
 

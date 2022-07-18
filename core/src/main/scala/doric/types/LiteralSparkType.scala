@@ -5,6 +5,7 @@ import cats.implicits.catsSyntaxValidatedIdBinCompat0
 import doric.sem.SparkErrorWrapper
 import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
+import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.{Column, Row, functions => f}
 import shapeless.labelled.{FieldType, field}
 import shapeless.{::, HList, HNil, LabelledGeneric, Lazy, Witness}
@@ -82,16 +83,55 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   // Binary type: TBD
 
   implicit val fromBoolean: Primitive[Boolean] = createPrimitive[Boolean]
-  // Java Boolean: TBD
+  implicit val fromJavaBoolean: Primitive[java.lang.Boolean] =
+    createPrimitive[java.lang.Boolean]
 
   implicit val fromStringDf: Primitive[String] = createPrimitive[String]
 
-  implicit val fromLocalDate: Primitive[Date]    = createPrimitive[Date]
-  implicit val fromInstant: Primitive[Timestamp] = createPrimitive[Timestamp]
-  implicit val fromDate: Custom[LocalDate, Date] =
-    LiteralSparkType[Date].customType[LocalDate](Date.valueOf)
-  implicit val fromTimestamp: Custom[Instant, Timestamp] =
-    LiteralSparkType[Timestamp].customType[Instant](Timestamp.from)
+  implicit def fromDateLST: LiteralSparkType[Date] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "false"
+    )
+      createPrimitive[Date]
+    else
+      fromLocalDateLST.customType[Date](_.toLocalDate)
+
+  implicit def fromTimestampLST: LiteralSparkType[Timestamp] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "false"
+    )
+      createPrimitive[Timestamp]
+    else
+      fromInstantLST.customType[Timestamp](_.toInstant)
+
+  implicit def fromLocalDateLST: LiteralSparkType[LocalDate] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "true"
+    )
+      createPrimitive[LocalDate]
+    else
+      fromDateLST.customType[LocalDate](Date.valueOf)
+
+  implicit def fromInstantLST: LiteralSparkType[Instant] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "true"
+    )
+      createPrimitive[Instant]
+    else
+      fromTimestampLST.customType[Instant](Timestamp.from)
+
   // Calendar: TBD
 
   // Duration: TBD
