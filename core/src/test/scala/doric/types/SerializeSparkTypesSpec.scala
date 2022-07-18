@@ -88,13 +88,13 @@ class SerializeSparkTypeSpec
       serializeSparkType[Seq[Int]](Seq(0, 0))
       serializeSparkType[List[Int]](List(0, 0))
       serializeSparkType[IndexedSeq[Int]](IndexedSeq(0, 0))
-      // serializeSparkType[Set[Int]](Set(0,1))
+      serializeSparkType[Set[Int]](Set(0, 1))
 
       serializeSparkType[Array[String]](Array("", ""))
       serializeSparkType[Seq[String]](Seq("", ""))
       serializeSparkType[List[String]](List("", ""))
       serializeSparkType[IndexedSeq[String]](IndexedSeq("", ""))
-      // serializeSparkType[Set[String]](Set("", "a"))
+      serializeSparkType[Set[String]](Set("", "a"))
 
     }
 

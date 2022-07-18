@@ -94,6 +94,11 @@ class DStructOpsSpec extends DoricTestElements {
         .select(col[User]("user").getChildSafe(Symbol("name")) as "name")
         .collectCols(col[String]("name")) shouldBe
         List("name1", "name2", "name3")
+
+      dfUsers
+        .select(col[User]("user").getChildSafe(Symbol("age")) as "age")
+        .collectCols(col[Int]("age")) shouldBe
+        List(1, 2, 3)
     }
 
     it("should not work statically if the field doesn't exist") {

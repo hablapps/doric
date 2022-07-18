@@ -194,17 +194,17 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III { // with LiteralSp
 
   implicit def fromSet[A, CC[x] <: Set[x]](implicit
       lst: LiteralSparkType[A]
-  ): Custom[CC[A], Set[lst.OriginalSparkType]] =
+  ): Custom[CC[A], Seq[lst.OriginalSparkType]] =
     new LiteralSparkType[CC[A]] {
 
-      override type OriginalSparkType = Set[lst.OriginalSparkType]
+      override type OriginalSparkType = Seq[lst.OriginalSparkType]
 
       override val literalTo: CC[A] => OriginalSparkType =
-        _.map(lst.literalTo)
-      override val cTag: ClassTag[Set[lst.OriginalSparkType]] =
-        implicitly[ClassTag[Set[lst.OriginalSparkType]]]
+        _.map(lst.literalTo).toSeq
+      override val cTag: ClassTag[Seq[lst.OriginalSparkType]] =
+        implicitly[ClassTag[Seq[lst.OriginalSparkType]]]
 
-      val ttag = settt(lst.ttag)
+      val ttag = seqtt(lst.ttag)
     }
 
   implicit def fromOption[A](implicit
