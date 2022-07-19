@@ -20,7 +20,7 @@ import doric.implicitConversions._
 Let's see again the error raised by doric when making a reference to a non-existing column:
 ```scala mdoc:crash
 // Doric
-List(1,2,3).toDF.select(colInt("id")+1)
+List(1,2,3).toDF().select(colInt("id")+1)
 ```
 
 As you may have already noticed, there is a slight difference with the exception reported by Spark: doric adds precise 
