@@ -35,7 +35,7 @@ val scalaVersionSelect: String => List[String] = {
   case versionRegex("2", _, _)   => List(scala211)
   case versionRegex("3", "0", _) => List(scala212)
   case versionRegex("3", "1", _) => List(scala212)
-  case versionRegex("3", "2", _) => List(scala212, scala213)
+  case versionRegex("3", "2", _) => List(scala213)
   case versionRegex("3", "3", _) => List(scala212, scala213)
 
 }

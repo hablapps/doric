@@ -56,8 +56,6 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       .collectCols[T](col[T]("_1"))
       .head should ===(data)
 
-  import scala.collection.JavaConverters._
-
   def deserializeSparkType(data: Row)(implicit
       spark: SparkSession,
       pos: source.Position,
@@ -71,7 +69,10 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       )
     )
     spark
-      .createDataFrame(List(tuple2Row).asJava, tuple2Row.schema)
+      .createDataFrame(
+        spark.sparkContext.makeRDD(Seq(tuple2Row)),
+        tuple2Row.schema
+      )
       .collectCols[Row](col[Row]("_1"))
       .head should ===(data)
   }

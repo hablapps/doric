@@ -66,7 +66,7 @@ class DeserializeSparkTypeSpec
       ) {
         deserializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
         deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
-        if (spark.version >= "3.1") {
+        if (spark.version >= "3.2") {
           deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
           deserializeSparkType[java.time.Instant](java.time.Instant.now())
         }
@@ -77,7 +77,7 @@ class DeserializeSparkTypeSpec
           spark.sessionState.conf
             .copy(DoricTestElements.JAVA8APIENABLED -> true)
         ) {
-          if (spark.version >= "3.1") {
+          if (spark.version >= "3.2") {
             deserializeSparkType[java.sql.Date](
               java.sql.Date.valueOf("2022-12-31")
             )
