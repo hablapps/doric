@@ -336,14 +336,13 @@ trait NumericOperationsSpec
     }
   }
 
-  def testIntegrals[T: IntegralType: ClassTag: TypeTag, O: ClassTag: TypeTag]()(
-      implicit
+  def testIntegrals[T: IntegralType: ClassTag: TypeTag]()(implicit
       spark: SparkSession,
-      sparkTypeT: SparkType.Custom[T, O],
+      sparkTypeT: SparkType[T],
       fun: FromInt[T]
   ): Unit = {
     val numTypeStr   = getClassName[T]
-    implicit val AST = SparkType.fromArray[T, O]
+    implicit val AST = SparkType.fromArray[T]
 
     describe(s"Integral num $numTypeStr") {
       it(s"sequence function $numTypeStr") {
@@ -533,8 +532,8 @@ class NumericSpec extends NumericOperationsSpec with SparkSessionTestWrapper {
   test[Long]()
   test[Double]()
 
-  testIntegrals[Int, Int]()
-  testIntegrals[Long, Long]()
+  testIntegrals[Int]()
+  testIntegrals[Long]()
 
   testDecimals[Float]()
   testDecimals[Double]()

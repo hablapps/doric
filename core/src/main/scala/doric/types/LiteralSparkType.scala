@@ -265,39 +265,4 @@ trait LiteralSparkTypeLPI_III {
 
   implicit def fromProduct[T <: Product: TypeTag: ClassTag]: Primitive[T] =
     createPrimitive[T]
-
-  /*
-  implicit val fromHNilL: Custom[HNil, Row] = new LiteralSparkType[HNil]{
-    override type OriginalSparkType = Row
-    override val cTag: ClassTag[OriginalSparkType] = classTag[Row]
-    override val ttag: universe.TypeTag[Row] = typeTag[Row]
-    override val literalTo: HNil => Row = _ => ???
-  }
-
-  implicit def fromHConsL[V, K <: Symbol: ClassTag: TypeTag, VO: ClassTag: TypeTag, T <: HList, TO <: HList: ClassTag: TypeTag](implicit
-                                                         W: Witness.Aux[K],
-                                                         LV: Lazy[LiteralSparkType.Custom[V, VO]],
-                                                         LTS: LiteralSparkType.Custom[T, TO]
-                                                        ): Custom[FieldType[K, V] :: T, FieldType[K, VO] :: TO] = new LiteralSparkType[FieldType[K, V] :: T] {
-    override type OriginalSparkType = FieldType[K, VO] :: TO
-    override val cTag: ClassTag[OriginalSparkType] = classTag[OriginalSparkType]
-    override val ttag: TypeTag[OriginalSparkType] = typeTag[FieldType[K, VO] :: TO]
-    override val literalTo: FieldType[K, V] :: T => FieldType[K, VO] :: TO = {
-      case h::t => field[K](LV.value.literalTo(h)) :: LTS.literalTo(t)
-    }
-  }
-
-  implicit def fromProductL[A <: Product, L <: HList, LO <: HList, AO <: Product: ClassTag: TypeTag](implicit
-                                                      lg: Lazy[LabelledGeneric.Aux[A, L]],
-                                                      hlistLST: Lazy[LiteralSparkType.Custom[L, LO]],
-                                                      lgo: Lazy[LabelledGeneric.Aux[AO, LO]]
-                                                     ): LiteralSparkType.Custom[A, AO] =
-    new LiteralSparkType[A] {
-      override type OriginalSparkType = AO
-      override val cTag: ClassTag[AO] = classTag[AO]
-      override val ttag: TypeTag[AO] = typeTag[AO]
-      override val literalTo: A => AO = (lg.value.to _) andThen hlistLST.value.literalTo andThen lgo.value.from
-    }
-   */
-
 }

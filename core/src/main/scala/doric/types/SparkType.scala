@@ -283,31 +283,7 @@ trait SparkTypeLPI_II
           .toMap
     }
 
-  def fromArray[A: ClassTag, O: ClassTag](implicit
-      st: SparkType[A] { type OriginalSparkType = O }
-  ): Custom[Array[A], DoricArray.Collection[O]] =
-    new SparkType[Array[A]] {
-      override def dataType: DataType = ArrayType(st.dataType, st.nullable)
-
-      override val nullable: Boolean = true
-
-      override type OriginalSparkType = DoricArray.Collection[O]
-
-      override def isEqual(column: DataType): Boolean = column match {
-        case ArrayType(left, _) => st.isEqual(left)
-        case _                  => false
-      }
-
-      override val transform: OriginalSparkType => Array[A] =
-        _.iterator
-          .map(st.transform)
-          .toArray
-
-      override val rowFieldTransform: Any => OriginalSparkType =
-        _.asInstanceOf[DoricArray.Collection[O]]
-    }
-
-  implicit def fromArray2[A: ClassTag](implicit
+  implicit def fromArray[A: ClassTag](implicit
       st: SparkType[A]
   ): Custom[Array[A], DoricArray.Collection[st.OriginalSparkType]] =
     new SparkType[Array[A]] {
