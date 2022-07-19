@@ -36,7 +36,7 @@ val scalaVersionSelect: String => List[String] = {
   case versionRegex("3", "0", _) => List(scala212)
   case versionRegex("3", "1", _) => List(scala212)
   case versionRegex("3", "2", _) => List(scala212, scala213)
-  case versionRegex("3", "3", _) => List(scala212)//List(scala212, scala213)
+  case versionRegex("3", "3", _) => List(scala212, scala213)
 
 }
 
@@ -128,7 +128,7 @@ lazy val core = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel" %% "cats-core"  % catsVersion(sparkVersion.value),
       "com.lihaoyi"   %% "sourcecode" % "0.3.0",
-      "com.chuusai" %% "shapeless" % "2.3.9",
+      "com.chuusai"   %% "shapeless"  % "2.3.9",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.3.0"  % "test",
       "org.scalatest"       %% "scalatest"        % "3.2.12" % "test"
     ),
