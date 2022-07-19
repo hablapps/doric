@@ -75,7 +75,7 @@ val complexS: Column =
         f.lit(0), 
         (x, y) => x + y)
 
-dfArrays.select(complexS as "complexTransformation").show
+dfArrays.select(complexS as "complexTransformation").show()
 ```
 
 Using doric, we would write it like this:
@@ -85,7 +85,7 @@ val complexCol: DoricColumn[Int] =
       .transform(_ + 1.lit)
       .aggregate(0.lit)(_ + _)
   
-dfArrays.select(complexCol as "complexTransformation").show
+dfArrays.select(complexCol as "complexTransformation").show()
 ```
 
 ### Implicit castings
@@ -99,21 +99,21 @@ val df0 = spark.range(1,10).withColumn("x", f.concat(f.col("id"), f.lit("jander"
 which means that an implicit conversion from `bigint` to `string` will be in effect when we run our DataFrame:
 
 ```scala mdoc
-df0.select(f.col("x")).show
+df0.select(f.col("x")).show()
 ```
 
 Assuming that you are certain that your column holds vales of type `bigint`, the same code in doric won't compile
 (note that the Spark type `bigint` corresponds to the Scala type `Long`):
 
 ```scala mdoc:fail
-val df1 = spark.range(1,10).toDF.withColumn("x", concat(colLong("id"), "jander".lit))
+val df1 = spark.range(1,10).toDF().withColumn("x", concat(colLong("id"), "jander".lit))
 ```
 
 Still, doric will allow you to perform that operation provided that you explicitly enact the conversion:
 
 ```scala mdoc
-val df1 = spark.range(1,10).toDF.withColumn("x", concat(colLong("id").cast[String], "jander".lit))
-df1.show
+val df1 = spark.range(1,10).toDF().withColumn("x", concat(colLong("id").cast[String], "jander".lit))
+df1.show()
 ```
 
 Let's also consider the following example:
@@ -133,7 +133,7 @@ thus choosing to apply no conversion
 Let's see what happens:
 
 ```scala mdoc
-dfEq.withColumn("eq", f.col("int") === f.col("str")).show
+dfEq.withColumn("eq", f.col("int") === f.col("str")).show()
 ```
 
 Option 3 wins, but you can only learn this by trial and error. With doric, you can depart from all this magic and 
@@ -141,17 +141,17 @@ explicitly cast types, if you desired so:
 
 ```scala mdoc:fail
 // Option 1, no castings: compile error
-dfEq.withColumn("eq", colInt("int") === colString("str")).show
+dfEq.withColumn("eq", colInt("int") === colString("str")).show()
 ```
 
 ```scala mdoc
 // Option 2, casting from int to string
-dfEq.withColumn("eq", colInt("int").cast[String] === colString("str")).show
+dfEq.withColumn("eq", colInt("int").cast[String] === colString("str")).show()
 ```
 
 ```scala mdoc
 // Option 3, casting from string to int, not safe!
-dfEq.withColumn("eq", colInt("int") === colString("str").unsafeCast[Int]).show
+dfEq.withColumn("eq", colInt("int") === colString("str").unsafeCast[Int]).show()
 ```
 
 Note that we can't simply cast a string to an integer, since this conversion is partial. If the programmer insists 
@@ -164,7 +164,7 @@ with an explicit import statement:
 ```scala mdoc
 import doric.implicitConversions.implicitSafeCast
 
-dfEq.withColumn("eq", colString("str") === colInt("int") ).show
+dfEq.withColumn("eq", colString("str") === colInt("int") ).show()
 ```
 
 ### Literal conversions
@@ -176,7 +176,7 @@ Sometimes, Spark allows us to insert literal values to simplify our code:
 val intDF = List(1,2,3).toDF("int")
 val colS = f.col("int") + 1
 
-intDF.select(colS).show
+intDF.select(colS).show()
 ```
 
 The default doric syntax is a little stricter and forces us to transform these values to literal columns:
@@ -184,7 +184,7 @@ The default doric syntax is a little stricter and forces us to transform these v
 ```scala mdoc
 val colD = colInt("int") + 1.lit
 
-intDF.select(colD).show
+intDF.select(colD).show()
 ```
 
 However, we can also profit from the same literal syntax with the help of implicits. To enable this behaviour,
@@ -195,7 +195,7 @@ import doric.implicitConversions.literalConversion
 val colSugarD = colInt("int") + 1
 val columConcatLiterals = concat("this", "is","doric") // concat expects DoricColumn[String] values, the conversion puts them as expected
 
-intDF.select(colSugarD, columConcatLiterals).show
+intDF.select(colSugarD, columConcatLiterals).show()
 ```
 
 Of course, implicit conversions are only in effect if the type of the literal value is valid:

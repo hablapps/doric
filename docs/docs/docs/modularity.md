@@ -27,7 +27,7 @@ val userDF = List(
 ```
 
 ```scala mdoc
-userDF.show
+userDF.show()
 userDF.printSchema
 ```
 
