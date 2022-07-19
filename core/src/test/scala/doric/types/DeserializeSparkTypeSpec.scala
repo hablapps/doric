@@ -2,9 +2,13 @@ package doric
 package types
 
 import Equalities._
+
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.catalyst.ScalaReflection
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.internal.SQLConf.buildConf
-import org.apache.spark.sql.types.Decimal
+import org.apache.spark.sql.types.{Decimal, StructType}
 
 class DeserializeSparkTypeSpec
     extends DoricTestElements
@@ -62,6 +66,10 @@ class DeserializeSparkTypeSpec
       ) {
         deserializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
         deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
+        if (spark.version >= "3.1") {
+          deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
+          deserializeSparkType[java.time.Instant](java.time.Instant.now())
+        }
       }
 
       if (spark.version > "2.4.8")
@@ -69,6 +77,12 @@ class DeserializeSparkTypeSpec
           spark.sessionState.conf
             .copy(DoricTestElements.JAVA8APIENABLED -> true)
         ) {
+          if (spark.version >= "3.1") {
+            deserializeSparkType[java.sql.Date](
+              java.sql.Date.valueOf("2022-12-31")
+            )
+            deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
+          }
           deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
           deserializeSparkType[java.time.Instant](java.time.Instant.now())
         }
@@ -116,6 +130,17 @@ class DeserializeSparkTypeSpec
 
       deserializeSparkType[(Int, String)]((0, ""))
       deserializeSparkType[User](User("", 0))
+    }
+
+    it("should deserialize row columns") {
+      val tupleRow = new GenericRowWithSchema(
+        Array("j", 1),
+        ScalaReflection
+          .schemaFor[(String, Int)]
+          .dataType
+          .asInstanceOf[StructType]
+      )
+      deserializeSparkType(tupleRow)
     }
   }
 

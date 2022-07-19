@@ -2,9 +2,13 @@ package doric
 package types
 
 import doric.Equalities._
+
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.catalyst.ScalaReflection
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.internal.SQLConf.buildConf
-import org.apache.spark.sql.types.Decimal
+import org.apache.spark.sql.types.{Decimal, StructType}
 import org.apache.spark.unsafe.types.CalendarInterval
 
 class SerializeSparkTypeSpec
@@ -65,6 +69,8 @@ class SerializeSparkTypeSpec
       ) {
         serializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
         serializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
+        serializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
+        serializeSparkType[java.time.Instant](java.time.Instant.now())
       }
 
       if (spark.version > "2.4.8")
@@ -74,6 +80,8 @@ class SerializeSparkTypeSpec
         ) {
           serializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
           serializeSparkType[java.time.Instant](java.time.Instant.now())
+          serializeSparkType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
+          serializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
         }
 
       // TBD: CalendarIntervalType
@@ -121,6 +129,18 @@ class SerializeSparkTypeSpec
 
       serializeSparkType[(Int, String)]((0, ""))
       serializeSparkType[User](User("", 0))
+    }
+
+    it("should serialize rows") {
+      val tupleRow = new GenericRowWithSchema(
+        Array("j", 1),
+        ScalaReflection
+          .schemaFor[(String, Int)]
+          .dataType
+          .asInstanceOf[StructType]
+      )
+
+      serializeSparkType[Row](tupleRow)
     }
   }
 

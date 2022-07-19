@@ -2,14 +2,18 @@ package doric
 
 import scala.reflect._
 import scala.reflect.runtime.universe.TypeTag
+
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import doric.Equalities._
 import doric.implicitConversions.stringCname
 import doric.types.{Casting, LiteralSparkType, SparkType}
+
 import org.apache.spark.sql.catalyst.ScalaReflection
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
-import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, SparkSession, functions => f}
+
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, Row, SparkSession, functions => f}
 import org.apache.spark.sql.types._
 
 trait TypedColumnTest extends Matchers with DatasetComparer {
@@ -51,6 +55,26 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       .createDataFrame(Seq((data, 0)))
       .collectCols[T](col[T]("_1"))
       .head should ===(data)
+
+  import scala.collection.JavaConverters._
+
+  def deserializeSparkType(data: Row)(implicit
+      spark: SparkSession,
+      pos: source.Position,
+      rowST: SparkType[Row],
+      rowEq: Equality[Row]
+  ): Unit = {
+    val tuple2Row: Row = new GenericRowWithSchema(
+      Array(data, 1),
+      StructType(
+        List(StructField("_1", data.schema), StructField("_2", IntegerType))
+      )
+    )
+    spark
+      .createDataFrame(List(tuple2Row).asJava, tuple2Row.schema)
+      .collectCols[Row](col[Row]("_1"))
+      .head should ===(data)
+  }
 
   def serializeSparkType[T: LiteralSparkType: SparkType: Equality](
       data: T

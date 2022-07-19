@@ -224,10 +224,8 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III { // with LiteralSp
       val ttag = lst.ttag
     }
 
-  def optiontt[T: TypeTag]: TypeTag[Option[T]]          = typeTag[Option[T]]
   def maptt[K: TypeTag, V: TypeTag]: TypeTag[Map[K, V]] = typeTag[Map[K, V]]
   def seqtt[T: TypeTag]: TypeTag[Seq[T]]                = typeTag[Seq[T]]
-  def settt[T: TypeTag]: TypeTag[Set[T]]                = typeTag[Set[T]]
   def arraytt[T: TypeTag]: TypeTag[Array[T]]            = typeTag[Array[T]]
 
   implicit val fromRow: Primitive[Row] = new LiteralSparkType[Row] {
