@@ -32,14 +32,13 @@ class SerializeSparkTypeSpec
       serializeSparkType[Short](0)
       serializeSparkType[Byte](0)
 
-      /*
       serializeSparkType[java.lang.Integer](0)
       serializeSparkType[java.lang.Long](0L)
       serializeSparkType[java.lang.Double](0.0)
-      serializeSparkType[java.lang.Float](0.0F)
+      serializeSparkType[java.lang.Float](0.0f)
       serializeSparkType[java.lang.Short](java.lang.Short.MAX_VALUE)
       serializeSparkType[java.lang.Byte](java.lang.Byte.MAX_VALUE)
-
+      /*
       serializeSparkType[BigDecimal](BigDecimal(0.0))
       serializeSparkType[java.math.BigDecimal](java.math.BigDecimal.ZERO)
       serializeSparkType[java.math.BigInteger](java.math.BigInteger.ZERO)

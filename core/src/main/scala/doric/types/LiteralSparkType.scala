@@ -78,6 +78,19 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   implicit val fromShort: Primitive[Short]   = createPrimitive[Short]
   implicit val fromByte: Primitive[Byte]     = createPrimitive[Byte]
 
+  implicit val fromJavaInt: Primitive[java.lang.Integer] =
+    createPrimitive[java.lang.Integer]
+  implicit val fromJavaLong: Primitive[java.lang.Long] =
+    createPrimitive[java.lang.Long]
+  implicit val fromJavaFloat: Primitive[java.lang.Float] =
+    createPrimitive[java.lang.Float]
+  implicit val fromJavaDouble: Primitive[java.lang.Double] =
+    createPrimitive[java.lang.Double]
+  implicit val fromJavaShort: Primitive[java.lang.Short] =
+    createPrimitive[java.lang.Short]
+  implicit val fromJavaByte: Primitive[java.lang.Byte] =
+    createPrimitive[java.lang.Byte]
+
   // Java numerics: TBD
   // BigDecimal et al.: TBD
   // Binary type: TBD
