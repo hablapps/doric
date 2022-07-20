@@ -18,7 +18,7 @@ trait SparkSessionTestWrapper {
       .master("local")
       .config("spark.driver.bindAddress", "127.0.0.1")
       .config("spark.sql.session.timeZone", timeZone)
-      // .config("spark.sql.datetime.java8API.enabled", value = true)
+      .config("spark.sql.datetime.java8API.enabled", value = false)
       .appName("spark session")
       .getOrCreate()
 

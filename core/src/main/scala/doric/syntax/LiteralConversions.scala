@@ -1,6 +1,7 @@
 package doric
 package syntax
 
+import doric.sem.Location
 import doric.types.{LiteralSparkType, SparkType}
 
 private[syntax] trait LiteralConversions {
@@ -16,7 +17,9 @@ private[syntax] trait LiteralConversions {
     * A doric column that represent the literal value and the same type as the
     * value.
     */
-  def lit[L: SparkType: LiteralSparkType](litv: L): LiteralDoricColumn[L] = {
+  def lit[L: SparkType: LiteralSparkType](
+      litv: L
+  )(implicit l: Location): LiteralDoricColumn[L] = {
     LiteralDoricColumn(litv)
   }
 
@@ -29,7 +32,9 @@ private[syntax] trait LiteralConversions {
       * a literal with the same type.
       */
     @inline
-    def lit: LiteralDoricColumn[L] = LiteralDoricColumn(litv)
+    def lit(implicit l: Location): LiteralDoricColumn[L] = LiteralDoricColumn(
+      litv
+    )
   }
 
 }

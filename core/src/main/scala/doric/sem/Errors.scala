@@ -161,6 +161,12 @@ case class SparkErrorWrapper(sparkCause: Throwable)(implicit
   }
 }
 
+case class GenDoricError(
+    val message: String
+)(implicit
+    val location: Location
+) extends DoricSingleError(None)
+
 object Location {
   implicit def location(implicit
       line: sourcecode.Line,

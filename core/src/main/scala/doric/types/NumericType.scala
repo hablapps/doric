@@ -26,4 +26,9 @@ object NumericType {
   } = new NumericType[Double] {
     type Sum = Double
   }
+  implicit val shortNumeric: NumericType[Short] {
+    type Sum = Short
+  } = new NumericType[Short] {
+    type Sum = Short
+  }
 }

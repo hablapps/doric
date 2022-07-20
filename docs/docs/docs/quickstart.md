@@ -74,7 +74,7 @@ The overall purpose of doric is providing a type-safe API on top of the DataFram
 that we aim at capturing errors at compile time. For instance, in Spark we can't mix apples and oranges, but this 
 code still compiles:
 ```scala mdoc
-def df = List(1,2,3).toDF.select($"value" * f.lit(true))
+def df = List(1,2,3).toDF().select($"value" * f.lit(true))
 ```
 It's only when we try to construct the DataFrame that an exception is raised at _run-time_:
 ```scala mdoc:crash
@@ -83,7 +83,7 @@ df
 
 Using doric, there is no need to wait for so long: errors will be reported at compile-time!
 ```scala mdoc:fail
-List(1,2,3).toDF.select(col[Int]("value") * lit(true))
+List(1,2,3).toDF().select(col[Int]("value") * lit(true))
 ```
 
 As you may see, changes in column expressions are minimal: just annotate column references with the intended type, 
@@ -105,7 +105,7 @@ Finally, once we have constructed a doric column expression, we can use it withi
 or, in general, wherever we may use plain Spark columns: joins, filters, etc.:
 
 ```scala mdoc
-List(1,2,3).toDF.filter(col[Int]("value") > lit(1))
+List(1,2,3).toDF().filter(col[Int]("value") > lit(1))
 ```
 
 As you can see in [validations](validations.md), explicit type annotations enable further validations when columns
@@ -135,5 +135,5 @@ strDf.select(f.col("str").asDoric[String]).show()
 
 ```scala mdoc:crash
 
-strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show
+strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show()
 ```
