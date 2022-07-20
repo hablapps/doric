@@ -97,14 +97,11 @@ class DeserializeSparkTypeSpec
       deserializeSparkType[Seq[Int]](Seq(0, 0))
       deserializeSparkType[List[Int]](List(0, 0))
       deserializeSparkType[IndexedSeq[Int]](IndexedSeq(0, 0))
-      // deserializeSparkType[Set[Int]](Set(0,1))
 
       deserializeSparkType[Array[String]](Array("", ""))
       deserializeSparkType[Seq[String]](Seq("", ""))
       deserializeSparkType[List[String]](List("", ""))
       deserializeSparkType[IndexedSeq[String]](IndexedSeq("", ""))
-      // deserializeSparkType[Set[String]](Set("", "a"))
-
     }
 
     it("should match Spark Map types") {

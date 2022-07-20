@@ -43,14 +43,12 @@ class PrimitiveTypesSpec
       testDataType[java.lang.Short]
       testDataType[java.lang.Byte]
 
-      /*
       testLitDataType[java.lang.Integer](0)
       testLitDataType[java.lang.Long](0L)
       testLitDataType[java.lang.Double](0.0)
-      testLitDataType[java.lang.Float](0.0F)
+      testLitDataType[java.lang.Float](0.0f)
       testLitDataType[java.lang.Short](java.lang.Short.MAX_VALUE)
       testLitDataType[java.lang.Byte](java.lang.Byte.MAX_VALUE)
-       */
 
       testDataType[BigDecimal]
       testDataType[java.math.BigDecimal]
@@ -86,7 +84,7 @@ class PrimitiveTypesSpec
       testDataType[java.lang.Boolean]
 
       testLitDataType[Boolean](true)
-      // testLitDataType[java.lang.Boolean](true)
+      testLitDataType[java.lang.Boolean](true)
 
       // Datetime type
 
@@ -128,13 +126,13 @@ class PrimitiveTypesSpec
       testLitDataType[Seq[Int]](Seq(0, 0))
       testLitDataType[List[Int]](List(0, 0))
       testLitDataType[IndexedSeq[Int]](IndexedSeq(0, 0))
-      // testLitDataType[Set[Int]](Set(0,1))
+      testLitDataType[Set[Int]](Set(0, 1))
 
       testLitDataType[Array[String]](Array("", ""))
       testLitDataType[Seq[String]](Seq("", ""))
       testLitDataType[List[String]](List("", ""))
       testLitDataType[IndexedSeq[String]](IndexedSeq("", ""))
-      // testLitDataType[Set[String]](Set("", "a"))
+      testLitDataType[Set[String]](Set("", "a"))
 
     }
 

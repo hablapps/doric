@@ -14,11 +14,6 @@ trait PrimitiveTypesSpec_Specific extends DoricTestElements {
 
       testDataType[java.time.Duration]
       testDataType[java.time.Period]
-
-      /*
-      testLitDataType[java.time.Duration](java.time.Duration.ZERO)
-      testLitDataType[java.time.Period](java.time.Period.ZERO)
-       */
     }
   }
 
