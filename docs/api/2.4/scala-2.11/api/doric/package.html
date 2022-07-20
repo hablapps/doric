@@ -312,18 +312,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CollectOps</dd></dl></div>
     </li><li name="doric.syntax.DStructs.DStructOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="DStructOpsextendsAnyRef"></a>
-      <a id="DStructOps:DStructOps"></a>
+      <a id="DStructOps[T]extendsAnyRef"></a>
+      <a id="DStructOps[T]:DStructOps[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">DStructOps</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">DStructOps</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@DStructOpsextendsAnyRef" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@DStructOps[T]extendsAnyRef" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -916,6 +916,46 @@
       </a>
     </span>
       
+    </li><li name="doric.syntax.DStructs.SelectorLPI" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="SelectorLPIextendsAnyRef"></a>
+      <a id="SelectorLPI:SelectorLPI"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SelectorLPI</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@SelectorLPIextendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd></dl></div>
+    </li><li name="doric.syntax.DStructs.SelectorWithSparkType" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="SelectorWithSparkType[L&lt;:shapeless.HList,K&lt;:Symbol]extendsAnyRef"></a>
+      <a id="SelectorWithSparkType[L&lt;:HList,K&lt;:Symbol]:SelectorWithSparkType[L,K]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SelectorWithSparkType</span><span class="tparams">[<span name="L">L &lt;: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.HList" class="extype" target="_top">HList</a></span>, <span name="K">K &lt;: <span class="extype" name="scala.Symbol">Symbol</span></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@SelectorWithSparkType[L&lt;:shapeless.HList,K&lt;:Symbol]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd><dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;No field ${K} in record ${L}&quot;</span>
+    </span>)</span>
+              
+        </dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.SparkCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SparkColextendsAnyRef"></a>
       <a id="SparkCol:SparkCol"></a>
@@ -1020,6 +1060,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="syntax/StringColumn24.html" class="extype" name="doric.syntax.StringColumn24">StringColumn24</a></dd></dl></div>
+    </li><li name="doric.syntax.DStructs.StructOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="StructOps[T,L&lt;:shapeless.HList]extendsAnyRef"></a>
+      <a id="StructOps[T,L&lt;:HList]:StructOps[T,L]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">StructOps</span><span class="tparams">[<span name="T">T</span>, <span name="L">L &lt;: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.HList" class="extype" target="_top">HList</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@StructOps[T,L&lt;:shapeless.HList]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd></dl></div>
     </li><li name="doric.TimestampColumn" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TimestampColumn=doric.DoricColumn[java.sql.Timestamp]"></a>
       <a id="TimestampColumn:TimestampColumn"></a>
@@ -1258,6 +1315,23 @@
       </a>
     </span>
       
+    </li><li name="doric.syntax.DStructs.SelectorWithSparkType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SelectorWithSparkType"></a>
+      <a id="SelectorWithSparkType:SelectorWithSparkType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SelectorWithSparkType</span><span class="result"> extends <span class="extype" name="doric.syntax.DStructs.SelectorLPI">SelectorLPI</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@SelectorWithSparkType" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#aproxCountDistinct" visbl="pub" data-isabs="false" fullComment="yes" group="Aggregation Any Type">
       <a id="aproxCountDistinct(colName:String):doric.LongColumn"></a>
       <a id="aproxCountDistinct(String):LongColumn"></a>
@@ -2474,18 +2548,18 @@ This function takes at least 2 parameters. It will return null iff all parameter
       <p class="shortcomment cmt">Creates a new list column.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new list column. The input columns must all have the same data type.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>ArrayColumns</dd><dt>To do</dt><dd><span class="cmt"><p>scaladoc link (issue #135)</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>org.apache.spark.sql.functions.array</p></span></dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions#lit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L]):doric.LiteralDoricColumn[L]"></a>
-      <a id="lit[L](L)(SparkType[L],LiteralSparkType[L]):LiteralDoricColumn[L]"></a>
+      <a id="lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L],implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a>
+      <a id="lit[L](L)(SparkType[L],LiteralSparkType[L],Location):LiteralDoricColumn[L]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lit</span><span class="tparams">[<span name="L">L</span>]</span><span class="params">(<span name="litv">litv: <span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>, <span name="arg1">arg1: <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>)</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>
+        <span class="name">lit</span><span class="tparams">[<span name="L">L</span>]</span><span class="params">(<span name="litv">litv: <span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>, <span name="arg1">arg1: <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>, <span name="l">l: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<span class="extype" name="doric.syntax.LiteralConversions.lit.L">L</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#doric.package@lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L]):doric.LiteralDoricColumn[L]" title="Permalink" target="_top">
+      <a href="../index.html#doric.package@lit[L](litv:L)(implicitevidence$1:doric.types.SparkType[L],implicitevidence$2:doric.types.LiteralSparkType[L],implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

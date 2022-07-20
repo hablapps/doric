@@ -13,9 +13,9 @@ raising a run-time exception:
 
 ```scala
 // Spark
-List(1,2,3).toDF.select(f.col("id")+1)
+List(1,2,3).toDF().select(f.col("id")+1)
 // org.apache.spark.sql.AnalysisException: Column 'id' does not exist. Did you mean one of the following? [value];
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$4158/0x0000000101846040@49324dfa))]
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$4162/0x000000010184f040@34d3df27))]
 // +- LocalRelation [value#291]
 // 
 // 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:54)
@@ -32,7 +32,7 @@ List(1,2,3).toDF.select(f.col("id")+1)
 
 ```scala
 // Doric
-List(1,2,3).toDF.select(colInt("id")+1)
+List(1,2,3).toDF().select(colInt("id")+1)
 // doric.sem.DoricMultiError: Found 1 error in select
 //   Cannot resolve column name "id" among (value)
 //   	located at . (validations.md:37)
@@ -51,7 +51,7 @@ List(1,2,3).toDF.select(colInt("id")+1)
 // 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:251)
 // 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1417)
 // 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1384)
-// 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:55)
+// 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
 // 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
 ```
@@ -63,14 +63,14 @@ exists but its type is not what we expected: Spark won't be able to detect that,
 encoded in plain columns. Thus, the following code will compile and execute without errors:
 
 ```scala
-val df = List("1","2","three").toDF.select(f.col("value") + 1)
+val df = List("1","2","three").toDF().select(f.col("value") + 1)
 // df: org.apache.spark.sql.package.DataFrame = [(value + 1): double]
 ```
 
 and we will be able to run the DataFrame:
 
 ```scala
-df.show
+df.show()
 // +-----------+
 // |(value + 1)|
 // +-----------+
@@ -86,7 +86,7 @@ obtaining null values and garbage results, in general.
 Using doric we can prevent the creation of the DataFrame, since column expressions are typed:
 
 ```scala
-val df = List("1","2","three").toDF.select(colInt("value") + 1.lit)
+val df = List("1","2","three").toDF().select(colInt("value") + 1.lit)
 // doric.sem.DoricMultiError: Found 1 error in select
 //   The column with name 'value' was expected to be IntegerType but is of type StringType
 //   	located at . (validations.md:59)

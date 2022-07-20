@@ -119,19 +119,19 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="doric.types.LiteralSparkType#classTag" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="classTag:scala.reflect.ClassTag[LiteralSparkType.this.OriginalSparkType]"></a>
-      <a id="classTag:ClassTag[OriginalSparkType]"></a>
+              <ol><li name="doric.types.LiteralSparkType#cTag" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="cTag:scala.reflect.ClassTag[LiteralSparkType.this.OriginalSparkType]"></a>
+      <a id="cTag:ClassTag[OriginalSparkType]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">classTag</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<a href="#OriginalSparkType" class="extmbr" name="doric.types.LiteralSparkType.OriginalSparkType">OriginalSparkType</a>]</span>
+        <span class="name">cTag</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<a href="#OriginalSparkType" class="extmbr" name="doric.types.LiteralSparkType.OriginalSparkType">OriginalSparkType</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.LiteralSparkType@classTag:scala.reflect.ClassTag[LiteralSparkType.this.OriginalSparkType]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.LiteralSparkType@cTag:scala.reflect.ClassTag[LiteralSparkType.this.OriginalSparkType]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -149,6 +149,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#doric.types.LiteralSparkType@literalTo:T=&gt;LiteralSparkType.this.OriginalSparkType" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="doric.types.LiteralSparkType#ttag" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ttag:reflect.runtime.universe.TypeTag[LiteralSparkType.this.OriginalSparkType]"></a>
+      <a id="ttag:scala.reflect.api.JavaUniverse.TypeTag[OriginalSparkType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ttag</span><span class="result">: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<a href="#OriginalSparkType" class="extmbr" name="doric.types.LiteralSparkType.OriginalSparkType">OriginalSparkType</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.LiteralSparkType@ttag:reflect.runtime.universe.TypeTag[LiteralSparkType.this.OriginalSparkType]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -528,18 +545,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.LiteralDoricColumn[L]"></a>
-      <a id="lit:LiteralDoricColumn[LiteralSparkType[T]]"></a>
+      <a id="lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a>
+      <a id="lit(Location):LiteralDoricColumn[LiteralSparkType[T]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">lit</span><span class="result">: <a href="../LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<span class="extype" name="doric.types.LiteralSparkType.T">T</span>]]</span>
+        <span class="implicit">lit</span><span class="params">(<span class="implicit">implicit </span><span name="l">l: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<span class="extype" name="doric.types.LiteralSparkType.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.LiteralSparkType@lit:doric.LiteralDoricColumn[L]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.LiteralSparkType@lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -553,6 +570,23 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="doric.types.LiteralSparkType#literal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="literal(t:T)(implicitloc:doric.sem.Location):doric.DoricValidated[org.apache.spark.sql.Column]"></a>
+      <a id="literal(T)(Location):DoricValidated[Column]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">literal</span><span class="params">(<span name="t">t: <span class="extype" name="doric.types.LiteralSparkType.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="loc">loc: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../package.html#DoricValidated[T]=cats.data.ValidatedNec[doric.sem.DoricSingleError,T]" class="extmbr" name="doric.DoricValidated">DoricValidated</a>[<a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Column" class="extype" target="_top">Column</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.LiteralSparkType@literal(t:T)(implicitloc:doric.sem.Location):doric.DoricValidated[org.apache.spark.sql.Column]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

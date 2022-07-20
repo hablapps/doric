@@ -11,7 +11,7 @@ problem in a modular way. We start from the following `DataFrame`, whose columns
 
 
 ```scala
-userDF.show
+userDF.show()
 // +---------+---------+--------+
 // |name_user|city_user|age_user|
 // +---------+---------+--------+
@@ -20,7 +20,7 @@ userDF.show
 // |     John|    Paris|      30|
 // +---------+---------+--------+
 // 
-userDF.printSchema
+userDF.printSchema()
 // root
 //  |-- name_user: string (nullable = true)
 //  |-- city_user: string (nullable = true)

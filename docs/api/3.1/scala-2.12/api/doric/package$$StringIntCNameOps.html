@@ -291,6 +291,18 @@
                         <a href="RightDoricColumn.html" title="">RightDoricColumn</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="trait" href="SelectorLPI.html" title=""></a>
+                        <a href="SelectorLPI.html" title="">SelectorLPI</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="SelectorWithSparkType$.html" title=""></a>
+                        <a href="SelectorWithSparkType$.html" title="">SelectorWithSparkType</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="trait" href="SelectorWithSparkType.html" title=""></a>
+                        <a href="SelectorWithSparkType.html" title="">SelectorWithSparkType</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="SparkCol.html" title=""></a>
                         <a href="SparkCol.html" title="">SparkCol</a>
                       </li><li class="current-entities indented1">
@@ -313,6 +325,10 @@
                         <span class="separator"></span>
                         <a class="class" href="syntax/StringColumn3x$StringOperationsSyntax3x.html" title=""></a>
                         <a href="syntax/StringColumn3x$StringOperationsSyntax3x.html" title="">StringOperationsSyntax3x</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="class" href="StructOps.html" title=""></a>
+                        <a href="StructOps.html" title="">StructOps</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="TimestampColumnLikeSyntax.html" title=""></a>
@@ -755,9 +771,9 @@
         <div class="values members">
               <h3>Shadowed Implicit Value Members</h3>
               <ol><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[StringIntCNameOps]"></a>
+      <a id="lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a><a id="lit(Location):LiteralDoricColumn[StringIntCNameOps]"></a>
       <span class="permalink">
-      <a href="../doric/package$$StringIntCNameOps.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
+      <a href="../doric/package$$StringIntCNameOps.html#lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -766,7 +782,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit shadowed">lit</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>]</span>
+        <span class="implicit shadowed">lit</span><span class="params">(<span class="implicit">implicit </span><span name="l">l: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
@@ -775,14 +791,14 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a> to
             <a href="index.html#LiteralOps[L]extendsAnyRef" class="extmbr" name="doric.LiteralOps">doric.LiteralOps</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] performed by method LiteralOps in doric.syntax.LiteralConversions.
             This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] is in scope and at the same time an implicit value of type <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] is in scope.
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(stringIntCNameOps: doric.LiteralOps[StringIntCNameOps]).lit</pre></div></dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(stringIntCNameOps: doric.LiteralOps[StringIntCNameOps]).lit(l)</pre></div></dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[StringIntCNameOps]"></a>
+      <a id="lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a><a id="lit(Location):LiteralDoricColumn[StringIntCNameOps]"></a>
       <span class="permalink">
-      <a href="../doric/package$$StringIntCNameOps.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
+      <a href="../doric/package$$StringIntCNameOps.html#lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -791,7 +807,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit shadowed">lit</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>]</span>
+        <span class="implicit shadowed">lit</span><span class="params">(<span class="implicit">implicit </span><span name="l">l: <a href="sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
@@ -800,7 +816,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
             This member is added by an implicit conversion from <a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a> to
             <a href="index.html#LiteralOps[L]extendsAnyRef" class="extmbr" name="doric.LiteralOps">doric.LiteralOps</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] performed by method LiteralOps in doric.syntax.LiteralConversions.
             This conversion will take place only if an implicit value of type <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] is in scope and at the same time an implicit value of type <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="" class="extype" name="doric.StringIntCNameOps">StringIntCNameOps</a>] is in scope.
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(stringIntCNameOps: doric.LiteralOps[StringIntCNameOps]).lit</pre></div></dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(stringIntCNameOps: doric.LiteralOps[StringIntCNameOps]).lit(l)</pre></div></dd><dt>Definition Classes</dt><dd>LiteralOps</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>

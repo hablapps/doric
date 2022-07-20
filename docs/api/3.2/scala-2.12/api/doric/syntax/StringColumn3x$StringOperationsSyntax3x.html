@@ -573,9 +573,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lit:doric.LiteralDoricColumn[L]"></a><a id="lit:LiteralDoricColumn[StringOperationsSyntax3x]"></a>
+      <a id="lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a><a id="lit(Location):LiteralDoricColumn[StringOperationsSyntax3x]"></a>
       <span class="permalink">
-      <a href="../../doric/syntax/StringColumn3x$StringOperationsSyntax3x.html#lit:doric.LiteralDoricColumn[L]" title="Permalink">
+      <a href="../../doric/syntax/StringColumn3x$StringOperationsSyntax3x.html#lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -584,7 +584,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">lit</span><span class="result">: <a href="../LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.syntax.StringColumn3x.StringOperationsSyntax3x">StringOperationsSyntax3x</a>]</span>
+        <span class="implicit">lit</span><span class="params">(<span class="implicit">implicit </span><span name="l">l: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../LiteralDoricColumn.html" class="extype" name="doric.LiteralDoricColumn">LiteralDoricColumn</a>[<a href="" class="extype" name="doric.syntax.StringColumn3x.StringOperationsSyntax3x">StringOperationsSyntax3x</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Transforms the original value to a literal.</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the original value to a literal.
@@ -663,7 +663,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">overlay</span><span class="params">(<span name="replace">replace: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>, <span name="len">len: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="../types/LiteralSparkType$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
+        <span class="name">overlay</span><span class="params">(<span name="replace">replace: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="pos">pos: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>, <span name="len">len: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="../sem/Location$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>
       </span>
       
       <p class="shortcomment cmt">Overlay the specified portion of <code>src</code> with <code>replace</code>, starting from
@@ -682,7 +682,7 @@ byte position <code>pos</code> of <code>src</code> and proceeding for <code>len<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">split</span><span class="params">(<span name="pattern">pattern: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="limit">limit: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="../types/LiteralSparkType$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">split</span><span class="params">(<span name="pattern">pattern: <a href="../index.html#StringColumn=doric.DoricColumn[String]" class="extmbr" name="doric.StringColumn">StringColumn</a></span>, <span name="limit">limit: <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a> = <span class="symbol"><span class="name"><a href="../sem/Location$.html">-1).lit</a></span></span></span>)</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Splits str around matches of the given pattern.</p><div class="fullcomment"><div class="comment cmt"><p>Splits str around matches of the given pattern.

@@ -47,13 +47,13 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">SparkType</span>
+        <span class="name">SparkType</span><span class="result"> extends <a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a>, <a href="SparkTypeLPI_I_Specific.html" class="extype" name="doric.types.SparkTypeLPI_I_Specific">SparkTypeLPI_I_Specific</a>, <a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a>, <a href="SparkTypeLPI_II_Seq_Set_Specific.html" class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific">SparkTypeLPI_II_Seq_Set_Specific</a>, <a href="SparkTypeLPI_III.html" class="extype" name="doric.types.SparkTypeLPI_III">SparkTypeLPI_III</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="doric.types.SparkType"><span>SparkType</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="doric.types.SparkType"><span>SparkType</span></li><li class="in" name="doric.types.SparkTypeLPI_I"><span>SparkTypeLPI_I</span></li><li class="in" name="doric.types.SparkTypeLPI_I_Specific"><span>SparkTypeLPI_I_Specific</span></li><li class="in" name="doric.types.SparkTypeLPI_II"><span>SparkTypeLPI_II</span></li><li class="in" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific"><span>SparkTypeLPI_II_Seq_Set_Specific</span></li><li class="in" name="doric.types.SparkTypeLPI_III"><span>SparkTypeLPI_III</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -184,6 +184,26 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="doric.types.SparkType#apply" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply[A](dt:org.apache.spark.sql.types.DataType,_nullable:Boolean)(implicitevidence$1:scala.reflect.ClassTag[A]):doric.types.SparkType.Primitive[A]"></a>
+      <a id="apply[A](DataType,Boolean)(ClassTag[A]):Primitive[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="dt">dt: <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.types.DataType" class="extype" target="_top">DataType</a></span>, <span name="_nullable">_nullable: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">true</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkType.apply.A">A</span>]</span>)</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<span class="extype" name="doric.types.SparkType.apply.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@apply[A](dt:org.apache.spark.sql.types.DataType,_nullable:Boolean)(implicitevidence$1:scala.reflect.ClassTag[A]):doric.types.SparkType.Primitive[A]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../package.html" class="extype" name="doric">doric</a>] </dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="doric.types.SparkType#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply[T](implicitst:doric.types.SparkType[T]):doric.types.SparkType.Custom[T,st.OriginalSparkType]"></a>
       <a id="apply[T](SparkType[T]):Custom[T,OriginalSparkType]"></a>
@@ -301,25 +321,59 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="doric.types.SparkType#fromArray" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromArray[A,O](implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[O],implicitst:doric.types.SparkType[A]{typeOriginalSparkType=O}):doric.types.SparkType.Custom[Array[A],Array[O]]"></a>
-      <a id="fromArray[A,O](ClassTag[A],ClassTag[O],SparkType[A]{typeOriginalSparkType=O}):Custom[Array[A],Array[O]]"></a>
+    </li><li name="doric.types.SparkTypeLPI_II#fromArray" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromArray[A](implicitevidence$4:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A]):SparkTypeLPI_II.this.Custom[Array[A],doric.types.DoricArray.Collection[st.OriginalSparkType]]"></a>
+      <a id="fromArray[A](ClassTag[A],SparkType[A]):Custom[Array[A],Collection[OriginalSparkType]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromArray</span><span class="tparams">[<span name="A">A</span>, <span name="O">O</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkType.fromArray.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkType.fromArray.O">O</span>]</span>, <span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromArray.A">A</span>] { type OriginalSparkType = O }</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="doric.types.SparkType.fromArray.A">A</span>], <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="doric.types.SparkType.fromArray.O">O</span>]]</span>
+        <span class="name">fromArray</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromArray.A">A</span>]</span>, <span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromArray.A">A</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromArray.A">A</span>], <a href="DoricArray$.html#Collection[T]=scala.collection.mutable.WrappedArray[T]" class="extmbr" name="doric.types.DoricArray.Collection">Collection</a>[<a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromArray[A,O](implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[O],implicitst:doric.types.SparkType[A]{typeOriginalSparkType=O}):doric.types.SparkType.Custom[Array[A],Array[O]]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromArray[A](implicitevidence$4:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A]):SparkTypeLPI_II.this.Custom[Array[A],doric.types.DoricArray.Collection[st.OriginalSparkType]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromBinary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromBinary:doric.types.SparkType.Primitive[Array[Byte]]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromBigDecimal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromBigDecimal:SparkTypeLPI_I.this.Custom[BigDecimal,java.math.BigDecimal]"></a>
+      <a id="fromBigDecimal:Custom[BigDecimal,BigDecimal]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromBigDecimal</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="scala.BigDecimal">BigDecimal</span>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigDecimal" class="extype" target="_top">BigDecimal</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromBigDecimal:SparkTypeLPI_I.this.Custom[BigDecimal,java.math.BigDecimal]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromBigInt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromBigInt:SparkTypeLPI_I.this.Custom[scala.math.BigInt,java.math.BigDecimal]"></a>
+      <a id="fromBigInt:Custom[BigInt,BigDecimal]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromBigInt</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.math.BigInt" class="extype" target="_top">BigInt</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigDecimal" class="extype" target="_top">BigDecimal</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromBigInt:SparkTypeLPI_I.this.Custom[scala.math.BigInt,java.math.BigDecimal]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromBinary" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromBinary:SparkTypeLPI_I.this.Primitive[Array[Byte]]"></a>
       <a id="fromBinary:Primitive[Array[Byte]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -330,13 +384,13 @@
         <span class="name">fromBinary</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Array" class="extype" target="_top">Array</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Byte" class="extype" target="_top">Byte</a>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromBinary:doric.types.SparkType.Primitive[Array[Byte]]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromBinary:SparkTypeLPI_I.this.Primitive[Array[Byte]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromBoolean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromBoolean:doric.types.SparkType.Primitive[Boolean]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromBoolean:SparkTypeLPI_I.this.Primitive[Boolean]"></a>
       <a id="fromBoolean:Primitive[Boolean]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -347,13 +401,13 @@
         <span class="name">fromBoolean</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Boolean" class="extype" target="_top">Boolean</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromBoolean:doric.types.SparkType.Primitive[Boolean]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromBoolean:SparkTypeLPI_I.this.Primitive[Boolean]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromByte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromByte:doric.types.SparkType.Primitive[Byte]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromByte" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromByte:SparkTypeLPI_I.this.Primitive[Byte]"></a>
       <a id="fromByte:Primitive[Byte]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -364,30 +418,64 @@
         <span class="name">fromByte</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Byte" class="extype" target="_top">Byte</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromByte:doric.types.SparkType.Primitive[Byte]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromByte:SparkTypeLPI_I.this.Primitive[Byte]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromDate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromDate:doric.types.SparkType.Custom[java.time.LocalDate,java.sql.Date]"></a>
-      <a id="fromDate:Custom[LocalDate,Date]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromCalendarInterval" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromCalendarInterval:SparkTypeLPI_I.this.Primitive[org.apache.spark.unsafe.types.CalendarInterval]"></a>
+      <a id="fromCalendarInterval:Primitive[CalendarInterval]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">fromDate</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.time.LocalDate" class="extype" target="_top">LocalDate</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Date" class="extype" target="_top">Date</a>]</span>
+        <span class="name">fromCalendarInterval</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.unsafe.types.CalendarInterval" class="extype" target="_top">CalendarInterval</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromDate:doric.types.SparkType.Custom[java.time.LocalDate,java.sql.Date]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromCalendarInterval:SparkTypeLPI_I.this.Primitive[org.apache.spark.unsafe.types.CalendarInterval]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromDouble" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromDouble:doric.types.SparkType.Primitive[Double]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromDateST" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromDateST:doric.types.SparkType[java.sql.Date]"></a>
+      <a id="fromDateST:SparkType[Date]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromDateST</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Date" class="extype" target="_top">Date</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromDateST:doric.types.SparkType[java.sql.Date]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromDecimal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromDecimal:SparkTypeLPI_I.this.Custom[org.apache.spark.sql.types.Decimal,java.math.BigDecimal]"></a>
+      <a id="fromDecimal:Custom[Decimal,BigDecimal]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromDecimal</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.types.Decimal" class="extype" target="_top">Decimal</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigDecimal" class="extype" target="_top">BigDecimal</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromDecimal:SparkTypeLPI_I.this.Custom[org.apache.spark.sql.types.Decimal,java.math.BigDecimal]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromDouble" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromDouble:SparkTypeLPI_I.this.Primitive[Double]"></a>
       <a id="fromDouble:Primitive[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -398,13 +486,13 @@
         <span class="name">fromDouble</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Double" class="extype" target="_top">Double</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromDouble:doric.types.SparkType.Primitive[Double]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromDouble:SparkTypeLPI_I.this.Primitive[Double]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromFloat" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromFloat:doric.types.SparkType.Primitive[Float]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromFloat" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromFloat:SparkTypeLPI_I.this.Primitive[Float]"></a>
       <a id="fromFloat:Primitive[Float]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -415,30 +503,64 @@
         <span class="name">fromFloat</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Float" class="extype" target="_top">Float</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromFloat:doric.types.SparkType.Primitive[Float]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromFloat:SparkTypeLPI_I.this.Primitive[Float]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromInstant" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromInstant:doric.types.SparkType.Primitive[java.sql.Timestamp]"></a>
-      <a id="fromInstant:Primitive[Timestamp]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_III#fromHCons" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromHCons[V,K&lt;:Symbol,VO,T&lt;:shapeless.HList](implicitW:shapeless.Witness.Aux[K],implicitST:shapeless.Lazy[doric.types.SparkType.Custom[V,VO]],implicitTS:shapeless.Lazy[doric.types.SparkType.Custom[T,org.apache.spark.sql.Row]]):SparkTypeLPI_III.this.Custom[shapeless.::[shapeless.labelled.FieldType[K,V],T],org.apache.spark.sql.Row]"></a>
+      <a id="fromHCons[V,K&lt;:Symbol,VO,T&lt;:HList](Aux[K],Lazy[Custom[V,VO]],Lazy[Custom[T,Row]]):Custom[::[FieldType[K,V],T],Row]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromHCons</span><span class="tparams">[<span name="V">V</span>, <span name="K">K &lt;: <span class="extype" name="scala.Symbol">Symbol</span></span>, <span name="VO">VO</span>, <span name="T">T &lt;: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.HList" class="extype" target="_top">HList</a></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="W">W: <span class="extype" name="shapeless.Witness.Aux">Aux</span>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.K">K</span>]</span>, <span name="ST">ST: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.Lazy" class="extype" target="_top">Lazy</a>[<a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.V">V</span>, <span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.VO">VO</span>]]</span>, <span name="TS">TS: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.Lazy" class="extype" target="_top">Lazy</a>[<a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.T">T</span>, <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.::" class="extype" target="_top">::</a>[<span class="extype" name="shapeless.labelled.FieldType">FieldType</span>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.K">K</span>, <span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.V">V</span>], <span class="extype" name="doric.types.SparkTypeLPI_III.fromHCons.T">T</span>], <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromHCons[V,K&lt;:Symbol,VO,T&lt;:shapeless.HList](implicitW:shapeless.Witness.Aux[K],implicitST:shapeless.Lazy[doric.types.SparkType.Custom[V,VO]],implicitTS:shapeless.Lazy[doric.types.SparkType.Custom[T,org.apache.spark.sql.Row]]):SparkTypeLPI_III.this.Custom[shapeless.::[shapeless.labelled.FieldType[K,V],T],org.apache.spark.sql.Row]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_III.html" class="extype" name="doric.types.SparkTypeLPI_III">SparkTypeLPI_III</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_III#fromHNil" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromHNil:SparkTypeLPI_III.this.Custom[shapeless.HNil,org.apache.spark.sql.Row]"></a>
+      <a id="fromHNil:Custom[HNil,Row]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstant</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Timestamp" class="extype" target="_top">Timestamp</a>]</span>
+        <span class="name">fromHNil</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.HNil" class="extype" target="_top">HNil</a>, <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromInstant:doric.types.SparkType.Primitive[java.sql.Timestamp]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromHNil:SparkTypeLPI_III.this.Custom[shapeless.HNil,org.apache.spark.sql.Row]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromInt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromInt:doric.types.SparkType.Primitive[Int]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_III.html" class="extype" name="doric.types.SparkTypeLPI_III">SparkTypeLPI_III</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromInstantST" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromInstantST:doric.types.SparkType[java.time.Instant]"></a>
+      <a id="fromInstantST:SparkType[Instant]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromInstantST</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.time.Instant" class="extype" target="_top">Instant</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromInstantST:doric.types.SparkType[java.time.Instant]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromInt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromInt:SparkTypeLPI_I.this.Primitive[Int]"></a>
       <a id="fromInt:Primitive[Int]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -449,47 +571,183 @@
         <span class="name">fromInt</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Int" class="extype" target="_top">Int</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromInt:doric.types.SparkType.Primitive[Int]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromInt:SparkTypeLPI_I.this.Primitive[Int]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromList" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromList[A](implicitst:doric.types.SparkType[A]):doric.types.SparkType.Custom[List[A],List[st.OriginalSparkType]]"></a>
-      <a id="fromList[A](SparkType[A]):Custom[List[A],List[OriginalSparkType]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fromList</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromList.A">A</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="doric.types.SparkType.fromList.A">A</span>], <span class="extype" name="scala.List">List</span>[<a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromList[A](implicitst:doric.types.SparkType[A]):doric.types.SparkType.Custom[List[A],List[st.OriginalSparkType]]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="doric.types.SparkType#fromLocalDate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromLocalDate:doric.types.SparkType.Primitive[java.sql.Date]"></a>
-      <a id="fromLocalDate:Primitive[Date]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaBigDecimal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaBigDecimal:SparkTypeLPI_I.this.Primitive[java.math.BigDecimal]"></a>
+      <a id="fromJavaBigDecimal:Primitive[BigDecimal]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">fromLocalDate</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Date" class="extype" target="_top">Date</a>]</span>
+        <span class="name">fromJavaBigDecimal</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigDecimal" class="extype" target="_top">BigDecimal</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromLocalDate:doric.types.SparkType.Primitive[java.sql.Date]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaBigDecimal:SparkTypeLPI_I.this.Primitive[java.math.BigDecimal]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromLong" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromLong:doric.types.SparkType.Primitive[Long]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaBigInteger" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaBigInteger:SparkTypeLPI_I.this.Custom[java.math.BigInteger,java.math.BigDecimal]"></a>
+      <a id="fromJavaBigInteger:Custom[BigInteger,BigDecimal]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaBigInteger</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigInteger" class="extype" target="_top">BigInteger</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.math.BigDecimal" class="extype" target="_top">BigDecimal</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaBigInteger:SparkTypeLPI_I.this.Custom[java.math.BigInteger,java.math.BigDecimal]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaBoolean:SparkTypeLPI_I.this.Primitive[Boolean]"></a>
+      <a id="fromJavaBoolean:Primitive[Boolean]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaBoolean</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Boolean" class="extype" target="_top">Boolean</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaBoolean:SparkTypeLPI_I.this.Primitive[Boolean]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaByte" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaByte:SparkTypeLPI_I.this.Primitive[Byte]"></a>
+      <a id="fromJavaByte:Primitive[Byte]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaByte</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Byte" class="extype" target="_top">Byte</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaByte:SparkTypeLPI_I.this.Primitive[Byte]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaDouble" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaDouble:SparkTypeLPI_I.this.Primitive[Double]"></a>
+      <a id="fromJavaDouble:Primitive[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaDouble</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Double" class="extype" target="_top">Double</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaDouble:SparkTypeLPI_I.this.Primitive[Double]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaFloat" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaFloat:SparkTypeLPI_I.this.Primitive[Float]"></a>
+      <a id="fromJavaFloat:Primitive[Float]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaFloat</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Float" class="extype" target="_top">Float</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaFloat:SparkTypeLPI_I.this.Primitive[Float]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaInteger" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaInteger:SparkTypeLPI_I.this.Primitive[Integer]"></a>
+      <a id="fromJavaInteger:Primitive[Integer]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaInteger</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Integer" class="extype" target="_top">Integer</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaInteger:SparkTypeLPI_I.this.Primitive[Integer]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaLong" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaLong:SparkTypeLPI_I.this.Primitive[Long]"></a>
+      <a id="fromJavaLong:Primitive[Long]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaLong</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Long" class="extype" target="_top">Long</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaLong:SparkTypeLPI_I.this.Primitive[Long]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromJavaShort" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromJavaShort:SparkTypeLPI_I.this.Primitive[Short]"></a>
+      <a id="fromJavaShort:Primitive[Short]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromJavaShort</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.lang.Short" class="extype" target="_top">Short</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromJavaShort:SparkTypeLPI_I.this.Primitive[Short]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromLocalDateST" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromLocalDateST:doric.types.SparkType[java.time.LocalDate]"></a>
+      <a id="fromLocalDateST:SparkType[LocalDate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromLocalDateST</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.time.LocalDate" class="extype" target="_top">LocalDate</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromLocalDateST:doric.types.SparkType[java.time.LocalDate]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromLong" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromLong:SparkTypeLPI_I.this.Primitive[Long]"></a>
       <a id="fromLong:Primitive[Long]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -500,13 +758,13 @@
         <span class="name">fromLong</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Long" class="extype" target="_top">Long</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromLong:doric.types.SparkType.Primitive[Long]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromLong:SparkTypeLPI_I.this.Primitive[Long]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromMap[K,V](implicitevidence$1:doric.types.SparkType[K],implicitevidence$2:doric.types.SparkType[V],implicitstk:doric.types.SparkType[K],implicitstv:doric.types.SparkType[V]):doric.types.SparkType.Custom[Map[K,V],Map[stk.OriginalSparkType,stv.OriginalSparkType]]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_II#fromMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromMap[K,V](implicitevidence$2:doric.types.SparkType[K],implicitevidence$3:doric.types.SparkType[V],implicitstk:doric.types.SparkType[K],implicitstv:doric.types.SparkType[V]):SparkTypeLPI_II.this.Custom[Map[K,V],Map[stk.OriginalSparkType,stv.OriginalSparkType]]"></a>
       <a id="fromMap[K,V](SparkType[K],SparkType[V],SparkType[K],SparkType[V]):Custom[Map[K,V],Map[OriginalSparkType,OriginalSparkType]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -514,16 +772,16 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromMap</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromMap.K">K</span>]</span>, <span name="arg1">arg1: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromMap.V">V</span>]</span>, <span name="stk">stk: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromMap.K">K</span>]</span>, <span name="stv">stv: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromMap.V">V</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="doric.types.SparkType.fromMap.K">K</span>, <span class="extype" name="doric.types.SparkType.fromMap.V">V</span>], <span class="extype" name="scala.Predef.Map">Map</span>[<a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>, <a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]]</span>
+        <span class="name">fromMap</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.K">K</span>]</span>, <span name="arg1">arg1: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.V">V</span>]</span>, <span name="stk">stk: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.K">K</span>]</span>, <span name="stv">stv: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.V">V</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.K">K</span>, <span class="extype" name="doric.types.SparkTypeLPI_II.fromMap.V">V</span>], <span class="extype" name="scala.Predef.Map">Map</span>[<a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>, <a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromMap[K,V](implicitevidence$1:doric.types.SparkType[K],implicitevidence$2:doric.types.SparkType[V],implicitstk:doric.types.SparkType[K],implicitstv:doric.types.SparkType[V]):doric.types.SparkType.Custom[Map[K,V],Map[stk.OriginalSparkType,stv.OriginalSparkType]]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromMap[K,V](implicitevidence$2:doric.types.SparkType[K],implicitevidence$3:doric.types.SparkType[V],implicitstk:doric.types.SparkType[K],implicitstv:doric.types.SparkType[V]):SparkTypeLPI_II.this.Custom[Map[K,V],Map[stk.OriginalSparkType,stv.OriginalSparkType]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromNull" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromNull:doric.types.SparkType.Primitive[Null]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromNull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromNull:SparkTypeLPI_I.this.Primitive[Null]"></a>
       <a id="fromNull:Primitive[Null]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -534,13 +792,13 @@
         <span class="name">fromNull</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<span class="extype" name="scala.Null">Null</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromNull:doric.types.SparkType.Primitive[Null]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromNull:SparkTypeLPI_I.this.Primitive[Null]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromOption" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromOption[A](implicitst:doric.types.SparkType[A]):doric.types.SparkType.Custom[Option[A],st.OriginalSparkType]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_II#fromOption" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromOption[A](implicitst:doric.types.SparkType[A]):SparkTypeLPI_II.this.Custom[Option[A],st.OriginalSparkType]"></a>
       <a id="fromOption[A](SparkType[A]):Custom[Option[A],OriginalSparkType]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -548,16 +806,33 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromOption</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkType.fromOption.A">A</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="doric.types.SparkType.fromOption.A">A</span>], <a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]</span>
+        <span class="name">fromOption</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromOption.A">A</span>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="doric.types.SparkTypeLPI_II.fromOption.A">A</span>], <a href="SparkType.html#OriginalSparkType" class="extmbr" name="doric.types.SparkType.OriginalSparkType">OriginalSparkType</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromOption[A](implicitst:doric.types.SparkType[A]):doric.types.SparkType.Custom[Option[A],st.OriginalSparkType]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromOption[A](implicitst:doric.types.SparkType[A]):SparkTypeLPI_II.this.Custom[Option[A],st.OriginalSparkType]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromRow" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromRow:doric.types.SparkType.Primitive[org.apache.spark.sql.Row]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_III#fromProduct" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromProduct[A&lt;:Product,L&lt;:shapeless.HList](implicitevidence$5:reflect.runtime.universe.TypeTag[A],implicitlg:shapeless.LabelledGeneric.Aux[A,L],implicithlistST:doric.types.SparkType.Custom[L,org.apache.spark.sql.Row]):doric.types.SparkType.Custom[A,org.apache.spark.sql.Row]"></a>
+      <a id="fromProduct[A&lt;:Product,L&lt;:HList](scala.reflect.api.JavaUniverse.TypeTag[A],Aux[A,L],Custom[L,Row]):Custom[A,Row]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromProduct</span><span class="tparams">[<span name="A">A &lt;: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Product" class="extype" target="_top">Product</a></span>, <span name="L">L &lt;: <a href="https://javadoc.io/page/com.chuusai/shapeless_2.11/2.3.9/index.html#shapeless.HList" class="extype" target="_top">HList</a></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromProduct.A">A</span>]</span>, <span name="lg">lg: <span class="extype" name="shapeless.LabelledGeneric.Aux">Aux</span>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromProduct.A">A</span>, <span class="extype" name="doric.types.SparkTypeLPI_III.fromProduct.L">L</span>]</span>, <span name="hlistST">hlistST: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromProduct.L">L</span>, <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>)</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<span class="extype" name="doric.types.SparkTypeLPI_III.fromProduct.A">A</span>, <a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromProduct[A&lt;:Product,L&lt;:shapeless.HList](implicitevidence$5:reflect.runtime.universe.TypeTag[A],implicitlg:shapeless.LabelledGeneric.Aux[A,L],implicithlistST:doric.types.SparkType.Custom[L,org.apache.spark.sql.Row]):doric.types.SparkType.Custom[A,org.apache.spark.sql.Row]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_III.html" class="extype" name="doric.types.SparkTypeLPI_III">SparkTypeLPI_III</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_II#fromRow" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromRow:SparkTypeLPI_II.this.Primitive[org.apache.spark.sql.Row]"></a>
       <a id="fromRow:Primitive[Row]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -568,13 +843,64 @@
         <span class="name">fromRow</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.Row" class="extype" target="_top">Row</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromRow:doric.types.SparkType.Primitive[org.apache.spark.sql.Row]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromRow:SparkTypeLPI_II.this.Primitive[org.apache.spark.sql.Row]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromStringDf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromStringDf:doric.types.SparkType.Primitive[String]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_II_Seq_Set_Specific#fromSeq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromSeq[A,C[X]&lt;:Seq[X]](implicitevidence$1:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A],implicitcbf:scala.collection.generic.CanBuildFrom[_,A,C[A]]):doric.types.SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}"></a>
+      <a id="fromSeq[A,C[X]&lt;:Seq[X]](ClassTag[A],SparkType[A],CanBuildFrom[_,A,C[A]]):SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromSeq</span><span class="tparams">[<span name="A">A</span>, <span name="C">C<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.C.X">X</span>]</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.A">A</span>]</span>, <span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.A">A</span>]</span>, <span name="cbf">cbf: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.collection.generic.CanBuildFrom" class="extype" target="_top">CanBuildFrom</a>[_, <span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.A">A</span>, <span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.C">C</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.A">A</span>]]</span>)</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.C">C</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSeq.A">A</span>]] { type OriginalSparkType = doric.types.DoricArray.Collection[st.OriginalSparkType] }</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromSeq[A,C[X]&lt;:Seq[X]](implicitevidence$1:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A],implicitcbf:scala.collection.generic.CanBuildFrom[_,A,C[A]]):doric.types.SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II_Seq_Set_Specific.html" class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific">SparkTypeLPI_II_Seq_Set_Specific</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_II_Seq_Set_Specific#fromSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromSet[A,C[X]&lt;:Set[X]](implicitevidence$2:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A],implicitcbf:scala.collection.generic.CanBuildFrom[_,A,C[A]]):doric.types.SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}"></a>
+      <a id="fromSet[A,C[X]&lt;:Set[X]](ClassTag[A],SparkType[A],CanBuildFrom[_,A,C[A]]):SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromSet</span><span class="tparams">[<span name="A">A</span>, <span name="C">C<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.C.X">X</span>]</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.A">A</span>]</span>, <span name="st">st: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.A">A</span>]</span>, <span name="cbf">cbf: <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.collection.generic.CanBuildFrom" class="extype" target="_top">CanBuildFrom</a>[_, <span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.A">A</span>, <span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.C">C</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.A">A</span>]]</span>)</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.C">C</span>[<span class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific.fromSet.A">A</span>]] { type OriginalSparkType = doric.types.DoricArray.Collection[st.OriginalSparkType] }</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromSet[A,C[X]&lt;:Set[X]](implicitevidence$2:scala.reflect.ClassTag[A],implicitst:doric.types.SparkType[A],implicitcbf:scala.collection.generic.CanBuildFrom[_,A,C[A]]):doric.types.SparkType[C[A]]{typeOriginalSparkType=doric.types.DoricArray.Collection[st.OriginalSparkType]}" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_II_Seq_Set_Specific.html" class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific">SparkTypeLPI_II_Seq_Set_Specific</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromShort" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromShort:SparkTypeLPI_I.this.Primitive[Short]"></a>
+      <a id="fromShort:Primitive[Short]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromShort</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Short" class="extype" target="_top">Short</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#doric.types.SparkType$@fromShort:SparkTypeLPI_I.this.Primitive[Short]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromStringDf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromStringDf:SparkTypeLPI_I.this.Primitive[String]"></a>
       <a id="fromStringDf:Primitive[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -585,28 +911,28 @@
         <span class="name">fromStringDf</span><span class="result">: <a href="#Primitive[T]=doric.types.SparkType[T]{typeOriginalSparkType=T}" class="extmbr" name="doric.types.SparkType.Primitive">Primitive</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromStringDf:doric.types.SparkType.Primitive[String]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromStringDf:SparkTypeLPI_I.this.Primitive[String]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="doric.types.SparkType#fromTimestamp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="fromTimestamp:doric.types.SparkType.Custom[java.time.Instant,java.sql.Timestamp]"></a>
-      <a id="fromTimestamp:Custom[Instant,Timestamp]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
+    </li><li name="doric.types.SparkTypeLPI_I#fromTimestampST" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTimestampST:doric.types.SparkType[java.sql.Timestamp]"></a>
+      <a id="fromTimestampST:SparkType[Timestamp]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromTimestamp</span><span class="result">: <a href="#Custom[T,O]=doric.types.SparkType[T]{typeOriginalSparkType=O}" class="extmbr" name="doric.types.SparkType.Custom">Custom</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.time.Instant" class="extype" target="_top">Instant</a>, <a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Timestamp" class="extype" target="_top">Timestamp</a>]</span>
+        <span class="name">fromTimestampST</span><span class="result">: <a href="SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<a href="https://docs.oracle.com/javase/8/docs/api/index.html#java.sql.Timestamp" class="extype" target="_top">Timestamp</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#doric.types.SparkType$@fromTimestamp:doric.types.SparkType.Custom[java.time.Instant,java.sql.Timestamp]" title="Permalink" target="_top">
+      <a href="../../index.html#doric.types.SparkType$@fromTimestampST:doric.types.SparkType[java.sql.Timestamp]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -821,7 +1147,17 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="doric.types.SparkTypeLPI_I">
+              <h3>Inherited from <a href="SparkTypeLPI_I.html" class="extype" name="doric.types.SparkTypeLPI_I">SparkTypeLPI_I</a></h3>
+            </div><div class="parent" name="doric.types.SparkTypeLPI_I_Specific">
+              <h3>Inherited from <a href="SparkTypeLPI_I_Specific.html" class="extype" name="doric.types.SparkTypeLPI_I_Specific">SparkTypeLPI_I_Specific</a></h3>
+            </div><div class="parent" name="doric.types.SparkTypeLPI_II">
+              <h3>Inherited from <a href="SparkTypeLPI_II.html" class="extype" name="doric.types.SparkTypeLPI_II">SparkTypeLPI_II</a></h3>
+            </div><div class="parent" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific">
+              <h3>Inherited from <a href="SparkTypeLPI_II_Seq_Set_Specific.html" class="extype" name="doric.types.SparkTypeLPI_II_Seq_Set_Specific">SparkTypeLPI_II_Seq_Set_Specific</a></h3>
+            </div><div class="parent" name="doric.types.SparkTypeLPI_III">
+              <h3>Inherited from <a href="SparkTypeLPI_III.html" class="extype" name="doric.types.SparkTypeLPI_III">SparkTypeLPI_III</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
