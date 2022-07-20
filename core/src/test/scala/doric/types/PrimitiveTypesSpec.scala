@@ -165,22 +165,18 @@ class PrimitiveTypesSpec
 
   describe("Struct types") {
 
-    ignore("should match `Row`") {
-      testDataType[Row]
-    }
-
     it("should match case classes") {
 
       testDataType[(Int, String)]
       testDataType[User]
-      // testLitDataType[(Int, String)]((0,""))
-      // testLitDataType[User](User("", 0))
+      testLitDataType[(Int, String)]((0, ""))
+      testLitDataType[User](User("", 0))
 
     }
   }
-  /*
-  describe("Complex types"){
-    it("should match a combination of Spark types"){
+
+  describe("Complex types") {
+    it("should match a combination of Spark types") {
       testDataType[List[User]]
       testDataType[Array[List[Int]]]
       testDataType[Map[Int, Option[List[User]]]]
@@ -190,13 +186,20 @@ class PrimitiveTypesSpec
       testLitDataType[List[User]](List(User("", 0)))
       testLitDataType[(User, Int)]((User("", 0), 1))
       testLitDataType[Array[Array[Int]]](Array(Array(1)))
-      testLitDataType[Array[Array[User]]](Array(Array(User("",0), User("",0)), Array()))
-      testLitDataType[Array[List[User]]](Array(List(User("",0), User("",0)), List()))
-      testLitDataType[Map[Int, Option[List[User]]]](Map(0->None, 1->Some(List(User("",0)))))
-      //testLitDataType[(List[Int], User, Map[Int, Option[User]])]((List(0,0), User("",0), Map(0->None, 1->Some(User("",0)))))
+      testLitDataType[Array[Array[User]]](
+        Array(Array(User("", 0), User("", 0)), Array())
+      )
+      testLitDataType[Array[List[User]]](
+        Array(List(User("", 0), User("", 0)), List())
+      )
+      testLitDataType[Map[Int, Option[List[User]]]](
+        Map(0 -> None, 1 -> Some(List(User("", 0))))
+      )
+      testLitDataType[(List[Int], User, Map[Int, Option[User]])](
+        (List(0, 0), User("", 0), Map(0 -> None, 1 -> Some(User("", 0))))
+      )
     }
   }
-   */
 
   // TBD
 

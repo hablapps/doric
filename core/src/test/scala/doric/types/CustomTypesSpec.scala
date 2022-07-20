@@ -52,6 +52,7 @@ class CustomTypesSpec extends DoricTestElements {
       serializeSparkType[Option[User]](None)
     }
 
+    // TBD: ISSUE #250
     ignore("should match case classes") {
 
       SparkType[(User, String)].dataType should ===(
@@ -65,6 +66,7 @@ class CustomTypesSpec extends DoricTestElements {
       serializeSparkType[(User, String)]((User("n1", 1), ""))
     }
 
+    // TBD: ISSUE #250
     ignore("should match a combination of Spark types") {
       serializeSparkType[Array[Array[Int]]](Array(Array(1)))
       serializeSparkType[Array[Array[User]]](
