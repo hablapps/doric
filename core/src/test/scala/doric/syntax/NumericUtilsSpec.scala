@@ -1,6 +1,7 @@
 package doric
 package syntax
 
+import doric.types.SparkType
 import doric.{DoricColumn, TypedColumnTest}
 import doric.types.SparkType.Primitive
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
@@ -35,8 +36,8 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
     )
 
   def testDoricSpark[
-      T: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
+      T: SparkType: ClassTag: TypeTag,
+      O: SparkType: ClassTag: TypeTag
   ](
       input: List[Option[Int]],
       output: List[Option[O]],
