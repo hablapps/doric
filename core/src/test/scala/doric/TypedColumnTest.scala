@@ -6,6 +6,7 @@ import scala.reflect.runtime.universe.TypeTag
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import doric.Equalities._
 import doric.implicitConversions.stringCname
+import doric.sem.Location
 import doric.types.{Casting, LiteralSparkType, SparkType}
 
 import org.apache.spark.sql.catalyst.ScalaReflection
@@ -79,7 +80,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
 
   def serializeSparkType[T: LiteralSparkType: SparkType: Equality](
       data: T
-  )(implicit spark: SparkSession, pos: source.Position): Unit =
+  )(implicit spark: SparkSession, loc: Location, pos: source.Position): Unit =
     spark
       .range(1)
       .toDF()

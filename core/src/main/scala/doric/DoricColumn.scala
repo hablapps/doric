@@ -39,7 +39,9 @@ case class LiteralDoricColumn[T] private[doric] (
 ) extends DoricColumn[T]
 
 object LiteralDoricColumn {
-  def apply[T: SparkType: LiteralSparkType](value: T): LiteralDoricColumn[T] =
+  def apply[T: SparkType: LiteralSparkType](
+      value: T
+  )(implicit l: Location): LiteralDoricColumn[T] =
     LiteralDoricColumn(
       Kleisli { _ => LiteralSparkType[T].literal(value) },
       value

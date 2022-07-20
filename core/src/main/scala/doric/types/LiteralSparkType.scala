@@ -2,19 +2,16 @@ package doric
 package types
 
 import cats.implicits.catsSyntaxValidatedIdBinCompat0
-import doric.sem.SparkErrorWrapper
+import doric.sem.{GenDoricError, Location, SparkErrorWrapper}
+
 import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.{Column, Row, functions => f}
-import shapeless.labelled.{FieldType, field}
-import shapeless.{::, HList, HNil, LabelledGeneric, Lazy, Witness}
-
 import scala.reflect.runtime.universe.{TypeTag, typeTag}
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
 import java.sql.{Date, Timestamp}
-import java.time.{Instant, LocalDate, LocalDateTime}
-import scala.reflect.runtime.universe
+import java.time.{Instant, LocalDate}
 
 trait LiteralSparkType[T] {
   self =>
@@ -26,7 +23,7 @@ trait LiteralSparkType[T] {
 
   val literalTo: T => OriginalSparkType
 
-  def literal(t: T): DoricValidated[Column] =
+  def literal(t: T)(implicit loc: Location): DoricValidated[Column] =
     f.typedLit[OriginalSparkType](literalTo(t))(ttag).validNec
 
   def customType[O](
@@ -91,7 +88,6 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   implicit val fromJavaByte: Primitive[java.lang.Byte] =
     createPrimitive[java.lang.Byte]
 
-  // Java numerics: TBD
   // BigDecimal et al.: TBD
   // Binary type: TBD
 
@@ -246,9 +242,11 @@ trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III { // with LiteralSp
     override val cTag: ClassTag[Row]   = implicitly[ClassTag[Row]]
     override val ttag: TypeTag[Row]    = typeTag[Row]
     override val literalTo: Row => Row = identity _
-    override def literal(t: Row): DoricValidated[Column] =
+    override def literal(
+        t: Row
+    )(implicit pos: Location): DoricValidated[Column] =
       if (t.schema == null)
-        SparkErrorWrapper(new Exception("Row without schema")).invalidNec
+        GenDoricError("Row without schema").invalidNec
       else
         new Column(
           Literal(

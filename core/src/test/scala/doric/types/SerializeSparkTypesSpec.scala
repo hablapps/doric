@@ -2,10 +2,11 @@ package doric
 package types
 
 import doric.Equalities._
+import doric.sem.{DoricMultiError, GenDoricError}
 
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.catalyst.ScalaReflection
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.catalyst.expressions.{GenericRow, GenericRowWithSchema}
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.internal.SQLConf.buildConf
 import org.apache.spark.sql.types.{Decimal, StructType}
@@ -38,19 +39,12 @@ class SerializeSparkTypeSpec
       serializeSparkType[java.lang.Float](0.0f)
       serializeSparkType[java.lang.Short](java.lang.Short.MAX_VALUE)
       serializeSparkType[java.lang.Byte](java.lang.Byte.MAX_VALUE)
-      /*
-      serializeSparkType[BigDecimal](BigDecimal(0.0))
-      serializeSparkType[java.math.BigDecimal](java.math.BigDecimal.ZERO)
-      serializeSparkType[java.math.BigInteger](java.math.BigInteger.ZERO)
-      //serializeSparkType[scala.math.BigInt](0)
-      serializeSparkType[Decimal](Decimal(0))
-       */
+
+      // TBD: DecimalType
 
       // String types
 
       serializeSparkType[String]("")
-      // VarcharType
-      // CharType
 
       // Binary type
 
@@ -130,7 +124,7 @@ class SerializeSparkTypeSpec
       serializeSparkType[User](User("", 0))
     }
 
-    it("should serialize rows") {
+    it("should serialize rows with schema") {
       val tupleRow = new GenericRowWithSchema(
         Array("j", 1),
         ScalaReflection
@@ -138,8 +132,19 @@ class SerializeSparkTypeSpec
           .dataType
           .asInstanceOf[StructType]
       )
-
       serializeSparkType[Row](tupleRow)
+    }
+
+    it("should raise an error if rows do not have schema") {
+      val gtupleRow = new GenericRow(
+        Array("j", 1)
+      )
+
+      intercept[DoricMultiError](
+        serializeSparkType[Row](gtupleRow)
+      ) should containAllErrors(
+        GenDoricError("Row without schema")
+      )
     }
   }
 
