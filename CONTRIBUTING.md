@@ -20,6 +20,8 @@ If a related issue doesn't exist, you can open a new issue using a relevant [iss
 
 #### Solve an issue
 
+[![GitHub issues by-label](https://img.shields.io/github/issues/hablapps/doric/good%20first%20issue)](https://github.com/hablapps/doric/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
 Scan through our [existing issues](https://github.com/github/docs/issues)
 to find one that interests you. As a general rule, we don’t assign issues to anyone.
 If you find an issue to work on, you are welcome to open a PR with a fix.
