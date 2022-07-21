@@ -5,8 +5,10 @@ import doric.types.SparkType
 import doric.Equalities._
 import org.scalactic.Equality
 import org.scalatest.Assertion
-
 import org.apache.spark.sql.Encoder
+
+import scala.collection.generic.CanBuildFrom
+import scala.collection.mutable
 
 class CollectOpsSpec extends DoricTestElements {
 
@@ -71,6 +73,8 @@ class CollectOpsSpec extends DoricTestElements {
       val listOfStrings: List[Array[String]] =
         List(Array("a", "b"), Array.empty[String])
       test(listOfStrings)
+
+      test(List(List(), List(1, 1), List(1, 2)))
     }
 
     it("allows to collect more than one column") {
@@ -88,7 +92,7 @@ class CollectOpsSpec extends DoricTestElements {
     }
 
     it("allows to collect custom elements") {
-      implicit def listSparkType[T: SparkType](implicit
+      implicit def setSparkType[T: SparkType](implicit
           st: SparkType[List[T]]
       ): SparkType.Custom[Set[T], st.OriginalSparkType] =
         SparkType[List[T]].customType[Set[T]](_.toSet)

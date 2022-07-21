@@ -8,10 +8,11 @@ import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import doric.types.SparkType
-
 import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.catalyst.expressions.ExtractValue
 import org.apache.spark.sql.functions.{struct => sparkStruct}
+import shapeless.labelled.FieldType
+import shapeless.{::, HList, LabelledGeneric, Witness}
 
 private[syntax] trait DStructs {
 
@@ -26,7 +27,9 @@ private[syntax] trait DStructs {
   def struct(cols: DoricColumn[_]*): RowColumn =
     cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
 
-  implicit class DStructOps(private val col: RowColumn) {
+  implicit class DStructOps[T](private val col: DoricColumn[T])(implicit
+      st: SparkType.Custom[T, Row]
+  ) {
 
     /**
       * Retreaves the child row of the Struct column
@@ -83,21 +86,67 @@ private[syntax] trait DStructs {
         .toDC
     }
   }
-  trait DynamicFieldAccessor[T] extends Dynamic { self: DoricColumn[T] =>
+
+  trait DynamicFieldAccessor[T] extends Dynamic {
+    self: DoricColumn[T] =>
 
     /**
       * Allows for accessing fields of struct columns using the syntax `rowcol.name[T]`.
       * This expression stands for `rowcol.getChild[T](name)`.
       *
+      * @param name
+      * @param location
+      * @param st
+      * @tparam A
       * @return The column which refers to the given field
       * @throws doric.sem.ColumnTypeError if the parent column is not a struct
       */
+
     def selectDynamic[A](name: String)(implicit
         location: Location,
         st: SparkType[A],
         w: T Is Row
     ): DoricColumn[A] =
       w.lift[DoricColumn].coerce(self).getChild[A](name)
+  }
+
+  @annotation.implicitNotFound(msg = "No field ${K} in record ${L}")
+  trait SelectorWithSparkType[L <: HList, K <: Symbol] {
+    type V
+    val st: SparkType[V]
+  }
+
+  object SelectorWithSparkType extends SelectorLPI {
+    type Aux[L <: HList, K <: Symbol, _V] = SelectorWithSparkType[L, K] {
+      type V = _V
+    }
+
+    implicit def Found[K <: Symbol, _V: SparkType, T <: HList] =
+      new SelectorWithSparkType[FieldType[K, _V] :: T, K] {
+        type V = _V
+        val st = SparkType[_V]
+      }
+  }
+
+  trait SelectorLPI {
+    implicit def KeepFinding[K1, V1, T <: HList, K <: Symbol](implicit
+        T: SelectorWithSparkType[T, K]
+    ) =
+      new SelectorWithSparkType[FieldType[K1, V1] :: T, K] {
+        type V = T.V
+        val st = T.st
+      }
+  }
+
+  implicit class StructOps[T, L <: HList](dc: DoricColumn[T])(implicit
+      lg: LabelledGeneric.Aux[T, L],
+      st: SparkType.Custom[T, Row]
+  ) {
+    def getChildSafe[K <: Symbol](k: Witness.Aux[K])(implicit
+        S: SelectorWithSparkType[L, K],
+        location: Location
+    ): DoricColumn[S.V] =
+      new DStructOps(dc).getChild[S.V](k.value.name)(S.st, location)
   }
 
 }

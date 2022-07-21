@@ -67,4 +67,43 @@ class DStructOpsSpec extends DoricTestElements {
     }
   }
 
+  val dfUsers =
+    List(
+      (User("name1", "", 1), 1),
+      (User("name2", "", 2), 2),
+      (User("name3", "", 3), 3)
+    )
+      .toDF("user", "delete")
+
+  describe("Field access") {
+
+    it("should work for product types, dynamically") {
+      dfUsers
+        .select(col[User]("user").getChild[Int]("age") as "age")
+        .collectCols(col[Int]("age")) shouldBe
+        List(1, 2, 3)
+
+      dfUsers
+        .select(col[User]("user").getChild[String]("name") as "name")
+        .collectCols(col[String]("name")) shouldBe
+        List("name1", "name2", "name3")
+    }
+
+    it("should work statically as well") {
+      dfUsers
+        .select(col[User]("user").getChildSafe(Symbol("name")) as "name")
+        .collectCols(col[String]("name")) shouldBe
+        List("name1", "name2", "name3")
+
+      dfUsers
+        .select(col[User]("user").getChildSafe(Symbol("age")) as "age")
+        .collectCols(col[Int]("age")) shouldBe
+        List(1, 2, 3)
+    }
+
+    it("should not work statically if the field doesn't exist") {
+      """col[User]("user").getChildSafe(Symbol("nameeee"))""" shouldNot compile
+    }
+  }
+
 }

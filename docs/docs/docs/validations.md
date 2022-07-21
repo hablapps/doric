@@ -22,12 +22,12 @@ raising a run-time exception:
 
 ```scala mdoc:crash
 // Spark
-List(1,2,3).toDF.select(f.col("id")+1)
+List(1,2,3).toDF().select(f.col("id")+1)
 ```
 
 ```scala mdoc:crash
 // Doric
-List(1,2,3).toDF.select(colInt("id")+1)
+List(1,2,3).toDF().select(colInt("id")+1)
 ```
 
 ## Mismatch types
@@ -37,13 +37,13 @@ exists but its type is not what we expected: Spark won't be able to detect that,
 encoded in plain columns. Thus, the following code will compile and execute without errors:
 
 ```scala mdoc
-val df = List("1","2","three").toDF.select(f.col("value") + 1)
+val df = List("1","2","three").toDF().select(f.col("value") + 1)
 ```
 
 and we will be able to run the DataFrame:
 
 ```scala mdoc
-df.show
+df.show()
 ```
 
 obtaining null values and garbage results, in general.
@@ -51,7 +51,7 @@ obtaining null values and garbage results, in general.
 Using doric we can prevent the creation of the DataFrame, since column expressions are typed:
 
 ```scala mdoc:crash
-val df = List("1","2","three").toDF.select(colInt("value") + 1.lit)
+val df = List("1","2","three").toDF().select(colInt("value") + 1.lit)
 ```
 
 More on error reporting in our next [section](errors.md).

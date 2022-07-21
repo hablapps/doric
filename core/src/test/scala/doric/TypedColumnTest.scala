@@ -1,22 +1,92 @@
 package doric
 
 import scala.reflect._
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.TypeTag
 
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
 import doric.Equalities._
 import doric.implicitConversions.stringCname
-import doric.types.{Casting, SparkType}
+import doric.sem.Location
+import doric.types.{Casting, LiteralSparkType, SparkType}
+
+import org.apache.spark.sql.catalyst.ScalaReflection
 import org.scalactic._
 import org.scalatest.matchers.should.Matchers
 
-import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, functions => f}
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.{Column, DataFrame, Encoder, RelationalGroupedDataset, Row, SparkSession, functions => f}
 import org.apache.spark.sql.types._
 
 trait TypedColumnTest extends Matchers with DatasetComparer {
 
   private lazy val doricCol = "dcol"
   private lazy val sparkCol = "scol"
+
+  def testDataType[T: TypeTag: SparkType](implicit
+      spark: SparkSession,
+      pos: source.Position
+  ): Unit =
+    SparkType[T].dataType shouldBe ScalaReflection.schemaFor[T].dataType
+
+  def testDataTypeForEncoder[T: TypeTag: SparkType: Encoder](implicit
+      spark: SparkSession,
+      pos: source.Position
+  ): Unit =
+    noException shouldBe thrownBy {
+      spark
+        .emptyDataset[T]
+        .toDF()
+        .select(col[T]("value"))
+    }
+
+  def testLitDataType[T: TypeTag: LiteralSparkType: SparkType](
+      value: T
+  )(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark.emptyDataFrame
+      .select(value.lit)
+      .schema
+      .fields
+      .head
+      .dataType shouldBe ScalaReflection.schemaFor[T].dataType
+
+  def deserializeSparkType[T: TypeTag: SparkType: Equality](
+      data: T
+  )(implicit spark: SparkSession, pos: source.Position): Unit =
+    spark
+      .createDataFrame(Seq((data, 0)))
+      .collectCols[T](col[T]("_1"))
+      .head should ===(data)
+
+  def deserializeSparkType(data: Row)(implicit
+      spark: SparkSession,
+      pos: source.Position,
+      rowST: SparkType[Row],
+      rowEq: Equality[Row]
+  ): Unit = {
+    val tuple2Row: Row = new GenericRowWithSchema(
+      Array(data, 1),
+      StructType(
+        List(StructField("_1", data.schema), StructField("_2", IntegerType))
+      )
+    )
+    spark
+      .createDataFrame(
+        spark.sparkContext.makeRDD(Seq(tuple2Row)),
+        tuple2Row.schema
+      )
+      .collectCols[Row](col[Row]("_1"))
+      .head should ===(data)
+  }
+
+  def serializeSparkType[T: LiteralSparkType: SparkType: Equality](
+      data: T
+  )(implicit spark: SparkSession, loc: Location, pos: source.Position): Unit =
+    spark
+      .range(1)
+      .toDF()
+      .select(data.lit as "value")
+      .collectCols[T](col[T]("value"))
+      .head should ===(data)
 
   /**
     * Compare two columns (doric & spark).

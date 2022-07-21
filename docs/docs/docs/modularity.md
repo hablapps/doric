@@ -27,8 +27,8 @@ val userDF = List(
 ```
 
 ```scala mdoc
-userDF.show
-userDF.printSchema
+userDF.show()
+userDF.printSchema()
 ```
 
 We may refer to these columns using their full names: 
