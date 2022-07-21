@@ -12,21 +12,21 @@ To use doric, just add the following dependency in your favourite build tool:
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "0.0.4"
+libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "0.0.5"
 ```
 _Maven_
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
   <artifactId>doric_3-2_2.12</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 </dependency>
 ```
 
 Doric is committed to use the most modern APIs first.
 <!-- * Doric is compatible with Spark version 3.3.0. -->
-* The latest stable version of doric is 0.0.4.
-* The latest experimental version of doric is 0.0.5.
+* The latest stable version of doric is 0.0.5.
+* The latest experimental version of doric is 0.0.0+1-e95ad733-SNAPSHOT.
 * Doric is compatible with the following Spark versions:
 
 | Spark | Scala | Tested |                                                                            doric                                                                             |
@@ -38,16 +38,16 @@ Doric is committed to use the most modern APIs first.
 | 2.4.5 | 2.11  |   ✅   |                                                                              -                                                                               |
 | 2.4.6 | 2.11  |   ✅   |                                                                              -                                                                               |
 | 2.4.7 | 2.11  |   ✅   |                                                                              -                                                                               |
-| 2.4.8 | 2.11  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_2-4_2.11/0.0.4) |
+| 2.4.8 | 2.11  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_2-4_2.11/0.0.5) |
 | 3.0.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.0.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.4) |
+| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.5) |
 | 3.1.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.1.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.4) |
+| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.5) |
 | 3.2.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.2.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.2.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.4) |
+| 3.2.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.5) |
 
 
 __Import statements__
@@ -77,7 +77,7 @@ It's only when we try to construct the DataFrame that an exception is raised at 
 ```scala
 df
 // org.apache.spark.sql.AnalysisException: cannot resolve '(value * true)' due to data type mismatch: differing types in '(value * true)' (int and boolean).;
-// 'Project [unresolvedalias((value#257 * true), Some(org.apache.spark.sql.Column$$Lambda$4162/0x000000010184f840@2bb821f))]
+// 'Project [unresolvedalias((value#257 * true), Some(org.apache.spark.sql.Column$$Lambda$4197/0x0000000101863040@8eb3b91))]
 // +- LocalRelation [value#257]
 // 
 // 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
@@ -174,7 +174,7 @@ strDf.select(f.col("str").asDoric[String]).show()
 strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show()
 // doric.sem.DoricMultiError: Found 1 error in select
 //   cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
-//   'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4162/0x000000010184f840@2bb821f))]
+//   'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4197/0x0000000101863040@8eb3b91))]
 //   +- Project [value#267 AS str#270]
 //      +- LocalRelation [value#267]
 //   
@@ -188,7 +188,7 @@ strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show()
 // 	at repl.MdocSession$App$$anonfun$2.apply(quickstart.md:76)
 // 	at repl.MdocSession$App$$anonfun$2.apply(quickstart.md:76)
 // Caused by: org.apache.spark.sql.AnalysisException: cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
-// 'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4162/0x000000010184f840@2bb821f))]
+// 'Project [unresolvedalias((cast(str#270 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4197/0x0000000101863040@8eb3b91))]
 // +- Project [value#267 AS str#270]
 //    +- LocalRelation [value#267]
 // 
