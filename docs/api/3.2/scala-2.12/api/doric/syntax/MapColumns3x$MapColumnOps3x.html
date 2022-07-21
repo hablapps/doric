@@ -492,7 +492,7 @@
       <p class="shortcomment cmt">Returns a map whose key-value pairs satisfy a predicate.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a map whose key-value pairs satisfy a predicate.
 </p></div><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>df.select(colMap(<span class="lit">"m"</span>).filter((k, v) <span class="kw">=&gt;</span> k * <span class="num">10</span> === v))</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.1/api/scala/org/apache/spark/sql/functions$.html#map_filter(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_filter</a></p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.2/api/scala/org/apache/spark/sql/functions$.html#map_filter(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_filter</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -723,7 +723,7 @@ a map with the results of those applications as the new keys for the pairs.</p><
 a map with the results of those applications as the new keys for the pairs.
 </p></div><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>df.select(colMap(<span class="lit">"m"</span>).transformKeys((k, v) <span class="kw">=&gt;</span> k + v))</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.1/api/scala/org/apache/spark/sql/functions$.html#transform_keys(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.transform_keys</a></p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.2/api/scala/org/apache/spark/sql/functions$.html#transform_keys(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.transform_keys</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.MapColumns3x.MapColumnOps3x#transformValues" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="transformValues[V2](function:(doric.DoricColumn[K],doric.DoricColumn[V])=&gt;doric.DoricColumn[V2]):doric.MapColumn[K,V2]"></a><a id="transformValues[V2]((DoricColumn[K],DoricColumn[V])⇒DoricColumn[V2]):MapColumn[K,V2]"></a>
       <span class="permalink">
@@ -744,7 +744,7 @@ a map with the results of those applications as the new values for the pairs.</p
 a map with the results of those applications as the new values for the pairs.
 </p></div><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>df.select(colMap(<span class="lit">"m"</span>).transformValues((k, v) <span class="kw">=&gt;</span> k + v))</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.1/api/scala/org/apache/spark/sql/functions$.html#transform_values(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.transform_values</a></p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.2/api/scala/org/apache/spark/sql/functions$.html#transform_values(expr:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.transform_values</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -831,7 +831,7 @@ a map with the results of those applications as the new values for the pairs.
       <p class="shortcomment cmt">Merge two given maps, key-wise into a single map using a function.</p><div class="fullcomment"><div class="comment cmt"><p>Merge two given maps, key-wise into a single map using a function.
 </p></div><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>df.select(colMap(<span class="lit">"m1"</span>).zipWith(col(<span class="lit">"m2"</span>), (k, v1, v2) <span class="kw">=&gt;</span> k === v1 + v2))</pre></li></ol>
-            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.1/api/scala/org/apache/spark/sql/functions$.html#map_zip_with(left:%3C?%3E,right:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_zip_with</a></p></span></dd></dl></div>
+            </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.2/api/scala/org/apache/spark/sql/functions$.html#map_zip_with(left:%3C?%3E,right:%3C?%3E,f:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_zip_with</a></p></span></dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a><a id="→[B](B):(MapColumnOps3x[K,V],B)"></a>
       <span class="permalink">
