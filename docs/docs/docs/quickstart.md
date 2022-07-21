@@ -38,16 +38,16 @@ Doric is committed to use the most modern APIs first.
 | 2.4.5 | 2.11  |   ✅   |                                                                              -                                                                               |
 | 2.4.6 | 2.11  |   ✅   |                                                                              -                                                                               |
 | 2.4.7 | 2.11  |   ✅   |                                                                              -                                                                               |
-| 2.4.8 | 2.11  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_2-4_2.11/0.0.4) |
+| 2.4.8 | 2.11  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_2-4_2.11)](https://mvnrepository.com/artifact/org.hablapps/doric_2-4_2.11/0.0.5) |
 | 3.0.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.0.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.4) |
+| 3.0.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-0_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-0_2.12/0.0.5) |
 | 3.1.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.1.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.4) |
+| 3.1.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.5) |
 | 3.2.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.2.1 | 2.12  |   ✅   |                                                                              -                                                                               |
-| 3.2.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.4) |
+| 3.2.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.5) |
 
 
 __Import statements__
