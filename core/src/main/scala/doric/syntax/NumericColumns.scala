@@ -411,6 +411,21 @@ private[syntax] trait NumericColumns {
       * @see [[org.apache.spark.sql.functions.tanh(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.tanh]]
       */
     def tanh: DoubleColumn = column.elem.map(f.tanh).toDC
+
+    /**
+      * Unary minus, i.e. negate the expression.
+      *
+      * @example {{{
+      *     // Select the amount column and negates all values.
+      *     // Scala:
+      *     df.select( -df("amount") )
+      * }}}
+      *
+      * @todo DayTimeIntervalType & YearMonthIntervalType
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.negate]]
+      */
+    def negate: DoricColumn[T] = column.elem.map(f.negate).toDC
   }
 
   /**
@@ -572,6 +587,15 @@ private[syntax] trait NumericColumns {
     def round(scale: IntegerColumn): DoricColumn[T] = (column.elem, scale.elem)
       .mapN((c, s) => new Column(Round(c.expr, s.expr)))
       .toDC
+
+    /**
+      * Returns col1 if it is not NaN, or col2 if col1 is NaN.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.nanvl]]
+      */
+    def naNvl(col2: DoricColumn[T]): DoricColumn[T] =
+      (column.elem, col2.elem).mapN(f.nanvl).toDC
   }
 
 }

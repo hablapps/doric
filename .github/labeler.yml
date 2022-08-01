@@ -2,7 +2,7 @@ CI/CD:
   - .github/**/*.yml
 
 dependencies:
-  - any: [ '.github/dependabot.yml', 'build.sbt', 'project/**/*', '.scala-steward.conf', '.scalafix.conf', '.scalafmt.conf' ]
+  - any: [ '.github/dependabot.yml', 'build.sbt', 'project/**/*', '.scala-steward.conf', '.scalafix.conf', '.scalafmt.conf', 'project/build.properties' ]
 
 documentation:
   - any: [ 'docs/**/*', 'notebooks/**/*', '*.md' ]

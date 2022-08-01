@@ -3,6 +3,7 @@ package syntax
 
 import cats.implicits._
 import org.apache.spark.sql.Column
+import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
 private[syntax] trait NumericColumns32 {
@@ -46,6 +47,14 @@ private[syntax] trait NumericColumns32 {
       (column.elem, numBits.elem)
         .mapN((c, n) => new Column(ShiftRightUnsigned(c.expr, n.expr)))
         .toDC
+
+    /**
+      * Computes bitwise NOT (~) of a number.
+      *
+      * @group Numeric Type
+      * @see [[org.apache.spark.sql.functions.bitwise_not]]
+      */
+    def bitwiseNot: DoricColumn[T] = column.elem.map(f.bitwise_not).toDC
   }
 
 }

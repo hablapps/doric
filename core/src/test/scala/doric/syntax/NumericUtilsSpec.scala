@@ -105,4 +105,30 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
     )
   }
 
+  def testDoricSparkDecimals2[
+      T1: Primitive: ClassTag: TypeTag,
+      T2: Primitive: ClassTag: TypeTag,
+      O: Primitive: ClassTag: TypeTag
+  ](
+      input: List[(Option[Float], Option[Float])],
+      output: List[Option[O]],
+      doricFun: (DoricColumn[T1], DoricColumn[T2]) => DoricColumn[O],
+      sparkFun: (Column, Column) => Column
+  )(implicit
+      spark: SparkSession,
+      funT1: FromFloat[T1],
+      funT2: FromFloat[T2]
+  ): Unit = {
+    import spark.implicits._
+    val df = input
+      .map { case (x, y) => (x.map(funT1), y.map(funT2)) }
+      .toDF("col1", "col2")
+
+    df.testColumns2("col1", "col2")(
+      (c1, c2) => doricFun(col[T1](c1), col[T2](c2)),
+      (c1, c2) => sparkFun(f.col(c1), f.col(c2)),
+      output
+    )
+  }
+
 }

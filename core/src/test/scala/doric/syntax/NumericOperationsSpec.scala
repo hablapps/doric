@@ -3,7 +3,7 @@ package syntax
 
 import doric.types.{NumericType, SparkType}
 import doric.types.SparkType.Primitive
-import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
+import org.apache.spark.sql.catalyst.expressions.{BitwiseNot, ShiftLeft, ShiftRight, ShiftRightUnsigned}
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
 import org.scalatest.funspec.AnyFunSpecLike
 
@@ -333,6 +333,15 @@ trait NumericOperationsSpec
           f.tanh
         )
       }
+
+      it(s"negate function $numTypeStr") {
+        testDoricSpark[T, T](
+          List(Some(-1), Some(1), Some(2), None),
+          List(Some(1), Some(-1), Some(2), None),
+          _.negate,
+          f.negate
+        )
+      }
     }
   }
 
@@ -434,6 +443,19 @@ trait NumericOperationsSpec
           shiftRightUnsignedBefore32(_, f.lit(numBits))
         )
       }
+
+      it(s"bitwiseNot function $numTypeStr") {
+        // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
+        val bitwiseNotBefore32: Column => Column =
+          col => new Column(BitwiseNot(col.expr))
+        val numBits = 2
+        testDoricSpark[T, T](
+          List(Some(0), Some(4), Some(20), None),
+          List(Some(0), Some(1), Some(5), None),
+          _.bitwiseNot,
+          bitwiseNotBefore32
+        )
+      }
     }
   }
 
@@ -508,6 +530,29 @@ trait NumericOperationsSpec
           List(Some(-1.47f), Some(0.71f), Some(1.0f), None),
           _.round(2.lit),
           f.round(_, 2)
+        )
+      }
+
+      it(s"naNvl function with param $numTypeStr") {
+        testDoricSparkDecimals2[T, T, T](
+          List(
+            (Some(-1.466f), Some(-2.0f)),
+            (Some(0f), Some(0.7111f)),
+            (Some(1f / 0f), Some(1.0f)),
+            (None, Some(1.0f)),
+            (Some(1.0f), None),
+            (None, None)
+          ),
+          List(
+            Some(-1.466f),
+            Some(0f),
+            Some(1.0f),
+            Some(1.0f),
+            Some(1.0f),
+            None
+          ),
+          _.naNvl(_),
+          f.nanvl
         )
       }
     }
