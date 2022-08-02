@@ -99,8 +99,8 @@ userDF.select(age, team)
 // 	at cats.data.Validated.fold(Validated.scala:29)
 // 	at doric.sem.package$ErrorThrower.returnOrThrow(package.scala:9)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:139)
-// 	at repl.MdocSession$App$$anonfun$2.apply(modularity.md:89)
-// 	at repl.MdocSession$App$$anonfun$2.apply(modularity.md:86)
+// 	at repl.MdocSession$MdocApp$$anonfun$2.apply(modularity.md:89)
+// 	at repl.MdocSession$MdocApp$$anonfun$2.apply(modularity.md:86)
 ```
 
 
@@ -134,7 +134,7 @@ userDF.select(age, team)
 // 	at cats.data.Validated.fold(Validated.scala:29)
 // 	at doric.sem.package$ErrorThrower.returnOrThrow(package.scala:9)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:139)
-// 	at repl.MdocSession$App5$$anonfun$3.apply(modularity.md:137)
-// 	at repl.MdocSession$App5$$anonfun$3.apply(modularity.md:134)
+// 	at repl.MdocSession$MdocApp5$$anonfun$3.apply(modularity.md:137)
+// 	at repl.MdocSession$MdocApp5$$anonfun$3.apply(modularity.md:134)
 ```
 
