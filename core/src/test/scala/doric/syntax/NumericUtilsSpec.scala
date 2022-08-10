@@ -5,6 +5,7 @@ import doric.types.SparkType
 import doric.{DoricColumn, TypedColumnTest}
 import doric.types.SparkType.Primitive
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
+import org.scalactic.Equality
 
 import scala.reflect.{ClassTag, classTag}
 import scala.reflect.runtime.universe._
@@ -37,7 +38,7 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
 
   def testDoricSpark[
       T: SparkType: ClassTag: TypeTag,
-      O: SparkType: ClassTag: TypeTag
+      O: SparkType: ClassTag: TypeTag: Equality
   ](
       input: List[Option[Int]],
       output: List[Option[O]],
@@ -60,7 +61,7 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
   def testDoricSpark2[
       T1: Primitive: ClassTag: TypeTag,
       T2: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
+      O: Primitive: ClassTag: TypeTag: Equality
   ](
       input: List[(Option[Int], Option[Int])],
       output: List[Option[O]],
@@ -85,7 +86,7 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
 
   def testDoricSparkDecimals[
       T: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
+      O: Primitive: ClassTag: TypeTag: Equality
   ](
       input: List[Option[Float]],
       output: List[Option[O]],
@@ -108,7 +109,7 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
   def testDoricSparkDecimals2[
       T1: Primitive: ClassTag: TypeTag,
       T2: Primitive: ClassTag: TypeTag,
-      O: Primitive: ClassTag: TypeTag
+      O: Primitive: ClassTag: TypeTag: Equality
   ](
       input: List[(Option[Float], Option[Float])],
       output: List[Option[O]],

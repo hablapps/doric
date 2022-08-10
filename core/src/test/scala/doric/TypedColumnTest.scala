@@ -103,7 +103,6 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       df: DataFrame,
       expected: List[Option[T]]
   ): Unit = {
-    import Equalities._
 
     val eqCond: BooleanColumn = SparkType[T].dataType match {
       case _: MapType =>
@@ -141,10 +140,10 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     )
 
     if (expected.nonEmpty) {
-      doricColumns.map {
+      assert(doricColumns.map {
         case Some(x: java.lang.Double) if x.isNaN => None
         case x                                    => x
-      } === expected
+      } === expected)
     }
   }
 

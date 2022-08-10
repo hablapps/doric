@@ -28,7 +28,7 @@ class AggregationColumnsSpec
         "keyCol",
         sum(colInt("col1")),
         f.sum("col1"),
-        List(Some(6L), Some(3L))
+        List(Some(3L), Some(6L))
       )
     }
 
@@ -43,7 +43,7 @@ class AggregationColumnsSpec
         "keyCol",
         sum(colFloat("col1")),
         f.sum("col1"),
-        List(Some(6.5d), Some(3.0d))
+        List(Some(3.0d), Some(6.5d))
       )
     }
   }
@@ -62,7 +62,7 @@ class AggregationColumnsSpec
         "keyCol",
         count(colInt("col1")),
         f.count(f.col("col1")),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
 
@@ -77,7 +77,7 @@ class AggregationColumnsSpec
         "keyCol",
         count("col1"),
         f.count("col1"),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
   }
@@ -96,7 +96,7 @@ class AggregationColumnsSpec
         "keyCol",
         first(colInt("col1")),
         f.first(f.col("col1")),
-        List(Some(1), Some(3))
+        List(Some(3), Some(1))
       )
     }
 
@@ -111,7 +111,7 @@ class AggregationColumnsSpec
         "keyCol",
         first(colInt("col1"), ignoreNulls = true),
         f.first(f.col("col1"), ignoreNulls = true),
-        List(Some(5), Some(3))
+        List(Some(3), Some(5))
       )
     }
 
@@ -126,7 +126,7 @@ class AggregationColumnsSpec
         "keyCol",
         first(colInt("col1"), ignoreNulls = false),
         f.first(f.col("col1"), ignoreNulls = false),
-        List(None, Some(3))
+        List(Some(3), None)
       )
     }
   }
@@ -145,7 +145,7 @@ class AggregationColumnsSpec
         "keyCol",
         last(colInt("col1")),
         f.last(f.col("col1")),
-        List(Some(5), Some(3))
+        List(Some(3), Some(5))
       )
     }
 
@@ -160,7 +160,7 @@ class AggregationColumnsSpec
         "keyCol",
         last(colInt("col1"), ignoreNulls = true),
         f.last(f.col("col1"), ignoreNulls = true),
-        List(Some(1), Some(3))
+        List(Some(3), Some(1))
       )
     }
 
@@ -175,7 +175,7 @@ class AggregationColumnsSpec
         "keyCol",
         last(colInt("col1"), ignoreNulls = false),
         f.last(f.col("col1"), ignoreNulls = false),
-        List(None, Some(3))
+        List(Some(3), None)
       )
     }
   }
@@ -194,7 +194,7 @@ class AggregationColumnsSpec
         "keyCol",
         aproxCountDistinct("col1"),
         f.approx_count_distinct("col1"),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
 
@@ -211,7 +211,7 @@ class AggregationColumnsSpec
         "keyCol",
         aproxCountDistinct("col1", 0.05),
         f.approx_count_distinct("col1", 0.05),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
 
@@ -226,7 +226,7 @@ class AggregationColumnsSpec
         "keyCol",
         aproxCountDistinct(colInt("col1")),
         f.approx_count_distinct(f.col("col1")),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
 
@@ -243,7 +243,7 @@ class AggregationColumnsSpec
         "keyCol",
         aproxCountDistinct(colInt("col1"), 0.05),
         f.approx_count_distinct(f.col("col1"), 0.05),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
   }
@@ -281,7 +281,7 @@ class AggregationColumnsSpec
         "keyCol",
         collectList(colInt("col1")),
         f.collect_list(f.col("col1")),
-        List(Some(Array(1, 5)), Some(Array(3)))
+        List(Some(Array(3)), Some(Array(1, 5)))
       )
     }
   }
@@ -301,7 +301,7 @@ class AggregationColumnsSpec
         "keyCol",
         collectSet(colInt("col1")),
         f.collect_set(f.col("col1")),
-        List(Some(Array(1, 5)), Some(Array(3)))
+        List(Some(Array(3)), Some(Array(1, 5)))
       )
     }
   }
@@ -341,7 +341,7 @@ class AggregationColumnsSpec
         "keyCol",
         countDistinct(colDouble("col1"), colString("col2")),
         f.countDistinct(f.col("col1"), f.col("col2")),
-        List(Some(3L), Some(1L))
+        List(Some(1L), Some(3L))
       )
     }
 
@@ -356,7 +356,7 @@ class AggregationColumnsSpec
         "keyCol",
         countDistinct("col1", "col2"),
         f.countDistinct("col1", "col2"),
-        List(Some(2L), Some(1L))
+        List(Some(1L), Some(2L))
       )
     }
   }
@@ -432,7 +432,7 @@ class AggregationColumnsSpec
         "keyCol",
         max(colDouble("col1")),
         f.max(f.col("col1")),
-        List(Some(4.0), Some(6.0))
+        List(Some(6.0), Some(4.0))
       )
     }
   }
@@ -451,7 +451,7 @@ class AggregationColumnsSpec
         "keyCol",
         min(colDouble("col1")),
         f.min(f.col("col1")),
-        List(Some(3.0), Some(6.0))
+        List(Some(6.0), Some(3.0))
       )
     }
   }
@@ -470,7 +470,7 @@ class AggregationColumnsSpec
         "keyCol",
         mean(colDouble("col1")),
         f.mean(f.col("col1")),
-        List(Some(3.5), Some(6.0))
+        List(Some(6.0), Some(3.5))
       )
     }
   }
@@ -491,7 +491,7 @@ class AggregationColumnsSpec
         "keyCol",
         skewness(colDouble("col1")),
         f.skewness(f.col("col1")),
-        List(Some(1.1135657469022011), None)
+        List(None, Some(1.1135657469022011))
       )
     }
   }
@@ -511,7 +511,7 @@ class AggregationColumnsSpec
         "keyCol",
         stdDev(colDouble("col1")),
         f.stddev(f.col("col1")),
-        List(Some(1.0), None)
+        List(None, Some(1.0))
       )
     }
 
@@ -527,7 +527,7 @@ class AggregationColumnsSpec
         "keyCol",
         stdDevSamp(colDouble("col1")),
         f.stddev_samp(f.col("col1")),
-        List(Some(1.0), None)
+        List(None, Some(1.0))
       )
     }
   }
@@ -547,7 +547,7 @@ class AggregationColumnsSpec
         "keyCol",
         stdDevPop(colDouble("col1")),
         f.stddev_pop(f.col("col1")),
-        List(Some(0.816496580927726), Some(0.0))
+        List(Some(0.0), Some(0.816496580927726))
       )
     }
   }
@@ -569,7 +569,7 @@ class AggregationColumnsSpec
         new Column(
           Sum(f.col("col1").expr).toAggregateExpression(isDistinct = true)
         ),
-        List(Some(4L), Some(6L))
+        List(Some(6L), Some(4L))
       )
     }
 
@@ -587,7 +587,7 @@ class AggregationColumnsSpec
         new Column(
           Sum(f.col("col1").expr).toAggregateExpression(isDistinct = true)
         ),
-        List(Some(4.0), Some(6.0))
+        List(Some(6.0), Some(4.0))
       )
     }
   }
@@ -607,7 +607,7 @@ class AggregationColumnsSpec
         "keyCol",
         variance(colDouble("col1")),
         f.variance(f.col("col1")),
-        List(Some(1.0), None)
+        List(None, Some(1.0))
       )
     }
 
@@ -623,7 +623,7 @@ class AggregationColumnsSpec
         "keyCol",
         varSamp(colDouble("col1")),
         f.var_samp(f.col("col1")),
-        List(Some(1.0), None)
+        List(None, Some(1.0))
       )
     }
   }
@@ -643,7 +643,7 @@ class AggregationColumnsSpec
         "keyCol",
         varPop(colDouble("col1")),
         f.var_pop(f.col("col1")),
-        List(Some(0.6666666666666666), Some(0.0))
+        List(Some(0.0), Some(0.6666666666666666))
       )
     }
   }
