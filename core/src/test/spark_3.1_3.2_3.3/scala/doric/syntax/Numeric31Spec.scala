@@ -1,6 +1,7 @@
 package doric
 package syntax
 
+import Equalities._
 import doric.types.NumericType
 import doric.types.SparkType.Primitive
 import org.apache.spark.sql.{DataFrame, SparkSession, functions => f}

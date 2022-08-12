@@ -1,10 +1,12 @@
 package doric
 package syntax
 
-import doric.types.{NumericType, SparkType}
+import Equalities._
 import doric.types.SparkType.Primitive
-import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
+import doric.types.{NumericType, SparkType}
+import org.apache.spark.sql.catalyst.expressions.{BitwiseNot, ShiftLeft, ShiftRight, ShiftRightUnsigned}
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions => f}
+import org.scalactic.Equality
 import org.scalatest.funspec.AnyFunSpecLike
 
 import scala.reflect.ClassTag
@@ -17,7 +19,7 @@ trait NumericOperationsSpec
   def df: DataFrame
 
   import scala.reflect.runtime.universe._
-  def test[T: NumericType: Primitive: ClassTag: TypeTag]()(implicit
+  def test[T: NumericType: Primitive: ClassTag: TypeTag: Equality]()(implicit
       spark: SparkSession,
       fun: FromInt[T]
   ): Unit = {
@@ -84,7 +86,7 @@ trait NumericOperationsSpec
       it(s"atan function $numTypeStr") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
-          List(Some(-0.78538), Some(0.78540), Some(1.10715), None),
+          List(Some(-0.785398), Some(0.78540), Some(1.10715), None),
           _.atan,
           f.atan
         )
@@ -333,12 +335,21 @@ trait NumericOperationsSpec
           f.tanh
         )
       }
+
+      it(s"negate function $numTypeStr") {
+        testDoricSpark[T, T](
+          List(Some(-1), Some(1), Some(2), None),
+          List(Some(1), Some(-1), Some(-2), None),
+          _.negate,
+          f.negate
+        )
+      }
     }
   }
 
-  def testIntegrals[T: IntegralType: ClassTag: TypeTag]()(implicit
+  def testIntegrals[T: IntegralType: ClassTag: TypeTag: Equality]()(implicit
       spark: SparkSession,
-      sparkTypeT: SparkType[T],
+      sparkTypeT: Primitive[T],
       fun: FromInt[T]
   ): Unit = {
     val numTypeStr   = getClassName[T]
@@ -434,11 +445,25 @@ trait NumericOperationsSpec
           shiftRightUnsignedBefore32(_, f.lit(numBits))
         )
       }
+
+      it(s"bitwiseNot function $numTypeStr") {
+        // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
+        val bitwiseNotBefore32: Column => Column =
+          col => new Column(BitwiseNot(col.expr))
+
+        testDoricSpark[T, T](
+          List(Some(0), Some(4), Some(-20), None),
+          List(Some(-1), Some(-5), Some(19), None),
+          _.bitwiseNot,
+          bitwiseNotBefore32
+        )
+      }
     }
   }
 
-  def testDecimals[T: NumWithDecimalsType: Primitive: ClassTag: TypeTag]()(
-      implicit
+  def testDecimals[
+      T: NumWithDecimalsType: Primitive: ClassTag: TypeTag: Equality
+  ]()(implicit
       spark: SparkSession,
       fun: FromFloat[T]
   ): Unit = {
@@ -456,10 +481,10 @@ trait NumericOperationsSpec
       }
 
       it(s"bRound function with param $numTypeStr") {
-        val scale = 2
+        val scale = 5
         testDoricSparkDecimals[T, T](
-          List(Some(-0.2567f), Some(0.811f), Some(0.0f), None),
-          List(Some(-0.26f), Some(0.81f), Some(0.0f), None),
+          List(Some(-0.256777f), Some(0.811111f), Some(0.0f), None),
+          List(Some(-0.25678f), Some(0.81111f), Some(0.0f), None),
           _.bRound(scale.lit),
           f.bround(_, scale)
         )
@@ -503,11 +528,37 @@ trait NumericOperationsSpec
       }
 
       it(s"round function with param $numTypeStr") {
+        val scale = 5
         testDoricSparkDecimals[T, T](
-          List(Some(-1.466f), Some(0.7111f), Some(1.0f), None),
-          List(Some(-1.47f), Some(0.71f), Some(1.0f), None),
-          _.round(2.lit),
-          f.round(_, 2)
+          List(Some(-1.466666f), Some(0.7111111f), Some(1.0f), None),
+          List(Some(-1.46667f), Some(0.71111f), Some(1.0f), None),
+          _.round(scale.lit),
+          f.round(_, scale)
+        )
+      }
+
+      it(s"naNvl function with param $numTypeStr") {
+        testDoricSparkDecimals2[T, T, T](
+          List(
+            (Some(-1.466f), Some(-2.0f)),
+            (Some(0f), Some(0.7111f)),
+            (Some(Float.NaN), Some(1.0f)),
+            (Some(1.0f), Some(Float.NaN)),
+            (None, Some(1.0f)),
+            (Some(1.0f), None),
+            (None, None)
+          ),
+          List(
+            Some(-1.466f),
+            Some(0f),
+            Some(1.0f),
+            Some(1.0f),
+            None,
+            Some(1.0f),
+            None
+          ),
+          _.naNvl(_),
+          f.nanvl
         )
       }
     }

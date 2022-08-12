@@ -27,16 +27,24 @@ object Equalities {
     }
   }
 
+  private lazy val tolerance = 0.00001
   implicit val eqDouble: Equality[Double] = new Equality[Double] {
     override def areEqual(a: Double, b: Any): Boolean = (a, b) match {
-      case (x: Double, y: Double) => x === y +- 0.00001
+      case (x: Double, y: Double) => x === y +- tolerance
       case _                      => false
+    }
+  }
+
+  implicit val eqFloat: Equality[Float] = new Equality[Float] {
+    override def areEqual(a: Float, b: Any): Boolean = (a, b) match {
+      case (x: Float, y: Float) => x === y +- tolerance.toFloat
+      case _                    => false
     }
   }
 
   implicit val eqBigDecimal: Equality[BigDecimal] = new Equality[BigDecimal] {
     override def areEqual(a: BigDecimal, b: Any): Boolean = (a, b) match {
-      case (x: BigDecimal, y: BigDecimal) => x === y +- 0.00001
+      case (x: BigDecimal, y: BigDecimal) => x === y +- tolerance
       case _                              => false
     }
   }
@@ -46,7 +54,7 @@ object Equalities {
       override def areEqual(a: java.math.BigDecimal, b: Any): Boolean =
         (a, b) match {
           case (x: java.math.BigDecimal, y: java.math.BigDecimal) =>
-            x >= (y - 0.00001) && x <= (y + 0.00001)
+            x >= (y - tolerance) && x <= (y + tolerance)
           case _ => false
         }
     }
