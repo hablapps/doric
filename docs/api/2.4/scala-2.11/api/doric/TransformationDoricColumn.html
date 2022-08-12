@@ -857,6 +857,29 @@ For example, bin(&quot;12&quot;) returns &quot;1100&quot;.
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.NumericType (T: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>).
           </dd><dt>Definition Classes</dt><dd>NumericOperationsSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@bin(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.bin</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns2_31.IntegralOperationsSyntax2_31#bitwiseNot" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="bitwiseNot:doric.DoricColumn[T]"></a>
+      <a id="bitwiseNot:DoricColumn[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit">bitwiseNot</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.TransformationDoricColumn@bitwiseNot:doric.DoricColumn[T]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Computes bitwise NOT (~) of a number.</p><div class="fullcomment"><div class="comment cmt"><p>Computes bitwise NOT (~) of a number.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="package.html#IntegralOperationsSyntax2_31[T]extendsAnyRef" class="extmbr" name="doric.IntegralOperationsSyntax2_31">doric.IntegralOperationsSyntax2_31</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method IntegralOperationsSyntax2_31 in doric.syntax.NumericColumns2_31.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.syntax.IntegralType (T: <a href="syntax/IntegralType.html" class="extype" name="doric.syntax.IntegralType">IntegralType</a>).
+          </dd><dt>Definition Classes</dt><dd>IntegralOperationsSyntax2_31</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@bitwiseNOT(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.bitwiseNOT</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#cast" visbl="pub" data-isabs="false" fullComment="yes" group="All Types">
       <a id="cast[To](implicitevidence$3:BasicCol.this.CastToT[To],implicitevidence$4:doric.types.SparkType[To]):doric.DoricColumn[To]"></a>
       <a id="cast[To](Casting[T,To],SparkType[To]):DoricColumn[To]"></a>
@@ -2553,6 +2576,29 @@ of their respective months. Otherwise, the difference is calculated assuming 31 
 Date(<span class="lit">"2017-01-01"</span>).monthsBetween(Date(<span class="lit">"2017-01-10"</span>))                              <span class="cmt">// returns 0.29032258</span>
 Timestamp(<span class="lit">"2017-06-01 00:00:00"</span>).monthsBetween(Timestamp(<span class="lit">"2017-06-16 12:00:00"</span>))  <span class="cmt">// returns -0.5</span></pre></li></ol>
             </div><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@months_between(end:org.apache.spark.sql.Column,start:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.months_between</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns.NumWithDecimalsOperationsSyntax#naNvl" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="naNvl(col2:doric.DoricColumn[T]):doric.DoricColumn[T]"></a>
+      <a id="naNvl(DoricColumn[T]):DoricColumn[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit">naNvl</span><span class="params">(<span name="col2">col2: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>)</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.TransformationDoricColumn@naNvl(col2:doric.DoricColumn[T]):doric.DoricColumn[T]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns col1 if it is not NaN, or col2 if col1 is NaN.</p><div class="fullcomment"><div class="comment cmt"><p>Returns col1 if it is not NaN, or col2 if col1 is NaN.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="package.html#NumWithDecimalsOperationsSyntax[T]extendsAnyRef" class="extmbr" name="doric.NumWithDecimalsOperationsSyntax">doric.NumWithDecimalsOperationsSyntax</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method NumWithDecimalsOperationsSyntax in doric.syntax.NumericColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.syntax.NumWithDecimalsType (T: <a href="syntax/NumWithDecimalsType.html" class="extype" name="doric.syntax.NumWithDecimalsType">NumWithDecimalsType</a>).
+          </dd><dt>Definition Classes</dt><dd>NumWithDecimalsOperationsSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@nanvl(col1:org.apache.spark.sql.Column,col2:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.nanvl</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -2570,6 +2616,33 @@ Timestamp(<span class="lit">"2017-06-01 00:00:00"</span>).monthsBetween(Timestam
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns.NumericOperationsSyntax#negate" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="negate:doric.DoricColumn[T]"></a>
+      <a id="negate:DoricColumn[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="implicit">negate</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.TransformationDoricColumn@negate:doric.DoricColumn[T]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Unary minus, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Unary minus, i.e. negate the expression.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="package.html#NumericOperationsSyntax[T]extendsAnyRef" class="extmbr" name="doric.NumericOperationsSyntax">doric.NumericOperationsSyntax</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method NumericOperationsSyntax in doric.syntax.NumericColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.NumericType (T: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>).
+          </dd><dt>Definition Classes</dt><dd>NumericOperationsSyntax</dd><div class="block">Example:
+               <ol><li class="cmt"><p></p><pre><span class="cmt">// Select the amount column and negates all values.</span>
+<span class="cmt">// Scala:</span>
+df.select( -df(<span class="lit">"amount"</span>) )</pre></li></ol>
+            </div><dt>To do</dt><dd><span class="cmt"><p>DayTimeIntervalType &amp; YearMonthIntervalType</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@negate(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.negate</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.DateColumns.DateColumnLikeSyntax#nextDay" visbl="pub" data-isabs="false" fullComment="yes" group="Date &amp; Timestamp Type">
       <a id="nextDay(dayOfWeek:doric.StringColumn):doric.DateColumn"></a>
       <a id="nextDay(StringColumn):DateColumn"></a>
