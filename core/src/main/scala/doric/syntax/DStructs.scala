@@ -32,7 +32,7 @@ private[syntax] trait DStructs {
   ) {
 
     /**
-      * Retreaves the child row of the Struct column
+      * Retrieves the child row of the Struct column
       *
       * @group Struct Type
       * @param subColumnName
@@ -85,10 +85,13 @@ private[syntax] trait DStructs {
         .mapK(toValidated)
         .toDC
     }
+
+    def child: DynamicFieldAccessor[T] = new DynamicFieldAccessor(col)
   }
 
-  trait DynamicFieldAccessor[T] extends Dynamic {
-    self: DoricColumn[T] =>
+  class DynamicFieldAccessor[T](dCol: DoricColumn[T])(implicit
+      st: SparkType.Custom[T, Row]
+  ) extends Dynamic {
 
     /**
       * Allows for accessing fields of struct columns using the syntax `rowcol.name[T]`.
@@ -101,13 +104,9 @@ private[syntax] trait DStructs {
       * @return The column which refers to the given field
       * @throws doric.sem.ColumnTypeError if the parent column is not a struct
       */
-
-    def selectDynamic[A](name: String)(implicit
-        location: Location,
-        st: SparkType[A],
-        w: T Is Row
-    ): DoricColumn[A] =
-      w.lift[DoricColumn].coerce(self).getChild[A](name)
+    def selectDynamic[A: SparkType](name: String)(implicit
+        location: Location
+    ): DoricColumn[A] = dCol.getChild[A](name)
   }
 
   @annotation.implicitNotFound(msg = "No field ${K} in record ${L}")

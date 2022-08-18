@@ -7,12 +7,10 @@ import doric.syntax.ColGetters
 import doric.types.{LiteralSparkType, SparkType}
 
 import org.apache.spark.sql.{Column, Dataset}
-import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.analysis.UnresolvedAttribute
-import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.types.DataType
 
-sealed trait DoricColumn[T] extends DynamicFieldAccessor[T] {
+sealed trait DoricColumn[T] {
   val elem: Doric[Column]
 }
 
