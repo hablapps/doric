@@ -27,3 +27,4 @@ private[doric] trait All
     with CommonColumns3x
     with MapColumns3x
     with StringColumn3x
+    with AggregationColumns32
