@@ -2,10 +2,11 @@ package doric
 package syntax
 
 import scala.language.higherKinds
+import scala.reflect.ClassTag
 
 import cats.data.Kleisli
 import cats.implicits._
-import doric.types.CollectionType
+import doric.types.{CollectionType, LiteralSparkType, SparkType}
 
 import org.apache.spark.sql.{Column, Dataset, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
@@ -58,8 +59,13 @@ private[syntax] trait ArrayColumns {
     * @see org.apache.spark.sql.functions.array
     * @todo scaladoc link (issue #135)
     */
-  def array[T](cols: DoricColumn[T]*): ArrayColumn[T] =
-    cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
+  def array[T: SparkType: ClassTag](
+      cols: DoricColumn[T]*
+  )(implicit lt: LiteralSparkType[Array[T]]): ArrayColumn[T] =
+    if (cols.nonEmpty)
+      cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
+    else
+      lit(Array.empty[T])
 
   /**
     * Creates a new list column. The input columns must all have the same data type.
