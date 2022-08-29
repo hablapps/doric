@@ -1640,9 +1640,9 @@
       <p class="shortcomment cmt">Aggregate function: returns the approximate number of distinct items in a group.</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the approximate number of distinct items in a group.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.3.0/api/scala/org/apache/spark/sql/functions$.html#approx_count_distinct(e:org.apache.spark.sql.Column,rsd:Double):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.approx_count_distinct</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ArrayColumns#array" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
-      <a id="array[T](cols:doric.DoricColumn[T]*):doric.ArrayColumn[T]"></a><a id="array[T](DoricColumn[T]*):ArrayColumn[T]"></a>
+      <a id="array[T](cols:doric.DoricColumn[T]*)(implicitevidence$3:doric.types.SparkType[T],implicitevidence$4:scala.reflect.ClassTag[T],implicitlt:doric.types.LiteralSparkType[Array[T]]):doric.ArrayColumn[T]"></a><a id="array[T](DoricColumn[T]*)(SparkType[T],ClassTag[T],LiteralSparkType[Array[T]]):ArrayColumn[T]"></a>
       <span class="permalink">
-      <a href="../doric/index.html#array[T](cols:doric.DoricColumn[T]*):doric.ArrayColumn[T]" title="Permalink">
+      <a href="../doric/index.html#array[T](cols:doric.DoricColumn[T]*)(implicitevidence$3:doric.types.SparkType[T],implicitevidence$4:scala.reflect.ClassTag[T],implicitlt:doric.types.LiteralSparkType[Array[T]]):doric.ArrayColumn[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1651,7 +1651,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">array</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]*</span>)</span><span class="result">: <a href="#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]</span>
+        <span class="name">array</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="cols">cols: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]</span>, <span name="arg1">arg1: <a href="https://www.scala-lang.org/api/2.12.15/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]</span>, <span name="lt">lt: <a href="types/LiteralSparkType.html" class="extype" name="doric.types.LiteralSparkType">LiteralSparkType</a>[<a href="https://www.scala-lang.org/api/2.12.15/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]]</span>)</span><span class="result">: <a href="#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns.array.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new array column.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new array column. The input columns must all have the same data type.
