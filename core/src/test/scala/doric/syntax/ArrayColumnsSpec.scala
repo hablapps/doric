@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.types.SparkType
 
 import org.apache.spark.sql.{Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
@@ -299,6 +300,20 @@ class ArrayColumnsSpec extends DoricTestElements {
         (c1, c2) => f.array(f.col(c1), f.col(c2)),
         List(Some(Array("a", "b")))
       )
+    }
+
+    it("should work be of the expected type when is empty") {
+      val df = spark
+        .range(5)
+        .select(
+          array[Long]().as("l"),
+          array[String]().as("s"),
+          array[(String, String)]().as("r")
+        )
+
+      df("l").expr.dataType === SparkType[Array[Long]].dataType
+      df("s").expr.dataType === SparkType[Array[String]].dataType
+      df("r").expr.dataType === SparkType[Array[(String, String)]].dataType
     }
   }
 
