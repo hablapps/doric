@@ -451,6 +451,67 @@ private[syntax] trait ArrayColumns {
         .toDC
 
     /**
+      * Sorts the input array based on the given comparator function. The comparator will take two
+      * arguments representing two elements of the array. It returns a negative integer, 0, or a
+      * positive integer as the first element is less than, equal to, or greater than the second
+      * element.
+      *
+      * @example {{{
+      * colArrayString("myColumn").sortBy((l, r) => when[Int]
+      *    .caseW(l.length > r.length, 1.lit)
+      *    .caseW(l.length < r.length, (-1).lit)
+      *    .otherwise(0.lit)
+      * )
+      * }}}
+      *
+      * @note If the comparator function returns null, the function will fail and raise an error.
+      *
+      * @group Array Type
+      */
+    def sortBy(
+        fun: (DoricColumn[T], DoricColumn[T]) => IntegerColumn
+    ): ArrayColumn[T] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(col.getIndex(1))
+
+      (col.elem, fun(xv, yv).elem, xv.elem, yv.elem)
+        .mapN((c, f, x, y) => {
+          new Column(ArraySort(c.expr, lam2(f.expr, x.expr, y.expr)))
+        })
+        .toDC
+    }
+
+    /**
+      * Sorts the input array based on the given comparator function. The comparator will take two
+      * arguments representing two elements of the array. It returns a negative integer, 0, or a
+      * positive integer as the first element is less than, equal to, or greater than the second
+      * element.
+      *
+      * @example {{{
+      * colArrayString("myColumn").sortBy(c => c.length)
+      * }}}
+      *
+      * @note If the comparator function returns null, the function will fail and raise an error.
+      *
+      * @group Array Type
+      */
+    def sortBy[A](fun: DoricColumn[T] => DoricColumn[A]): ArrayColumn[T] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(col.getIndex(1))
+
+      (col.elem, fun(xv).elem, fun(yv).elem, xv.elem, yv.elem)
+        .mapN((c, fx, fy, x, y) =>
+          new Column(
+            ArraySort(
+              c.expr,
+              lam2(ArraySort.comparator(fx.expr, fy.expr), x.expr, y.expr)
+            )
+          )
+        )
+        .toDC
+    }
+
+    /**
       * Returns an array of the elements in the union of the given N arrays, without duplicates.
       *
       * @group Array Type

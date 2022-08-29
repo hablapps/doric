@@ -5,7 +5,7 @@ import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.{CollectionType, NumericType}
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight, ShiftRightUnsigned}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight, ShiftRightUnsigned, UnaryMinus}
 
 private[syntax] trait NumericColumns {
 
@@ -93,6 +93,9 @@ private[syntax] trait NumericColumns {
     */
   def monotonicallyIncreasingId(): LongColumn =
     DoricColumn(f.monotonically_increasing_id())
+
+  def -[T: NumericType](c: DoricColumn[T]): DoricColumn[T] =
+    c.elem.map(x => new Column(UnaryMinus(x.expr))).toDC
 
   /**
     * GENERIC NUMERIC OPERATIONS
