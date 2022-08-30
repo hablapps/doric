@@ -344,6 +344,15 @@ trait NumericOperationsSpec
           f.negate
         )
       }
+
+      it(s"unary (-) function $numTypeStr") {
+        testDoricSpark[T, T](
+          List(Some(-1), Some(1), Some(2), None),
+          List(Some(1), Some(-1), Some(-2), None),
+          x => -x,
+          x => -x
+        )
+      }
     }
   }
 

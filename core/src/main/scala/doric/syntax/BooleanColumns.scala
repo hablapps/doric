@@ -15,20 +15,17 @@ private[syntax] trait BooleanColumns {
     */
   def not(col: BooleanColumn): BooleanColumn = col.elem.map(f.not).toDC
 
-  /**
-    * Inversion of boolean expression, i.e. NOT.
-    *
-    * @group Boolean Type
-    * @see [[not]]
-    */
-  @inline def !(col: BooleanColumn): BooleanColumn = not(col)
-
-  /**
-    * @group Boolean Type
-    */
   implicit class BooleanOperationsSyntax(
       column: DoricColumn[Boolean]
   ) {
+
+    /**
+      * Inversion of boolean expression, i.e. NOT.
+      *
+      * @group Boolean Type
+      * @see [[not]]
+      */
+    def unary_! : DoricColumn[Boolean] = not(column)
 
     /**
       * Boolean AND
