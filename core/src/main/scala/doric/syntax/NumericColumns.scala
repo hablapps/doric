@@ -94,9 +94,6 @@ private[syntax] trait NumericColumns {
   def monotonicallyIncreasingId(): LongColumn =
     DoricColumn(f.monotonically_increasing_id())
 
-  def -[T: NumericType](c: DoricColumn[T]): DoricColumn[T] =
-    c.elem.map(x => new Column(UnaryMinus(x.expr))).toDC
-
   /**
     * GENERIC NUMERIC OPERATIONS
     */

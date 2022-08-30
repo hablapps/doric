@@ -520,9 +520,6 @@ class ArrayColumnsSpec extends DoricTestElements {
   describe("sort doric function") {
     import spark.implicits._
 
-    lazy val arraySort_old: (Column, Column) => Column =
-      (myCol, myExpr) => new Column(ArraySort(myCol.expr, myExpr.expr))
-
     it("should work as spark array_sort(asc) function") {
       val df = List(Array("c", "b", null, "a", "d"), Array("z"), null)
         .toDF("col1")
@@ -531,70 +528,6 @@ class ArrayColumnsSpec extends DoricTestElements {
         (c, ord) => colArrayString(c).sort(ord.lit),
         (c, ord) => f.sort_array(f.col(c), ord),
         List(Some(Array("d", "c", "b", "a", null)), Some(Array("z")), None)
-      )
-    }
-
-    it("should work as spark array_sort(expression) function") {
-      val df = List(
-        Array("ccc", "bb", null, null, "a", "dddd"),
-        Array("z"),
-        Array.empty[String],
-        null
-      )
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c =>
-          colArrayString(c).sortBy((l, r) =>
-            coalesce(
-              l.length - r.length,
-              r.length,
-              l.length,
-              0.lit
-            )
-          ),
-        c =>
-          arraySort_old(
-            f.col(c),
-            f.expr(
-              "(l, r) ->" +
-                " case when length(l) < length(r) or r is null then -1" +
-                " when length(l) > length(r) then 1" +
-                " else 0 end"
-            )
-          ),
-        List(
-          Some(Array("a", "bb", "ccc", "dddd", null)),
-          Some(Array("z")),
-          Some(Array.empty[String]),
-          None
-        )
-      )
-    }
-
-    it("should order by the transformation function") {
-      val df = List(
-        (1 to 15).toArray,
-        null
-      )
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colArrayInt(c).sortBy(c => c % 10.lit),
-        c =>
-          arraySort_old(
-            f.col(c),
-            f.expr(
-              "(l, r) ->" +
-                " case when l % 10 < r % 10 then -1" +
-                " when l % 10 > r % 10 then 1" +
-                " else 0 end"
-            )
-          ),
-        List(
-          Some(Array(10, 1, 11, 2, 12, 3, 13, 4, 14, 5, 15, 6, 7, 8, 9)),
-          None
-        )
       )
     }
   }
@@ -817,6 +750,51 @@ class ArrayColumnsSpec extends DoricTestElements {
 
       intercept[java.lang.RuntimeException](
         df.select(colArrayString("col1").slice(0.lit, 2.lit)).collect()
+      )
+    }
+  }
+
+  describe("filterWIndex doric function") {
+    import spark.implicits._
+
+    it("should work as spark filter((Column, Column) => Column) function") {
+      val df = List((Array("a", "b", "c", "d"), "b"))
+        .toDF("col1", "col2")
+
+      noException shouldBe thrownBy {
+        df.select(colArrayString("col1").filterWIndex((x, i) => {
+          i === 0.lit or x === colString("col2")
+        }))
+      }
+
+      df.testColumns2("col1", "col2")(
+        (c1, c2) =>
+          colArrayString(c1).filterWIndex((x, i) => {
+            i === 0.lit or x === colString(c2)
+          }),
+        (c1, c2) =>
+          f.filter(
+            f.col(c1),
+            (x, i) => {
+              i === 0 or x === f.col(c2)
+            }
+          ),
+        List(Some(Array("a", "b")))
+      )
+    }
+  }
+
+  describe("exists doric function") {
+    import spark.implicits._
+
+    it("should work as spark exists function") {
+      val df = List(Array(":a", "b", null, ":c", "d"), Array("z"), null)
+        .toDF("col1")
+
+      df.testColumns2("col1", ":")(
+        (c, s) => colArrayString(c).exists(_.startsWith(s.lit)),
+        (c, s) => f.exists(f.col(c), _.startsWith(s)),
+        List(Some(true), Some(false), None)
       )
     }
   }
