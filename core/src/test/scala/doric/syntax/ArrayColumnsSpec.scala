@@ -1,10 +1,10 @@
 package doric
 package syntax
 
+import doric.SparkAuxFunctions.createLambda
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import doric.types.SparkType
-
-import org.apache.spark.sql.catalyst.expressions.ArraySort
+import org.apache.spark.sql.catalyst.expressions.{ArrayExists, ArrayFilter, ArraySort, LambdaFunction, UnresolvedNamedLambdaVariable}
 import org.apache.spark.sql.{Column, Row, functions => f}
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
 
@@ -767,13 +767,17 @@ class ArrayColumnsSpec extends DoricTestElements {
         }))
       }
 
+      lazy val filter_old: (Column, (Column, Column) => Column) => Column =
+        (myCol, myFun) =>
+          new Column(ArrayFilter(myCol.expr, createLambda(myFun)))
+
       df.testColumns2("col1", "col2")(
         (c1, c2) =>
           colArrayString(c1).filterWIndex((x, i) => {
             i === 0.lit or x === colString(c2)
           }),
         (c1, c2) =>
-          f.filter(
+          filter_old(
             f.col(c1),
             (x, i) => {
               i === 0 or x === f.col(c2)
@@ -787,13 +791,16 @@ class ArrayColumnsSpec extends DoricTestElements {
   describe("exists doric function") {
     import spark.implicits._
 
+    lazy val exists_old: (Column, Column => Column) => Column =
+      (myCol, myFun) => new Column(ArrayExists(myCol.expr, createLambda(myFun)))
+
     it("should work as spark exists function") {
       val df = List(Array(":a", "b", null, ":c", "d"), Array("z"), null)
         .toDF("col1")
 
       df.testColumns2("col1", ":")(
         (c, s) => colArrayString(c).exists(_.startsWith(s.lit)),
-        (c, s) => f.exists(f.col(c), _.startsWith(s)),
+        (c, s) => exists_old(f.col(c), _.startsWith(s)),
         List(Some(true), Some(false), None)
       )
     }
