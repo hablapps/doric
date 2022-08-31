@@ -33,6 +33,34 @@ trait ArrayColumns3x {
     }
 
     /**
+      * Returns an array of elements for which a predicate holds in a given array.
+      * @example {{{
+      *   df.select(filter(col("s"), (x, i) => i % 2 === 0))
+      * }}}
+      *
+      * @param function
+      *   (col, index) => predicate, the Boolean predicate to filter the input column
+      *   given the index. Indices start at 0.
+      * @group Array Type
+      * @see org.apache.spark.sql.functions.filter
+      * @todo scaladoc link (issue #135)
+      */
+    def filterWIndex(
+        function: (DoricColumn[T], IntegerColumn) => BooleanColumn
+    ): ArrayColumn[T] = {
+      val xv = x(col.getIndex(0))
+      val yv = y(1.lit)
+      (
+        col.elem,
+        function(xv, yv).elem,
+        xv.elem,
+        yv.elem
+      ).mapN { (a, f, x, y) =>
+        new Column(ArrayFilter(a.expr, lam2(f.expr, x.expr, y.expr)))
+      }.toDC
+    }
+
+    /**
       * Sorts the input array based on the given comparator function. The comparator will take two
       * arguments representing two elements of the array. It returns a negative integer, 0, or a
       * positive integer as the first element is less than, equal to, or greater than the second

@@ -270,34 +270,6 @@ private[syntax] trait ArrayColumns {
     }
 
     /**
-      * Returns an array of elements for which a predicate holds in a given array.
-      * @example {{{
-      *   df.select(filter(col("s"), (x, i) => i % 2 === 0))
-      * }}}
-      *
-      * @param function
-      *   (col, index) => predicate, the Boolean predicate to filter the input column
-      *   given the index. Indices start at 0.
-      * @group Array Type
-      * @see org.apache.spark.sql.functions.filter
-      * @todo scaladoc link (issue #135)
-      */
-    def filterWIndex(
-        function: (DoricColumn[T], IntegerColumn) => BooleanColumn
-    ): ArrayColumn[T] = {
-      val xv = x(col.getIndex(0))
-      val yv = y(1.lit)
-      (
-        col.elem,
-        function(xv, yv).elem,
-        xv.elem,
-        yv.elem
-      ).mapN { (a, f, x, y) =>
-        new Column(ArrayFilter(a.expr, lam2(f.expr, x.expr, y.expr)))
-      }.toDC
-    }
-
-    /**
       * Returns null if the array is null, true if the array contains `value`, and false otherwise.
       *
       * @group Array Type

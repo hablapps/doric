@@ -754,40 +754,6 @@ class ArrayColumnsSpec extends DoricTestElements {
     }
   }
 
-  describe("filterWIndex doric function") {
-    import spark.implicits._
-
-    it("should work as spark filter((Column, Column) => Column) function") {
-      val df = List((Array("a", "b", "c", "d"), "b"))
-        .toDF("col1", "col2")
-
-      noException shouldBe thrownBy {
-        df.select(colArrayString("col1").filterWIndex((x, i) => {
-          i === 0.lit or x === colString("col2")
-        }))
-      }
-
-      lazy val filter_old: (Column, (Column, Column) => Column) => Column =
-        (myCol, myFun) =>
-          new Column(ArrayFilter(myCol.expr, createLambda(myFun)))
-
-      df.testColumns2("col1", "col2")(
-        (c1, c2) =>
-          colArrayString(c1).filterWIndex((x, i) => {
-            i === 0.lit or x === colString(c2)
-          }),
-        (c1, c2) =>
-          filter_old(
-            f.col(c1),
-            (x, i) => {
-              i === 0 or x === f.col(c2)
-            }
-          ),
-        List(Some(Array("a", "b")))
-      )
-    }
-  }
-
   describe("exists doric function") {
     import spark.implicits._
 
