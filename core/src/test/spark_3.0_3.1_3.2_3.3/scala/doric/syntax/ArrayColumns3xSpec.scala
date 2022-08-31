@@ -12,21 +12,6 @@ class ArrayColumns3xSpec
     with EitherValues
     with Matchers {
 
-  describe("forAll doric function") {
-    import spark.implicits._
-
-    it("should work as spark forall function") {
-      val df = List(Array("c", "b", null, "a", "d"), Array("z"), null)
-        .toDF("col1")
-
-      df.testColumns("col1")(
-        c => colArrayString(c).forAll(_.isNotNull),
-        c => f.forall(f.col(c), _.isNotNull),
-        List(Some(false), Some(true), None)
-      )
-    }
-  }
-
   describe("filterWIndex doric function") {
     import spark.implicits._
 
@@ -40,23 +25,34 @@ class ArrayColumns3xSpec
         }))
       }
 
-      lazy val filter_old: (Column, (Column, Column) => Column) => Column =
-        (myCol, myFun) =>
-          new Column(ArrayFilter(myCol.expr, createLambda(myFun)))
-
       df.testColumns2("col1", "col2")(
         (c1, c2) =>
           colArrayString(c1).filterWIndex((x, i) => {
             i === 0.lit or x === colString(c2)
           }),
         (c1, c2) =>
-          filter_old(
+          f.filter(
             f.col(c1),
             (x, i) => {
               i === 0 or x === f.col(c2)
             }
           ),
         List(Some(Array("a", "b")))
+      )
+    }
+  }
+
+  describe("forAll doric function") {
+    import spark.implicits._
+
+    it("should work as spark forall function") {
+      val df = List(Array("c", "b", null, "a", "d"), Array("z"), null)
+        .toDF("col1")
+
+      df.testColumns("col1")(
+        c => colArrayString(c).forAll(_.isNotNull),
+        c => f.forall(f.col(c), _.isNotNull),
+        List(Some(false), Some(true), None)
       )
     }
   }

@@ -4,9 +4,9 @@ package syntax
 import doric.SparkAuxFunctions.createLambda
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import doric.types.SparkType
-import org.apache.spark.sql.catalyst.expressions.{ArrayExists, ArrayFilter, ArraySort, LambdaFunction, UnresolvedNamedLambdaVariable}
-import org.apache.spark.sql.{Column, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.ArrayExists
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
+import org.apache.spark.sql.{Column, Row, functions => f}
 
 class ArrayColumnsSpec extends DoricTestElements {
 
