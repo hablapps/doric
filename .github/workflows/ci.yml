@@ -18,8 +18,32 @@ jobs:
         uses: gregsdennis/dependencies-action@1.2.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  add_comment:
+    runs-on: ubuntu-20.04
+    name: Create testing comment
+    steps:
+      - name: Find Comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: Test summary report
+      - name: Create initial comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          body: |
+            Test summary report 📊
+            
+            | Spark version |    testing    |
+            |:-------------:|:-------------:|
+          edit-mode: replace
   build:
     #if: github.event.pull_request.draft == false
+    needs: ["add_comment"]
     strategy:
       fail-fast: false
       matrix:

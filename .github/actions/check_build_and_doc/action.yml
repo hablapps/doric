@@ -30,8 +30,39 @@ runs:
       # TESTING & COVERAGE
     - name: Test & coverage 📋
       if: contains(env.SCOPE, 'test')
-      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageReport coverageAggregate
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageAggregate
       shell: bash
+
+    - name: Test Summary
+      if: github.event_name == 'pull_request'
+      uses: test-summary/action@v1
+      with:
+        paths: "./core/target/test-reports/**/TEST-*.xml"
+        output: "./core/target/test-summary.md"
+
+    - name: Get summary
+      id: summary
+      run: echo ::set-output name=summary::$(cat ./core/target/test-summary.md)
+      shell: bash
+
+    - name: Find Comment
+      if: github.event_name == 'pull_request'
+      uses: peter-evans/find-comment@v2
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body-includes: Test summary report
+
+    - name: Create or update comment
+      if: github.event_name == 'pull_request'
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        token: "${{ secrets.GITHUB_TOKEN }}"
+        body: |
+          |   ${{ env.SPARK_VERSION }}    | [${{ steps.summary.outputs.summary }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  |
+        edit-mode: append
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
