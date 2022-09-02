@@ -18,53 +18,46 @@ jobs:
         uses: gregsdennis/dependencies-action@1.2.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  add_comment:
-    runs-on: ubuntu-20.04
-    name: Create testing comment
+  matrix_prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Find Comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2
-        id: fc
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        uses: JoshuaTheMiller/conditional-build-matrix@main
         with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body-includes: Test summary report
-      - name: Create initial comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          body: |
-            Test summary report 📊
-            
-            | Spark version |    testing    |
-            |:-------------:|:-------------:|
-          edit-mode: replace
+          filter: '[]'
+#  add_comment:
+#    runs-on: ubuntu-20.04
+#    name: Create testing comment
+#    steps:
+#      - name: Find Comment
+#        if: github.event_name == 'pull_request'
+#        uses: peter-evans/find-comment@v2
+#        id: fc
+#        with:
+#          issue-number: ${{ github.event.pull_request.number }}
+#          body-includes: Test summary report
+#      - name: Create initial comment
+#        uses: peter-evans/create-or-update-comment@v2
+#        with:
+#          comment-id: ${{ steps.fc.outputs.comment-id }}
+#          issue-number: ${{ github.event.pull_request.number }}
+#          token: "${{ secrets.GITHUB_TOKEN }}"
+#          body: |
+#            Test summary report 📊
+#
+#            | Spark version |    testing    |
+#            |:-------------:|:-------------:|
+#          edit-mode: replace
   build:
     #if: github.event.pull_request.draft == false
-    needs: ["add_comment"]
+    needs: ["matrix_prep"] # ["add_comment"]
     strategy:
       fail-fast: false
-      matrix:
-        spark: [
-          "2.4.1", "2.4.2", "2.4.3", "2.4.4", "2.4.5", "2.4.6", "2.4.7",
-          "3.0.0", "3.0.1", "3.0.2",
-          "3.1.0", "3.1.1", "3.1.2",
-          "3.2.0", "3.2.1"
-        ]
-        scope: [ "test" ]
-        include:
-          - spark: "2.4"
-            scope: "test-uploadReport"
-          - spark: "3.0"
-            scope: "test-uploadReport"
-          - spark: "3.1"
-            scope: "test-uploadReport"
-          - spark: "3.2"
-            scope: "test-uploadReport"
-          - spark: "3.3"
-            scope: "test-uploadReport"
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
