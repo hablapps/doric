@@ -33,13 +33,25 @@ runs:
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageAggregate
       shell: bash
 
-#    - name: Test Summary
-#      if: github.event_name == 'pull_request'
-#      uses: test-summary/action@v1
-#      with:
-#        paths: "./core/target/test-reports/**/TEST-*.xml"
-#        output: "./core/target/test-summary.md"
-#
+    - name: Test Summary
+      if: github.event_name == 'pull_request'
+      uses: test-summary/action@v1
+      with:
+        paths: "./core/target/test-reports/**/TEST-*.xml"
+        output: "test-summary.md"
+
+    - name: Add summary link
+      shell: bash
+      run: |
+        sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
+        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> test-summary-${{ env.SPARK_VERSION }}.md
+
+    - name: Upload test summary
+      uses: actions/upload-artifact@v3
+      with:
+        name: "test-summary-${{ env.SPARK_VERSION }}.md"
+        path: "test-summary-${{ env.SPARK_VERSION }}.md"
+
 #    - name: Get summary
 #      id: summary
 #      run: echo ::set-output name=summary::$(cat ./core/target/test-summary.md)
