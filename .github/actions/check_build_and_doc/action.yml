@@ -34,23 +34,27 @@ runs:
       shell: bash
 
     - name: Test Summary
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
       uses: test-summary/action@v1
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
         output: "test-summary.md"
 
     - name: Add summary link
+      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
       shell: bash
       run: |
         sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
         printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Upload test summary
+      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
       uses: actions/upload-artifact@v3
       with:
         name: "test-summary-${{ env.SPARK_VERSION }}.md"
         path: "test-summary-${{ env.SPARK_VERSION }}.md"
+        if-no-files-found: error
+        retention-days: 1
 
 #    - name: Get summary
 #      id: summary
