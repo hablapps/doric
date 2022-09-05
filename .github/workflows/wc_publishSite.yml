@@ -34,7 +34,7 @@ jobs:
         uses: ./.github/actions/check_build_and_doc
         env:
           SPARK_VERSION: ${{ matrix.spark }}
-          SCOPE: ${{ matrix.scope }}
+          SCOPE: ${{ inputs.scope }}
 
   # PUBLISH DOC JOB
   publish:
