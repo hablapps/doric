@@ -15,34 +15,38 @@ jobs:
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-      - name: Find Current Pull Request
-        id: findPr
-        uses: jwalton/gh-find-current-pr@v1.3.0
-        with:
-          state: open
-      - run: echo "Your PR is ${PR}"
-        if: success() && steps.findPr.outputs.number
-        env:
-          PR: ${{ steps.findPr.outputs.pr }}
-      - name: Find Comment
-#        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2
-        id: fc
-        with:
-          issue-number: ${{ steps.findPr.outputs.pr }}
-          body-includes: Test summary report
-      - name: Create summary comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ steps.findPr.outputs.pr }}
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          body: |
-            Test summary report 📊
-
-            | Spark version |    testing    |
-            |:-------------:|:-------------:|
-          edit-mode: replace
+      - run: echo "action ${{ action }}"
+      - run: echo "workflow_run ${{ workflow_run }}"
+      - run: echo "workflow ${{ workflow }}"
+      - run: echo "sender ${{ sender }}"
+#      - name: Find Current Pull Request
+#        id: findPr
+#        uses: jwalton/gh-find-current-pr@v1.3.0
+#        with:
+#          state: open
+#      - run: echo "Your PR is ${PR}"
+#        if: success() && steps.findPr.outputs.number
+#        env:
+#          PR: ${{ steps.findPr.outputs.pr }}
+#      - name: Find Comment
+##        if: github.event_name == 'pull_request'
+#        uses: peter-evans/find-comment@v2
+#        id: fc
+#        with:
+#          issue-number: ${{ steps.findPr.outputs.pr }}
+#          body-includes: Test summary report
+#      - name: Create summary comment
+#        uses: peter-evans/create-or-update-comment@v2
+#        with:
+#          comment-id: ${{ steps.fc.outputs.comment-id }}
+#          issue-number: ${{ steps.findPr.outputs.pr }}
+#          token: "${{ secrets.GITHUB_TOKEN }}"
+#          body: |
+#            Test summary report 📊
+#
+#            | Spark version |    testing    |
+#            |:-------------:|:-------------:|
+#          edit-mode: replace
 
 
 
