@@ -15,25 +15,36 @@ jobs:
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-      - name: Find Comment
-#        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body-includes: Test summary report
-      - name: Create initial comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          body: |
-            Test summary report 📊
+      - name: Print PR number
+        shell: bash
+        run: |
+          echo "PR number:"
+          echo ${{ github.event.pull_request.number }}
+          echo "---"
+#      - name: Find Comment
+##        if: github.event_name == 'pull_request'
+#        uses: peter-evans/find-comment@v2
+#        id: fc
+#        with:
+#          issue-number: ${{ github.event.pull_request.number }}
+#          body-includes: Test summary report
+#      - name: Create initial comment
+#        uses: peter-evans/create-or-update-comment@v2
+#        with:
+#          comment-id: ${{ steps.fc.outputs.comment-id }}
+#          issue-number: ${{ github.event.pull_request.number }}
+#          token: "${{ secrets.GITHUB_TOKEN }}"
+#          body: |
+#            Test summary report 📊
+#
+#            | Spark version |    testing    |
+#            |:-------------:|:-------------:|
+#          edit-mode: replace
 
-            | Spark version |    testing    |
-            |:-------------:|:-------------:|
-          edit-mode: replace
+
+
+
+
 #  - name: "Download artifacts"
 ##    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 ##    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
