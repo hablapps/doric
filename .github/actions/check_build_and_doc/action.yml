@@ -23,18 +23,21 @@ runs:
 
       # CHECK CODE FORMAT
     - name: Code Format
+      id: code_format
       if: contains(env.SCOPE, 'test')
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} scalafmtCheckAll
       shell: bash
 
       # TESTING & COVERAGE
     - name: Test & coverage 📋
-      if: contains(env.SCOPE, 'test')
+      id: test_coverage
+      if: steps.code_format.conclusion == 'success'
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageAggregate
       shell: bash
 
     - name: Test Summary
-      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
+      id: test_summary
+      if: steps.test_coverage.conclusion == 'success'
       uses: test-summary/action@v1
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
@@ -42,7 +45,7 @@ runs:
 
     - name: Add summary link
       id: add_summary_link
-      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
+      if: steps.test_summary.conclusion == 'success'
       shell: bash
       run: |
         sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
@@ -54,7 +57,7 @@ runs:
       run: cat test-summary-${{ env.SPARK_VERSION }}.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload test summary
-      if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
+      if: github.event_name == 'pull_request' && steps.add_summary_link.conclusion == 'success'
       uses: actions/upload-artifact@v3
       with:
         name: "test-summary-${{ env.SPARK_VERSION }}.md"
