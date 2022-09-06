@@ -15,10 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-      - run: echo "action ${{ action }}"
-      - run: echo "workflow_run ${{ workflow_run }}"
-      - run: echo "workflow ${{ workflow }}"
-      - run: echo "sender ${{ sender }}"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
 #      - name: Find Current Pull Request
 #        id: findPr
 #        uses: jwalton/gh-find-current-pr@v1.3.0
