@@ -41,11 +41,17 @@ runs:
         output: "test-summary.md"
 
     - name: Add summary link
+      id: add_summary_link
       if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
       shell: bash
       run: |
         sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
         printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> test-summary-${{ env.SPARK_VERSION }}.md
+
+    - name: Add 2 GitHub step summary
+      if: steps.add_summary_link.conclusion == 'success'
+      shell: bash
+      run: cat test-summary-${{ env.SPARK_VERSION }}.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload test summary
       if: github.event_name == 'pull_request' && contains(env.SCOPE, 'test')
