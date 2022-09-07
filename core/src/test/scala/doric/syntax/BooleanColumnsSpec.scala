@@ -1,15 +1,9 @@
 package doric
 package syntax
 
-import org.scalatest.EitherValues
-import org.scalatest.matchers.should.Matchers
-
 import org.apache.spark.sql.{functions => f}
 
-class BooleanColumnsSpec
-    extends DoricTestElements
-    with EitherValues
-    with Matchers {
+class BooleanColumnsSpec extends DoricTestElements {
 
   describe("Boolean columns") {
     import spark.implicits._
@@ -28,8 +22,8 @@ class BooleanColumnsSpec
 
     it("should be inverted by !") {
       df.testColumns("col1")(
-        c => BoolF.!(colBoolean(c)),
-        c => f.not(f.col(c)),
+        c => !colBoolean(c),
+        c => !f.col(c),
         List(Some(false), Some(true), None)
       )
     }

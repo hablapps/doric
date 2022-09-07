@@ -4,8 +4,8 @@ package syntax
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.{CollectionType, NumericType}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, UnaryMinus}
 import org.apache.spark.sql.{Column, functions => f}
-import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
 private[syntax] trait NumericColumns {
 
@@ -100,6 +100,14 @@ private[syntax] trait NumericColumns {
   implicit class NumericOperationsSyntax[T: NumericType](
       column: DoricColumn[T]
   ) {
+
+    /**
+      * Unary minus, i.e. negate the expression.
+      *
+      * @group Numeric Type
+      */
+    def unary_- : DoricColumn[T] =
+      column.elem.map(x => new Column(UnaryMinus(x.expr))).toDC
 
     /**
       * @group Numeric Type
