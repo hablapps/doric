@@ -1,11 +1,12 @@
 package doric
 package syntax
 
+import doric.SparkAuxFunctions.createLambda
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import doric.types.SparkType
-
-import org.apache.spark.sql.{Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.ArrayExists
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
+import org.apache.spark.sql.{Column, Row, functions => f}
 
 class ArrayColumnsSpec extends DoricTestElements {
 
@@ -749,6 +750,24 @@ class ArrayColumnsSpec extends DoricTestElements {
 
       intercept[java.lang.RuntimeException](
         df.select(colArrayString("col1").slice(0.lit, 2.lit)).collect()
+      )
+    }
+  }
+
+  describe("exists doric function") {
+    import spark.implicits._
+
+    lazy val exists_old: (Column, Column => Column) => Column =
+      (myCol, myFun) => new Column(ArrayExists(myCol.expr, createLambda(myFun)))
+
+    it("should work as spark exists function") {
+      val df = List(Array(":a", "b", null, ":c", "d"), Array("z"), null)
+        .toDF("col1")
+
+      df.testColumns2("col1", ":")(
+        (c, s) => colArrayString(c).exists(_.startsWith(s.lit)),
+        (c, s) => exists_old(f.col(c), _.startsWith(s)),
+        List(Some(true), Some(false), None)
       )
     }
   }
