@@ -4024,6 +4024,51 @@ representation of number
             <a href="package.html#StringOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.StringOperationsSyntax">doric.StringOperationsSyntax</a> performed by method StringOperationsSyntax in doric.syntax.StringColumns.
             This conversion will take place only if T is String (T =:= <span class="extype" name="scala.Predef.String">String</span>).
           </dd><dt>Definition Classes</dt><dd>StringOperationsSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@unhex(column:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.unhex</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.BooleanColumns.BooleanOperationsSyntax#unary_!" visbl="pub" data-isabs="false" fullComment="yes" group="Boolean Type">
+      <a id="unary_!:doric.DoricColumn[Boolean]"></a>
+      <a id="unary_!:DoricColumn[Boolean]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: unary_$bang" class="implicit">unary_!</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Boolean" class="extype" target="_top">Boolean</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.TransformationDoricColumn@unary_!:doric.DoricColumn[Boolean]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Inversion of boolean expression, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Inversion of boolean expression, i.e. NOT.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="package.html#BooleanOperationsSyntaxextendsAnyRef" class="extmbr" name="doric.BooleanOperationsSyntax">doric.BooleanOperationsSyntax</a> performed by method BooleanOperationsSyntax in doric.syntax.BooleanColumns.
+            This conversion will take place only if T is Boolean (T =:= <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.Boolean" class="extype" target="_top">Boolean</a>).
+          </dd><dt>Definition Classes</dt><dd>BooleanOperationsSyntax</dd><dt>See also</dt><dd><span class="cmt"><p><a href="package.html#not(col:doric.BooleanColumn):doric.BooleanColumn" class="extmbr" name="doric#not">not</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.NumericColumns.NumericOperationsSyntax#unary_-" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
+      <a id="unary_-:doric.DoricColumn[T]"></a>
+      <a id="unary_-:DoricColumn[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: unary_$minus" class="implicit">unary_-</span><span class="result">: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.TransformationDoricColumn@unary_-:doric.DoricColumn[T]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Unary minus, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Unary minus, i.e. negate the expression.
+</p></div><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="package.html#NumericOperationsSyntax[T]extendsAnyRef" class="extmbr" name="doric.NumericOperationsSyntax">doric.NumericOperationsSyntax</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method NumericOperationsSyntax in doric.syntax.NumericColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.NumericType (T: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>).
+          </dd><dt>Definition Classes</dt><dd>NumericOperationsSyntax</dd></dl></div>
     </li><li name="doric.syntax.StringColumns.StringOperationsSyntax#unbase64" visbl="pub" data-isabs="false" fullComment="yes" group="String Type">
       <a id="unbase64:doric.BinaryColumn"></a>
       <a id="unbase64:BinaryColumn"></a>
