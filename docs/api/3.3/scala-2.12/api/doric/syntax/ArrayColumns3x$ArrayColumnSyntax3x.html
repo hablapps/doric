@@ -473,6 +473,26 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x#filterWIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
+      <a id="filterWIndex(function:(doric.DoricColumn[T],doric.IntegerColumn)=&gt;doric.BooleanColumn):doric.ArrayColumn[T]"></a><a id="filterWIndex((DoricColumn[T],IntegerColumn)⇒BooleanColumn):ArrayColumn[T]"></a>
+      <span class="permalink">
+      <a href="../../doric/syntax/ArrayColumns3x$ArrayColumnSyntax3x.html#filterWIndex(function:(doric.DoricColumn[T],doric.IntegerColumn)=&gt;doric.BooleanColumn):doric.ArrayColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterWIndex</span><span class="params">(<span name="function">function: (<a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>], <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a>) ⇒ <a href="../index.html#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns an array of elements for which a predicate holds in a given array.</p><div class="fullcomment"><div class="comment cmt"><p>Returns an array of elements for which a predicate holds in a given array.</p></div><dl class="paramcmts block"><dt class="param">function</dt><dd class="cmt"><p>
+  (col, index) =&gt; predicate, the Boolean predicate to filter the input column
+  given the index. Indices start at 0.</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>df.select(filter(col(<span class="lit">"s"</span>), (x, i) <span class="kw">=&gt;</span> i % <span class="num">2</span> === <span class="num">0</span>))</pre></li></ol>
+            </div><dt>To do</dt><dd><span class="cmt"><p>scaladoc link (issue #135)</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>org.apache.spark.sql.functions.filter</p></span></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -670,6 +690,54 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x#sortBy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
+      <a id="sortBy[A](fun:doric.DoricColumn[T]=&gt;doric.DoricColumn[A]):doric.ArrayColumn[T]"></a><a id="sortBy[A]((DoricColumn[T])⇒DoricColumn[A]):ArrayColumn[T]"></a>
+      <span class="permalink">
+      <a href="../../doric/syntax/ArrayColumns3x$ArrayColumnSyntax3x.html#sortBy[A](fun:doric.DoricColumn[T]=&gt;doric.DoricColumn[A]):doric.ArrayColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sortBy</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fun">fun: (<a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>]) ⇒ <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.sortBy.A">A</span>]</span>)</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts the input array based on the given comparator function.</p><div class="fullcomment"><div class="comment cmt"><p>Sorts the input array based on the given comparator function. The comparator will take two
+arguments representing two elements of the array. It returns a negative integer, 0, or a
+positive integer as the first element is less than, equal to, or greater than the second
+element.
+</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>colArrayString(<span class="lit">"myColumn"</span>).sortBy(c <span class="kw">=&gt;</span> c.length)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>If the comparator function returns null, the function will fail and raise an error.</p></span></dd></dl></div>
+    </li><li name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x#sortBy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Array Type">
+      <a id="sortBy(fun:(doric.DoricColumn[T],doric.DoricColumn[T])=&gt;doric.IntegerColumn):doric.ArrayColumn[T]"></a><a id="sortBy((DoricColumn[T],DoricColumn[T])⇒IntegerColumn):ArrayColumn[T]"></a>
+      <span class="permalink">
+      <a href="../../doric/syntax/ArrayColumns3x$ArrayColumnSyntax3x.html#sortBy(fun:(doric.DoricColumn[T],doric.DoricColumn[T])=&gt;doric.IntegerColumn):doric.ArrayColumn[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sortBy</span><span class="params">(<span name="fun">fun: (<a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>], <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>]) ⇒ <a href="../index.html#IntegerColumn=doric.DoricColumn[Int]" class="extmbr" name="doric.IntegerColumn">IntegerColumn</a></span>)</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<span class="extype" name="doric.syntax.ArrayColumns3x.ArrayColumnSyntax3x.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sorts the input array based on the given comparator function.</p><div class="fullcomment"><div class="comment cmt"><p>Sorts the input array based on the given comparator function. The comparator will take two
+arguments representing two elements of the array. It returns a negative integer, 0, or a
+positive integer as the first element is less than, equal to, or greater than the second
+element.
+</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>colArrayString(<span class="lit">"myColumn"</span>).sortBy((l, r) <span class="kw">=&gt;</span> when[<span class="std">Int</span>]
+   .caseW(l.length &gt; r.length, <span class="num">1.</span>lit)
+   .caseW(l.length &lt; r.length, (-<span class="num">1</span>).lit)
+   .otherwise(<span class="num">0.</span>lit)
+)</pre></li></ol>
+            </div><dt>Note</dt><dd><span class="cmt"><p>If the comparator function returns null, the function will fail and raise an error.</p></span></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
