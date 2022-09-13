@@ -4,14 +4,15 @@ on:
   workflow_run:
     workflows: [CI]
 #    branches: [main]
-#    types:
-#      - completed
+    types:
+      - completed
 
 #permissions:
 #  pull-requests: write
 
 jobs:
-  add_comment:
+  create_test_summary_report:
+#    if: github.repository == 'hablapps/doric'
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
@@ -20,8 +21,10 @@ jobs:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
 #        run: |
 #          echo "$GITHUB_CONTEXT"
+
       - name: Find Comment
 #        if: github.event_name == 'pull_request'
+#        if: ${{ github.event.workflow_run.conclusion == 'success/failure' }}
         uses: peter-evans/find-comment@v2
         id: fc
         with:
@@ -30,13 +33,16 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - name: Render template
-        id: template
-        uses: chuhlomin/render-template@v1.4
-        with:
-          template: .github/templates/pr_comment.md
-          vars: |
-            workflow: ${{ github.workflow }}
+#      - name: Render template
+#        id: template
+#        uses: chuhlomin/render-template@v1.4
+#        with:
+#          template: .github/templates/pr_comment.md
+#          vars: |
+#            workflow: ${{ github.workflow }}
+#            run_url: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+#            attempt: ${{ github.event.workflow_run.run_attempt }}
+#            job_name: ${{ github.job }}
       - name: Create summary comment
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -44,7 +50,101 @@ jobs:
           issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: replace
-          body: ${{ steps.template.outputs.result }}
+#          body: ${{ steps.template.outputs.result }}
+          body: |
+            :octocat: This is an auto-generated comment created by:
+            
+            - workflow: ${{ github.workflow }}
+            - run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - attempt: ${{ github.event.workflow_run.run_attempt }} <!-- ${{ github.run_attempt }} -->
+            - previous attempt: (${{ github.event.workflow_run.previous_attempt_url }})
+            - job name: ${{ github.job }}
+            
+            <table>
+            <tr>
+            <th>Actor</th>
+            <th>Triggering actor</th>
+            <th>Sender</th>
+            </tr>
+            <td>
+            <a href="${{ github.event.workflow_run.actor.html_url }}">
+            <img src="${{ github.event.workflow_run.actor.avatar_url }}" alt="${{ github.event.workflow_run.actor.login }}" style="width:50px;height:50px;">
+            <br>
+            ${{ github.event.workflow_run.actor.login }}
+            </a>
+            </td>
+            <td>
+            <a href="${{ github.event.workflow_run.triggering_actor.html_url }}">
+            <img src="${{ github.event.workflow_run.triggering_actor.avatar_url }}" alt="${{ github.event.workflow_run.triggering_actor.login }}" style="width:50px;height:50px;">
+            <br>
+            ${{ github.event.workflow_run.triggering_actor.login }}
+            </a>
+            </td>
+            <td>
+            <a href="${{ github.event.sender.html_url }}">
+            <img src="${{ github.event.sender.avatar_url }}" alt="${{ github.event.sender.login }}" style="width:50px;height:50px;">
+            <br>
+            ${{ github.event.sender.login }}
+            </a>
+            </td>
+            <tr><td colspan="3">
+            Triggered by:
+            
+            - [${{ github.event.workflow_run.name }}](${{ github.event.workflow_run.path }})
+            - [${{ github.event.workflow_run.html_url }}](${{ github.event.workflow_run.html_url }})
+            
+            on ${{ github.event_name }} ${{ github.event.action }} <!-- ${{ github.event.workflow_run.status }} -->
+            </td></tr>
+            <tr><td colspan="3">
+            Commit:
+            
+            -	${{ github.event.workflow_run.head_commit.message }}
+            -	${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} -->
+            </td></tr>
+            </table>
+            
+            Test summary report 📊
+
+            | Spark version |    testing    |
+            |:-------------:|:-------------:|
+  matrix_prep:
+#    if: github.repository == 'hablapps/doric'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        uses: JoshuaTheMiller/conditional-build-matrix@0.1.0
+        with:
+          filter: '[]'
+  update_test_summary_report:
+    needs: ["matrix_prep", "create_test_summary_report"]
+    runs-on: ubuntu-latest
+    name: Updating testing summary comment
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    steps:
+      - name: Download workflow artifacts ${{ matrix.spark }}
+        uses: marcofaggian/action-download-multiple-artifacts@v3.0.7
+        with:
+          names: test-summary-${{ matrix.spark }}.md
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ${{ github.event.workflow.id }}
+          commit: ${{ github.event.workflow_run.head_commit.id }}
+          repo: ${{github.repository}}
+
+      - name: Update with test results ${{ matrix.spark }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          edit-mode: append
+          body: |
+            | ${{ matrix.spark }} | ${{ steps.get_artifact.outputs.summary }} |
 
 
 
@@ -109,13 +209,3 @@ jobs:
 #
 #  - name: 'Unzip artifact'
 #    run: unzip pr_number.zip
-#  on-success:
-#    runs-on: ubuntu-latest
-#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-#    steps:
-#      - run: echo 'The triggering workflow passed'
-#  on-failure:
-#    runs-on: ubuntu-latest
-#    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-#    steps:
-#      - run: echo 'The triggering workflow failed'
