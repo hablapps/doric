@@ -4,8 +4,8 @@ on:
   workflow_run:
     workflows: [CI]
 #    branches: [main]
-    types:
-      - completed
+#    types:
+#      - completed
 
 #permissions:
 #  pull-requests: write
@@ -15,11 +15,41 @@ jobs:
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
+#      - name: [DEBUG] Dump GitHub context
+#        env:
+#          GITHUB_CONTEXT: ${{ toJson(github) }}
+#        run: |
+#          echo "$GITHUB_CONTEXT"
+      - name: Find Comment
+#        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body-includes: "This is an auto-generated comment"
+
+      - uses: actions/checkout@v3
+
+      - name: Render template
+        id: template
+        uses: chuhlomin/render-template@v1.4
+        with:
+          template: .github/templates/pr_comment.md
+          vars: |
+            workflow: ${{ github.workflow }}
+      - name: Create summary comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          edit-mode: replace
+          body: ${{ steps.template.outputs.result }}
+
+
+
+
+
 #      - name: Find Current Pull Request
 #        id: findPr
 #        uses: jwalton/gh-find-current-pr@v1.3.0
