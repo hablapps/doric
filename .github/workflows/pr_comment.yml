@@ -55,10 +55,10 @@ jobs:
             :octocat: This is an auto-generated comment created by:
             
             - workflow: ${{ github.workflow }}
+            - job name: ${{ github.job }}
             - run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             - attempt: ${{ github.event.workflow_run.run_attempt }} <!-- ${{ github.run_attempt }} -->
             - previous attempt: (${{ github.event.workflow_run.previous_attempt_url }})
-            - job name: ${{ github.job }}
             
             <table>
             <tr>
@@ -66,23 +66,23 @@ jobs:
             <th>Triggering actor</th>
             <th>Sender</th>
             </tr>
-            <td>
+            <td style="text-align:center">
             <a href="${{ github.event.workflow_run.actor.html_url }}">
-            <img src="${{ github.event.workflow_run.actor.avatar_url }}" alt="${{ github.event.workflow_run.actor.login }}" style="width:50px;height:50px;">
+            <img src="${{ github.event.workflow_run.actor.avatar_url }}" alt="${{ github.event.workflow_run.actor.login }}" style="width:30px;height:30px;">
             <br>
             ${{ github.event.workflow_run.actor.login }}
             </a>
             </td>
-            <td>
+            <td style="text-align:center">
             <a href="${{ github.event.workflow_run.triggering_actor.html_url }}">
-            <img src="${{ github.event.workflow_run.triggering_actor.avatar_url }}" alt="${{ github.event.workflow_run.triggering_actor.login }}" style="width:50px;height:50px;">
+            <img src="${{ github.event.workflow_run.triggering_actor.avatar_url }}" alt="${{ github.event.workflow_run.triggering_actor.login }}" style="width:30px;height:30px;">
             <br>
             ${{ github.event.workflow_run.triggering_actor.login }}
             </a>
             </td>
-            <td>
+            <td style="text-align:center">
             <a href="${{ github.event.sender.html_url }}">
-            <img src="${{ github.event.sender.avatar_url }}" alt="${{ github.event.sender.login }}" style="width:50px;height:50px;">
+            <img src="${{ github.event.sender.avatar_url }}" alt="${{ github.event.sender.login }}" style="width:30px;height:30px;">
             <br>
             ${{ github.event.sender.login }}
             </a>
@@ -90,16 +90,15 @@ jobs:
             <tr><td colspan="3">
             Triggered by:
             
-            - [${{ github.event.workflow_run.name }}](${{ github.event.workflow_run.path }})
-            - [${{ github.event.workflow_run.html_url }}](${{ github.event.workflow_run.html_url }})
-            
-            on ${{ github.event_name }} ${{ github.event.action }} <!-- ${{ github.event.workflow_run.status }} -->
+            - Workflow name: "${{ github.event.workflow_run.name }}" at ${{ github.event.workflow_run.path }}
+            - URL: [${{ github.event.workflow_run.html_url }}](${{ github.event.workflow_run.html_url }})
+            - on ${{ github.event_name }}:${{ github.event.action }} <!-- ${{ github.event.workflow_run.status }} -->
             </td></tr>
             <tr><td colspan="3">
             Commit:
             
-            -	${{ github.event.workflow_run.head_commit.message }}
-            -	${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} -->
+            -	Message: ${{ github.event.workflow_run.head_commit.message }}
+            -	ID: ${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} -->
             </td></tr>
             </table>
             
@@ -127,7 +126,7 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     steps:
-      - name: Download workflow artifacts ${{ matrix.spark }}
+      - name: Download workflow artifact <${{ matrix.spark }}>
         uses: marcofaggian/action-download-multiple-artifacts@v3.0.7
         with:
           names: test-summary-${{ matrix.spark }}.md
@@ -136,7 +135,19 @@ jobs:
           commit: ${{ github.event.workflow_run.head_commit.id }}
           repo: ${{github.repository}}
 
-      - name: Update with test results ${{ matrix.spark }}
+      - name: Get summary <${{ matrix.spark }}>
+        id: summary
+        run: echo ::set-output name=summary::$(cat test-summary-${{ matrix.spark }}.md)
+        shell: bash
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body-includes: "This is an auto-generated comment"
+
+      - name: Update with test results <${{ matrix.spark }}>
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -144,7 +155,7 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: append
           body: |
-            | ${{ matrix.spark }} | ${{ steps.get_artifact.outputs.summary }} |
+            | ${{ matrix.spark }} | ${{ steps.summary.outputs.summary }} |
 
 
 
