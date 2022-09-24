@@ -15,6 +15,13 @@ runs:
         echo ""
       shell: bash
 
+    - name: <DEBUG> Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo "$GITHUB_CONTEXT"
+      shell: bash
+
       # SETUP & CACHE
     - uses: olafurpg/setup-scala@v13
 
@@ -50,7 +57,7 @@ runs:
       shell: bash
       run: |
         sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
-        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> test-summary-${{ env.SPARK_VERSION }}.md
+        printf "](| ${{ env.SPARK_VERSION }} | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})|" >> test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Add 2 GitHub step summary
       if: steps.add_summary_link.conclusion == 'success'
