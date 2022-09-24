@@ -3,7 +3,6 @@ name: PR comment
 on:
   workflow_run:
     workflows: [CI]
-#    branches: [main]
     types:
       - completed
 
@@ -106,38 +105,23 @@ jobs:
 
             | Spark version |    testing    |
             |:-------------:|:-------------:|
-  matrix_prep:
-#    if: github.repository == 'hablapps/doric'
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - id: set-matrix
-        uses: JoshuaTheMiller/conditional-build-matrix@0.1.0
-        with:
-          filter: '[]'
   update_test_summary_report:
-    needs: ["matrix_prep", "create_test_summary_report"]
+    needs: ["create_test_summary_report"]
     runs-on: ubuntu-latest
-    name: Updating testing summary comment
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    name: Update comment
     steps:
-      - name: Download workflow artifact <${{ matrix.spark }}>
-        uses: marcofaggian/action-download-multiple-artifacts@v3.0.7
+      - name: Download artifact
+        uses: marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
-          names: test-summary-${{ matrix.spark }}.md
+          names: test-summary-*.md
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ${{ github.event.workflow.id }}
           commit: ${{ github.event.workflow_run.head_commit.id }}
           repo: ${{github.repository}}
 
-      - name: Get summary <${{ matrix.spark }}>
+      - name: Get summary
         id: summary
-        run: echo ::set-output name=summary::$(cat test-summary-${{ matrix.spark }}.md)
+        run: echo ::set-output name=summary::$(cat test-summary-*.md)
         shell: bash
 
       - name: Find Comment
@@ -147,7 +131,7 @@ jobs:
           issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body-includes: "This is an auto-generated comment"
 
-      - name: Update with test results <${{ matrix.spark }}>
+      - name: Add test results
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -155,7 +139,7 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: append
           body: |
-            | ${{ matrix.spark }} | ${{ steps.summary.outputs.summary }} |
+            ${{ steps.summary.outputs.summary }}
 
 
 
