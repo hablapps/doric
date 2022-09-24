@@ -67,3 +67,11 @@ jobs:
         env:
           SPARK_VERSION: ${{ matrix.spark }}
           SCOPE: ${{ matrix.scope }}
+  matrix_end:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Ensure matrix ends"
+        run: |
+          echo "Matrix end correctly"
+        shell: bash
