@@ -67,8 +67,8 @@ runs:
       if: steps.test_summary.conclusion == 'success'
       shell: bash
       run: |
-        sed '1s/^/|[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
-        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) | ${{ env.SPARK_VERSION }} |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
+        sed '1s/^/| ${{ env.SPARK_VERSION }} | [/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
+        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Add 2 GitHub step summary
       if: steps.add_summary_link.conclusion == 'success'
@@ -83,30 +83,6 @@ runs:
         path: "test-summary-${{ env.SPARK_VERSION }}.md"
         if-no-files-found: error
         retention-days: 1
-
-#    - name: Get summary
-#      id: summary
-#      run: echo ::set-output name=summary::$(cat ./core/target/test-summary.md)
-#      shell: bash
-#
-#    - name: Find Comment
-#      if: github.event_name == 'pull_request'
-#      uses: peter-evans/find-comment@v2
-#      id: fc
-#      with:
-#        issue-number: ${{ github.event.pull_request.number }}
-#        body-includes: Test summary report
-#
-#    - name: Create or update comment
-#      if: github.event_name == 'pull_request'
-#      uses: peter-evans/create-or-update-comment@v2
-#      with:
-#        comment-id: ${{ steps.fc.outputs.comment-id }}
-#        issue-number: ${{ github.event.pull_request.number }}
-#        token: "${{ secrets.GITHUB_TOKEN }}"
-#        body: |
-#          |   ${{ env.SPARK_VERSION }}    | [${{ steps.summary.outputs.summary }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  |
-#        edit-mode: append
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
