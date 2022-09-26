@@ -45,7 +45,7 @@ jobs:
 
       - name: Get current date
         id: getDate
-        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S')"
+        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S %z (%Z)')"
 
       - name: Create summary comment
         uses: peter-evans/create-or-update-comment@v2
@@ -58,10 +58,11 @@ jobs:
           body: |
             :octocat: This is an auto-generated comment created by:
             
-            - date: ${{ steps.getDate.outputs.current_date }}
-            - workflow: ${{ github.workflow }}
-            - job name: ${{ github.job }}
-            - run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Date     : ${{ steps.getDate.outputs.current_date }}
+            - Workflow : ${{ github.workflow }}
+            - Job name : ${{ github.job }}
+            - Run      : [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Commit   : ${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} --> ${{ github.event.workflow_run.head_commit.message }}
             
             <table>
             <tr>
@@ -96,11 +97,6 @@ jobs:
             - Workflow name: "${{ github.event.workflow_run.name }}" at ${{ github.event.workflow_run.path }}
             - URL: [${{ github.event.workflow_run.html_url }}](${{ github.event.workflow_run.html_url }})
             - on ${{ github.event_name }}:${{ github.event.action }} <!-- ${{ github.event.workflow_run.status }} -->
-            </td></tr>
-            <tr><td colspan="3">
-            Commit:
-            
-            -	${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} --> ${{ github.event.workflow_run.head_commit.message }}
             </td></tr>
             </table>
             
