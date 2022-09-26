@@ -109,7 +109,7 @@ jobs:
     needs: ["create_test_summary_report"]
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    name: Update comment
+    name: Update comment OK
     steps:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
@@ -123,7 +123,13 @@ jobs:
 
       - name: Get summary
         id: summary
-        run: echo ::set-output name=summary::$(cat test-summary-*.md)
+        # The content must be escaped to preserve newlines. --> https://github.com/orgs/community/discussions/26288
+        run: |
+          body="$(cat test-summary-*.md/*)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "::set-output name=summary::$body"
         shell: bash
 
       - name: Find Comment
@@ -146,7 +152,7 @@ jobs:
     needs: ["create_test_summary_report"]
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
-    name: Update comment
+    name: Update comment KO
     steps:
       - name: Find Comment
         uses: peter-evans/find-comment@v2
