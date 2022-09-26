@@ -111,13 +111,14 @@ jobs:
     name: Update comment
     steps:
       - name: Download artifact
-        uses: marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
-          names: test-summary-*.md
+#          names: test-summary-*.md
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ${{ github.event.workflow.id }}
           commit: ${{ github.event.workflow_run.head_commit.id }}
           repo: ${{github.repository}}
+          if_no_artifact_found: fail
 
       - name: Get summary
         id: summary
