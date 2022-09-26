@@ -67,8 +67,8 @@ runs:
       if: steps.test_summary.conclusion == 'success'
       shell: bash
       run: |
-        sed '1s/^/[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
-        printf "](| ${{ env.SPARK_VERSION }} | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})|" >> test-summary-${{ env.SPARK_VERSION }}.md
+        sed '1s/^/|[/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
+        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) | ${{ env.SPARK_VERSION }} |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Add 2 GitHub step summary
       if: steps.add_summary_link.conclusion == 'success'
