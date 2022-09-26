@@ -42,6 +42,11 @@ jobs:
 #            run_url: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 #            attempt: ${{ github.event.workflow_run.run_attempt }}
 #            job_name: ${{ github.job }}
+
+      - name: Get current date
+        id: getDate
+        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S')"
+
       - name: Create summary comment
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -53,11 +58,10 @@ jobs:
           body: |
             :octocat: This is an auto-generated comment created by:
             
+            - date: ${{ steps.getDate.outputs.current_date }}
             - workflow: ${{ github.workflow }}
             - job name: ${{ github.job }}
             - run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            - attempt: ${{ github.event.workflow_run.run_attempt }} <!-- ${{ github.run_attempt }} -->
-            - previous attempt: (${{ github.event.workflow_run.previous_attempt_url }})
             
             <table>
             <tr>
@@ -96,8 +100,7 @@ jobs:
             <tr><td colspan="3">
             Commit:
             
-            -	Message: ${{ github.event.workflow_run.head_commit.message }}
-            -	ID: ${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} -->
+            -	${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} --> ${{ github.event.workflow_run.head_commit.message }}
             </td></tr>
             </table>
             
@@ -171,67 +174,3 @@ jobs:
           body: |
             ---------
             Trigger workflow failed :interrobang: :flushed: :boom: :fire::fire::fire:
-
-
-
-
-
-#      - name: Find Current Pull Request
-#        id: findPr
-#        uses: jwalton/gh-find-current-pr@v1.3.0
-#        with:
-#          state: open
-#      - run: echo "Your PR is ${PR}"
-#        if: success() && steps.findPr.outputs.number
-#        env:
-#          PR: ${{ steps.findPr.outputs.pr }}
-#      - name: Find Comment
-##        if: github.event_name == 'pull_request'
-#        uses: peter-evans/find-comment@v2
-#        id: fc
-#        with:
-#          issue-number: ${{ steps.findPr.outputs.pr }}
-#          body-includes: Test summary report
-#      - name: Create summary comment
-#        uses: peter-evans/create-or-update-comment@v2
-#        with:
-#          comment-id: ${{ steps.fc.outputs.comment-id }}
-#          issue-number: ${{ steps.findPr.outputs.pr }}
-#          token: "${{ secrets.GITHUB_TOKEN }}"
-#          body: |
-#            Test summary report 📊
-#
-#            | Spark version |    testing    |
-#            |:-------------:|:-------------:|
-#          edit-mode: replace
-
-
-
-
-
-#  - name: "Download artifacts"
-##    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-##    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-#    runs-on: ubuntu-latest
-#    uses: actions/github-script@v6
-#    with:
-#      script: |
-#        let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-#           owner: context.repo.owner,
-#           repo: context.repo.repo,
-#           run_id: context.payload.workflow_run.id,
-#        });
-#        let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-#          return artifact.name == "pr_number"
-#        })[0];
-#        let download = await github.rest.actions.downloadArtifact({
-#           owner: context.repo.owner,
-#           repo: context.repo.repo,
-#           artifact_id: matchArtifact.id,
-#           archive_format: 'zip',
-#        });
-#        let fs = require('fs');
-#        fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/pr_number.zip`, Buffer.from(download.data));
-#
-#  - name: 'Unzip artifact'
-#    run: unzip pr_number.zip
