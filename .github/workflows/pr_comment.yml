@@ -104,13 +104,13 @@ jobs:
 
             | Spark version |    testing    |
             |:-------------:|:-------------:|
-  update_test_summary_report_ok:
+  update_test_summary_report:
     needs: ["create_test_summary_report"]
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    name: Update comment OK
+    name: Update comment
     steps:
       - name: Download artifact
+        id: download_artifacts
         uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
 #          names: test-summary-*.md
@@ -121,6 +121,7 @@ jobs:
           if_no_artifact_found: fail
 
       - name: Get summary
+        if: steps.download_artifacts.conclusion == 'success'
         id: summary
         # The content must be escaped to preserve newlines. --> https://github.com/orgs/community/discussions/26288
         run: |
@@ -132,6 +133,7 @@ jobs:
         shell: bash
 
       - name: Find Comment
+        if: ${{ always() }}
         uses: peter-evans/find-comment@v2
         id: fc
         with:
@@ -139,6 +141,8 @@ jobs:
           body-includes: "This is an auto-generated comment"
 
       - name: Add test results
+        if: steps.fc.conclusion == 'success'
+        id: add_test_results
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -147,20 +151,9 @@ jobs:
           edit-mode: append
           body: |
             ${{ steps.summary.outputs.summary }}
-  update_test_summary_report_ko:
-    needs: ["create_test_summary_report"]
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    runs-on: ubuntu-latest
-    name: Update comment KO
-    steps:
-      - name: Find Comment
-        uses: peter-evans/find-comment@v2
-        id: fc
-        with:
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
-          body-includes: "This is an auto-generated comment"
 
       - name: Add failed comment
+        if: ${{ failure() && steps.fc.conclusion == 'success' }}
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -169,4 +162,4 @@ jobs:
           edit-mode: append
           body: |
             ---------
-            Trigger workflow failed :interrobang: :flushed: :boom: :fire::fire::fire:
+            Something bad happened :interrobang: :flushed: :boom: :fire::fire::fire:
