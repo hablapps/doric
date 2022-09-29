@@ -36,6 +36,10 @@ class AsSpec extends DoricTestElements {
         ColumnTypeError("int", StringType, IntegerType)
       )
     }
+
+    it("should fail") {
+      1 shouldBe 2
+    }
   }
 
 }
