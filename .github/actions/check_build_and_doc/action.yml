@@ -62,18 +62,19 @@ runs:
         paths: "./core/target/test-reports/**/TEST-*.xml"
         output: "test-summary.md"
 
+    - name: Add 2 GitHub step summary
+      if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
+      shell: bash
+      run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
+
     - name: Add summary link
       id: add_summary_link
       if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
       shell: bash
       run: |
-        sed '1s/^/| ${{ env.SPARK_VERSION }} | [/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
+        head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/' | sed '1s/^/| ${{ env.SPARK_VERSION }} | [/'> test-summary-${{ env.SPARK_VERSION }}.md
         printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
-
-    - name: Add 2 GitHub step summary
-      if: ${{ success() || failure() && steps.add_summary_link.conclusion == 'success' }}
-      shell: bash
-      run: cat test-summary-${{ env.SPARK_VERSION }}.md >> $GITHUB_STEP_SUMMARY
+        cat -e test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Upload test summary
       if: ${{ github.event_name == 'pull_request' && (success() || failure() && steps.add_summary_link.conclusion == 'success') }}
