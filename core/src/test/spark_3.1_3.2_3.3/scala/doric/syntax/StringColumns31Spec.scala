@@ -32,6 +32,10 @@ class StringColumns31Spec
 
       doricErr.getMessage shouldBe sparkErr.getMessage
     }
+
+    it("should fail") {
+      1 shouldBe 2
+    }
   }
 
 }
