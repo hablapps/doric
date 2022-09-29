@@ -72,8 +72,9 @@ runs:
       if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
       shell: bash
       run: |
-        head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/' | sed '1s/^/| ${{ env.SPARK_VERSION }} | [/'> test-summary-${{ env.SPARK_VERSION }}.md
-        printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
+        img=$(head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/')
+        url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        echo "| ${{ env.SPARK_VERSION }} | [${img}](${url}) |" > test-summary-${{ env.SPARK_VERSION }}.md
         cat -e test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Upload test summary
