@@ -56,7 +56,7 @@ runs:
 
     - name: Test Summary
       id: test_summary
-      if: steps.test_coverage.conclusion == 'success'
+      if: ${{ success() || failure() && steps.test_coverage.conclusion == 'failure' }}
       uses: test-summary/action@v1
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
@@ -64,19 +64,19 @@ runs:
 
     - name: Add summary link
       id: add_summary_link
-      if: steps.test_summary.conclusion == 'success'
+      if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
       shell: bash
       run: |
         sed '1s/^/| ${{ env.SPARK_VERSION }} | [/' test-summary.md > test-summary-${{ env.SPARK_VERSION }}.md
         printf "](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n" >> test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Add 2 GitHub step summary
-      if: steps.add_summary_link.conclusion == 'success'
+      if: ${{ success() || failure() && steps.add_summary_link.conclusion == 'success' }}
       shell: bash
       run: cat test-summary-${{ env.SPARK_VERSION }}.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload test summary
-      if: github.event_name == 'pull_request' && steps.add_summary_link.conclusion == 'success'
+      if: ${{ github.event_name == 'pull_request' && (success() || failure() && steps.add_summary_link.conclusion == 'success') }}
       uses: actions/upload-artifact@v3
       with:
         name: "test-summary-${{ env.SPARK_VERSION }}.md"
