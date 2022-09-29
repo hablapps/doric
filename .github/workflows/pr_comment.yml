@@ -114,6 +114,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
 #          names: test-summary-*.md
+          workflow_conclusion: ""
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ${{ github.event.workflow.id }}
           commit: ${{ github.event.workflow_run.head_commit.id }}
