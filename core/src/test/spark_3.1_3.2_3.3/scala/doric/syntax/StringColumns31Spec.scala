@@ -1,9 +1,8 @@
 package doric
 package syntax
 
-import org.scalatest.EitherValues
+import org.scalatest.{Assertion, EitherValues}
 import org.scalatest.matchers.should.Matchers
-
 import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.types.NullType
 
@@ -15,7 +14,16 @@ class StringColumns31Spec
   describe("raiseError doric function") {
     import spark.implicits._
 
-    val df = List("this is an error").toDF("errorMsg")
+    lazy val errorMsg = "this is an error"
+    lazy val df       = List(errorMsg).toDF("errorMsg")
+
+    def validateExceptions(
+        doricExc: RuntimeException,
+        sparkExc: RuntimeException
+    ): Assertion = {
+      doricExc.getMessage should fullyMatch regex
+        s"""${sparkExc.getMessage}\n( )*at ${this.getClass.getSimpleName}.scala:(\\d)+"""
+    }
 
     it("should work as spark raise_error function") {
       import java.lang.{RuntimeException => exception}
@@ -30,7 +38,23 @@ class StringColumns31Spec
         df.select(f.raise_error(f.col("errorMsg"))).collect()
       }
 
-      doricErr.getMessage shouldBe sparkErr.getMessage
+      validateExceptions(doricErr, sparkErr)
+    }
+
+    it("should be available for strings") {
+      import java.lang.{RuntimeException => exception}
+
+      val doricErr = intercept[exception] {
+        val res = df.select(raiseError(errorMsg))
+
+        res.schema.head.dataType shouldBe NullType
+        res.collect()
+      }
+      val sparkErr = intercept[exception] {
+        df.select(f.raise_error(f.col("errorMsg"))).collect()
+      }
+
+      validateExceptions(doricErr, sparkErr)
     }
   }
 
