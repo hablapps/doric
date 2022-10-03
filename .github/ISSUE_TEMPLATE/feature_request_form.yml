@@ -9,13 +9,16 @@ body:
 #    attributes:
 #      value: |
 #        Thanks for contributing!
- - type: checkboxes
-   attributes:
-     label: Feature request duplicity
-     description: Please, check there is no other feature request like this one to avoid duplicates.
-     options:
-       - label: It seems this feature is not requested yet
-         required: true
+  - type: dropdown
+    attributes:
+      label: Feature request duplicity
+      description: Please, check there is no other feature request like this one to avoid duplicates.
+      options:
+        - "-"
+        - Yes
+        - No
+    validations:
+      required: true
   - type: textarea
     id: suggestion
     attributes:
