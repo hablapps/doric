@@ -10,10 +10,8 @@ assignees: ''
 <!--- Provide a general summary of the feature in the Title above  -->
 <!--- Please, label your feature request correctly if needed       -->
 <!------------------------------------------------------------------->
-
-Please, check there is no other feature request like this one to avoid duplicates: [see doric issues](https://github.com/hablapps/doric/issues)
-- It seems this feature is not requested yet:
-  - YES / NO
+⚠️🙏📚️ Please, before creating any issue read our [contribution guide](https://github.com/hablapps/doric/blob/main/CONTRIBUTING.md)
+Thanks for contributing!
 
 ## Expected Behavior
 <!--------------------------------->
