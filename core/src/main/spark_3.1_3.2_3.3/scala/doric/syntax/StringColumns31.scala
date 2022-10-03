@@ -32,12 +32,7 @@ private[syntax] trait StringColumns31 {
       * @see [[org.apache.spark.sql.functions.raise_error]]
       */
     def raiseError(implicit l: Location): NullColumn =
-      concat(
-        s,
-        "\n  at ".lit,
-        l.fileName.value.lit,
-        ":".lit,
-        l.lineNumber.value.toString.lit
-      ).elem.map(f.raise_error).toDC
+      ds"""$s
+  located at . ${l.getLocation.lit}""".elem.map(f.raise_error).toDC
   }
 }
