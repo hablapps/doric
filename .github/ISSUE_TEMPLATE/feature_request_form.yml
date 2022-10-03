@@ -1,4 +1,4 @@
-name: Feature request form
+name: 🆒🆙 Feature request form
 description: Create a feature request using a form. Use this option by default
 title: "[Feature request]: "
 labels: ["enhancement"]
@@ -9,24 +9,13 @@ body:
 #    attributes:
 #      value: |
 #        Thanks for contributing!
-# - type: checkboxes
-#   id: feature_request_not_duplicated
-#   attributes:
-#     label: Feature request duplicity
-#     description: Please, check there is no other feature request like this one to avoid duplicates.
-#     options:
-#       - label: It seems this feature is not requested yet
-#         required: true
-  - type: dropdown
-    id: feature_request_not_duplicated
-    attributes:
-      label: Feature request duplicity
-      description: Please, check there is no other feature request like this one to avoid duplicates.
-      options:
-        - NO
-        - YES
-    validations:
-      required: true
+ - type: checkboxes
+   attributes:
+     label: Feature request duplicity
+     description: Please, check there is no other feature request like this one to avoid duplicates.
+     options:
+       - label: It seems this feature is not requested yet
+         required: true
   - type: textarea
     id: suggestion
     attributes:

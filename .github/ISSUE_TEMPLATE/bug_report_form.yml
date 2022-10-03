@@ -1,4 +1,4 @@
-name: Bug Report form
+name: 🐛 Bug Report form
 description: Report a bug using a form. Use this option by default
 title: "[Bug report]: "
 labels: ["bug"]
@@ -9,24 +9,13 @@ body:
 #    attributes:
 #      value: |
 #        Thanks for your contribution!
-# - type: checkboxes
-#   id: issue_not_duplicated
-#   attributes:
-#     label: Issue duplicity
-#     description: Please, before creating a new issue, check if there is another one like this one.
-#     options:
-#       - label: I have checked the current created issues, and it seems there is no other issue like this one.
-#         required: true
-  - type: dropdown
-    id: issue_not_duplicated
+  - type: checkboxes
     attributes:
       label: Issue duplicity
       description: Please, before creating a new issue, check if there is another one like this one.
       options:
-        - NO
-        - YES
-    validations:
-      required: true
+        - label: It seems there is no other issue like this one
+          required: true
   - type: input
     id: version
     attributes:
