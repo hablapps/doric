@@ -15,15 +15,26 @@ jobs:
     with:
       scope: "test-uploadReport-uploadDoc"
 
+  matrix_prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        uses: JoshuaTheMiller/conditional-build-matrix@0.1.0
+        with:
+          filter: '[?scope==`test-uploadReport`]'
+
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:
     if: github.repository == 'hablapps/doric'
-    needs: [ publish-doc ]
+    needs: [ "publish-doc", "matrix_prep" ]
     strategy:
       fail-fast: true
-      matrix:
-        spark: [ "2.4", "3.0", "3.1", "3.2", "3.3" ]
-    runs-on: ubuntu-20.04
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 

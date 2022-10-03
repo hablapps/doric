@@ -1,0 +1,166 @@
+name: PR comment
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
+
+#permissions:
+#  pull-requests: write
+
+jobs:
+  create_test_summary_report:
+#    if: github.repository == 'hablapps/doric'
+    runs-on: ubuntu-latest
+    name: Create testing summary comment
+    steps:
+#      - name: [DEBUG] Dump GitHub context
+#        env:
+#          GITHUB_CONTEXT: ${{ toJson(github) }}
+#        run: |
+#          echo "$GITHUB_CONTEXT"
+
+      - name: Find Comment
+#        if: github.event_name == 'pull_request'
+#        if: ${{ github.event.workflow_run.conclusion == 'success/failure' }}
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body-includes: "This is an auto-generated comment"
+
+#      - uses: actions/checkout@v3
+#
+#      - name: Render template
+#        id: template
+#        uses: chuhlomin/render-template@v1.4
+#        with:
+#          template: .github/templates/pr_comment.md
+#          vars: |
+#            workflow: ${{ github.workflow }}
+#            run_url: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+#            attempt: ${{ github.event.workflow_run.run_attempt }}
+#            job_name: ${{ github.job }}
+
+      - name: Get current date
+        id: getDate
+        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S %z (%Z)')"
+
+      - name: Create summary comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          edit-mode: replace
+#          body: ${{ steps.template.outputs.result }}
+          body: |
+            :octocat: This is an auto-generated comment created by:
+            
+            - Date     : ${{ steps.getDate.outputs.current_date }}
+            - Workflow : ${{ github.workflow }}
+            - Job name : ${{ github.job }}
+            - Run      : [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Commit   : ${{ github.event.workflow_run.head_commit.id }} <!-- ${{ github.event.workflow_run.head_sha }} --> ${{ github.event.workflow_run.head_commit.message }}
+            
+            <table>
+            <tr>
+            <th>Actor</th>
+            <th>Triggering actor</th>
+            <th>Sender</th>
+            </tr>
+            <td style="text-align:center">
+            <a href="${{ github.event.workflow_run.actor.html_url }}">
+            <img src="${{ github.event.workflow_run.actor.avatar_url }}" alt="${{ github.event.workflow_run.actor.login }}" style="width:30px;height:30px;">
+            <br>
+            ${{ github.event.workflow_run.actor.login }}
+            </a>
+            </td>
+            <td style="text-align:center">
+            <a href="${{ github.event.workflow_run.triggering_actor.html_url }}">
+            <img src="${{ github.event.workflow_run.triggering_actor.avatar_url }}" alt="${{ github.event.workflow_run.triggering_actor.login }}" style="width:30px;height:30px;">
+            <br>
+            ${{ github.event.workflow_run.triggering_actor.login }}
+            </a>
+            </td>
+            <td style="text-align:center">
+            <a href="${{ github.event.sender.html_url }}">
+            <img src="${{ github.event.sender.avatar_url }}" alt="${{ github.event.sender.login }}" style="width:30px;height:30px;">
+            <br>
+            ${{ github.event.sender.login }}
+            </a>
+            </td>
+            <tr><td colspan="3">
+            Triggered by:
+            
+            - Workflow name: "${{ github.event.workflow_run.name }}" at ${{ github.event.workflow_run.path }}
+            - URL: [${{ github.event.workflow_run.html_url }}](${{ github.event.workflow_run.html_url }})
+            - on ${{ github.event_name }}:${{ github.event.action }} <!-- ${{ github.event.workflow_run.status }} -->
+            </td></tr>
+            </table>
+            
+            Test summary report 📊
+
+            | Spark version |    testing    |
+            |:-------------:|:-------------:|
+  update_test_summary_report:
+    needs: ["create_test_summary_report"]
+    runs-on: ubuntu-latest
+    name: Update comment
+    steps:
+      - name: Download artifact
+        id: download_artifacts
+        uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        with:
+#          names: test-summary-*.md
+          workflow_conclusion: ""
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ${{ github.event.workflow.id }}
+          commit: ${{ github.event.workflow_run.head_commit.id }}
+          repo: ${{github.repository}}
+          if_no_artifact_found: fail
+
+      - name: Get summary
+        if: steps.download_artifacts.conclusion == 'success'
+        id: summary
+        # The content must be escaped to preserve newlines. --> https://github.com/orgs/community/discussions/26288
+        run: |
+          body="$(cat test-summary-*.md/*)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "::set-output name=summary::$body"
+        shell: bash
+
+      - name: Find Comment
+        if: ${{ always() }}
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body-includes: "This is an auto-generated comment"
+
+      - name: Add test results
+        if: steps.fc.conclusion == 'success'
+        id: add_test_results
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          edit-mode: append
+          body: |
+            ${{ steps.summary.outputs.summary }}
+
+      - name: Add failed comment
+        if: ${{ failure() && steps.fc.conclusion == 'success' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          edit-mode: append
+          body: |
+            ---------
+            Something bad happened :interrobang: :flushed: :boom: :fire::fire::fire:
