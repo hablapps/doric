@@ -1,14 +1,15 @@
 name: 🆒🆙 Feature request form
-description: Create a feature request using a form. Use this option by default
+description: Create a feature request using a form. >> Use this option by default <<
 title: "[Feature request]: "
 labels: ["enhancement"]
 #assignees:
 #  - octocat
 body:
-#  - type: markdown
-#    attributes:
-#      value: |
-#        Thanks for contributing!
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️🙏📚 Please, before creating any issue read our [contribution guide](https://github.com/hablapps/doric/blob/main/CONTRIBUTING.md)
+        Thanks for contributing!
   - type: textarea
     id: suggestion
     attributes:
