@@ -1,18 +1,18 @@
 package doric
 package syntax
 
-import scala.language.dynamics
-
 import cats.data.Kleisli
 import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import doric.types.SparkType
-import org.apache.spark.sql.{Column, Dataset, Row}
 import org.apache.spark.sql.catalyst.expressions.ExtractValue
-import org.apache.spark.sql.functions.{struct => sparkStruct}
+import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
 import shapeless.labelled.FieldType
 import shapeless.{::, HList, LabelledGeneric, Witness}
+
+import scala.collection.JavaConverters._
+import scala.language.dynamics
 
 private[syntax] trait DStructs {
 
@@ -25,7 +25,7 @@ private[syntax] trait DStructs {
     *   A DStruct DoricColumn.
     */
   def struct(cols: DoricColumn[_]*): RowColumn =
-    cols.map(_.elem).toList.sequence.map(c => sparkStruct(c: _*)).toDC
+    cols.map(_.elem).toList.sequence.map(c => f.struct(c: _*)).toDC
 
   implicit class DStructOps[T](private val col: DoricColumn[T])(implicit
       st: SparkType.Custom[T, Row]
@@ -39,14 +39,14 @@ private[syntax] trait DStructs {
       * the column name expected to find in the struct.
       * @param location
       * the location if an error is generated
-      * @tparam T
+      * @tparam T2
       * the expected type of the child column.
       * @return
       * a reference to the child column of the provided type.
       */
-    def getChild[T: SparkType](
+    def getChild[T2: SparkType](
         subColumnName: String
-    )(implicit location: Location): DoricColumn[T] = {
+    )(implicit location: Location): DoricColumn[T2] = {
       (col.elem, subColumnName.lit.elem)
         .mapN((a, b) => (a, b))
         .mapK(toEither)
@@ -61,12 +61,12 @@ private[syntax] trait DStructs {
                     df.sparkSession.sessionState.analyzer.resolver
                   )
                 )
-                if (SparkType[T].isEqual(subColumn.expr.dataType))
+                if (SparkType[T2].isEqual(subColumn.expr.dataType))
                   subColumn.asRight
                 else
                   ColumnTypeError(
                     subColumnName,
-                    SparkType[T].dataType,
+                    SparkType[T2].dataType,
                     subColumn.expr.dataType
                   ).leftNec
               } else {
@@ -87,6 +87,17 @@ private[syntax] trait DStructs {
     }
 
     def child: DynamicFieldAccessor[T] = new DynamicFieldAccessor(col)
+
+    /**
+      * Converts a column containing a StructType into a JSON string with the specified schema.
+      * @throws java.lang.IllegalArgumentException in the case of an unsupported type.
+      *
+      * @group Struct Type
+      * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv
+      * @todo scaladoc link (issue #135)
+      */
+    def toJson(options: Map[String, String] = Map.empty): StringColumn =
+      col.elem.map(x => f.to_json(x, options.asJava)).toDC
   }
 
   class DynamicFieldAccessor[T](dCol: DoricColumn[T])(implicit

@@ -1,17 +1,15 @@
 package doric
 package syntax
 
-import java.time.{Instant, LocalDate, ZoneId}
+import org.apache.spark.sql.types.{DataType, StructType}
+import org.apache.spark.sql.{Row, functions => f}
+
+import java.sql.Timestamp
 import java.time.format.DateTimeFormatter
-import org.scalatest.EitherValues
-import org.scalatest.matchers.should.Matchers
+import java.time.{Instant, LocalDate, ZoneId}
+import scala.collection.JavaConverters._
 
-import org.apache.spark.sql.{functions => f}
-
-class StringColumnsSpec
-    extends DoricTestElements
-    with EitherValues
-    with Matchers {
+class StringColumnsSpec extends DoricTestElements {
 
   describe("concat doric function") {
     import spark.implicits._
@@ -185,9 +183,8 @@ class StringColumnsSpec
   }
 
   describe("locate doric function") {
-    import spark.implicits._
-
     import org.apache.spark.sql.functions.{locate => sparkLocate}
+    import spark.implicits._
 
     val df = List("hello world", "abcde hello hello", "other words", null)
       .toDF("col1")
@@ -887,6 +884,140 @@ class StringColumnsSpec
         hexColName => colString(hexColName).unHex,
         hexColName => f.unhex(f.col(hexColName)),
         List(Some(Array[Byte](95)), None, None)
+      )
+    }
+  }
+
+  describe("schemaOfJson doric function") {
+    import spark.implicits._
+
+    val df = List("column not read").toDF("col1")
+
+    it("should work as spark schema_of_json function") {
+      df.testColumns("[{'col':0}]")(
+        c => c.lit.schemaOfJson(),
+        c => f.schema_of_json(f.lit(c)),
+        List(Some("ARRAY<STRUCT<col: BIGINT>>"))
+      )
+    }
+  }
+
+  describe("fromJson doric function") {
+    import spark.implicits._
+
+    val df =
+      List("{\"a\": 1,\"b\": \"a\",\"date\": \"26/08/2015\"}").toDF("col1")
+
+    it("should work as spark from_json(column) function") {
+      df.testColumns2("col1", "a INTEGER, b STRING, date STRING")(
+        (c, schema) => colString(c).fromJson(schema.lit),
+        (c, schema) => f.from_json(f.col(c), f.lit(schema)),
+        List(Some(Row(1, "a", "26/08/2015")))
+      )
+    }
+
+    it("should work as spark from_json(column) function with options") {
+      df.testColumns3(
+        "col1",
+        "a INTEGER, b STRING, date Timestamp",
+        Map("timestampFormat" -> "dd/MM/yyyy")
+      )(
+        (c, schema, options) => colString(c).fromJson(schema.lit, options),
+        (c, schema, options) =>
+          f.from_json(f.col(c), f.lit(schema), options.asJava),
+        List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
+      )
+    }
+
+    it("should work as spark from_csv(structType) function") {
+      df.testColumns2(
+        "col1",
+        StructType.fromDDL("a INTEGER, b STRING, date STRING")
+      )(
+        (c, schema) => colString(c).fromJson2(schema),
+        (c, schema) => f.from_json(f.col(c), schema, Map.empty[String, String]),
+        List(Some(Row(1, "a", "26/08/2015")))
+      )
+    }
+
+    it("should work as spark from_csv(structType) function with options") {
+      df.testColumns3(
+        "col1",
+        StructType.fromDDL("a INTEGER, b STRING, date Timestamp"),
+        Map("timestampFormat" -> "dd/MM/yyyy")
+      )(
+        (c, schema, options) => colString(c).fromJson2(schema, options),
+        (c, schema, options) => f.from_json(f.col(c), schema, options),
+        List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
+      )
+    }
+
+    it("should work as spark from_csv(dataType) function") {
+      df.testColumns2(
+        "col1",
+        DataType.fromDDL("a INTEGER, b STRING, date STRING")
+      )(
+        (c, schema) => colString(c).fromJson3(schema),
+        (c, schema) => f.from_json(f.col(c), schema, Map.empty[String, String]),
+        List(Some(Row(1, "a", "26/08/2015")))
+      )
+    }
+
+    it("should work as spark from_csv(dataType) function with options") {
+      df.testColumns3(
+        "col1",
+        DataType.fromDDL("a INTEGER, b STRING, date Timestamp"),
+        Map("timestampFormat" -> "dd/MM/yyyy")
+      )(
+        (c, schema, options) => colString(c).fromJson3(schema, options),
+        (c, schema, options) => f.from_json(f.col(c), schema, options),
+        List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
+      )
+    }
+  }
+
+  describe("getJsonObject doric function") {
+    import spark.implicits._
+
+    val df = List(
+      "{\"a\": 1,\"b\": \"a\",\"date\": \"26/08/2015\"}",
+      "{\"a\": 2,\"b\": \"test\",\"date\": \"26/08/2015\"}",
+      "{\"a\": 3}"
+    ).toDF("col1")
+
+    it("should work as spark get_json_object function") {
+      df.testColumns2("col1", "$.b")(
+        (c, path) => colString(c).getJsonObject(path.lit),
+        (c, path) => f.get_json_object(f.col(c), path),
+        List(Some("a"), Some("test"), None)
+      )
+    }
+  }
+
+  describe("jsonTuple doric function") {
+    import spark.implicits._
+
+    val df = List(
+      "{\"a\": 1,\"b\": \"a\",\"date\": \"26/08/2015\"}",
+      "{\"a\": 2,\"b\": \"test\",\"date\": \"26/08/2015\"}",
+      "{\"a\": 3}"
+    ).toDF("col1")
+
+    it("should work as spark json_tuple function") {
+      val rows = df
+        .select(colString("col1").jsonTuple("a".lit, "b".lit))
+        .as[(String, String)]
+        .collect()
+        .toList
+      rows shouldBe df
+        .select(f.json_tuple(f.col("col1"), "a", "b"))
+        .as[(String, String)]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe List(
+        Some(("1", "a")),
+        Some(("2", "test")),
+        Some(("3", null))
       )
     }
   }

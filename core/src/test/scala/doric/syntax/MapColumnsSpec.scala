@@ -2,8 +2,10 @@ package doric
 package syntax
 
 import doric.implicitConversions._
+import org.apache.spark.sql.{Row, functions => f}
 
-import org.apache.spark.sql.{functions => f}
+import java.sql.Timestamp
+import scala.collection.JavaConverters._
 
 class MapColumnsSpec extends DoricTestElements with MapColumns {
 
@@ -164,6 +166,198 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
         c => colMapString[String](c).size,
         c => f.size(f.col(c)),
         List(Some(2), Some(0), Some(-1))
+      )
+    }
+  }
+
+  describe("mapEntries doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as spark map_entries function") {
+      df.testColumns("col1")(
+        c => colMapString[String](c).mapEntries,
+        c => f.map_entries(f.col(c)),
+        List(
+          Some(Array(Row("k1", "v1"), Row("k2", "v2"))),
+          Some(Array.empty[Row]),
+          None
+        )
+      )
+    }
+  }
+
+  describe("explode doric function (for maps)") {
+    import spark.implicits._
+
+    it("should work as spark explode function") {
+      val df = List(
+        ("1", Map("a" -> "b", "c" -> "d")),
+        ("2", Map.empty[String, String]),
+        ("3", null)
+      ).toDF("ix", "col")
+
+      val rows = df
+        .select(colString("ix"), colMapString[String]("col").explode)
+        .as[(String, String, String)]
+        .collect()
+        .toList
+      rows shouldBe df
+        .select(f.col("ix"), f.explode(f.col("col")))
+        .as[(String, String, String)]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe List(
+        Some("1", "a", "b"),
+        Some("1", "c", "d")
+      )
+    }
+  }
+
+  describe("explodeOuter doric function (for maps)") {
+    import spark.implicits._
+
+    it("should work as spark explode_outer function") {
+      val df = List(
+        ("1", Map("a" -> "b", "c" -> "d")),
+        ("2", Map.empty[String, String]),
+        ("3", null)
+      ).toDF("ix", "col")
+
+      val rows = df
+        .select(colString("ix"), colMapString[String]("col").explodeOuter)
+        .as[(String, String, String)]
+        .collect()
+        .toList
+      rows shouldBe df
+        .select(f.col("ix"), f.explode_outer(f.col("col")))
+        .as[(String, String, String)]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe List(
+        Some("1", "a", "b"),
+        Some("1", "c", "d"),
+        Some("2", null, null),
+        Some("3", null, null)
+      )
+    }
+  }
+
+  describe("posExplode doric function (for maps)") {
+    import spark.implicits._
+
+    it("should work as spark posexplode function") {
+      val df = List(
+        ("1", Map("a" -> "b", "c" -> "d")),
+        ("2", Map.empty[String, String]),
+        ("3", null)
+      ).toDF("ix", "col")
+
+      val rows = df
+        .select(colString("ix"), colMapString[String]("col").posExplode)
+        .as[(String, Int, String, String)]
+        .collect()
+        .toList
+      rows shouldBe df
+        .select(f.col("ix"), f.posexplode(f.col("col")))
+        .as[(String, Int, String, String)]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe List(
+        Some("1", 0, "a", "b"),
+        Some("1", 1, "c", "d")
+      )
+    }
+  }
+
+  describe("posExplodeOuter doric function (for maps)") {
+    import spark.implicits._
+
+    it("should work as spark posexplode_outer function") {
+      val df = List(
+        ("1", Map("a" -> "b", "c" -> "d")),
+        ("2", Map.empty[String, String]),
+        ("3", null)
+      ).toDF("ix", "col")
+
+      val rows = df
+        .select(colString("ix"), colMapString[String]("col").posExplodeOuter)
+        .as[(String, java.lang.Integer, String, String)]
+        .collect()
+        .toList
+      rows shouldBe df
+        .select(f.col("ix"), f.posexplode_outer(f.col("col")))
+        .as[(String, java.lang.Integer, String, String)]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe List(
+        Some("1", 0, "a", "b"),
+        Some("1", 1, "c", "d"),
+        Some("2", null, null, null),
+        Some("3", null, null, null)
+      )
+    }
+  }
+
+  describe("toJson(map) doric function") {
+
+    val dfUsers = List(
+      Map(
+        "user1" -> User2(
+          "name1",
+          "surname1",
+          1,
+          Timestamp.valueOf("2015-08-26 00:00:00")
+        ),
+        "user2" -> User2(
+          "name2",
+          "surname2",
+          2,
+          Timestamp.valueOf("2015-08-26 00:00:00")
+        )
+      ),
+      Map("user3" -> User2("name3", "surname3", 3, null))
+    )
+      .toDF("user")
+
+    it("should work as to_json spark function") {
+      dfUsers.testColumns("user")(
+        c => colMap[String, Row](c).toJson(),
+        c => f.to_json(f.col(c)),
+        List(
+          Some(
+            "{" +
+              """"user1":{"name":"name1","surname":"surname1","age":1,"birthday":"2015-08-26T00:00:00.000Z"},""" +
+              """"user2":{"name":"name2","surname":"surname2","age":2,"birthday":"2015-08-26T00:00:00.000Z"}""" +
+              "}"
+          ),
+          Some(
+            """{"user3":{"name":"name3","surname":"surname3","age":3}}"""
+          )
+        )
+      )
+    }
+
+    it("should work as to_json spark function with options") {
+      dfUsers.testColumns2("user", Map("timestampFormat" -> "dd/MM/yyyy"))(
+        (c, options) => colMap[String, Row](c).toJson(options),
+        (c, options) => f.to_json(f.col(c), options.asJava),
+        List(
+          Some(
+            "{" +
+              """"user1":{"name":"name1","surname":"surname1","age":1,"birthday":"26/08/2015"},""" +
+              """"user2":{"name":"name2","surname":"surname2","age":2,"birthday":"26/08/2015"}""" +
+              "}"
+          ),
+          Some(
+            """{"user3":{"name":"name3","surname":"surname3","age":3}}"""
+          )
+        )
       )
     }
   }

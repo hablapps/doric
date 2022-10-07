@@ -102,6 +102,8 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
     def as(colName: String): NamedDoricColumn[T] =
       NamedDoricColumn[T](column, colName)
 
+    // TODO as with sequence???
+
     /**
       * Gives the column an alias.
       *

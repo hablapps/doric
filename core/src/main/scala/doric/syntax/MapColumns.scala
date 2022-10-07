@@ -2,9 +2,10 @@ package doric
 package syntax
 
 import cats.implicits._
-
-import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.functions.{map_keys, map_values}
+import org.apache.spark.sql.{Column, Row, functions => f}
+
+import scala.collection.JavaConverters._
 
 private[syntax] trait MapColumns {
 
@@ -136,5 +137,64 @@ private[syntax] trait MapColumns {
       * @see [[org.apache.spark.sql.functions.size]]
       */
     def size: IntegerColumn = map.elem.map(f.size).toDC
+
+    /**
+      * Returns an unordered array of all entries in the given map.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.map_entries]]
+      */
+    def mapEntries: ArrayColumn[Row] = map.elem.map(f.map_entries).toDC
+
+    /**
+      * Creates a new row for each element in the given map column.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.explode]]
+      * @todo This function actually does not return a single column but two columns
+      */
+    def explode: DoricColumn[K] = map.elem.map(f.explode).toDC
+
+    /**
+      * Creates a new row for each element in the given map column.
+      * Unlike explode, if the array is null or empty then null is produced.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.explode_outer]]
+      * @todo This function actually does not return a single column but two columns
+      */
+    def explodeOuter: RowColumn = map.elem.map(f.explode_outer).toDC
+
+    /**
+      * Creates a new row for each element with position in the given map column.
+      * @note Uses the default column name pos for position, and key and value for elements in the map unless specified otherwise.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.posexplode]]
+      * @todo This function actually does not return a single column but three columns
+      */
+    def posExplode: DoricColumn[K] = map.elem.map(f.posexplode).toDC
+
+    /**
+      * Creates a new row for each element with position in the given map column.
+      * Unlike posexplode, if the map is null or empty then the row (null, null) is produced.
+      * @note Uses the default column name pos for position, and key and value for elements in the map unless specified otherwise.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.posexplode_outer]]
+      * @todo This function actually does not return a single column but three columns
+      */
+    def posExplodeOuter: RowColumn = map.elem.map(f.posexplode_outer).toDC
+
+    /**
+      * Converts a column containing a StructType into a JSON string with the specified schema.
+      * @throws java.lang.IllegalArgumentException in the case of an unsupported type.
+      *
+      * @group Map Type
+      * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv
+      * @todo scaladoc link (issue #135)
+      */
+    def toJson(options: Map[String, String] = Map.empty): StringColumn =
+      map.elem.map(x => f.to_json(x, options.asJava)).toDC
   }
 }

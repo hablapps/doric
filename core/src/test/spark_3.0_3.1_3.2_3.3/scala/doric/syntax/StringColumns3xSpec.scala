@@ -1,10 +1,13 @@
 package doric
 package syntax
 
+import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.{Row, functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-import org.apache.spark.sql.{functions => f}
+import java.sql.Timestamp
+import scala.collection.JavaConverters._
 
 class StringColumns3xSpec
     extends DoricTestElements
@@ -79,6 +82,96 @@ class StringColumns3xSpec
           Array("12345"),
           null
         ).map(Option(_))
+      )
+    }
+  }
+
+  describe("schemaOfCsv doric function") {
+    import spark.implicits._
+
+    val df = List("column not read").toDF("col1")
+
+    it("should work as spark schema_of_csv function") {
+      df.testColumns("hello,world")(
+        c => c.lit.schemaOfCsv(),
+        c => f.schema_of_csv(f.lit(c)),
+        List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
+      )
+    }
+
+    it("should work as spark schema_of_csv function using options") {
+      df.testColumns2("hello|world", Map("sep" -> "|"))(
+        (c, options) => c.lit.schemaOfCsv(options),
+        (c, options) => f.schema_of_csv(f.lit(c), options.asJava),
+        List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
+      )
+    }
+  }
+
+  describe("schemaOfJson doric function with options") {
+    import spark.implicits._
+
+    val df = List("column not read").toDF("col1")
+
+    it("should work as spark schema_of_json function") {
+      df.testColumns2(
+        "[{'col':01}]",
+        Map("allowNumericLeadingZeros" -> "true")
+      )(
+        (c, options) => c.lit.schemaOfJson(options),
+        (c, options) => f.schema_of_json(f.lit(c), options.asJava),
+        List(Some("ARRAY<STRUCT<col: BIGINT>>"))
+      )
+    }
+  }
+
+  describe("fromCsv doric function") {
+    import spark.implicits._
+
+    val df = List("1,a,26/08/2015").toDF("col1")
+
+    it("should work as spark from_csv(column) function") {
+      df.testColumns2("col1", "a INTEGER, b STRING, date STRING")(
+        (c, schema) => colString(c).fromCsv(schema.lit),
+        (c, schema) =>
+          f.from_csv(f.col(c), f.lit(schema), Map.empty[String, String].asJava),
+        List(Some(Row(1, "a", "26/08/2015")))
+      )
+    }
+
+    it("should work as spark from_csv(column) function with options") {
+      df.testColumns3(
+        "col1",
+        "a INTEGER, b STRING, date Timestamp",
+        Map("timestampFormat" -> "dd/MM/yyyy")
+      )(
+        (c, schema, options) => colString(c).fromCsv(schema.lit, options),
+        (c, schema, options) =>
+          f.from_csv(f.col(c), f.lit(schema), options.asJava),
+        List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
+      )
+    }
+
+    it("should work as spark from_csv(structType) function") {
+      df.testColumns2(
+        "col1",
+        StructType.fromDDL("a INTEGER, b STRING, date STRING")
+      )(
+        (c, schema) => colString(c).fromCsv2(schema),
+        (c, schema) => f.from_csv(f.col(c), schema, Map.empty[String, String]),
+        List(Some(Row(1, "a", "26/08/2015")))
+      )
+    }
+
+    it("should work as spark from_csv(structType) function with options") {
+      df.testColumns3(
+        "col1",
+        StructType.fromDDL("a INTEGER, b STRING, date Timestamp"),
+        Map("timestampFormat" -> "dd/MM/yyyy")
+      )(
+        (c, schema, options) => colString(c).fromCsv2(schema, options),
+        (c, schema, options) => f.from_csv(f.col(c), schema, options),
+        List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
       )
     }
   }

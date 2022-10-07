@@ -2,9 +2,11 @@ package doric
 package syntax
 
 import cats.implicits._
-
-import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.types.{DataType, StructType}
+import org.apache.spark.sql.{Column, functions => f}
+
+import scala.collection.JavaConverters._
 
 private[syntax] trait StringColumns {
 
@@ -99,12 +101,6 @@ private[syntax] trait StringColumns {
     *   Doric String column
     */
   implicit class StringOperationsSyntax(s: DoricColumn[String]) {
-
-    /**
-      * ********************************************************
-      *             SPARK SQL EQUIVALENT FUNCTIONS
-      * ********************************************************
-      */
 
     /**
       * Computes the numeric value of the first character of the string column,
@@ -530,12 +526,6 @@ private[syntax] trait StringColumns {
         .toDC
 
     /**
-      * ********************************************************
-      *                     DORIC FUNCTIONS
-      * ********************************************************
-      */
-
-    /**
       * Similar to concat doric function, but only with two columns
       *
       * @group String Type
@@ -612,5 +602,94 @@ private[syntax] trait StringColumns {
       * @see [[org.apache.spark.sql.functions.unhex]]
       */
     def unHex: BinaryColumn = s.elem.map(f.unhex).toDC
+
+    /**
+      * Parses a column containing a CSV string into a StructType with the specified schema.
+      *
+      * @note Returns null, in the case of an unparseable string
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.from_json]]
+      */
+    def fromJson(
+        schema: StringColumn,
+        options: Map[String, String] = Map.empty
+    ): RowColumn =
+      (s.elem, schema.elem)
+        .mapN((x, y) => f.from_json(x, y, options.asJava))
+        .toDC
+
+    /**
+      * Parses a column containing a CSV string into a StructType with the specified schema.
+      *
+      * @note Returns null, in the case of an unparseable string
+      *
+      * @group String Type
+      * @see org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.StructType,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.from_json
+      * @todo here we have an error because of same function name
+      * @todo scaladoc link (issue #135)
+      */
+    def fromJson2(
+        schema: StructType,
+        options: Map[String, String] = Map.empty
+    ): RowColumn = {
+      s.elem.map(x => f.from_json(x, schema, options)).toDC
+    }
+
+    /**
+      * Parses a column containing a CSV string into a StructType with the specified schema.
+      *
+      * @note Returns null, in the case of an unparseable string
+      *
+      * @group String Type
+      * @see org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.DataType,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.from_json
+      * @todo here we have an error because of same function name
+      * @todo scaladoc link (issue #135)
+      */
+    def fromJson3(
+        schema: DataType,
+        options: Map[String, String] = Map.empty
+    ): RowColumn =
+      s.elem.map(x => f.from_json(x, schema, options)).toDC
+
+    /**
+      * Extracts json object from a json string based on json path specified, and returns json string
+      * of the extracted json object.
+      * @note It will return null if the input json string is invalid.
+      * @example {{{
+      *  df.withColumn("test", colString("col1").getJsonObject[String](colString("col2")))
+      *    .show(false)
+      * +-----------------------------------------+----*----*
+      * |col1                                     |col2|test|
+      * +-----------------------------------------+----*----*
+      * |{"a": 1,"b": "a","date": "26/08/2015"}   |$.a |1   |
+      * |{"a": 2,"b": "test","date": "26/08/2015"}|$.b |test|
+      * |{"a": 3}                                 |$.b |null|
+      * +-----------------------------------------+----*----*
+      * }}}
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.get_json_object]]
+      */
+    def getJsonObject(path: StringColumn): StringColumn = {
+      path.getValueIfLiteral.foreach(str => require(str.startsWith("$.")))
+      (s.elem, path.elem)
+        .mapN((x, y) => new Column(GetJsonObject(x.expr, y.expr)))
+        .toDC
+    }
+
+    /**
+      * Creates a new row for a json column according to the given field names.
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.json_tuple]]
+      * @todo It does not return one column but N columns
+      */
+    def jsonTuple(name: StringColumn, names: StringColumn*): StringColumn = {
+      (s +: name +: names).toList
+        .traverse(_.elem)
+        .map(x => new Column(JsonTuple(x.map(_.expr))))
+        .toDC
+    }
   }
 }

@@ -1,16 +1,16 @@
 package doric
 package syntax
 
-import scala.language.higherKinds
-import scala.reflect.ClassTag
-
 import cats.data.Kleisli
 import cats.implicits._
 import doric.types.{CollectionType, LiteralSparkType, SparkType}
-
-import org.apache.spark.sql.{Column, Dataset, functions => f}
-import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
+import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
+
+import scala.collection.JavaConverters._
+import scala.language.higherKinds
+import scala.reflect.ClassTag
 
 protected final case class Zipper[T1, T2, F[_]: CollectionType](
     col: DoricColumn[F[T1]],
@@ -489,6 +489,27 @@ private[syntax] trait ArrayColumns {
     def explodeOuter: DoricColumn[T] = col.elem.map(f.explode_outer).toDC
 
     /**
+      * Creates a new row for each element with position in the given array column.
+      * @note Uses the default column name pos for position, and col for elements in the array and unless specified otherwise
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.posexplode]]
+      * @todo This function actually does not return a single column but two columns
+      */
+    def posExplode: DoricColumn[T] = col.elem.map(f.posexplode).toDC
+
+    /**
+      * Creates a new row for each element with position in the given array column.
+      * Unlike posexplode, if the array is null or empty then the row (null, null) is produced.
+      * @note Uses the default column name pos for position, and col for elements in the array and unless specified otherwise
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.posexplode_outer]]
+      * @todo This function actually does not return a single column but two columns
+      */
+    def posExplodeOuter: DoricColumn[T] = col.elem.map(f.posexplode_outer).toDC
+
+    /**
       * Returns an array with reverse order of elements.
       *
       * @group Array Type
@@ -548,6 +569,81 @@ private[syntax] trait ArrayColumns {
     ): Zipper[T, T2, F] = {
       Zipper(col, col2)
     }
+
+    /**
+      * Returns a merged array of structs in which the N-th struct contains all N-th values of input arrays.
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.arrays_zip]]
+      */
+    def zip(
+        other: DoricColumn[F[T]],
+        others: DoricColumn[F[T]]*
+    ): DoricColumn[F[Row]] = {
+      val cols = col +: (other +: others)
+      cols.toList.traverse(_.elem).map(f.arrays_zip).toDC
+    }
+
+    /**
+      * Creates a new map column.
+      * The array in the first column is used for keys.
+      * The array in the second column is used for values.
+      *
+      * @throws RuntimeException if arrays doesn't have the same length.
+      * @throws RuntimeException if a key is null
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.map_from_arrays]]
+      */
+    def mapFromArrays[V](values: DoricColumn[F[V]]): MapColumn[T, V] =
+      (col.elem, values.elem).mapN(f.map_from_arrays).toDC
+
+    /**
+      * Creates a new map column.
+      * The array in the first column is used for keys.
+      * The array in the second column is used for values.
+      *
+      * @throws RuntimeException if arrays doesn't have the same length.
+      * @throws RuntimeException if a key is null
+      *
+      * @group Array Type
+      * @see [[mapFromArrays]]
+      */
+    def toMap[V](values: DoricColumn[F[V]]): MapColumn[T, V] =
+      mapFromArrays(values)
+
+    /**
+      * Converts a column containing a StructType into a JSON string with the specified schema.
+      * @throws IllegalArgumentException in the case of an unsupported type.
+      *
+      * @group Array Type
+      * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv
+      * @todo scaladoc link (issue #135)
+      */
+    def toJson(options: Map[String, String] = Map.empty): StringColumn =
+      col.elem.map(x => f.to_json(x, options.asJava)).toDC
+  }
+
+  /**
+    * Extension methods for arrays
+    *
+    * @group Array Type
+    */
+  implicit class ArrayColumnTupleSyntax[K, V, F[_]: CollectionType](
+      private val col: DoricColumn[F[(K, V)]]
+  ) {
+
+    /**
+      * Returns a map created from the given array of entries.
+      * All elements in the array for key should not be null.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.map_from_entries]]
+      */
+    def mapFromEntries: MapColumn[K, V] = col.elem.map(f.map_from_entries).toDC
+
+    @inline def toMap: MapColumn[K, V] = mapFromEntries
+
   }
 
   implicit class ArrayArrayColumnSyntax[G[_]: CollectionType, F[_]

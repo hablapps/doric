@@ -28,3 +28,4 @@ private[doric] trait All
     with MapColumns3x
     with StringColumn3x
     with AggregationColumns32
+    with DStructs3x

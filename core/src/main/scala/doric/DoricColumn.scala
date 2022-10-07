@@ -9,6 +9,7 @@ import doric.types.{LiteralSparkType, SparkType}
 import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.catalyst.analysis.UnresolvedAttribute
 import org.apache.spark.sql.types.DataType
+import org.apache.spark.sql.{Column, Dataset}
 
 sealed trait DoricColumn[T] {
   val elem: Doric[Column]
