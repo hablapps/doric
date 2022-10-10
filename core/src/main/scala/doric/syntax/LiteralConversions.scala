@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import doric.sem.Location
+import doric.types.SparkType.Primitive
 import doric.types.{LiteralSparkType, SparkType}
 
 private[syntax] trait LiteralConversions {
@@ -35,6 +36,14 @@ private[syntax] trait LiteralConversions {
     def lit(implicit l: Location): LiteralDoricColumn[L] = LiteralDoricColumn(
       litv
     )
+  }
+
+  implicit class DoricColLiteralGetter[T: Primitive](dCol: DoricColumn[T]) {
+    @inline def getValueIfLiteral: Option[T] = dCol match {
+      case literal: LiteralDoricColumn[T] =>
+        Some(literal.columnValue)
+      case _ => None
+    }
   }
 
 }

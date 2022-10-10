@@ -4,7 +4,7 @@ import sbt.Compile
 
 val stableVersion = "0.0.5"
 
-val sparkDefaultShortVersion = "3.2"
+val sparkDefaultShortVersion = "3.3"
 val spark24Version           = "2.4.8"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
