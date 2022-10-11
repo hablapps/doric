@@ -15,11 +15,23 @@ jobs:
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-#      - name: [DEBUG] Dump GitHub context
-#        env:
-#          GITHUB_CONTEXT: ${{ toJson(github) }}
-#        run: |
-#          echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v3
+
+      - name: Find Current Pull Request
+        uses: jwalton/gh-find-current-pr@v1.3.0
+        id: findPr
+        with:
+          state: open
+
+      - run: echo "Your PR is ${PR}"
+        if: success() && steps.findPr.outputs.number
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
+
+      - name: <DEBUG> Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       - name: Find Comment
 #        if: github.event_name == 'pull_request'
