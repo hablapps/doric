@@ -29,9 +29,42 @@ jobs:
         uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
         with:
           filter: '[]'
+  context_dump:
+    runs-on: ubuntu-latest
+    steps:
+#      - name: <DEBUG> Dump GitHub context
+#        env:
+#          GITHUB_CONTEXT: ${{ toJson(github) }}
+#        run: |
+#          echo "$GITHUB_CONTEXT"
+#        shell: bash
+
+      - name: PR json
+        shell: bash
+        run: |
+          echo "{
+            \"pr_number\": ${{ github.event.number }},
+            \"from_branch\": \"${{ github.head_ref }}\",
+            \"to_branch\": \"${{ github.base_ref }}\",
+            \"html\": \"${{ github.event.pull_request._links.html.href }}\",
+            \"additions\": ${{ github.event.pull_request.additions }},
+            \"deletions\": ${{ github.event.pull_request.deletions }},
+            \"changed_files\": ${{ github.event.pull_request.changed_files }},
+            \"commits\": ${{ github.event.pull_request.commits }},
+            \"created_at\": \"${{ github.event.pull_request.created_at }}\",
+            \"is_draft\": ${{ github.event.pull_request.draft }}
+          }" > pr_context.json
+
+      - name: Upload PR context
+        uses: actions/upload-artifact@v3
+        with:
+          name: "pr_context.json"
+          path: "pr_context.json"
+          if-no-files-found: error
+          retention-days: 1
   build:
     #if: github.event.pull_request.draft == false
-    needs: ["matrix_prep"]
+    needs: ["matrix_prep", "context_dump"]
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}

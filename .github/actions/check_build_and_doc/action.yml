@@ -15,13 +15,13 @@ runs:
         echo ""
       shell: bash
 
-    - name: <DEBUG> Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: |
-        echo "$GITHUB_CONTEXT"
-      shell: bash
-
+#    - name: <DEBUG> Dump GitHub context
+#      env:
+#        GITHUB_CONTEXT: ${{ toJson(github) }}
+#      run: |
+#        echo "$GITHUB_CONTEXT"
+#      shell: bash
+#
 #    - name: Get Current Job Log URL
 #      uses: Tiryoh/gha-jobid-action@v0.1.0
 #      id: jobs
