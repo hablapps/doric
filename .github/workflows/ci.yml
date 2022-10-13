@@ -44,6 +44,10 @@ jobs:
         run: |
           echo "{
             \"pr_number\": ${{ github.event.number }},
+            \"before\": \"${{ github.event.before }}\",
+            \"after\": \"${{ github.event.after }}\",
+            \"sha\": \"${{ GITHUB_SHA }}\",
+            \"ref\": \"${{ GITHUB_REF }}\",
             \"from_branch\": \"${{ github.head_ref }}\",
             \"to_branch\": \"${{ github.base_ref }}\",
             \"html\": \"${{ github.event.pull_request._links.html.href }}\",

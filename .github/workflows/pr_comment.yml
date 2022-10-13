@@ -34,7 +34,7 @@ jobs:
         id: output_pr_context
         shell: bash
         run: |
-          content="$(cat pr_context.json)"
+          content="$(cat pr_context.json/pr_context.json)"
           echo "${content}"
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
@@ -158,7 +158,7 @@ jobs:
         id: output_pr_context
         shell: bash
         run: |
-          content="$(cat pr_context.json)"
+          content="$(cat pr_context.json/pr_context.json)"
           echo "${content}"
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
