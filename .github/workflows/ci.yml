@@ -44,12 +44,14 @@ jobs:
         run: |
           echo "{
             \"pr_number\": ${{ github.event.number }},
-            \"before\": \"${{ github.event.before }}\",
-            \"after\": \"${{ github.event.after }}\",
-            \"sha\": \"${{ GITHUB_SHA }}\",
-            \"ref\": \"${{ GITHUB_REF }}\",
-            \"from_branch\": \"${{ github.head_ref }}\",
-            \"to_branch\": \"${{ github.base_ref }}\",
+            \"head\": {
+              \"branch\": \"${{ github.head_ref }}\",
+              \"sha\": \"${{ github.event.after }}\"
+            },
+            \"remote\": {
+              \"branch\": \"${{ github.base_ref }}\",
+              \"sha\": \"${{ github.event.pull_request.base.sha }}\"
+            },
             \"html\": \"${{ github.event.pull_request._links.html.href }}\",
             \"additions\": ${{ github.event.pull_request.additions }},
             \"deletions\": ${{ github.event.pull_request.deletions }},

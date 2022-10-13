@@ -11,6 +11,7 @@ on:
 
 jobs:
   create_test_summary_report:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure'}}
 #    if: github.repository == 'hablapps/doric'
     runs-on: ubuntu-latest
     name: Create testing summary comment
@@ -34,7 +35,7 @@ jobs:
         id: output_pr_context
         shell: bash
         run: |
-          content="$(cat pr_context.json/pr_context.json)"
+          content="$(cat pr_context.json)"
           echo "${content}"
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
