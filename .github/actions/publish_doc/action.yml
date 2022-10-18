@@ -2,68 +2,22 @@ name: "Publish documentation 📑"
 description: "Generate and publish documentation"
 
 inputs:
-  spark-2_4:
-    description: 'Spark version 2.4.X'
-    required: true
-    default: "2.4"
-  spark-3_0:
-    description: 'Spark version 3.0.X'
-    required: true
-    default: "3.0"
-  spark-3_1:
-    description: 'Spark version 3.1.X'
-    required: true
-    default: "3.1"
-  spark-3_2:
-    description: 'Spark version 3.2.X'
-    required: true
-    default: "3.2"
-  spark-3_3:
-    description: 'Spark version 3.3.X'
-    required: true
-    default: "3.3"
   token:
     description: 'A Github PAT'
     required: true
-
 runs:
   using: "composite"
   steps:
-    # BUILD MDOC
+    # BUILD MDOC, sbt should take the latest version
     - name: Build the microsite 💻
-      run: sbt -DsparkVersion=${{ inputs.spark-3_3 }} docs/mdoc
+      run: sbt docs/mdoc
       shell: bash
 
-    # DOWNLOAD DOCS
-    - name: Download docs ⬇️ [${{ inputs.spark-2_4 }}]
+    # DOWNLOAD DOCS, this will download all the artifacts because no name provided
+    - name: Download docs ⬇️
       uses: actions/download-artifact@v3
       with:
-        name: "api_spark_${{ inputs.spark-2_4 }}"
-        path: "docs/target/mdoc/docs/api/${{ inputs.spark-2_4 }}/"
-
-    - name: Download docs ⬇️ [${{ inputs.spark-3_0 }}]
-      uses: actions/download-artifact@v3
-      with:
-        name: "api_spark_${{ inputs.spark-3_0 }}"
-        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_0 }}/"
-
-    - name: Download docs ⬇️ [${{ inputs.spark-3_1 }}]
-      uses: actions/download-artifact@v3
-      with:
-        name: "api_spark_${{ inputs.spark-3_1 }}"
-        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_1 }}/"
-
-    - name: Download docs ⬇️ [${{ inputs.spark-3_2 }}]
-      uses: actions/download-artifact@v3
-      with:
-        name: "api_spark_${{ inputs.spark-3_2 }}"
-        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_2 }}/"
-
-    - name: Download docs ⬇️ [${{ inputs.spark-3_3 }}]
-      uses: actions/download-artifact@v3
-      with:
-        name: "api_spark_${{ inputs.spark-3_3 }}"
-        path: "docs/target/mdoc/docs/api/${{ inputs.spark-3_3 }}/"
+        path: "docs/target/mdoc/docs/api/"
 
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀

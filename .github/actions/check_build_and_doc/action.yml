@@ -56,20 +56,20 @@ runs:
 
     - name: Test Summary
       id: test_summary
-      if: ${{ success() || failure() && steps.test_coverage.conclusion == 'failure' }}
+      if: ${{ success() && steps.test_coverage.conclusion == 'success' || failure() && steps.test_coverage.conclusion == 'failure' }}
       uses: test-summary/action@v1
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
         output: "test-summary.md"
 
     - name: Add 2 GitHub step summary
-      if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
+      if: ${{ (success() || failure()) && steps.test_summary.conclusion == 'success' }}
       shell: bash
       run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
     - name: Add summary link
       id: add_summary_link
-      if: ${{ success() || failure() && steps.test_summary.conclusion == 'success' }}
+      if: ${{ (success() || failure()) && steps.test_summary.conclusion == 'success' }}
       shell: bash
       run: |
         img=$(head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/')
@@ -78,7 +78,7 @@ runs:
         cat -e test-summary-${{ env.SPARK_VERSION }}.md
 
     - name: Upload test summary
-      if: ${{ github.event_name == 'pull_request' && (success() || failure() && steps.add_summary_link.conclusion == 'success') }}
+      if: ${{ github.event_name == 'pull_request' && ((success() || failure()) && steps.add_summary_link.conclusion == 'success') }}
       uses: actions/upload-artifact@v3
       with:
         name: "test-summary-${{ env.SPARK_VERSION }}.md"
@@ -105,13 +105,19 @@ runs:
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} core/doc
       shell: bash
 
+    - name: Prepare scaladocs
+      run: |
+        mkdir ${{ env.SPARK_VERSION }}
+        mv core/target/scala-* ${{ env.SPARK_VERSION }}/
+      shell: bash
+
       # UPLOAD DOCS
     - name: Upload docs ⬆️
       if: contains(env.SCOPE, 'uploadDoc')
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
-        path: "core/target/scala-*/api/*"
+        path: "${{ env.SPARK_VERSION }}/scala-*/api/*"
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯
