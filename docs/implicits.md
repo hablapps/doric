@@ -6,6 +6,8 @@ permalink: docs/syntax/
 
 ## Sweet doric syntactic sugar
 
+THIS IS A TEST
+
 Before delving into the specific topics of [validations](validations.md) 
 and [modularity](modularity.md), let's discuss some general considerations around syntax. 
 
@@ -238,7 +240,8 @@ Last, note that we can also emulate the default Spark behaviour, enabling implic
 with an explicit import statement:
 
 ```scala
-import doric.implicitConversions.implicitSafeCast
+import doric.implicitConversions.implicitSafeCast
+
 
 dfEq.withColumn("eq", colString("str") === colInt("int") ).show()
 // +---+---+-----+
@@ -295,7 +298,8 @@ However, we can also profit from the same literal syntax with the help of implic
 we have to _explicitly_ add the following import statement:
 
 ```scala
-import doric.implicitConversions.literalConversion
+import doric.implicitConversions.literalConversion
+
 val colSugarD = colInt("int") + 1
 // colSugarD: DoricColumn[Int] = TransformationDoricColumn(
 //   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@61e23a44)
