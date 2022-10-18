@@ -108,7 +108,7 @@ runs:
     - name: Prepare scaladocs
       run: |
         mkdir ${{ env.SPARK_VERSION }}
-        mv core/target/scala-* ${{ env.SPARK_VERSION }}/
+        mv core/target/scala-*/api/* ${{ env.SPARK_VERSION }}/
       shell: bash
 
       # UPLOAD DOCS
@@ -117,7 +117,7 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: "api_spark_${{ env.SPARK_VERSION }}"
-        path: "${{ env.SPARK_VERSION }}/scala-*/api/*"
+        path: "${{ env.SPARK_VERSION }}"
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯
