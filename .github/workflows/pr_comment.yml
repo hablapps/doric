@@ -73,7 +73,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: replace
 #          body: ${{ steps.template.outputs.result }}
@@ -172,7 +172,7 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           body-includes: "This is an auto-generated comment"
 
       - name: Add test results
@@ -192,7 +192,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: append
           body: |
