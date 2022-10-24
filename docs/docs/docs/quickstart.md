@@ -116,7 +116,7 @@ are interpreted within the context of `withColumn`, `select`, etc.
 
 Since doric is intended as a replacement of the _whole_ DataFrame API, type-safe versions of Spark functions 
 for numbers, dates, strings, etc., are provided. To know all possible transformations, you can take a look at 
-the [DoricColumn API](https://www.hablapps.com/doric/docs/api/3.2/scala-2.12/api/doric/DoricColumn.html) .Occasionally, however, we might need to mix 
+the [DoricColumn API](https://www.hablapps.com/doric/docs/api/spark_3.2/scala-2.12/doric/DoricColumn.html) .Occasionally, however, we might need to mix 
 both doric and Spark column expressions. There is no problem with that, as this example shows: 
 
 ```scala mdoc
