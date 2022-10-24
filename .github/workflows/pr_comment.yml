@@ -11,27 +11,37 @@ on:
 
 jobs:
   create_test_summary_report:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure'}}
 #    if: github.repository == 'hablapps/doric'
     runs-on: ubuntu-latest
     name: Create testing summary comment
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Find Current Pull Request
-        uses: jwalton/gh-find-current-pr@v1.3.2
-        id: findPr
+#      - name: <DEBUG> Dump GitHub context
+#        env:
+#          GITHUB_CONTEXT: ${{ toJson(github) }}
+#        run: echo "$GITHUB_CONTEXT"
+      - name: Download PR context
+        uses: dawidd6/action-download-artifact@v2.23.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
-          state: open
+          name: pr_context.json
+          workflow_conclusion: ""
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ${{ github.event.workflow.id }}
+          commit: ${{ github.event.workflow_run.head_commit.id }}
+          repo: ${{github.repository}}
+          if_no_artifact_found: fail
 
-      - run: echo "Your PR is ${PR}"
-        if: success() && steps.findPr.outputs.number
-        env:
-          PR: ${{ steps.findPr.outputs.pr }}
-
-      - name: <DEBUG> Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Output PR context
+        id: output_pr_context
+        shell: bash
+        run: |
+          content="$(cat pr_context.json)"
+          echo "${content}"
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=pr_context::$(echo "${content}")"
 
       - name: Find Comment
 #        if: github.event_name == 'pull_request'
@@ -39,7 +49,7 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           body-includes: "This is an auto-generated comment"
 
 #      - uses: actions/checkout@v3
@@ -142,8 +152,20 @@ jobs:
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
-          echo "::set-output name=summary::$body"
+          echo "::set-output name=summary::$(echo "${body}")"
         shell: bash
+
+      - name: Output PR context
+        id: output_pr_context
+        shell: bash
+        run: |
+          content="$(cat pr_context.json/pr_context.json)"
+          echo "${content}"
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=pr_context::$(echo "${content}")"
 
       - name: Find Comment
         if: ${{ always() }}
@@ -159,7 +181,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           token: "${{ secrets.GITHUB_TOKEN }}"
           edit-mode: append
           body: |

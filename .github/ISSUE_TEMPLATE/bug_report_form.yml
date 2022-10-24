@@ -1,5 +1,5 @@
 name: 🐛 Bug Report form
-description: Report a bug using a form. Use this option by default
+description: Report a bug using a form. >> Use this option by default <<
 title: "[Bug report]: "
 labels: ["bug"]
 #assignees:
