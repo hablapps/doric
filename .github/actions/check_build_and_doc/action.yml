@@ -105,7 +105,11 @@ runs:
       run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} core/doc
       shell: bash
 
+      # UPLOAD DOCS
+
     - name: Prepare scaladocs
+      if: contains(env.SCOPE, 'uploadDoc')
+      id: prepare_docs
       run: |
         SCALA_VERSIONS=$(ls -d core/target/scala-*/)
         for scala_path in ${SCALA_VERSIONS}; do
@@ -115,9 +119,8 @@ runs:
         done
       shell: bash
 
-      # UPLOAD DOCS
     - name: Upload docs ⬆️
-      if: contains(env.SCOPE, 'uploadDoc')
+      if: steps.prepare_docs.conclusion == 'success'
       uses: actions/upload-artifact@v3
       with:
         name: "spark_${{ env.SPARK_VERSION }}"
@@ -126,4 +129,5 @@ runs:
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯
+      if: ${{ always() }}
       uses: ./.github/actions/clean_cache

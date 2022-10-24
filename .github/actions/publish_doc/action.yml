@@ -19,12 +19,6 @@ runs:
       with:
         path: "docs/target/mdoc/docs/api/"
 
-    - name: Debug
-      run: |
-        ls -l docs/target/mdoc/docs/api/
-        find docs/target/mdoc/docs/api/ -maxdepth 4 -type d -exec ls -ld "{}" \;
-      shell: bash
-
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4.4.1
