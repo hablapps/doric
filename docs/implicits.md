@@ -6,8 +6,6 @@ permalink: docs/syntax/
 
 ## Sweet doric syntactic sugar
 
-THIS IS A TEST
-
 Before delving into the specific topics of [validations](validations.md) 
 and [modularity](modularity.md), let's discuss some general considerations around syntax. 
 
@@ -87,7 +85,7 @@ val complexCol: DoricColumn[Int] =
       .transform(_ + 1.lit)
       .aggregate(0.lit)(_ + _)
 // complexCol: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@439b893a)
+//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@2cf7860e)
 // )
   
 dfArrays.select(complexCol as "complexTransformation").show()
@@ -240,8 +238,7 @@ Last, note that we can also emulate the default Spark behaviour, enabling implic
 with an explicit import statement:
 
 ```scala
-import doric.implicitConversions.implicitSafeCast
-
+import doric.implicitConversions.implicitSafeCast
 
 dfEq.withColumn("eq", colString("str") === colInt("int") ).show()
 // +---+---+-----+
@@ -280,7 +277,7 @@ The default doric syntax is a little stricter and forces us to transform these v
 ```scala
 val colD = colInt("int") + 1.lit
 // colD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@5bd390b)
+//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@38c86702)
 // )
 
 intDF.select(colD).show()
@@ -298,15 +295,14 @@ However, we can also profit from the same literal syntax with the help of implic
 we have to _explicitly_ add the following import statement:
 
 ```scala
-import doric.implicitConversions.literalConversion
-
+import doric.implicitConversions.literalConversion
 val colSugarD = colInt("int") + 1
 // colSugarD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@61e23a44)
+//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@5bd390b)
 // )
 val columConcatLiterals = concat("this", "is","doric") // concat expects DoricColumn[String] values, the conversion puts them as expected
 // columConcatLiterals: StringColumn = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@283dd82a)
+//   Kleisli(cats.data.Kleisli$$Lambda$2890/0x00000001012d2840@61e23a44)
 // ) // concat expects DoricColumn[String] values, the conversion puts them as expected
 
 intDF.select(colSugarD, columConcatLiterals).show()
