@@ -22,6 +22,9 @@ inputs:
     description: 'Spark version 3.3.X'
     required: true
     default: "3.3"
+  token:
+    description: 'A Github PAT'
+    required: true
 
 runs:
   using: "composite"
@@ -64,7 +67,8 @@ runs:
 
     # DEPLOY TO GITHUB PAGES
     - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: gh-pages # The branch the action should deploy to.
         folder: docs/target/mdoc # The folder the action should deploy.
+        token: ${{ inputs.token }}

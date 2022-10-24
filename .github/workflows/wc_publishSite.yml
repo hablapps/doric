@@ -46,3 +46,5 @@ jobs:
         # GENERATE & PUBLISH DOCUMENTATION
       - name: Publish documentation 📑
         uses: ./.github/actions/publish_doc
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
