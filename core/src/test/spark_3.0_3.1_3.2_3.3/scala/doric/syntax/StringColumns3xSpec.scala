@@ -95,7 +95,7 @@ class StringColumns3xSpec
       df.testColumns("hello,world")(
         c => c.lit.schemaOfCsv(),
         c => f.schema_of_csv(f.lit(c)),
-        List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
+        List(Some("struct<_c0: string, _c1: string>"))
       )
     }
 
@@ -103,7 +103,7 @@ class StringColumns3xSpec
       df.testColumns2("hello|world", Map("sep" -> "|"))(
         (c, options) => c.lit.schemaOfCsv(options),
         (c, options) => f.schema_of_csv(f.lit(c), options.asJava),
-        List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
+        List(Some("struct<_c0: string, _c1: string>"))
       )
     }
   }
@@ -120,7 +120,7 @@ class StringColumns3xSpec
       )(
         (c, options) => c.lit.schemaOfJson(options),
         (c, options) => f.schema_of_json(f.lit(c), options.asJava),
-        List(Some("ARRAY<STRUCT<col: BIGINT>>"))
+        List(Some("array<struct<col: bigint>>"))
       )
     }
   }

@@ -6,7 +6,7 @@ import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.types.{DataType, StructType}
 import org.apache.spark.sql.{Column, functions => f}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private[syntax] trait StringColumns {
 

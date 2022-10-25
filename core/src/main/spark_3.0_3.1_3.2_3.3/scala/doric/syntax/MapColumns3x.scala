@@ -2,9 +2,8 @@ package doric
 package syntax
 
 import cats.implicits._
-
-import org.apache.spark.sql.Column
 import org.apache.spark.sql.catalyst.expressions.{MapFilter, MapZipWith, TransformKeys, TransformValues}
+import org.apache.spark.sql.{Column, Row, functions => f}
 
 trait MapColumns3x {
 
@@ -128,6 +127,14 @@ trait MapColumns3x {
         new Column(TransformValues(a.expr, lam2(f.expr, x.expr, y.expr)))
       }.toDC
     }
+
+    /**
+      * Returns an unordered array of all entries in the given map.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.map_entries]]
+      */
+    def mapEntries: ArrayColumn[Row] = map.elem.map(f.map_entries).toDC
 
   }
 }

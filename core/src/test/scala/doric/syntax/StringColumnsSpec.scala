@@ -897,7 +897,7 @@ class StringColumnsSpec extends DoricTestElements {
       df.testColumns("[{'col':0}]")(
         c => c.lit.schemaOfJson(),
         c => f.schema_of_json(f.lit(c)),
-        List(Some("ARRAY<STRUCT<col: BIGINT>>"))
+        List(Some("array<struct<col: bigint>>"))
       )
     }
   }

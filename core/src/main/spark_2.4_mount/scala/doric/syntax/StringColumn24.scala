@@ -3,7 +3,7 @@ package syntax
 
 import cats.implicits._
 
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.StringSplit
 
 trait StringColumn24 {

@@ -139,14 +139,6 @@ private[syntax] trait MapColumns {
     def size: IntegerColumn = map.elem.map(f.size).toDC
 
     /**
-      * Returns an unordered array of all entries in the given map.
-      *
-      * @group Map Type
-      * @see [[org.apache.spark.sql.functions.map_entries]]
-      */
-    def mapEntries: ArrayColumn[Row] = map.elem.map(f.map_entries).toDC
-
-    /**
       * Creates a new row for each element in the given map column.
       *
       * @group Map Type
