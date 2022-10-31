@@ -894,10 +894,16 @@ class StringColumnsSpec extends DoricTestElements {
     val df = List("column not read").toDF("col1")
 
     it("should work as spark schema_of_json function") {
+      val strFun: String => String = _.replaceAll(": ", ":").toLowerCase
+      val fixFun =
+        if (spark.version < "3.1.0") Some(strFun)
+        else None
+
       df.testColumns("[{'col':0}]")(
         c => c.lit.schemaOfJson(),
         c => f.schema_of_json(f.lit(c)),
-        List(Some("array<struct<col: bigint>>"))
+        List(Some("ARRAY<STRUCT<col: BIGINT>>")),
+        fixFun
       )
     }
   }
@@ -1019,6 +1025,21 @@ class StringColumnsSpec extends DoricTestElements {
         Some(("2", "test")),
         Some(("3", null))
       )
+    }
+
+    it("should work with columns") {
+      val df2 = List(
+        ("{\"a\": 1,\"b\": \"a\",\"date\": \"26/08/2015\"}", "a"),
+        ("{\"a\": 2,\"b\": \"test\",\"date\": \"26/08/2015\"}", "b"),
+        ("{\"a\": 3}", "j")
+      ).toDF("col1", "col2")
+      val rows = df2
+        .select(colString("col1").jsonTuple(colString("col2")))
+        .as[String]
+        .collect()
+        .toList
+      rows.map(Option(_)) shouldBe
+        List(Some("1"), Some("test"), None)
     }
   }
 

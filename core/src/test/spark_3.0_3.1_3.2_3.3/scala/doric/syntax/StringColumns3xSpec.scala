@@ -90,12 +90,24 @@ class StringColumns3xSpec
     import spark.implicits._
 
     val df = List("column not read").toDF("col1")
+    val strFun1: String => String = _.replaceAll(": ", ":")
+      .replaceAll(", ", ",")
+      .toLowerCase
+    val strFun2: String => String = _.replaceAll("_c", "`_c")
+      .replaceAll(":", "`:")
+    val fixFun =
+      if (spark.version < "3.1.0")
+        Some(strFun1)
+      else if (spark.version >= "3.1.0" && spark.version < "3.3.0")
+        Some(strFun2)
+      else None
 
     it("should work as spark schema_of_csv function") {
       df.testColumns("hello,world")(
         c => c.lit.schemaOfCsv(),
         c => f.schema_of_csv(f.lit(c)),
-        List(Some("struct<_c0: string, _c1: string>"))
+        List(Some("STRUCT<_c0: STRING, _c1: STRING>")),
+        fixFun
       )
     }
 
@@ -103,7 +115,8 @@ class StringColumns3xSpec
       df.testColumns2("hello|world", Map("sep" -> "|"))(
         (c, options) => c.lit.schemaOfCsv(options),
         (c, options) => f.schema_of_csv(f.lit(c), options.asJava),
-        List(Some("struct<_c0: string, _c1: string>"))
+        List(Some("STRUCT<_c0: STRING, _c1: STRING>")),
+        fixFun
       )
     }
   }
@@ -114,13 +127,26 @@ class StringColumns3xSpec
     val df = List("column not read").toDF("col1")
 
     it("should work as spark schema_of_json function") {
+      val strFun1: String => String = _.replaceAll(": ", ":")
+        .replaceAll(", ", ",")
+        .toLowerCase
+      val strFun2: String => String = _.replaceAll("_c", "`_c")
+        .replaceAll(":", "`:")
+      val fixFun =
+        if (spark.version < "3.1.0")
+          Some(strFun1)
+        else if (spark.version >= "3.1.0" && spark.version < "3.3.0")
+          Some(strFun2)
+        else None
+
       df.testColumns2(
         "[{'col':01}]",
         Map("allowNumericLeadingZeros" -> "true")
       )(
         (c, options) => c.lit.schemaOfJson(options),
         (c, options) => f.schema_of_json(f.lit(c), options.asJava),
-        List(Some("array<struct<col: bigint>>"))
+        List(Some("ARRAY<STRUCT<col: BIGINT>>")),
+        fixFun
       )
     }
   }
