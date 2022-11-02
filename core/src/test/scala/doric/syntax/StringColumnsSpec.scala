@@ -894,16 +894,15 @@ class StringColumnsSpec extends DoricTestElements {
     val df = List("column not read").toDF("col1")
 
     it("should work as spark schema_of_json function") {
-      val strFun: String => String = _.replaceAll(": ", ":").toLowerCase
-      val fixFun =
-        if (spark.version < "3.1.0") Some(strFun)
-        else None
+      val expected =
+        if (spark.version < "3.1.0")
+          List(Some("array<struct<col:bigint>>"))
+        else List(Some("ARRAY<STRUCT<col: BIGINT>>"))
 
       df.testColumns("[{'col':0}]")(
         c => c.lit.schemaOfJson(),
         c => f.schema_of_json(f.lit(c)),
-        List(Some("ARRAY<STRUCT<col: BIGINT>>")),
-        fixFun
+        expected
       )
     }
   }

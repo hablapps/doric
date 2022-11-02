@@ -101,14 +101,8 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     */
   def compareDifferences[T: SparkType: TypeTag: Equality](
       df: DataFrame,
-      expected: List[Option[T]],
-      fixFunction: Option[T => T] = None
+      expected: List[Option[T]]
   ): Unit = {
-
-    val fixedExpectedData = fixFunction match {
-      case Some(f) => expected.map(_.map(f))
-      case None    => expected
-    }
 
     val eqCond: BooleanColumn = SparkType[T].dataType match {
       case _: MapType =>
@@ -142,14 +136,14 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
       s"\nDoric function & Spark function return different values\n" +
         s"Doric   : $doricColumns\n" +
         s"Spark   : $sparkColumns}" +
-        s"${if (fixedExpectedData.nonEmpty) s"\nExpected: $fixedExpectedData"}"
+        s"${if (expected.nonEmpty) s"\nExpected: $expected"}"
     )
 
-    if (fixedExpectedData.nonEmpty) {
+    if (expected.nonEmpty) {
       assert(doricColumns.map {
         case Some(x: java.lang.Double) if x.isNaN => None
         case x                                    => x
-      } === fixedExpectedData)
+      } === expected)
     }
   }
 
@@ -272,8 +266,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     )(
         dcolumn: I1 => DoricColumn[T],
         scolumn: I1 => Column,
-        expected: List[Option[T]] = List.empty,
-        fixFunction: Option[T => T] = None
+        expected: List[Option[T]] = List.empty
     ): Unit = {
 
       val result = df.select(
@@ -281,7 +274,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
         scolumn(column1).asDoric[T].as(sparkCol)
       )
 
-      compareDifferences(result, expected, fixFunction)
+      compareDifferences(result, expected)
     }
 
     /**
@@ -310,8 +303,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     )(
         dcolumn: (I1, I2) => DoricColumn[T],
         scolumn: (I1, I2) => Column,
-        expected: List[Option[T]] = List.empty,
-        fixFunction: Option[T => T] = None
+        expected: List[Option[T]] = List.empty
     ): Unit = {
 
       val result = df.select(
@@ -319,7 +311,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
         scolumn(column1, column2).asDoric[T].as(sparkCol)
       )
 
-      compareDifferences(result, expected, fixFunction)
+      compareDifferences(result, expected)
     }
 
     /**
