@@ -9,7 +9,7 @@ import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
 import org.apache.spark.sql.{Column, Row, functions => f}
 
 import java.sql.Timestamp
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class ArrayColumnsSpec extends DoricTestElements {
 

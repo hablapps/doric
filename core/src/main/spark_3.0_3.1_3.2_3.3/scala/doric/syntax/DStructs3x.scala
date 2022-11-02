@@ -4,7 +4,7 @@ package syntax
 import doric.types.SparkType
 import org.apache.spark.sql.{Row, functions => f}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private[syntax] trait DStructs3x {
 

@@ -4,7 +4,7 @@ import doric.{DoricTestElements, colStruct}
 import org.apache.spark.sql.{functions => f}
 
 import java.sql.Timestamp
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class DStructs3xSpec extends DoricTestElements {
 

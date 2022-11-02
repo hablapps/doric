@@ -8,7 +8,7 @@ import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language.higherKinds
 import scala.reflect.ClassTag
 

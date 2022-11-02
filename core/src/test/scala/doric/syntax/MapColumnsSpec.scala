@@ -5,7 +5,7 @@ import doric.implicitConversions._
 import org.apache.spark.sql.{Row, functions => f}
 
 import java.sql.Timestamp
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class MapColumnsSpec extends DoricTestElements with MapColumns {
 

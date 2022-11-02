@@ -11,7 +11,7 @@ import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
 import shapeless.labelled.FieldType
 import shapeless.{::, HList, LabelledGeneric, Witness}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language.dynamics
 
 private[syntax] trait DStructs {

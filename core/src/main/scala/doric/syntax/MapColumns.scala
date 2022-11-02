@@ -3,9 +3,9 @@ package syntax
 
 import cats.implicits._
 import org.apache.spark.sql.functions.{map_keys, map_values}
-import org.apache.spark.sql.{Column, Row, functions => f}
+import org.apache.spark.sql.{Column, functions => f}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private[syntax] trait MapColumns {
 

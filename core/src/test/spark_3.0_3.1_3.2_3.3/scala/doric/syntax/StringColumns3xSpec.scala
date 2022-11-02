@@ -7,7 +7,7 @@ import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
 import java.sql.Timestamp
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class StringColumns3xSpec
     extends DoricTestElements
