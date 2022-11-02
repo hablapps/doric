@@ -897,6 +897,8 @@ class StringColumnsSpec extends DoricTestElements {
       val expected =
         if (spark.version < "3.1.0")
           List(Some("array<struct<col:bigint>>"))
+        else if (spark.version >= "3.1.0" && spark.version < "3.3.0")
+          List(Some("ARRAY<STRUCT<`col`: BIGINT>>"))
         else List(Some("ARRAY<STRUCT<col: BIGINT>>"))
 
       df.testColumns("[{'col':0}]")(

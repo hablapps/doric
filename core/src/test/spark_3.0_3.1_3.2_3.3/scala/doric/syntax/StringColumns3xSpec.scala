@@ -94,8 +94,8 @@ class StringColumns3xSpec
       if (spark.version < "3.1.0")
         List(Some("struct<_c0:string,_c1:string>"))
       else if (spark.version >= "3.1.0" && spark.version < "3.3.0")
-        List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
-      else List(Some("STRUCT<`_c0`: STRING, `_c1`: STRING>"))
+        List(Some("STRUCT<`_c0`: STRING, `_c1`: STRING>"))
+      else List(Some("STRUCT<_c0: STRING, _c1: STRING>"))
 
     it("should work as spark schema_of_csv function") {
       df.testColumns("hello,world")(
