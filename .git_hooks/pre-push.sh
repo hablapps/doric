@@ -1,26 +1,20 @@
+#!/bin/bash
+set -e
 
-CHECK_TODOS=true
-CHECK_FMT=false
+FAIL_TODOS=true
+CHECK_FMT=true
+
+GO_TO="$(git rev-parse --show-toplevel)"
+cd "${GO_TO}"
 
 #############################
 #        CHECK TODOS        #
 #############################
 
-todos=$(git diff --diff-filter=AM -U0 --no-prefix --pickaxe-regex -S"((//|(^|( )+\*)|#)( )*TODO)|(@todo)" upstream/main HEAD)
-
-echo "${todos}" | awk '
-  /^diff / {f="?"; next}
-  f=="?" {if (/^\+\+\+ /) f=$0"\n"; next}
-  /^@@/ {n=$3; sub(/,.*/,"",n); n=0+$3; next}
-  /^\+.*(\/\/( )*TODO|(^|( )+\*)( )*TODO|#( )*TODO|@todo)/ {print f n ":" substr($0,2); f=""}
-  substr($0,1,1)~/[ +]/ {n++}'
-
-if [ ${CHECK_TODOS} = true ] && [ -n "${todos}" ]; then
-  echo ""
-  echo "You have TODOs. You have to:"
-  echo "  * Fix them"
-  echo "  * Use --no-verify flag to avoid this check"
-  exit 1
+if [ ${FAIL_TODOS} = true ]; then
+  bash .git_hooks/scripts/check_todos.sh --compare-branch "upstream/main"
+else
+  bash .git_hooks/scripts/check_todos.sh --compare-branch "upstream/main" --warning-mode
 fi
 
 #############################
@@ -28,7 +22,8 @@ fi
 #############################
 
 if [ ${CHECK_FMT} = true ]; then
-  echo "sbt scalafmtCheckAll"
+  echo "[DEBUG] Checking scala format..."
+  sbt --warn scalafmtCheckAll
 fi
 
 # Check & autoformat --> Disabled: I don't like not knowing the changes
