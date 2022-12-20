@@ -77,7 +77,7 @@ class AggregationColumns32Spec
       )
 
       val errors1: DoricValidated[Column] = errorReference1.elem.run(df)
-      errors1 shouldBe 'invalid
+      errors1.isInvalid shouldBe true
       val unwrapedErrors1 = errors1.toEither.left.value
       unwrapedErrors1.length shouldBe 1
 
@@ -90,7 +90,7 @@ class AggregationColumns32Spec
       )
 
       val errors2: DoricValidated[Column] = errorReference2.elem.run(df)
-      errors2 shouldBe 'invalid
+      errors2.isInvalid shouldBe true
       val unwrapedErrors2 = errors2.toEither.left.value
       unwrapedErrors2.length shouldBe 1
 
@@ -103,7 +103,7 @@ class AggregationColumns32Spec
       )
 
       val errors3: DoricValidated[Column] = errorReference3.elem.run(df)
-      errors3 shouldBe 'invalid
+      errors3.isInvalid shouldBe true
       val unwrapedErrors3 = errors3.toEither.left.value
       unwrapedErrors3.length shouldBe 2
     }
