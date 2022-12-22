@@ -14,7 +14,8 @@ docs:
         url: /docs/errors/
       - title: "Modularity"
         url: /docs/modularity/
-
+      - title: "Doric exclusive features"
+        url: /docs/doric-exclusive-featues/
 main:
   - title: "Documentation"
     url: /docs/
