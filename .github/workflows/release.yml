@@ -12,8 +12,8 @@ concurrency:
 jobs:
   publish-doc:
     uses: ./.github/workflows/wc_publishSite.yml
-    with:
-      scope: "test-uploadReport-uploadDoc"
+#    with:
+#      scope: "test-uploadReport-uploadDoc"
 
   matrix_prep:
     runs-on: ubuntu-latest
@@ -25,7 +25,8 @@ jobs:
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
         with:
-          filter: '[?scope==`test-uploadReport`]'
+          filter: '[?isRelease==`release`]'
+
 
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:

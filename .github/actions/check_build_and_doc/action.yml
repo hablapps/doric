@@ -90,32 +90,34 @@ runs:
       if: contains(env.SCOPE, 'uploadReport')
       uses: codecov/codecov-action@v3
       with:
-        files: ./target/scala-2.11/scoverage-report/scoverage.xml,./target/scala-2.12/scoverage-report/scoverage.xml
+        files: ./target/scala-2.11/scoverage-report/scoverage.xml,./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
 
       # CHECK DOCUMENTATION
     - name: Build the microsite 💻
-      if: startsWith(env.SPARK_VERSION, '2.4') != true
-      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} docs/mdoc
+#      if: startsWith(env.SPARK_VERSION, '2.4') != true
+      if: contains(env.SCOPE, 'uploadDoc')
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} +docs/mdoc
       shell: bash
 
     - name: Build the scaladocs 💻
-      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} core/doc
+      run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} +core/doc
       shell: bash
 
       # UPLOAD DOCS
 
     - name: Prepare scaladocs
-      if: contains(env.SCOPE, 'uploadDoc')
+#      if: contains(env.SCOPE, 'uploadDoc')
+      if: ${{ matrix.isRelease == 'release' }}
       id: prepare_docs
       run: |
         SCALA_VERSIONS=$(ls -d core/target/scala-*/)
         for scala_path in ${SCALA_VERSIONS}; do
           scala_version=$(basename ${scala_path})
-          mkdir --parents --verbose spark_${{ env.SPARK_VERSION }}/${scala_version}/
-          mv ${scala_path}/api/* spark_${{ env.SPARK_VERSION }}/${scala_version}/
+          mkdir --parents --verbose spark-${{ env.SPARK_VERSION }}/${scala_version}/
+          mv ${scala_path}/api/* spark-${{ env.SPARK_VERSION }}/${scala_version}/
         done
       shell: bash
 
@@ -123,8 +125,8 @@ runs:
       if: steps.prepare_docs.conclusion == 'success'
       uses: actions/upload-artifact@v3
       with:
-        name: "spark_${{ env.SPARK_VERSION }}"
-        path: "spark_${{ env.SPARK_VERSION }}"
+        name: "spark-${{ env.SPARK_VERSION }}"
+        path: "spark-${{ env.SPARK_VERSION }}"
         if-no-files-found: error
 
       # CLEAN PROJECT BEFORE CACHE

@@ -15,5 +15,5 @@ concurrency:
 jobs:
   publish-doc:
     uses: ./.github/workflows/wc_publishSite.yml
-    with:
-      scope: "uploadDoc"
+#    with:
+#      scope: "uploadDoc"
