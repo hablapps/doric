@@ -12,13 +12,13 @@ To use doric, just add the following dependency in your favourite build tool:
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_3-2_2.12" % "@STABLE_VERSION@"
+libraryDependencies += "org.hablapps" % "doric_@SPARK_SHORT_VERSION@_@SCALA_SHORT_VERSION@" % "@STABLE_VERSION@"
 ```
 _Maven_
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
-  <artifactId>doric_3-3_2.12</artifactId>
+  <artifactId>doric_@SPARK_SHORT_VERSION@_@SCALA_SHORT_VERSION@</artifactId>
   <version>@STABLE_VERSION@</version>
 </dependency>
 ```
