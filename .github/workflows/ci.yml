@@ -18,6 +18,7 @@ jobs:
         uses: gregsdennis/dependencies-action@1.2.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   matrix_prep:
     runs-on: ubuntu-latest
     outputs:
@@ -29,14 +30,14 @@ jobs:
         uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
         with:
           filter: '[]'
+
   context_dump:
     runs-on: ubuntu-latest
     steps:
 #      - name: <DEBUG> Dump GitHub context
 #        env:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
-#        run: |
-#          echo "$GITHUB_CONTEXT"
+#        run: echo "$GITHUB_CONTEXT"
 #        shell: bash
 
       - name: PR json
@@ -68,6 +69,7 @@ jobs:
           path: "pr_context.json"
           if-no-files-found: error
           retention-days: 1
+
   build:
     #if: github.event.pull_request.draft == false
     needs: ["matrix_prep", "context_dump"]
@@ -78,16 +80,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ matrix.scope }}]
-        uses: ./.github/actions/check_build_and_doc
+      - uses: ./.github/actions/build_and_coverage
         env:
           SPARK_VERSION: ${{ matrix.spark }}
           SCOPE: ${{ matrix.scope }}
-  matrix_end:
-    needs: ["build"]
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Ensure matrix ends"
-        run: |
-          echo "Matrix end correctly"
-        shell: bash
+
+  # CHECK MDOC IS OK
+  check_mdoc:
+    uses: ./.github/workflows/wc_publishSite.yml
+    with:
+      publish: "no"

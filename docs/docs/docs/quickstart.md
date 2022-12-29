@@ -10,6 +10,8 @@ __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
 
+[![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_@SPARK_SHORT_VERSION@_@SCALA_SHORT_VERSION@)](https://mvnrepository.com/artifact/org.hablapps/doric_@SPARK_SHORT_VERSION@_@SCALA_SHORT_VERSION@/@STABLE_VERSION@)
+
 _Sbt_
 ```scala
 libraryDependencies += "org.hablapps" % "doric_@SPARK_SHORT_VERSION@_@SCALA_SHORT_VERSION@" % "@STABLE_VERSION@"

@@ -10,10 +10,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish-doc:
+  # GENERATE & PUBLISH DOC
+  publish_doc:
     uses: ./.github/workflows/wc_publishSite.yml
-#    with:
-#      scope: "test-uploadReport-uploadDoc"
+    with:
+      publish: "yes"
 
   matrix_prep:
     runs-on: ubuntu-latest
@@ -27,11 +28,25 @@ jobs:
         with:
           filter: '[?isRelease==`release`]'
 
+  # BUILD, TEST & COVERAGE
+  build_coverage:
+    needs: [ "matrix_prep" ]
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/build_and_coverage
+        env:
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
 
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:
     if: github.repository == 'hablapps/doric'
-    needs: [ "publish-doc", "matrix_prep" ]
+    needs: [ "publish_doc", "build_coverage" ]
     strategy:
       fail-fast: true
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
@@ -41,6 +56,7 @@ jobs:
 
       # SETUP & CACHE
       - uses: olafurpg/setup-scala@v13
+
       - name: Coursier cache
         uses: coursier/cache-action@v6
         with:

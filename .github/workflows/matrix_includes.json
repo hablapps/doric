@@ -96,7 +96,7 @@
   },
   {
     "spark": "3.3",
-    "scope": "test-uploadReport-uploadDoc",
+    "scope": "test-uploadReport",
     "isRelease": "release"
   }
 ]
