@@ -19,18 +19,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  matrix_prep:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - id: set-matrix
-        uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
-        with:
-          filter: '[]'
-
   context_dump:
     runs-on: ubuntu-latest
     steps:
@@ -70,23 +58,27 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  # BUILD, TEST & COVERAGE
   build:
-    #if: github.event.pull_request.draft == false
-    needs: ["matrix_prep", "context_dump"]
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    needs: [ "context_dump" ]
+    uses: ./.github/workflows/wc_build.yml
+    with:
+      matrix_filter: "[]"
+
+  # CHECK MDOC IS OK
+  check_mdoc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/build_and_coverage
-        env:
-          SPARK_VERSION: ${{ matrix.spark }}
-          SCOPE: ${{ matrix.scope }}
+      # BUILD MDOC, sbt should take the latest version
+      - name: Build the microsite 💻
+        run: sbt +docs/mdoc
+        shell: bash
 
-  # CHECK MDOC IS OK
-  check_mdoc:
+  # CHECK SCALADOC IS OK
+  check_scaladoc:
+    needs: [ "check_mdoc" ]
     uses: ./.github/workflows/wc_publishSite.yml
     with:
       publish: "no"

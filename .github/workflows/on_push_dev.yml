@@ -1,4 +1,4 @@
-name: On push development branch
+name: On dispatch or push development branch
 
 on:
   push:

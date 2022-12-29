@@ -1,0 +1,35 @@
+name: Reusable - Build & coverage
+
+on:
+  workflow_call:
+    inputs:
+      matrix_filter:
+        required: true
+        type: string
+
+jobs:
+  matrix_prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
+        with:
+          filter: '${{ inputs.matrix_filter }}'
+
+  build:
+    needs: [ "matrix_prep" ]
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/build_and_coverage
+        env:
+          SPARK_VERSION: ${{ matrix.spark }}
+          SCOPE: ${{ matrix.scope }}
