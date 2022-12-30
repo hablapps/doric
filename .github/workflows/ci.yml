@@ -82,3 +82,11 @@ jobs:
     uses: ./.github/workflows/wc_publishSite.yml
     with:
       publish: "no"
+
+  ci_ok:
+    needs: [ "build", "check_mdoc", "check_scaladoc" ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Requirement needed preventing unexpected auto-merge issues"
+        run: echo "Matrix end correctly"
+        shell: bash
