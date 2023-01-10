@@ -130,7 +130,7 @@ lazy val core = project
       "com.lihaoyi"   %% "sourcecode" % "0.3.0",
       "com.chuusai"   %% "shapeless"  % "2.3.10",
       "com.github.mrpowers" %% "spark-fast-tests" % "1.3.0"  % "test",
-      "org.scalatest"       %% "scalatest"        % "3.2.14" % "test"
+      "org.scalatest"       %% "scalatest"        % "3.2.15" % "test"
     ),
     // docs
     run / fork                      := true,
