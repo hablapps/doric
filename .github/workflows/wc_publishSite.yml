@@ -1,11 +1,12 @@
-name: Reusable workflow - Publish documentation
+name: Reusable - Publish documentation
 
 on:
   workflow_call:
     inputs:
-      scope:
+      publish:
         required: true
         type: string
+        default: 'yes'
 
 jobs:
   matrix_prep:
@@ -18,9 +19,10 @@ jobs:
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
         with:
-          filter: '[?scope==`test-uploadReport`]'
-  # TESTING, COVERAGE & DOCUMENTATION
-  testAndOrDoc:
+          filter: '[?isRelease==`release`]'
+
+  # DOCUMENTATION
+  scaladoc_api:
     needs: ["matrix_prep"]
     strategy:
       fail-fast: false
@@ -29,22 +31,68 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # CHECK & BUILD -- TEST & COVERAGE -- UPLOAD DOC
-      - name: Check, build and doc 🎯 - Spark [${{ matrix.spark }}] - scope [${{ inputs.scope }}]
-        uses: ./.github/actions/check_build_and_doc
-        env:
-          SPARK_VERSION: ${{ matrix.spark }}
-          SCOPE: ${{ inputs.scope }}
+      # SETUP & CACHE
+      - uses: olafurpg/setup-scala@v13
+
+      - uses: coursier/cache-action@v6
+        with:
+          extraKey: "${{ matrix.spark }}"
+
+        # BUILD SCALADOCS (API)
+      - name: Build the scaladocs 💻
+        run: sbt -DsparkVersion=${{ matrix.spark }} +core/doc
+        shell: bash
+
+        # UPLOAD DOCS
+      - name: Prepare scaladocs
+        if: inputs.publish == 'yes'
+        id: prepare_scaladocs
+        run: |
+          SCALA_VERSIONS=$(ls -d core/target/scala-*/)
+          for scala_path in ${SCALA_VERSIONS}; do
+            scala_version=$(basename ${scala_path})
+            mkdir --parents --verbose spark-${{ matrix.spark }}/${scala_version}/
+            mv ${scala_path}/api/* spark-${{ matrix.spark }}/${scala_version}/
+          done
+        shell: bash
+
+      - name: Upload docs ⬆️
+        if: steps.prepare_scaladocs.conclusion == 'success'
+        uses: actions/upload-artifact@v3
+        with:
+          name: "spark-${{ matrix.spark }}"
+          path: "spark-${{ matrix.spark }}"
+          if-no-files-found: error
+
+        # CLEAN PROJECT BEFORE CACHE
+      - name: Cleaning before cache 🚯
+        if: ${{ always() }}
+        uses: ./.github/actions/clean_cache
 
   # PUBLISH DOC JOB
-  publish:
-    needs: [ testAndOrDoc ]
+  generate_publish_mdoc:
+    needs: [ "scaladoc_api" ]
+    if: inputs.publish == 'yes'
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
 
-        # GENERATE & PUBLISH DOCUMENTATION
-      - name: Publish documentation 📑
-        uses: ./.github/actions/publish_doc
+      # BUILD MDOC, sbt should take the latest version
+      - name: Build the microsite 💻
+        run: sbt +docs/mdoc
+        shell: bash
+
+      # DOWNLOAD DOCS, this will download all the artifacts because no name provided
+      - name: Download docs ⬇️
+        uses: actions/download-artifact@v3
         with:
+          path: "docs/target/mdoc/docs/api/"
+
+      # DEPLOY TO GITHUB PAGES
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: docs/target/mdoc # The folder the action should deploy.
           token: ${{ secrets.GITHUB_TOKEN }}

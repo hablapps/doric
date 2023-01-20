@@ -27,7 +27,7 @@ val parserSparkVersion: String => String = {
   case versionRegex(a, b, c)       => s"$a.$b.$c"
 }
 
-val sparkLong2ShortVersion: String => String = { case versionRegex(a, b, _) =>
+val long2ShortVersion: String => String = { case versionRegex(a, b, _) =>
   s"$a.$b"
 }
 
@@ -118,7 +118,7 @@ lazy val core = project
   .in(file("core"))
   .settings(
     configSpark,
-    name               := "doric_" + sparkLong2ShortVersion(sparkVersion.value),
+    name               := "doric_" + long2ShortVersion(sparkVersion.value),
     run / fork         := true,
     publish / skip     := false,
     publishArtifact    := true,
@@ -193,9 +193,13 @@ lazy val docs = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value
     ),
     mdocVariables := Map(
+      // VERSION is not working well? 0.0.0+1-6f46b6de-SNAPSHOT
+      //                              ^^^^^
       "VERSION"        -> version.value,
       "STABLE_VERSION" -> stableVersion,
-      "SPARK_VERSION"  -> sparkVersion.value
+      "SPARK_VERSION"  -> sparkVersion.value,
+      "SPARK_SHORT_VERSION"  -> long2ShortVersion(sparkVersion.value).replace(".", "-"),
+      "SCALA_SHORT_VERSION"  -> long2ShortVersion(scalaVersion.value),
     ),
     mdocExtraArguments := Seq(
       "--clean-target"

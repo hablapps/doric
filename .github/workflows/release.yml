@@ -10,27 +10,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish-doc:
+  # GENERATE & PUBLISH DOC
+  publish_doc:
     uses: ./.github/workflows/wc_publishSite.yml
     with:
-      scope: "test-uploadReport-uploadDoc"
+      publish: "yes"
 
-  matrix_prep:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - id: set-matrix
-        uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
-        with:
-          filter: '[?scope==`test-uploadReport`]'
+  # BUILD, TEST & COVERAGE
+  build:
+    needs: [ "context_dump" ]
+    uses: ./.github/workflows/wc_build.yml
+    with:
+      matrix_filter: "[?isRelease==`release`]"
 
   # PUBLISH JARS AT MAVEN CENTRAL
   mvn_release:
     if: github.repository == 'hablapps/doric'
-    needs: [ "publish-doc", "matrix_prep" ]
+    needs: [ "publish_doc", "build_coverage" ]
     strategy:
       fail-fast: true
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
@@ -40,6 +36,7 @@ jobs:
 
       # SETUP & CACHE
       - uses: olafurpg/setup-scala@v13
+
       - name: Coursier cache
         uses: coursier/cache-action@v6
         with:
