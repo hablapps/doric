@@ -22,7 +22,7 @@ jobs:
           filter: '[?isRelease==`release`]'
 
   # DOCUMENTATION
-  doc:
+  scaladoc_api:
     needs: ["matrix_prep"]
     strategy:
       fail-fast: false
@@ -70,8 +70,8 @@ jobs:
         uses: ./.github/actions/clean_cache
 
   # PUBLISH DOC JOB
-  publish:
-    needs: [ "doc" ]
+  generate_publish_mdoc:
+    needs: [ "scaladoc_api" ]
     if: inputs.publish == 'yes'
     runs-on: ubuntu-latest
     steps:
