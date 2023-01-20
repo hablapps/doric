@@ -17,8 +17,7 @@ jobs:
       publish: "yes"
 
   # BUILD, TEST & COVERAGE
-  build:
-    needs: [ "context_dump" ]
+  build_coverage:
     uses: ./.github/workflows/wc_build.yml
     with:
       matrix_filter: "[?isRelease==`release`]"
