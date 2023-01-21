@@ -23,9 +23,22 @@ jobs:
       matrix_filter: "[?isRelease==`release`]"
 
   # PUBLISH JARS AT MAVEN CENTRAL
+  matrix_prep:
+    if: github.repository == 'hablapps/doric'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        uses: JoshuaTheMiller/conditional-build-matrix@v1.0.1
+        with:
+          filter: "[?isRelease==`release`]"
+
   mvn_release:
     if: github.repository == 'hablapps/doric'
-    needs: [ "publish_doc", "build_coverage" ]
+    needs: [ "matrix_prep", "publish_doc", "build_coverage" ]
     strategy:
       fail-fast: true
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
