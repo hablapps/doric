@@ -6,9 +6,14 @@ runs:
   steps:
 
       # SETUP & CACHE
-    - uses: japgolly/setup-everything-scala@v3.1
+    - uses: coursier/setup-action@v1.3.0
       with:
-        coursier-cache-extraKey: "${{ env.SPARK_VERSION }}"
+        jvm: adopt:8
+        apps: sbt scala scalafmt  # https://github.com/coursier/apps
+
+    - uses: coursier/cache-action@v6
+      with:
+        extraKey: "${{ env.SPARK_VERSION }}"
 
       # CHECK CODE FORMAT
     - name: Code Format
@@ -27,7 +32,7 @@ runs:
     - name: Test Summary
       id: test_summary
       if: ${{ success() && steps.test_coverage.conclusion == 'success' || failure() && steps.test_coverage.conclusion == 'failure' }}
-      uses: test-summary/action@v2.0
+      uses: test-summary/action@v1
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
         output: "test-summary.md"

@@ -32,9 +32,14 @@ jobs:
       - uses: actions/checkout@v3
 
       # SETUP & CACHE
-      - uses: japgolly/setup-everything-scala@v3.1
+      - uses: coursier/setup-action@v1.3.0
         with:
-          coursier-cache-extraKey: "${{ matrix.spark }}"
+          jvm: adopt:8
+          apps: sbt scala scalafmt  # https://github.com/coursier/apps
+
+      - uses: coursier/cache-action@v6
+        with:
+          extraKey: "${{ matrix.spark }}"
 
         # BUILD SCALADOCS (API)
       - name: Build the scaladocs 💻
