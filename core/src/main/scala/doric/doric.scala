@@ -27,6 +27,11 @@ package object doric extends syntax.All with sem.All {
       Kleisli[DoricValidated, Dataset[_], T] { _ =>
         a.valid
       }
+
+    def apply[T](f: Dataset[_] => T): Doric[T] =
+      Kleisli[DoricValidated, Dataset[_], T] { df =>
+        f(df).valid
+      }
   }
 
   private[doric] type DoricEither[A] = EitherNec[DoricSingleError, A]

@@ -3,6 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.NumericType
+import doric.Doric
 
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.aggregate.Sum
@@ -381,4 +382,5 @@ private[syntax] trait AggregationColumns {
     */
   def groupingId(colName: CName, colNames: CName*): LongColumn =
     Doric(f.grouping_id(colName.value, colNames.map(_.value): _*)).toDC
+
 }
