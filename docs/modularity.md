@@ -56,8 +56,8 @@ val userc = userCol("name1") // actual location of error :S
 userDF.select(userc)        // error location reported by Spark
 // org.apache.spark.sql.AnalysisException: Column 'name1_user' does not exist. Did you mean one of the following? [name_user, age_user, city_user];
 // 'Project ['name1_user]
-// +- Project [_1#208 AS name_user#215, _2#209 AS city_user#216, _3#210 AS age_user#217]
-//    +- LocalRelation [_1#208, _2#209, _3#210]
+// +- Project [_1#232 AS name_user#239, _2#233 AS city_user#240, _3#234 AS age_user#241]
+//    +- LocalRelation [_1#232, _2#233, _3#234]
 // 
 // 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:54)
 // 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7(CheckAnalysis.scala:200)
