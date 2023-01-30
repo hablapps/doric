@@ -198,8 +198,9 @@ lazy val docs = project
       "VERSION"        -> version.value,
       "STABLE_VERSION" -> stableVersion,
       "SPARK_VERSION"  -> sparkVersion.value,
-      "SPARK_SHORT_VERSION"  -> long2ShortVersion(sparkVersion.value).replace(".", "-"),
-      "SCALA_SHORT_VERSION"  -> long2ShortVersion(scalaVersion.value),
+      "SPARK_SHORT_VERSION" -> long2ShortVersion(sparkVersion.value)
+        .replace(".", "-"),
+      "SCALA_SHORT_VERSION" -> long2ShortVersion(scalaVersion.value)
     ),
     mdocExtraArguments := Seq(
       "--clean-target"
