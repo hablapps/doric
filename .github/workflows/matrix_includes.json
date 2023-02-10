@@ -90,6 +90,11 @@
     "isRelease": "-"
   },
   {
+    "spark": "3.2.2",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
     "spark": "3.2",
     "scope": "test-uploadReport",
     "isRelease": "release"
