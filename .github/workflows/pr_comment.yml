@@ -21,7 +21,7 @@ jobs:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
 #        run: echo "$GITHUB_CONTEXT"
       - name: Download PR context
-        uses: dawidd6/action-download-artifact@v2.24.3 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v2.25.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
           name: pr_context.json
           workflow_conclusion: ""
@@ -133,7 +133,7 @@ jobs:
     steps:
       - name: Download artifact
         id: download_artifacts
-        uses: dawidd6/action-download-artifact@v2.24.3 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v2.25.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
 #          names: test-summary-*.md
           workflow_conclusion: ""
