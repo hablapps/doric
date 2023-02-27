@@ -15,7 +15,7 @@ jobs:
     name: Check Dependencies
     steps:
       - name: PR Dependency Check
-        uses: gregsdennis/dependencies-action@1.2.3
+        uses: gregsdennis/dependencies-action@1.2.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
