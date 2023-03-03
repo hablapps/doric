@@ -247,6 +247,34 @@ private[syntax] trait AggregationColumns {
     col.elem.map(f.min).toDC
 
   /**
+    * Aggregate function: returns the AND value for a boolean column
+    *
+    * @group Aggregation Boolean Type
+    */
+  def &&(col: BooleanColumn): BooleanColumn = andAgg(col)
+
+  /**
+    * Aggregate function: returns the AND value for a boolean column
+    *
+    * @group Aggregation Boolean Type
+    */
+  def andAgg(col: BooleanColumn): BooleanColumn = min(col)
+
+  /**
+    * Aggregate function: returns the OR value for a boolean column
+    *
+    * @group Aggregation Boolean Type
+    */
+  def ||(col: BooleanColumn): BooleanColumn = orAgg(col)
+
+  /**
+    * Aggregate function: returns the OR value for a boolean column
+    *
+    * @group Aggregation Boolean Type
+    */
+  def orAgg(col: BooleanColumn): BooleanColumn = max(col)
+
+  /**
     * Aggregate function: returns the maximum value of the expression in a group.
     *
     * @group Aggregation Any Type

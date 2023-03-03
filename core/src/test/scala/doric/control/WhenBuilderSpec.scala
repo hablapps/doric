@@ -2,18 +2,18 @@ package doric
 package control
 
 import scala.Predef.{any2stringadd => _}
-
 import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import doric.implicitConversions._
 import doric.types.SparkType
 import org.scalatest.funspec.AnyFunSpecLike
-
 import org.apache.spark.sql.Row
+import org.scalatest.matchers.should.Matchers
 
 class WhenBuilderSpec
     extends AnyFunSpecLike
     with SparkSessionTestWrapper
-    with ColumnComparer {
+    with ColumnComparer
+    with Matchers {
 
   override def convertToEqualizer[T](left: T): Equalizer[T] = new Equalizer(
     left
@@ -69,6 +69,45 @@ class WhenBuilderSpec
       nullOfType[Double]
       nullOfType[Row]
       nullOfType[Array[Int]]
+    }
+  }
+
+  describe("match builder") {
+    import spark.implicits._
+    val matchResult = "matchResult"
+
+    it("won't let an otherwise be set if no cases") {
+      "colInt(\"c1\").matches[String].otherwiseNull" shouldNot compile
+    }
+
+    it("transform a column given an equality or a function (otherwiseNull)") {
+
+      val myCol = colInt("c1")
+        .matches[String]
+        .caseW(_ > lit(10), "MAX".lit)
+        .caseW(lit(8), "Eight".lit)
+        .otherwiseNull
+
+      val df = List((100, "MAX"), (8, "Eight"), (2, null))
+        .toDF("c1", "whenExpected")
+        .withColumn(matchResult, myCol)
+
+      assertColEquality(df, matchResult, "whenExpected")
+    }
+
+    it("transform a column given an equality or a function (otherwise)") {
+
+      val myCol = colInt("c1")
+        .matches[String]
+        .caseW(lit(8), "Eight".lit)
+        .caseW(_ > lit(10), "MAX".lit)
+        .otherwise("-")
+
+      val df = List((100, "MAX"), (8, "Eight"), (2, "-"))
+        .toDF("c1", "whenExpected")
+        .withColumn(matchResult, myCol)
+
+      assertColEquality(df, matchResult, "whenExpected")
     }
   }
 

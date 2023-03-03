@@ -1,6 +1,8 @@
 package doric
 package syntax
 
+import doric.types.SparkType
+
 private[syntax] trait ControlStructures {
 
   /**
@@ -12,4 +14,8 @@ private[syntax] trait ControlStructures {
     *   WhenBuilder instance to add the required logic.
     */
   def when[T]: WhenBuilder[T] = WhenBuilder()
+
+  implicit class ControlStructuresImpl[O: SparkType](col: DoricColumn[O]) {
+    def matches[T]: MatchBuilderInit[O, T] = MatchBuilderInit(col)
+  }
 }
