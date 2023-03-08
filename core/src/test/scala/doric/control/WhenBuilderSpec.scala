@@ -76,10 +76,6 @@ class WhenBuilderSpec
     import spark.implicits._
     val matchResult = "matchResult"
 
-    it("won't let an otherwise be set if no cases") {
-      "colInt(\"c1\").matches[String].otherwiseNull" shouldNot compile
-    }
-
     it("transform a column given an equality or a function (otherwiseNull)") {
 
       val myCol = colInt("c1")

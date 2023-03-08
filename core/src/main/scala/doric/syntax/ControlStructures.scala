@@ -16,6 +16,6 @@ private[syntax] trait ControlStructures {
   def when[T]: WhenBuilder[T] = WhenBuilder()
 
   implicit class ControlStructuresImpl[O: SparkType](col: DoricColumn[O]) {
-    def matches[T]: MatchBuilderInit[O, T] = MatchBuilderInit(col)
+    def matches[T]: MatchBuilder[O, T] = MatchBuilder(col, WhenBuilder())
   }
 }

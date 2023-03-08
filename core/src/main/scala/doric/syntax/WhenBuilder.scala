@@ -63,44 +63,6 @@ final private[doric] case class WhenBuilder[T](
 
 }
 
-final protected case class MatchBuilderInit[O: SparkType, T](
-    private val dCol: DoricColumn[O]
-) {
-
-  /**
-    * ads the first case comparing the given column with the affected column
-    *
-    * @param equality
-    * the given column to compare
-    * @param elem
-    * the returned element if the condition is true
-    * @return
-    * new instance of the builder with the previous cases added
-    */
-  def caseW(
-      equality: DoricColumn[O],
-      elem: DoricColumn[T]
-  ): MatchBuilder[O, T] =
-    MatchBuilder(dCol, when[T].caseW(dCol === equality, elem))
-
-  /**
-    * ads the first case using a function to compare the given column and the affected column
-    *
-    * @param function
-    * BooleanColumn with the condition to satisfy
-    * @param elem
-    * the returned element if the condition is true
-    * @return
-    * new instance of the builder with the previous cases added
-    */
-  def caseW(
-      function: DoricColumn[O] => BooleanColumn,
-      elem: DoricColumn[T]
-  ): MatchBuilder[O, T] =
-    MatchBuilder(dCol, when[T].caseW(function(dCol), elem))
-
-}
-
 final protected case class MatchBuilder[O: SparkType, T](
     private val dCol: DoricColumn[O],
     private val cases: WhenBuilder[T]
