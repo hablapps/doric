@@ -3,8 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.CollectionType
-
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, functions => f, Row}
 import org.apache.spark.sql.catalyst.expressions._
 
 trait ArrayColumns3x {
@@ -118,6 +117,55 @@ trait ArrayColumns3x {
             )
           )
         )
+        .toDC
+    }
+  }
+
+  implicit class ArrayStructColumnSyntax3x[F[_]: CollectionType](
+      private val arrRowCol: DoricColumn[F[Row]]
+  ) {
+
+    def sortBy(
+        ordCol: CNameOrd,
+        ordCols: CNameOrd*
+    ): ArrayColumn[Row] = {
+      val xv = x(arrRowCol.getIndex(0))
+      val yv = y(arrRowCol.getIndex(1))
+
+      (arrRowCol.elem, xv.elem, yv.elem)
+        .mapN((c, x, y) => {
+
+          val getComparator: CNameOrd => Column = orderedCol => {
+            val comparator = new Column(
+              ArraySort.comparator(
+                x.getField(orderedCol.name.value).expr,
+                y.getField(orderedCol.name.value).expr
+              )
+            )
+
+            orderedCol.order match {
+              case Asc  => comparator // Default behaviour
+              case Desc => comparator * -1
+            }
+          }
+
+          val initialComparator = getComparator(ordCol)
+          val initial = f.when(initialComparator =!= 0, initialComparator)
+
+          val allColsComparator = ordCols
+            .foldLeft(initial)((sortOpts, currCol) => {
+              val comparator = getComparator(currCol)
+              sortOpts.when(comparator =!= 0, comparator)
+            })
+            .otherwise(0)
+
+          new Column(
+            ArraySort(
+              c.expr,
+              lam2(allColsComparator.expr, x.expr, y.expr)
+            )
+          )
+        })
         .toDC
     }
   }
