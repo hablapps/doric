@@ -1,8 +1,12 @@
 package doric
 
 sealed trait Order
-object Asc  extends Order
-object Desc extends Order
+object Asc            extends Order
+object AscNullsFirst  extends Order
+object AscNullsLast   extends Order
+object Desc           extends Order
+object DescNullsFirst extends Order
+object DescNullsLast  extends Order
 
 case class CNameOrd(name: CName, order: Order)
 

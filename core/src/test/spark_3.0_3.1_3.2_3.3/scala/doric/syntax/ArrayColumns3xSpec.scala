@@ -232,7 +232,7 @@ class ArrayColumns3xSpec
           User("Batman", null, 30),
           User("Smeagol", null, 500)
         ),
-        List.empty,
+        Seq.empty,
         null
       ).toDF("col1")
 
@@ -281,7 +281,7 @@ class ArrayColumns3xSpec
           User(null, "Snow", 21),
           User(null, "Snow", 17)
         ),
-        List.empty,
+        Seq.empty,
         null
       )
 
@@ -293,6 +293,34 @@ class ArrayColumns3xSpec
           s"Expected: $expected"
       )
     }
+
+    lazy val input = Seq(
+      User("B", "", 0),
+      User(null, "", 0),
+      User("", "", 0),
+      User("A", "", 0)
+    )
+
+    def testOrder(order: Order, expected: Seq[String]): Unit = {
+
+      it(s"should order ${order.getClass.getSimpleName}") {
+        val df = Seq(input).toDF("value")
+
+        df.select(colArray[Row]("value").sortBy(CNameOrd("name", order)))
+          .as[List[User]]
+          .collect()
+          .toList
+          .head
+          .map(_.name) shouldBe expected
+      }
+    }
+
+    testOrder(Asc, Seq("", "A", "B", null))
+    testOrder(AscNullsLast, Seq("", "A", "B", null))
+    testOrder(AscNullsFirst, Seq(null, "", "A", "B"))
+    testOrder(Desc, Seq(null, "B", "A", ""))
+    testOrder(DescNullsLast, Seq("B", "A", "", null))
+    testOrder(DescNullsFirst, Seq(null, "B", "A", ""))
   }
 
 }
