@@ -6,7 +6,7 @@ import org.apache.spark.sql.Column
 import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
-private[syntax] trait NumericColumns2_31 {
+protected trait NumericColumns2_31 {
 
   /**
     * INTEGRAL OPERATIONS

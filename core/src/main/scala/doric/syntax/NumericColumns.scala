@@ -7,7 +7,7 @@ import doric.types.{CollectionType, NumericType}
 import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, UnaryMinus}
 import org.apache.spark.sql.{Column, functions => f}
 
-private[syntax] trait NumericColumns {
+protected trait NumericColumns {
 
   /**
     * Returns the current Unix timestamp (in seconds) as a long.

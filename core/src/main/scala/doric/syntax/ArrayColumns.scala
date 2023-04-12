@@ -33,7 +33,7 @@ protected final case class Zipper[T1, T2, F[_]: CollectionType](
   }
 }
 
-private[syntax] trait ArrayColumns {
+protected trait ArrayColumns {
 
   /**
     * Concatenates multiple array columns together into a single column.
@@ -580,7 +580,8 @@ private[syntax] trait ArrayColumns {
       * @note
       * if `start` == 0 an exception will be thrown
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
+      * @see org.apache.spark.sql.functions.slice
+      * @todo scaladoc link (issue #135)
       */
     def slice(start: IntegerColumn, length: IntegerColumn): DoricColumn[F[T]] =
       (col.elem, start.elem, length.elem)

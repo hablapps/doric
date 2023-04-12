@@ -3,7 +3,7 @@ package syntax
 
 import doric.types.SparkType
 
-private[syntax] trait ControlStructures {
+protected trait ControlStructures {
 
   /**
     * Initialize a when builder

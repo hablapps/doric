@@ -4,7 +4,7 @@ package syntax
 import doric.sem.Location
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait StringColumns31 {
+protected trait StringColumns31 {
 
   /**
     * Throws an exception with the provided error message.

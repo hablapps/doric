@@ -4,7 +4,7 @@ package syntax
 import doric.types.NumericType
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait NumericColumns31 {
+protected trait NumericColumns31 {
   implicit class NumericOperationsSyntax31[T: NumericType](
       column: DoricColumn[T]
   ) {

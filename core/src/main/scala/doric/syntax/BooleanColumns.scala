@@ -5,7 +5,7 @@ import doric.DoricColumn.sparkFunction
 
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait BooleanColumns {
+protected trait BooleanColumns {
 
   /**
     * Inversion of boolean expression, i.e. NOT.

@@ -5,7 +5,7 @@ import cats.implicits._
 
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait BooleanColumns31 {
+protected trait BooleanColumns31 {
 
   /**
     * @group Boolean Type

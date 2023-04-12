@@ -8,7 +8,7 @@ import org.apache.spark.sql.{Column, functions => f}
 
 import scala.jdk.CollectionConverters._
 
-private[syntax] trait StringColumns {
+protected trait StringColumns {
 
   /**
     * Concatenate string columns to form a single one

@@ -8,7 +8,7 @@ import doric.types.{Casting, SparkType, UnsafeCasting}
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.ArrayRepeat
 
-private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
+protected trait CommonColumns extends ColGetters[NamedDoricColumn] {
 
   /**
     * Returns the first column that is not null, or null if all inputs are null.

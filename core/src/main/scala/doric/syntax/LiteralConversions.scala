@@ -5,7 +5,7 @@ import doric.sem.Location
 import doric.types.SparkType.Primitive
 import doric.types.{LiteralSparkType, SparkType}
 
-private[syntax] trait LiteralConversions {
+protected trait LiteralConversions {
 
   /**
     * Creates a literal with the provided value.
