@@ -3,6 +3,7 @@ package syntax
 
 import org.scalatest.{Assertion, EitherValues}
 import org.scalatest.matchers.should.Matchers
+
 import org.apache.spark.sql.{functions => f}
 import org.apache.spark.sql.types.NullType
 

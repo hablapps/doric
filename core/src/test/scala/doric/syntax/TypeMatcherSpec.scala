@@ -1,7 +1,8 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnMultiTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ColumnMultiTypeError, ColumnNotFound, DoricMultiError}
+
 import org.apache.spark.sql.types.{IntegerType, StringType}
 
 class TypeMatcherSpec
@@ -62,11 +63,7 @@ class TypeMatcherSpec
         intercept[DoricMultiError] {
           df.select(testColumn)
         } should containAllErrors(
-          SparkErrorWrapper(
-            new Exception(
-              "Cannot resolve column name \"int2\" among (colArr, int, str)"
-            )
-          )
+          ColumnNotFound("int2", List("colArr", "int", "str"))
         )
       }
 
@@ -81,11 +78,7 @@ class TypeMatcherSpec
         intercept[DoricMultiError] {
           df.select(testColumn)
         } should containAllErrors(
-          SparkErrorWrapper(
-            new Exception(
-              "Cannot resolve column name \"int3\" among (colArr, int, str)"
-            )
-          )
+          ColumnNotFound("int3", List("colArr", "int", "str"))
         )
       }
 
