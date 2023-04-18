@@ -113,5 +113,10 @@
     "spark": "3.3",
     "scope": "test-uploadReport",
     "isRelease": "release"
+  },
+  {
+    "spark": "3.4",
+    "scope": "test-uploadReport",
+    "isRelease": "release"
   }
 ]
