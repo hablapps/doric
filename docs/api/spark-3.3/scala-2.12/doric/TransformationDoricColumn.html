@@ -163,6 +163,22 @@
                         <a href="syntax/ArrayColumns3x$ArrayColumnSyntax3x.html" title="">ArrayColumnSyntax3x</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
+                        <a class="class" href="syntax/ArrayColumns3x$ArrayStructColumnSyntax3x.html" title=""></a>
+                        <a href="syntax/ArrayColumns3x$ArrayStructColumnSyntax3x.html" title="">ArrayStructColumnSyntax3x</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="Asc$.html" title=""></a>
+                        <a href="Asc$.html" title="">Asc</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="AscNullsFirst$.html" title=""></a>
+                        <a href="AscNullsFirst$.html" title="">AscNullsFirst</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="AscNullsLast$.html" title=""></a>
+                        <a href="AscNullsLast$.html" title="">AscNullsLast</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
                         <a class="class" href="BasicCol.html" title="Extension methods for any kind of column"></a>
                         <a href="BasicCol.html" title="Extension methods for any kind of column">BasicCol</a>
                       </li><li class="current-entities indented1">
@@ -189,6 +205,10 @@
                         <span class="separator"></span>
                         <a class="class" href="syntax/CNameOps$CNameOps.html" title=""></a>
                         <a href="syntax/CNameOps$CNameOps.html" title="">CNameOps</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="CNameOrd$.html" title=""></a>
+                        <a class="class" href="CNameOrd.html" title=""></a>
+                        <a href="CNameOrd.html" title="">CNameOrd</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="CollectSyntax.html" title=""></a>
@@ -217,6 +237,18 @@
                         <span class="separator"></span>
                         <a class="class" href="DateColumnLikeSyntax.html" title=""></a>
                         <a href="DateColumnLikeSyntax.html" title="">DateColumnLikeSyntax</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="Desc$.html" title=""></a>
+                        <a href="Desc$.html" title="">Desc</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="DescNullsFirst$.html" title=""></a>
+                        <a href="DescNullsFirst$.html" title="">DescNullsFirst</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="object" href="DescNullsLast$.html" title=""></a>
+                        <a href="DescNullsLast$.html" title="">DescNullsLast</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="object" href="package$$Doric$.html" title=""></a>
@@ -297,6 +329,10 @@
                         <span class="separator"></span>
                         <a class="class" href="NumericOperationsSyntax31.html" title=""></a>
                         <a href="NumericOperationsSyntax31.html" title="">NumericOperationsSyntax31</a>
+                      </li><li class="current-entities indented1">
+                        <span class="separator"></span>
+                        <a class="trait" href="Order.html" title=""></a>
+                        <a href="Order.html" title="">Order</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="class" href="RelationalGroupedDatasetSem.html" title=""></a>
@@ -679,6 +715,31 @@
             This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
         context-bounded</a> by doric.types.NumericType (T: <a href="types/NumericType.html" class="extype" name="doric.types.NumericType">NumericType</a>).
           </dd><dt>Definition Classes</dt><dd>NumericOperationsSyntax</dd></dl></div>
+    </li><li name="doric.syntax.CommonColumns.BasicCol#&lt;=&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
+      <a id="&lt;=&gt;(other:doric.DoricColumn[T]):doric.BooleanColumn"></a><a id="&lt;=&gt;(DoricColumn[T]):BooleanColumn"></a>
+      <span class="permalink">
+      <a href="../doric/TransformationDoricColumn.html#&lt;=&gt;(other:doric.DoricColumn[T]):doric.BooleanColumn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $less$eq$greater" class="implicit">&lt;=&gt;</span><span class="params">(<span name="other">other: <a href="DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>]</span>)</span><span class="result">: <a href="index.html#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Type &amp; null safe equals between Columns
+</p><div class="fullcomment"><div class="comment cmt"><p>Type &amp; null safe equals between Columns
+</p></div><dl class="paramcmts block"><dt class="param">other</dt><dd class="cmt"><p>
+the column to compare</p></dd><dt>returns</dt><dd class="cmt"><p>
+a reference to a Boolean DoricColumn with the comparation</p></dd></dl><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="doric.TransformationDoricColumn">TransformationDoricColumn</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] to
+            <a href="index.html#BasicCol[T]extendsAnyRef" class="extmbr" name="doric.BasicCol">doric.BasicCol</a>[<span class="extype" name="doric.TransformationDoricColumn.T">T</span>] performed by method BasicCol in doric.syntax.CommonColumns.
+            This conversion will take place only if T is <a href="http://stackoverflow.com/questions/2982276/what-is-a-context-bound-in-scala" target="_blank">
+        context-bounded</a> by doric.types.SparkType (T: <a href="types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>).
+          </dd><dt>Definition Classes</dt><dd>BasicCol</dd></dl></div>
     </li><li name="doric.syntax.CommonColumns.BasicCol#=!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="=!=(other:doric.DoricColumn[T]):doric.BooleanColumn"></a><a id="=!=(DoricColumn[T]):BooleanColumn"></a>
       <span class="permalink">
