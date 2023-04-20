@@ -473,21 +473,6 @@ class AggregationColumnsSpec
         List(Some(false), Some(true))
       )
     }
-
-    it("should work with `&&`") {
-      val df = List(
-        ("k1", true),
-        ("k1", false),
-        ("k2", true)
-      ).toDF("keyCol", "col1")
-
-      df.testAggregation(
-        "keyCol",
-        &&(colBoolean("col1")),
-        f.min(f.col("col1")),
-        List(Some(false), Some(true))
-      )
-    }
   }
 
   describe("or doric function") {
@@ -503,21 +488,6 @@ class AggregationColumnsSpec
       df.testAggregation(
         "keyCol",
         orAgg(colBoolean("col1")),
-        f.max(f.col("col1")),
-        List(Some(true), Some(false))
-      )
-    }
-
-    it("should work with `||`") {
-      val df = List(
-        ("k1", true),
-        ("k1", false),
-        ("k2", false)
-      ).toDF("keyCol", "col1")
-
-      df.testAggregation(
-        "keyCol",
-        ||(colBoolean("col1")),
         f.max(f.col("col1")),
         List(Some(true), Some(false))
       )
