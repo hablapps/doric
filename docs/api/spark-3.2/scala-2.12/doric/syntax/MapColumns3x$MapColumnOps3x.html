@@ -206,9 +206,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="doric.syntax.MapColumns3x.MapColumnOps3x#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(map:doric.MapColumn[K,V]):MapColumns3x.this.MapColumnOps3x[K,V]"></a><a id="&lt;init&gt;:MapColumnOps3x[K,V]"></a>
+      <a id="&lt;init&gt;(map:doric.MapColumn[K,V])(implicitevidence$1:doric.types.SparkType[K],implicitevidence$2:doric.types.SparkType[V]):MapColumns3x.this.MapColumnOps3x[K,V]"></a><a id="&lt;init&gt;:MapColumnOps3x[K,V]"></a>
       <span class="permalink">
-      <a href="../../doric/syntax/MapColumns3x$MapColumnOps3x.html#&lt;init&gt;(map:doric.MapColumn[K,V]):MapColumns3x.this.MapColumnOps3x[K,V]" title="Permalink">
+      <a href="../../doric/syntax/MapColumns3x$MapColumnOps3x.html#&lt;init&gt;(map:doric.MapColumn[K,V])(implicitevidence$1:doric.types.SparkType[K],implicitevidence$2:doric.types.SparkType[V]):MapColumns3x.this.MapColumnOps3x[K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -217,7 +217,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">MapColumnOps3x</span><span class="params">(<span name="map">map: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.V">V</span>]</span>)</span>
+        <span class="name">MapColumnOps3x</span><span class="params">(<span name="map">map: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.V">V</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>]</span>, <span name="arg1">arg1: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.V">V</span>]</span>)</span>
       </span>
       
       
@@ -617,6 +617,23 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="doric.syntax.MapColumns3x.MapColumnOps3x#mapEntries" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
+      <a id="mapEntries:doric.ArrayColumn[org.apache.spark.sql.Row]"></a><a id="mapEntries:ArrayColumn[Row]"></a>
+      <span class="permalink">
+      <a href="../../doric/syntax/MapColumns3x$MapColumnOps3x.html#mapEntries:doric.ArrayColumn[org.apache.spark.sql.Row]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapEntries</span><span class="result">: <a href="../index.html#ArrayColumn[A]=doric.DoricColumn[Array[A]]" class="extmbr" name="doric.ArrayColumn">ArrayColumn</a>[<a href="https://spark.apache.org/docs/3.2.3/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns an unordered array of all entries in the given map.</p><div class="fullcomment"><div class="comment cmt"><p>Returns an unordered array of all entries in the given map.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.2.3/api/scala/org/apache/spark/sql/functions$.html#map_entries(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_entries</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -814,9 +831,9 @@ a map with the results of those applications as the new values for the pairs.
               
         </dd></dl></div>
     </li><li name="doric.syntax.MapColumns3x.MapColumnOps3x#zipWith" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
-      <a id="zipWith[V2,R](map2:doric.MapColumn[K,V2],function:(doric.DoricColumn[K],doric.DoricColumn[V],doric.DoricColumn[V2])=&gt;doric.DoricColumn[R]):doric.MapColumn[K,R]"></a><a id="zipWith[V2,R](MapColumn[K,V2],(DoricColumn[K],DoricColumn[V],DoricColumn[V2])⇒DoricColumn[R]):MapColumn[K,R]"></a>
+      <a id="zipWith[V2,R](map2:doric.MapColumn[K,V2],function:(doric.DoricColumn[K],doric.DoricColumn[V],doric.DoricColumn[V2])=&gt;doric.DoricColumn[R])(implicitevidence$3:doric.types.SparkType[V2]):doric.MapColumn[K,R]"></a><a id="zipWith[V2,R](MapColumn[K,V2],(DoricColumn[K],DoricColumn[V],DoricColumn[V2])⇒DoricColumn[R])(SparkType[V2]):MapColumn[K,R]"></a>
       <span class="permalink">
-      <a href="../../doric/syntax/MapColumns3x$MapColumnOps3x.html#zipWith[V2,R](map2:doric.MapColumn[K,V2],function:(doric.DoricColumn[K],doric.DoricColumn[V],doric.DoricColumn[V2])=&gt;doric.DoricColumn[R]):doric.MapColumn[K,R]" title="Permalink">
+      <a href="../../doric/syntax/MapColumns3x$MapColumnOps3x.html#zipWith[V2,R](map2:doric.MapColumn[K,V2],function:(doric.DoricColumn[K],doric.DoricColumn[V],doric.DoricColumn[V2])=&gt;doric.DoricColumn[R])(implicitevidence$3:doric.types.SparkType[V2]):doric.MapColumn[K,R]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -825,7 +842,7 @@ a map with the results of those applications as the new values for the pairs.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">zipWith</span><span class="tparams">[<span name="V2">V2</span>, <span name="R">R</span>]</span><span class="params">(<span name="map2">map2: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.V2">V2</span>]</span>, <span name="function">function: (<a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>], <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.V">V</span>], <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.V2">V2</span>]) ⇒ <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.R">R</span>]</span>)</span><span class="result">: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.R">R</span>]</span>
+        <span class="name">zipWith</span><span class="tparams">[<span name="V2">V2</span>, <span name="R">R</span>]</span><span class="params">(<span name="map2">map2: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.V2">V2</span>]</span>, <span name="function">function: (<a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>], <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.V">V</span>], <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.V2">V2</span>]) ⇒ <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.R">R</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.V2">V2</span>]</span>)</span><span class="result">: <a href="../index.html#MapColumn[K,V]=doric.DoricColumn[Map[K,V]]" class="extmbr" name="doric.MapColumn">MapColumn</a>[<span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.K">K</span>, <span class="extype" name="doric.syntax.MapColumns3x.MapColumnOps3x.zipWith.R">R</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Merge two given maps, key-wise into a single map using a function.</p><div class="fullcomment"><div class="comment cmt"><p>Merge two given maps, key-wise into a single map using a function.

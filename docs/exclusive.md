@@ -103,7 +103,7 @@ val sparkCol = f.expr("array_sort(value, (l, r) -> case " +
 
 val doricCol = colArray[Row]("value").sortBy(CName("name"), CNameOrd("age", Desc))
 // doricCol: ArrayColumn[Row] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2909/0x00000001012ed840@7307e418)
+//   Kleisli(cats.data.Kleisli$$Lambda$2909/0x00000001012ed840@3bb29351)
 // )
 
 dfArrayStruct.select(sparkCol.as("sorted")).show(false)
@@ -151,7 +151,7 @@ val mapColDoric = colString("value").matches[String]
   .caseW(_.length > 4, "error key".lit)
   .otherwiseNull
 // mapColDoric: DoricColumn[String] = TransformationDoricColumn(
-//   Kleisli(cats.data.Kleisli$$Lambda$2909/0x00000001012ed840@57e351a)
+//   Kleisli(cats.data.Kleisli$$Lambda$2909/0x00000001012ed840@f0a6b04)
 // )
 
 dfMatch.withColumn("mapResult", mapColDoric).show()
@@ -190,4 +190,64 @@ val doricFold = transformations.foldLeft(colString("value").matches[String]) {
 }
   
 doricFold.otherwiseNull
+```
+
+## Array zipWithIndex function
+How many times have you need `zipWithIndex` scala function in spark? Not many, probably, but if you have to do it now Doric helps you out!:
+```scala
+val dfArray = List(
+  Array("a", "b", "c", "d"),
+  Array.empty[String],
+  null
+).toDF("col1")
+  .select(colArrayString("col1").zipWithIndex().as("zipWithIndex"))
+// dfArray: org.apache.spark.sql.package.DataFrame = [zipWithIndex: array<struct<index:int,value:string>>]
+
+dfArray.printSchema()
+// root
+//  |-- zipWithIndex: array (nullable = true)
+//  |    |-- element: struct (containsNull = false)
+//  |    |    |-- index: integer (nullable = false)
+//  |    |    |-- value: string (nullable = true)
+// 
+
+dfArray.show(false)
+// +--------------------------------+
+// |zipWithIndex                    |
+// +--------------------------------+
+// |[{0, a}, {1, b}, {2, c}, {3, d}]|
+// |[]                              |
+// |null                            |
+// +--------------------------------+
+//
+```
+
+## Map toArray function
+Doric also provides a function to "cast" a map into an array. We have done nothing fancy, but it might help with some use cases.
+```scala
+val dfMap = List(
+  ("1", Map("a" -> "b", "c" -> "d")),
+  ("2", Map.empty[String, String]),
+  ("3", null)
+).toDF("ix", "col")
+  .select(colMapString[String]("col").toArray.as("map2Array"))
+// dfMap: org.apache.spark.sql.package.DataFrame = [map2Array: array<struct<key:string,value:string>>]
+
+dfMap.printSchema()
+// root
+//  |-- map2Array: array (nullable = true)
+//  |    |-- element: struct (containsNull = false)
+//  |    |    |-- key: string (nullable = true)
+//  |    |    |-- value: string (nullable = true)
+// 
+
+dfMap.show(false)
+// +----------------+
+// |map2Array       |
+// +----------------+
+// |[{a, b}, {c, d}]|
+// |[]              |
+// |null            |
+// +----------------+
+//
 ```
