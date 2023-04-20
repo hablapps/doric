@@ -666,13 +666,21 @@ class ArrayColumnsSpec extends DoricTestElements {
 
       val doricDf = df.select(colString("ix"), colArrayString("col").posExplode)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("pos", IntegerType, nullable = false),
-          StructField("value", StringType, nullable = true)
-        )), nullable = false)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("pos", IntegerType, nullable = false),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = false
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, (Int, String))]
@@ -708,13 +716,21 @@ class ArrayColumnsSpec extends DoricTestElements {
       val doricDf = df
         .select(colString("ix"), colArrayString("col").posExplodeOuter)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("pos", IntegerType, nullable = false),
-          StructField("value", StringType, nullable = true)
-        )), nullable = true)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("pos", IntegerType, nullable = false),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = true
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, Option[(java.lang.Integer, String)])]
@@ -722,7 +738,7 @@ class ArrayColumnsSpec extends DoricTestElements {
         .toList
         .map {
           case (x, Some((y, z))) => (x, y, z)
-          case (x, None) => (x, null, null)
+          case (x, None)         => (x, null, null)
         }
       rows shouldBe df
         .select(f.col("ix"), f.posexplode_outer(f.col("col")))
@@ -879,7 +895,8 @@ class ArrayColumnsSpec extends DoricTestElements {
         null
       )
 
-      val result = df.select(colArrayString("col1").zipWithIndex())
+      val result = df
+        .select(colArrayString("col1").zipWithIndex())
         .as[List[(Int, String)]]
         .collect()
         .toList
@@ -901,8 +918,8 @@ class ArrayColumnsSpec extends DoricTestElements {
 
       df.testColumns2("col1", "col2")(
         (
-          c1,
-          c2
+            c1,
+            c2
         ) => colArrayString(c1).zipWith(colArrayString(c2))(concat(_, _)),
         (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
         List(Some(Array("ab", "ba", "ce", null)), None, None, None)

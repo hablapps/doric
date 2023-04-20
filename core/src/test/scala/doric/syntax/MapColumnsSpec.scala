@@ -207,13 +207,21 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       val doricDf = df
         .select(colString("ix"), colMapString[String]("col").explode)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("key", StringType, nullable = true),
-          StructField("value", StringType, nullable = true)
-        )), nullable = false)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("key", StringType, nullable = true),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = false
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, (String, String))]
@@ -245,13 +253,21 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       val doricDf = df
         .select(colString("ix"), colMapString[String]("col").explodeOuter)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("key", StringType, nullable = true),
-          StructField("value", StringType, nullable = true)
-        )), nullable = true)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("key", StringType, nullable = true),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = true
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, Option[(String, String)])]
@@ -259,7 +275,7 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
         .toList
         .map {
           case (x, Some((y, z))) => (x, y, z)
-          case (x, None) => (x, null, null)
+          case (x, None)         => (x, null, null)
         }
       rows shouldBe df
         .select(f.col("ix"), f.explode_outer(f.col("col")))
@@ -288,14 +304,22 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       val doricDf = df
         .select(colString("ix"), colMapString[String]("col").posExplode)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("pos", IntegerType, nullable = false),
-          StructField("key", StringType, nullable = true),
-          StructField("value", StringType, nullable = true)
-        )), nullable = false)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("pos", IntegerType, nullable = false),
+                StructField("key", StringType, nullable = true),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = false
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, (Int, String, String))]
@@ -327,14 +351,22 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       val doricDf = df
         .select(colString("ix"), colMapString[String]("col").posExplodeOuter)
 
-      doricDf.schema shouldBe StructType(Seq(
-        StructField("ix", StringType, nullable = true),
-        StructField("col", StructType(Seq(
-          StructField("pos", IntegerType, nullable = false),
-          StructField("key", StringType, nullable = true),
-          StructField("value", StringType, nullable = true)
-        )), nullable = true)
-      ))
+      doricDf.schema shouldBe StructType(
+        Seq(
+          StructField("ix", StringType, nullable = true),
+          StructField(
+            "col",
+            StructType(
+              Seq(
+                StructField("pos", IntegerType, nullable = false),
+                StructField("key", StringType, nullable = true),
+                StructField("value", StringType, nullable = true)
+              )
+            ),
+            nullable = true
+          )
+        )
+      )
 
       val rows = doricDf
         .as[(String, Option[(java.lang.Integer, String, String)])]
@@ -342,7 +374,7 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
         .toList
         .map {
           case (x, Some((i, y, z))) => (x, i, y, z)
-          case (x, None) => (x, null, null, null)
+          case (x, None)            => (x, null, null, null)
         }
       rows shouldBe df
         .select(f.col("ix"), f.posexplode_outer(f.col("col")))
