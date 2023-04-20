@@ -212,6 +212,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
           aggSparkCol.asDoric[T].as(sparkCol)
         )
         .selectCName(doricCol, sparkCol)
+        .orderBy(keyCol.value)
 
       compareDifferences(result, expected)
     }

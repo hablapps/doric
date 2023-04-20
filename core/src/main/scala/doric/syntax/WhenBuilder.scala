@@ -62,3 +62,63 @@ final private[doric] case class WhenBuilder[T](
     else (casesToWhenColumn, other.elem).mapN(_.otherwise(_)).toDC
 
 }
+
+final protected case class MatchBuilder[O: SparkType, T](
+    private val dCol: DoricColumn[O],
+    private val cases: WhenBuilder[T]
+) {
+
+  /**
+    * ads a case comparing the given column with the affected column
+    *
+    * @param equality
+    * the given column to compare
+    * @param elem
+    * the returned element if the condition is true
+    * @return
+    * new instance of the builder with the previous cases added
+    */
+  def caseW(
+      equality: DoricColumn[O],
+      elem: DoricColumn[T]
+  ): MatchBuilder[O, T] =
+    MatchBuilder(dCol, cases.caseW(dCol === equality, elem))
+
+  /**
+    * ads a case using a function to compare the given column and the affected column
+    *
+    * @param function
+    * BooleanColumn with the condition to satisfy
+    * @param elem
+    * the returned element if the condition is true
+    * @return
+    * new instance of the builder with the previous cases added
+    */
+  def caseW(
+      function: DoricColumn[O] => BooleanColumn,
+      elem: DoricColumn[T]
+  ): MatchBuilder[O, T] =
+    MatchBuilder(dCol, cases.caseW(function(dCol), elem))
+
+  /**
+    * Marks the rest of cases as null values of the provided type
+    *
+    * @param dt
+    *   Type class for spark data type
+    * @return
+    *   The doric column with the provided logic in the builder
+    */
+  def otherwiseNull(implicit dt: SparkType[T]): DoricColumn[T] =
+    cases.otherwiseNull
+
+  /**
+    * For the rest of cases adds a default value
+    * @param other
+    *   the default value to return
+    * @return
+    *   The doric column with the provided logic in the builder
+    */
+  def otherwise(other: DoricColumn[T]): DoricColumn[T] =
+    cases.otherwise(other)
+
+}
