@@ -10,7 +10,6 @@ import org.apache.spark.sql.{Row, functions => f}
 import java.sql.Timestamp
 import scala.jdk.CollectionConverters._
 
-case class User(name: String, surname: String, age: Int)
 case class User2(name: String, surname: String, age: Int, birthday: Timestamp)
 
 class DStructOpsSpec extends DoricTestElements {
