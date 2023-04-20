@@ -251,21 +251,7 @@ private[syntax] trait AggregationColumns {
     *
     * @group Aggregation Boolean Type
     */
-  def &&(col: BooleanColumn): BooleanColumn = andAgg(col)
-
-  /**
-    * Aggregate function: returns the AND value for a boolean column
-    *
-    * @group Aggregation Boolean Type
-    */
   def andAgg(col: BooleanColumn): BooleanColumn = min(col)
-
-  /**
-    * Aggregate function: returns the OR value for a boolean column
-    *
-    * @group Aggregation Boolean Type
-    */
-  def ||(col: BooleanColumn): BooleanColumn = orAgg(col)
 
   /**
     * Aggregate function: returns the OR value for a boolean column
