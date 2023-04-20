@@ -2,12 +2,10 @@ package doric
 package syntax
 
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
+import doric.testUtilities.data.User
 import doric.types.SparkType
-
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{IntegerType, StringType}
-
-case class User(name: String, surname: String, age: Int)
 
 class DStructOpsSpec extends DoricTestElements {
 

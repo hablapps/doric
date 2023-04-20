@@ -1,11 +1,11 @@
 package doric
 
 import doric.sem.{ColumnNotFound, DoricMultiError}
-import doric.syntax.User
+import doric.testUtilities.data.User
 import doric.types.SparkType
+
 import java.sql.{Date, Timestamp}
 import org.scalatest.EitherValues
-
 import org.apache.spark.sql.{Encoder, Row}
 
 class DoricColumnSpec extends DoricTestElements with EitherValues {

@@ -1,9 +1,9 @@
 package doric
 package syntax
 
+import doric.testUtilities.data.User
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
-
 import org.apache.spark.sql.Row
 
 class DynamicSpec extends DoricTestElements with EitherValues with Matchers {

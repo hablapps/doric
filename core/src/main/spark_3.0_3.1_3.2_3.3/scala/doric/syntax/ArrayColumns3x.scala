@@ -3,8 +3,7 @@ package syntax
 
 import cats.implicits._
 import doric.types.CollectionType
-
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, functions => f, Row}
 import org.apache.spark.sql.catalyst.expressions._
 
 trait ArrayColumns3x {
@@ -118,6 +117,100 @@ trait ArrayColumns3x {
             )
           )
         )
+        .toDC
+    }
+  }
+
+  implicit class ArrayStructColumnSyntax3x[F[_]: CollectionType](
+      private val arrRowCol: DoricColumn[F[Row]]
+  ) {
+
+    /**
+      * Sorts the input array **of structs** based on the given column names and orders.
+      * It accepts also CName objects, which will be applied the default order
+      *
+      * @example {{{
+      * colArray[Row]("myColumn").sortBy(
+      *   // implicit conversion + default order
+      *   CName("column1"),
+      *
+      *   // default order
+      *   CNameOrd("column2"),
+      *
+      *   // Custom order
+      *   CNameOrd("column3", DescNullsLast)
+      * )
+      * }}}
+      *
+      * @group Array Type
+      */
+    def sortBy(
+        ordCol: CNameOrd,
+        ordCols: CNameOrd*
+    ): ArrayColumn[Row] = {
+      val xv = x(arrRowCol.getIndex(0))
+      val yv = y(arrRowCol.getIndex(1))
+
+      val << : Byte   = -1
+      val >> : Byte   = 1
+      val areEq: Byte = 0
+
+      (arrRowCol.elem, xv.elem, yv.elem)
+        .mapN((c, x, y) => {
+
+          val getComparator: CNameOrd => Column = orderedCol => {
+            val left  = x.getField(orderedCol.name.value)
+            val right = y.getField(orderedCol.name.value)
+
+            val comparator: (Column, Column) => Column =
+              (l, r) => new Column(ArraySort.comparator(l.expr, r.expr))
+
+            def whenNullCond(
+                leftIsNull: Byte,
+                rightIsNull: Byte,
+                otherwise: Column
+            ): Column =
+              f.when(left.isNull and right.isNotNull, leftIsNull)
+                .when(left.isNotNull and right.isNull, rightIsNull)
+                .otherwise(otherwise)
+
+            orderedCol.order match {
+              case Asc | AscNullsLast =>
+                comparator(left, right) // Default behaviour
+              case AscNullsFirst =>
+                whenNullCond(
+                  leftIsNull = <<,
+                  rightIsNull = >>,
+                  otherwise = comparator(left, right)
+                )
+              case Desc | DescNullsFirst =>
+                comparator(right, left)
+              case DescNullsLast =>
+                whenNullCond(
+                  leftIsNull = >>,
+                  rightIsNull = <<,
+                  otherwise = comparator(right, left)
+                )
+            }
+          }
+
+          val initialComparator = getComparator(ordCol)
+          val initial = f.when(initialComparator =!= areEq, initialComparator)
+
+          val allColsComparator = ordCols
+            .foldLeft(initial)((sortOpts, currCol) => {
+              val comparator = getComparator(currCol)
+              sortOpts.when(comparator =!= areEq, comparator)
+            })
+            .otherwise(areEq)
+
+          new Column(
+            ArraySort(
+              c.expr,
+              lam2(allColsComparator.expr, x.expr, y.expr)
+            )
+          )
+        })
         .toDC
     }
   }

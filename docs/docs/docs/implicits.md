@@ -29,7 +29,7 @@ selecting arrays or maps, though: e.g., `colArray[Int]("name")` stands for `col[
 
 This is the whole list of column alias:
 
-| Doric column type |           Column alias            | 
+| Doric column type |            Column alias            | 
 |:-----------------:|:----------------------------------:|
 |     `String`      |             colString              |
 |      `Null`       |              colNull               |
@@ -205,4 +205,3 @@ colInt("int") + 1f //an integer with a float value can't be directly added in do
 ```scala mdoc:fail
 concat("hi", 5) // expects only strings and an integer is found
 ```
-

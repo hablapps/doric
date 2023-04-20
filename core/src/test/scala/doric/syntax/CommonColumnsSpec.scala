@@ -87,6 +87,20 @@ class CommonColumnsSpec
       res shouldBe List(Some(true), Some(false), None, None, None)
     }
 
+    it("should be comparable as equals (null safe)") {
+      val df =
+        List(("1", "1"), ("2", "1"), (null, "2"), ("3", null), (null, null))
+          .toDF("col1", "col2")
+
+      val res = df
+        .select(colString("col1") <=> col("col2"))
+        .as[Option[Boolean]]
+        .collect()
+        .toList
+
+      res shouldBe List(true, false, false, false, true).map(Option(_))
+    }
+
     it("should be comparable as different") {
       val df =
         List(("1", "1"), ("2", "1"), (null, "2"), ("3", null), (null, null))

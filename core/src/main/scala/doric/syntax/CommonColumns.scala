@@ -127,6 +127,18 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       (column.elem, other.elem).mapN(_ === _).toDC
 
     /**
+      * Type & null safe equals between Columns
+      *
+      * @group All Types
+      * @param other
+      * the column to compare
+      * @return
+      * a reference to a Boolean DoricColumn with the comparation
+      */
+    def <=>(other: DoricColumn[T]): BooleanColumn =
+      (column.elem, other.elem).mapN(_ <=> _).toDC
+
+    /**
       * Type safe distinct between Columns
       * @group All Types
       * @param other
