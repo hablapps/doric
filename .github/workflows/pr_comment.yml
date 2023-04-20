@@ -21,7 +21,7 @@ jobs:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
 #        run: echo "$GITHUB_CONTEXT"
       - name: Download PR context
-        uses: dawidd6/action-download-artifact@v2.26.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v2.26.1 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
           name: pr_context.json
           workflow_conclusion: ""
@@ -70,7 +70,7 @@ jobs:
         run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S %z (%Z)')"
 
       - name: Create summary comment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
@@ -133,7 +133,7 @@ jobs:
     steps:
       - name: Download artifact
         id: download_artifacts
-        uses: dawidd6/action-download-artifact@v2.26.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v2.26.1 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
 #          names: test-summary-*.md
           workflow_conclusion: ""
@@ -178,7 +178,7 @@ jobs:
       - name: Add test results
         if: steps.fc.conclusion == 'success'
         id: add_test_results
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
@@ -189,7 +189,7 @@ jobs:
 
       - name: Add failed comment
         if: ${{ failure() && steps.fc.conclusion == 'success' }}
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
