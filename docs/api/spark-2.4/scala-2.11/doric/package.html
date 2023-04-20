@@ -328,6 +328,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CollectOps</dd></dl></div>
+    </li><li name="doric.syntax.ControlStructures.ControlStructuresImpl" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ControlStructuresImpl[O]extendsAnyRef"></a>
+      <a id="ControlStructuresImpl[O]:ControlStructuresImpl[O]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ControlStructuresImpl</span><span class="tparams">[<span name="O">O</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.12/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@ControlStructuresImpl[O]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ControlStructures</dd></dl></div>
     </li><li name="doric.syntax.DStructs.DStructOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DStructOps[T]extendsAnyRef"></a>
       <a id="DStructOps[T]:DStructOps[T]"></a>
@@ -1481,6 +1498,25 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DStructs</dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#andAgg" visbl="pub" data-isabs="false" fullComment="yes" group="Aggregation Boolean Type">
+      <a id="andAgg(col:doric.BooleanColumn):doric.BooleanColumn"></a>
+      <a id="andAgg(BooleanColumn):BooleanColumn"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">andAgg</span><span class="params">(<span name="col">col: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@andAgg(col:doric.BooleanColumn):doric.BooleanColumn" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Aggregate function: returns the AND value for a boolean column
+</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the AND value for a boolean column
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
     </li><li name="doric.syntax.AggregationColumns#aproxCountDistinct" visbl="pub" data-isabs="false" fullComment="yes" group="Aggregation Any Type">
       <a id="aproxCountDistinct(colName:String):doric.LongColumn"></a>
       <a id="aproxCountDistinct(String):LongColumn"></a>
@@ -2897,6 +2933,25 @@ This expression would return the following IDs:</p><pre><span class="num">0</spa
     </span>
       <p class="shortcomment cmt">Inversion of boolean expression, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Inversion of boolean expression, i.e. NOT.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BooleanColumns</dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/2.4.8/api/scala/index.html#org.apache.spark.sql.functions$@not(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" target="_top">org.apache.spark.sql.functions.not</a></p></span></dd></dl></div>
+    </li><li name="doric.syntax.AggregationColumns#orAgg" visbl="pub" data-isabs="false" fullComment="yes" group="Aggregation Boolean Type">
+      <a id="orAgg(col:doric.BooleanColumn):doric.BooleanColumn"></a>
+      <a id="orAgg(BooleanColumn):BooleanColumn"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orAgg</span><span class="params">(<span name="col">col: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>)</span><span class="result">: <a href="#BooleanColumn=doric.DoricColumn[Boolean]" class="extmbr" name="doric.BooleanColumn">BooleanColumn</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#doric.package@orAgg(col:doric.BooleanColumn):doric.BooleanColumn" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Aggregate function: returns the OR value for a boolean column
+</p><div class="fullcomment"><div class="comment cmt"><p>Aggregate function: returns the OR value for a boolean column
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>AggregationColumns</dd></dl></div>
     </li><li name="doric.syntax.NumericColumns#random" visbl="pub" data-isabs="false" fullComment="yes" group="Numeric Type">
       <a id="random(seed:doric.LongColumn):doric.DoubleColumn"></a>
       <a id="random(LongColumn):DoubleColumn"></a>
@@ -3465,6 +3520,9 @@ the standard normal distribution.
         <div id="groupedMembers">
         <div class="group" name="Aggregation Any Type">
               <h3>Aggregation Any Type</h3>
+              
+            </div><div class="group" name="Aggregation Boolean Type">
+              <h3>Aggregation Boolean Type</h3>
               
             </div><div class="group" name="Aggregation Double Type">
               <h3>Aggregation Double Type</h3>
