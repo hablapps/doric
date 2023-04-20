@@ -148,3 +148,33 @@ val doricFold = transformations.foldLeft(colString("value").matches[String]) {
   
 doricFold.otherwiseNull
 ```
+
+## Array zipWithIndex function
+How many times have you need `zipWithIndex` scala function in spark? Not many, probably, but if you have to do it now Doric helps you out!:
+```scala mdoc
+val dfArray = List(
+  Array("a", "b", "c", "d"),
+  Array.empty[String],
+  null
+).toDF("col1")
+  .select(colArrayString("col1").zipWithIndex().as("zipWithIndex"))
+
+dfArray.printSchema()
+
+dfArray.show(false)
+```
+
+## Map toArray function
+Doric also provides a function to "cast" a map into an array. We have done nothing fancy, but it might help with some use cases.
+```scala mdoc
+val dfMap = List(
+  ("1", Map("a" -> "b", "c" -> "d")),
+  ("2", Map.empty[String, String]),
+  ("3", null)
+).toDF("ix", "col")
+  .select(colMapString[String]("col").toArray.as("map2Array"))
+
+dfMap.printSchema()
+
+dfMap.show(false)
+```

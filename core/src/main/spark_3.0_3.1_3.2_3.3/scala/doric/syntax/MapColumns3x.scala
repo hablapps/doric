@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import cats.implicits._
+import doric.types.SparkType
 import org.apache.spark.sql.catalyst.expressions.{MapFilter, MapZipWith, TransformKeys, TransformValues}
 import org.apache.spark.sql.{Column, Row, functions => f}
 
@@ -12,7 +13,7 @@ trait MapColumns3x {
     *
     * @group Map Type
     */
-  implicit class MapColumnOps3x[K, V](
+  implicit class MapColumnOps3x[K: SparkType, V: SparkType](
       private val map: MapColumn[K, V]
   ) {
 
@@ -51,7 +52,7 @@ trait MapColumns3x {
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.map_zip_with]]
       */
-    def zipWith[V2, R](
+    def zipWith[V2: SparkType, R](
         map2: MapColumn[K, V2],
         function: (
             DoricColumn[K],

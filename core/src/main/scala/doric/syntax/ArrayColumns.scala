@@ -92,7 +92,7 @@ private[syntax] trait ArrayColumns {
       *
       * @group Array Type
       * @param n
-      * the index of the element to retreave.
+      * the index of the element to retrieve.
       * @return
       * the DoricColumn with the selected element.
       */
@@ -394,7 +394,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.array_sort]]
       */
-    def sortAscNullsLast: ArrayColumn[T] = col.elem.map(f.array_sort).toDC
+    def sortAscNullsLast: DoricColumn[F[T]] = col.elem.map(f.array_sort).toDC
 
     /**
       * Sorts the input array for the given column in ascending order,
@@ -404,7 +404,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column,asc* org.apache.spark.sql.functions.sort_array]]
       */
-    def sortAscNullsFirst: ArrayColumn[T] = col.elem.map(f.sort_array).toDC
+    def sortAscNullsFirst: DoricColumn[F[T]] = col.elem.map(f.sort_array).toDC
 
     /**
       * Sorts the input array for the given column in ascending or descending order,
@@ -415,7 +415,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sort_array]]
       */
-    def sort(asc: BooleanColumn): ArrayColumn[T] =
+    def sort(asc: BooleanColumn): DoricColumn[F[T]] =
       (col.elem, asc.elem)
         .mapN((c, a) => {
           new Column(SortArray(c.expr, a.expr))
@@ -441,7 +441,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.arrays_overlap]]
       */
-    def overlaps[B](col2: ArrayColumn[T]): BooleanColumn =
+    def overlaps(col2: DoricColumn[F[T]]): BooleanColumn =
       (col.elem, col2.elem).mapN(f.arrays_overlap).toDC
 
     /**
@@ -490,24 +490,58 @@ private[syntax] trait ArrayColumns {
 
     /**
       * Creates a new row for each element with position in the given array column.
-      * @note Uses the default column name pos for position, and col for elements in the array and unless specified otherwise
+      *
+      * @note Uses the default column name pos for position, and value for elements in the array
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL        SPARK         DORIC
+      *  +------------+   +---+---+     +------+
+      *  |col         |   |pos|col|     |col   |
+      *  +------------+   +---+---+     +------+
+      *  |[a, b, c, d]|   |0  |a  |     |{0, a}|
+      *  |[e]         |   |1  |b  |     |{1, b}|
+      *  |[]          |   |2  |c  |     |{2, c}|
+      *  |null        |   |3  |d  |     |{3, d}|
+      *  +------------+   |0  |e  |     |{0, e}|
+      *                   +---+---+     +------+
+      * }}}
       *
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.posexplode]]
-      * @todo This function actually does not return a single column but two columns
       */
-    def posExplode: DoricColumn[T] = col.elem.map(f.posexplode).toDC
+    def posExplode: DoricColumn[Row] =
+      col.zipWithIndex("pos".cname, "value".cname).elem.map(f.explode).toDC
 
     /**
       * Creates a new row for each element with position in the given array column.
-      * Unlike posexplode, if the array is null or empty then the row (null, null) is produced.
-      * @note Uses the default column name pos for position, and col for elements in the array and unless specified otherwise
+      * Unlike posexplode, if the array is null or empty then the row null is produced.
+      *
+      * @note Uses the default column name pos for position, and col for elements in the array
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL        SPARK         DORIC
+      *  +------------+   +----+----+     +------+
+      *  |col         |   |pos |col |     |col   |
+      *  +------------+   +----+----+     +------+
+      *  |[a, b, c, d]|   |0   |a   |     |{0, a}|
+      *  |[e]         |   |1   |b   |     |{1, b}|
+      *  |[]          |   |2   |c   |     |{2, c}|
+      *  |null        |   |3   |d   |     |{3, d}|
+      *  +------------+   |0   |e   |     |{0, e}|
+      *                   |null|null|     |null  |
+      *                   |null|null|     |null  |
+      *                   +----+----+     +------+
+      * }}}
       *
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.posexplode_outer]]
-      * @todo This function actually does not return a single column but two columns
       */
-    def posExplodeOuter: DoricColumn[T] = col.elem.map(f.posexplode_outer).toDC
+    def posExplodeOuter: DoricColumn[Row] =
+      col
+        .zipWithIndex("pos".cname, "value".cname)
+        .elem
+        .map(f.explode_outer)
+        .toDC
 
     /**
       * Returns an array with reverse order of elements.
@@ -525,7 +559,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.shuffle]]
       */
-    def shuffle: ArrayColumn[T] = col.elem.map(f.shuffle).toDC
+    def shuffle: DoricColumn[F[T]] = col.elem.map(f.shuffle).toDC
 
     /**
       * Returns length of array.
@@ -548,10 +582,25 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
       */
-    def slice(start: IntegerColumn, length: IntegerColumn): ArrayColumn[T] =
+    def slice(start: IntegerColumn, length: IntegerColumn): DoricColumn[F[T]] =
       (col.elem, start.elem, length.elem)
         .mapN((a, b, c) => new Column(Slice(a.expr, b.expr, c.expr)))
         .toDC
+
+    /**
+      * DORIC EXCLUSIVE! Given any array[e] column this method will return a new
+      * array struct[i, e] column, where the first element is the index and
+      * the second element is the value itself
+      *
+      * @group Array Type
+      */
+    def zipWithIndex(
+        indexName: CName = "index".cname,
+        valueName: CName = "value".cname
+    ): DoricColumn[F[Row]] =
+      col.transformWithIndex((value, index) =>
+        struct(index.asCName(indexName), value.asCName(valueName))
+      )
 
     /**
       * Merge two given arrays, element-wise, into a single array using a function.

@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import doric.implicitConversions._
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, functions => f}
 
 import java.sql.Timestamp
@@ -170,10 +171,10 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
     }
   }
 
-  describe("explode doric function (for maps)") {
+  describe("toArray doric function (for maps)") {
     import spark.implicits._
 
-    it("should work as spark explode function") {
+    it("should generate an array of tuples [key, value]") {
       val df = List(
         ("1", Map("a" -> "b", "c" -> "d")),
         ("2", Map.empty[String, String]),
@@ -181,10 +182,44 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
       ).toDF("ix", "col")
 
       val rows = df
-        .select(colString("ix"), colMapString[String]("col").explode)
-        .as[(String, String, String)]
+        .select(colMapString[String]("col").toArray)
+        .as[List[(String, String)]]
         .collect()
         .toList
+      rows shouldBe List(
+        List(("a", "b"), ("c", "d")),
+        List.empty[(String, String)],
+        null
+      )
+    }
+  }
+
+  describe("explode doric function (for maps)") {
+    import spark.implicits._
+
+    it("should work as spark explode function but in a struct") {
+      val df = List(
+        ("1", Map("a" -> "b", "c" -> "d")),
+        ("2", Map.empty[String, String]),
+        ("3", null)
+      ).toDF("ix", "col")
+
+      val doricDf = df
+        .select(colString("ix"), colMapString[String]("col").explode)
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("key", StringType, nullable = true),
+          StructField("value", StringType, nullable = true)
+        )), nullable = false)
+      ))
+
+      val rows = doricDf
+        .as[(String, (String, String))]
+        .collect()
+        .toList
+        .map(x => (x._1, x._2._1, x._2._2))
       rows shouldBe df
         .select(f.col("ix"), f.explode(f.col("col")))
         .as[(String, String, String)]
@@ -200,18 +235,32 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
   describe("explodeOuter doric function (for maps)") {
     import spark.implicits._
 
-    it("should work as spark explode_outer function") {
+    it("should work as spark explode_outer function but in a struct") {
       val df = List(
         ("1", Map("a" -> "b", "c" -> "d")),
         ("2", Map.empty[String, String]),
         ("3", null)
       ).toDF("ix", "col")
 
-      val rows = df
+      val doricDf = df
         .select(colString("ix"), colMapString[String]("col").explodeOuter)
-        .as[(String, String, String)]
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("key", StringType, nullable = true),
+          StructField("value", StringType, nullable = true)
+        )), nullable = true)
+      ))
+
+      val rows = doricDf
+        .as[(String, Option[(String, String)])]
         .collect()
         .toList
+        .map {
+          case (x, Some((y, z))) => (x, y, z)
+          case (x, None) => (x, null, null)
+        }
       rows shouldBe df
         .select(f.col("ix"), f.explode_outer(f.col("col")))
         .as[(String, String, String)]
@@ -229,18 +278,30 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
   describe("posExplode doric function (for maps)") {
     import spark.implicits._
 
-    it("should work as spark posexplode function") {
+    it("should work as spark posexplode function but in a struct") {
       val df = List(
         ("1", Map("a" -> "b", "c" -> "d")),
         ("2", Map.empty[String, String]),
         ("3", null)
       ).toDF("ix", "col")
 
-      val rows = df
+      val doricDf = df
         .select(colString("ix"), colMapString[String]("col").posExplode)
-        .as[(String, Int, String, String)]
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("pos", IntegerType, nullable = false),
+          StructField("key", StringType, nullable = true),
+          StructField("value", StringType, nullable = true)
+        )), nullable = false)
+      ))
+
+      val rows = doricDf
+        .as[(String, (Int, String, String))]
         .collect()
         .toList
+        .map(x => (x._1, x._2._1, x._2._2, x._2._3))
       rows shouldBe df
         .select(f.col("ix"), f.posexplode(f.col("col")))
         .as[(String, Int, String, String)]
@@ -256,18 +317,33 @@ class MapColumnsSpec extends DoricTestElements with MapColumns {
   describe("posExplodeOuter doric function (for maps)") {
     import spark.implicits._
 
-    it("should work as spark posexplode_outer function") {
+    it("should work as spark posexplode_outer function but in a struct") {
       val df = List(
         ("1", Map("a" -> "b", "c" -> "d")),
         ("2", Map.empty[String, String]),
         ("3", null)
       ).toDF("ix", "col")
 
-      val rows = df
+      val doricDf = df
         .select(colString("ix"), colMapString[String]("col").posExplodeOuter)
-        .as[(String, java.lang.Integer, String, String)]
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("pos", IntegerType, nullable = false),
+          StructField("key", StringType, nullable = true),
+          StructField("value", StringType, nullable = true)
+        )), nullable = true)
+      ))
+
+      val rows = doricDf
+        .as[(String, Option[(java.lang.Integer, String, String)])]
         .collect()
         .toList
+        .map {
+          case (x, Some((i, y, z))) => (x, i, y, z)
+          case (x, None) => (x, null, null, null)
+        }
       rows shouldBe df
         .select(f.col("ix"), f.posexplode_outer(f.col("col")))
         .as[(String, java.lang.Integer, String, String)]

@@ -2,8 +2,9 @@ package doric
 package syntax
 
 import cats.implicits._
+import doric.types.{SparkType}
 import org.apache.spark.sql.functions.{map_keys, map_values}
-import org.apache.spark.sql.{Column, functions => f}
+import org.apache.spark.sql.{Column, Row, functions => f}
 
 import scala.jdk.CollectionConverters._
 
@@ -78,7 +79,7 @@ private[syntax] trait MapColumns {
     * Extension methods for Map Columns
     * @group Map Type
     */
-  implicit class MapColumnOps[K, V](
+  implicit class MapColumnOps[K: SparkType, V: SparkType](
       private val map: MapColumn[K, V]
   ) {
 
@@ -139,44 +140,105 @@ private[syntax] trait MapColumns {
     def size: IntegerColumn = map.elem.map(f.size).toDC
 
     /**
+      * DORIC EXCLUSIVE! Map to array conversion
+      */
+    def toArray: DoricColumn[Array[Row]] =
+      map.keys.zipWith(map.values)((a, b) => struct(a.as("key"), b.as("value")))
+
+    /**
       * Creates a new row for each element in the given map column.
+      *
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL             SPARK         DORIC
+      *  +----------------+   +---+-----+     +------+
+      *  |col             |   |key|value|     |col   |
+      *  +----------------+   +---+-----+     +------+
+      *  |[a -> b, c -> d]|   |a  |b    |     |{a, b}|
+      *  |[]              |   |c  |d    |     |{c, d}|
+      *  |null            |   +---+-----+     +------+
+      *  +----------------+
+      * }}}
       *
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.explode]]
-      * @todo This function actually does not return a single column but two columns
       */
-    def explode: DoricColumn[K] = map.elem.map(f.explode).toDC
+    def explode: DoricColumn[Row] = map.toArray.elem.map(f.explode).toDC
 
     /**
       * Creates a new row for each element in the given map column.
-      * Unlike explode, if the array is null or empty then null is produced.
+      * @note Unlike explode, if the array is null or empty then null is produced.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *        ORIGINAL               SPARK            DORIC
+      *  +---+----------------+   +---+----+-----+  +---+------+
+      *  |ix |col             |   |ix |key |value|  |ix |col   |
+      *  +---+----------------+   +---+----+-----+  +---+------+
+      *  |1  |{a -> b, c -> d}|   |1  |a   |b    |  |1  |{a, b}|
+      *  |2  |{}              |   |1  |c   |d    |  |1  |{c, d}|
+      *  |3  |null            |   |2  |null|null |  |2  |null  |
+      *  +---+----------------+   |3  |null|null |  |3  |null  |
+      *                           +---+----+-----+  +---+------+
+      * }}}
       *
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.explode_outer]]
-      * @todo This function actually does not return a single column but two columns
       */
-    def explodeOuter: RowColumn = map.elem.map(f.explode_outer).toDC
+    def explodeOuter: DoricColumn[Row] =
+      map.toArray.elem.map(f.explode_outer).toDC
+
+    private def mapToArrayZipped: DoricColumn[Array[Row]] =
+      map.toArray.transformWithIndex((value, index) =>
+        struct(
+          index.asCName("pos".cname),
+          value.getChild[K]("key").asCName("key".cname),
+          value.getChild[V]("value").asCName("value".cname)
+        )
+      )
 
     /**
       * Creates a new row for each element with position in the given map column.
-      * @note Uses the default column name pos for position, and key and value for elements in the map unless specified otherwise.
+      *
+      * @note Uses the default column name pos for position, and key and value for elements in the map.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL               SPARK             DORIC
+      *  +----------------+   +---+---+-----+     +---------+
+      *  |col             |   |pos|key|value|     |col      |
+      *  +----------------+   +---+---+-----+     +---------+
+      *  |[a -> b, c -> d]|   |1  |a  |b    |     |{1, a, b}|
+      *  |[]              |   |2  |c  |d    |     |{2, c, d}|
+      *  |null            |   +---+---+-----+     +---------+
+      *  +----------------+
+      * }}}
       *
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.posexplode]]
-      * @todo This function actually does not return a single column but three columns
       */
-    def posExplode: DoricColumn[K] = map.elem.map(f.posexplode).toDC
+    def posExplode: DoricColumn[Row] = mapToArrayZipped.explode
 
     /**
       * Creates a new row for each element with position in the given map column.
       * Unlike posexplode, if the map is null or empty then the row (null, null) is produced.
-      * @note Uses the default column name pos for position, and key and value for elements in the map unless specified otherwise.
+      *
+      * @note Uses the default column name pos for position, and key and value for elements in the map.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL               SPARK             DORIC
+      *  +----------------+   +---+----+-----+    +---------+
+      *  |col             |   |pos|key |value|    |col      |
+      *  +----------------+   +---+----+-----+    +---------+
+      *  |[a -> b, c -> d]|   |1  |a   |b    |    |{1, a, b}|
+      *  |[]              |   |2  |c   |d    |    |{2, c, d}|
+      *  |null            |   |2  |null|null |    |null     |
+      *  +----------------+   |3  |null|null |    |null     |
+      *                       +---+----+-----+    +---+-----+
+      * }}}
       *
       * @group Map Type
       * @see [[org.apache.spark.sql.functions.posexplode_outer]]
-      * @todo This function actually does not return a single column but three columns
       */
-    def posExplodeOuter: RowColumn = map.elem.map(f.posexplode_outer).toDC
+    def posExplodeOuter: RowColumn = mapToArrayZipped.explodeOuter
 
     /**
       * Converts a column containing a StructType into a JSON string with the specified schema.

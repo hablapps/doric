@@ -5,7 +5,7 @@ import doric.SparkAuxFunctions.createLambda
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import doric.types.SparkType
 import org.apache.spark.sql.catalyst.expressions.ArrayExists
-import org.apache.spark.sql.types.{IntegerType, LongType, StringType}
+import org.apache.spark.sql.types.{IntegerType, LongType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Column, Row, functions => f}
 
 import java.sql.Timestamp
@@ -656,7 +656,7 @@ class ArrayColumnsSpec extends DoricTestElements {
   describe("posExplode doric function") {
     import spark.implicits._
 
-    it("should work as spark posexplode function") {
+    it("should work like spark posexplode function but in a struct") {
       val df = List(
         ("1", Array("a", "b", "c", "d")),
         ("2", Array("e")),
@@ -664,11 +664,21 @@ class ArrayColumnsSpec extends DoricTestElements {
         ("4", null)
       ).toDF("ix", "col")
 
-      val rows = df
-        .select(colString("ix"), colArrayString("col").posExplode)
-        .as[(String, Int, String)]
+      val doricDf = df.select(colString("ix"), colArrayString("col").posExplode)
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("pos", IntegerType, nullable = false),
+          StructField("value", StringType, nullable = true)
+        )), nullable = false)
+      ))
+
+      val rows = doricDf
+        .as[(String, (Int, String))]
         .collect()
         .toList
+        .map(x => (x._1, x._2._1, x._2._2))
       rows shouldBe df
         .select(f.col("ix"), f.posexplode(f.col("col")))
         .as[(String, Int, String)]
@@ -687,7 +697,7 @@ class ArrayColumnsSpec extends DoricTestElements {
   describe("posExplodeOuter doric function") {
     import spark.implicits._
 
-    it("should work as spark posexplode_outer function") {
+    it("should work like spark posexplode_outer function but in a struct") {
       val df = List(
         ("1", Array("a", "b", "c", "d")),
         ("2", Array("e")),
@@ -695,11 +705,25 @@ class ArrayColumnsSpec extends DoricTestElements {
         ("4", null)
       ).toDF("ix", "col")
 
-      val rows = df
+      val doricDf = df
         .select(colString("ix"), colArrayString("col").posExplodeOuter)
-        .as[(String, java.lang.Integer, String)]
+
+      doricDf.schema shouldBe StructType(Seq(
+        StructField("ix", StringType, nullable = true),
+        StructField("col", StructType(Seq(
+          StructField("pos", IntegerType, nullable = false),
+          StructField("value", StringType, nullable = true)
+        )), nullable = true)
+      ))
+
+      val rows = doricDf
+        .as[(String, Option[(java.lang.Integer, String)])]
         .collect()
         .toList
+        .map {
+          case (x, Some((y, z))) => (x, y, z)
+          case (x, None) => (x, null, null)
+        }
       rows shouldBe df
         .select(f.col("ix"), f.posexplode_outer(f.col("col")))
         .as[(String, java.lang.Integer, String)]
@@ -835,6 +859,53 @@ class ArrayColumnsSpec extends DoricTestElements {
         (c, s) => colArrayString(c).exists(_.startsWith(s.lit)),
         (c, s) => exists_old(f.col(c), _.startsWith(s)),
         List(Some(true), Some(false), None)
+      )
+    }
+  }
+
+  describe("zipWithIndex doric function") {
+    import spark.implicits._
+
+    it("should zip with index (left)") {
+      val df = List(
+        Array("a", "b", "c", "d"),
+        Array.empty[String],
+        null
+      ).toDF("col1")
+
+      val expected = List(
+        List((0, "a"), (1, "b"), (2, "c"), (3, "d")),
+        List.empty,
+        null
+      )
+
+      val result = df.select(colArrayString("col1").zipWithIndex())
+        .as[List[(Int, String)]]
+        .collect()
+        .toList
+
+      result shouldBe expected
+    }
+  }
+
+  describe("zipWith doric function") {
+    import spark.implicits._
+
+    it("should work as spark zip_with function") {
+      val df = List(
+        (Array("a", "b", "c", "d"), Array("b", "a", "e")),
+        (Array("a"), null),
+        (null, Array("b")),
+        (null, null)
+      ).toDF("col1", "col2")
+
+      df.testColumns2("col1", "col2")(
+        (
+          c1,
+          c2
+        ) => colArrayString(c1).zipWith(colArrayString(c2))(concat(_, _)),
+        (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
+        List(Some(Array("ab", "ba", "ce", null)), None, None, None)
       )
     }
   }
