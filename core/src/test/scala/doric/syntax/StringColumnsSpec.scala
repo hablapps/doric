@@ -917,7 +917,7 @@ class StringColumnsSpec extends DoricTestElements {
 
     it("should work as spark from_json(column) function") {
       df.testColumns2("col1", "a INTEGER, b STRING, date STRING")(
-        (c, schema) => colString(c).fromJson(schema.lit),
+        (c, schema) => colString(c).fromJsonString(schema.lit),
         (c, schema) => f.from_json(f.col(c), f.lit(schema)),
         List(Some(Row(1, "a", "26/08/2015")))
       )
@@ -929,7 +929,11 @@ class StringColumnsSpec extends DoricTestElements {
         "a INTEGER, b STRING, date Timestamp",
         Map("timestampFormat" -> "dd/MM/yyyy")
       )(
-        (c, schema, options) => colString(c).fromJson(schema.lit, options),
+        (
+            c,
+            schema,
+            options
+        ) => colString(c).fromJsonString(schema.lit, options),
         (c, schema, options) =>
           f.from_json(f.col(c), f.lit(schema), options.asJava),
         List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
@@ -941,7 +945,7 @@ class StringColumnsSpec extends DoricTestElements {
         "col1",
         StructType.fromDDL("a INTEGER, b STRING, date STRING")
       )(
-        (c, schema) => colString(c).fromJson2(schema),
+        (c, schema) => colString(c).fromJsonStruct(schema),
         (c, schema) => f.from_json(f.col(c), schema, Map.empty[String, String]),
         List(Some(Row(1, "a", "26/08/2015")))
       )
@@ -953,7 +957,7 @@ class StringColumnsSpec extends DoricTestElements {
         StructType.fromDDL("a INTEGER, b STRING, date Timestamp"),
         Map("timestampFormat" -> "dd/MM/yyyy")
       )(
-        (c, schema, options) => colString(c).fromJson2(schema, options),
+        (c, schema, options) => colString(c).fromJsonStruct(schema, options),
         (c, schema, options) => f.from_json(f.col(c), schema, options),
         List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
       )
@@ -964,7 +968,7 @@ class StringColumnsSpec extends DoricTestElements {
         "col1",
         DataType.fromDDL("a INTEGER, b STRING, date STRING")
       )(
-        (c, schema) => colString(c).fromJson3(schema),
+        (c, schema) => colString(c).fromJsonDataType(schema),
         (c, schema) => f.from_json(f.col(c), schema, Map.empty[String, String]),
         List(Some(Row(1, "a", "26/08/2015")))
       )
@@ -976,7 +980,7 @@ class StringColumnsSpec extends DoricTestElements {
         DataType.fromDDL("a INTEGER, b STRING, date Timestamp"),
         Map("timestampFormat" -> "dd/MM/yyyy")
       )(
-        (c, schema, options) => colString(c).fromJson3(schema, options),
+        (c, schema, options) => colString(c).fromJsonDataType(schema, options),
         (c, schema, options) => f.from_json(f.col(c), schema, options),
         List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
       )

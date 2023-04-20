@@ -604,14 +604,14 @@ private[syntax] trait StringColumns {
     def unHex: BinaryColumn = s.elem.map(f.unhex).toDC
 
     /**
-      * Parses a column containing a CSV string into a StructType with the specified schema.
+      * Parses a column containing a JSON string into a StructType with the specified schema.
       *
       * @note Returns null, in the case of an unparseable string
       *
       * @group String Type
       * @see [[org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.from_json]]
       */
-    def fromJson(
+    def fromJsonString(
         schema: StringColumn,
         options: Map[String, String] = Map.empty
     ): RowColumn =
@@ -620,16 +620,15 @@ private[syntax] trait StringColumns {
         .toDC
 
     /**
-      * Parses a column containing a CSV string into a StructType with the specified schema.
+      * Parses a column containing a JSON string into a StructType with the specified schema.
       *
       * @note Returns null, in the case of an unparseable string
       *
       * @group String Type
       * @see org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.StructType,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.from_json
-      * @todo here we have an error because of same function name
       * @todo scaladoc link (issue #135)
       */
-    def fromJson2(
+    def fromJsonStruct(
         schema: StructType,
         options: Map[String, String] = Map.empty
     ): RowColumn = {
@@ -637,16 +636,15 @@ private[syntax] trait StringColumns {
     }
 
     /**
-      * Parses a column containing a CSV string into a StructType with the specified schema.
+      * Parses a column containing a JSON string into a StructType with the specified schema.
       *
       * @note Returns null, in the case of an unparseable string
       *
       * @group String Type
       * @see org.apache.spark.sql.functions.from_json(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.DataType,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.from_json
-      * @todo here we have an error because of same function name
       * @todo scaladoc link (issue #135)
       */
-    def fromJson3(
+    def fromJsonDataType(
         schema: DataType,
         options: Map[String, String] = Map.empty
     ): RowColumn =

@@ -145,7 +145,7 @@ class StringColumns3xSpec
 
     it("should work as spark from_csv(column) function") {
       df.testColumns2("col1", "a INTEGER, b STRING, date STRING")(
-        (c, schema) => colString(c).fromCsv(schema.lit),
+        (c, schema) => colString(c).fromCsvString(schema.lit),
         (c, schema) =>
           f.from_csv(f.col(c), f.lit(schema), Map.empty[String, String].asJava),
         List(Some(Row(1, "a", "26/08/2015")))
@@ -158,7 +158,7 @@ class StringColumns3xSpec
         "a INTEGER, b STRING, date Timestamp",
         Map("timestampFormat" -> "dd/MM/yyyy")
       )(
-        (c, schema, options) => colString(c).fromCsv(schema.lit, options),
+        (c, schema, options) => colString(c).fromCsvString(schema.lit, options),
         (c, schema, options) =>
           f.from_csv(f.col(c), f.lit(schema), options.asJava),
         List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
@@ -170,7 +170,7 @@ class StringColumns3xSpec
         "col1",
         StructType.fromDDL("a INTEGER, b STRING, date STRING")
       )(
-        (c, schema) => colString(c).fromCsv2(schema),
+        (c, schema) => colString(c).fromCsvStruct(schema),
         (c, schema) => f.from_csv(f.col(c), schema, Map.empty[String, String]),
         List(Some(Row(1, "a", "26/08/2015")))
       )
@@ -182,7 +182,7 @@ class StringColumns3xSpec
         StructType.fromDDL("a INTEGER, b STRING, date Timestamp"),
         Map("timestampFormat" -> "dd/MM/yyyy")
       )(
-        (c, schema, options) => colString(c).fromCsv2(schema, options),
+        (c, schema, options) => colString(c).fromCsvStruct(schema, options),
         (c, schema, options) => f.from_csv(f.col(c), schema, options),
         List(Some(Row(1, "a", Timestamp.valueOf("2015-08-26 00:00:00"))))
       )

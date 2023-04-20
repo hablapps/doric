@@ -78,7 +78,7 @@ trait StringColumn3x {
       * @group String Type
       * @see [[org.apache.spark.sql.functions.from_csv(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.from_csv]]
       */
-    def fromCsv(
+    def fromCsvString(
         schema: StringColumn,
         options: Map[String, String] = Map.empty
     ): RowColumn =
@@ -94,7 +94,7 @@ trait StringColumn3x {
       * @see [[org.apache.spark.sql.functions.from_csv(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.StructType,options:* org.apache.spark.sql.functions.from_csv]]
       * @todo here we have an error because of same function name
       */
-    def fromCsv2(
+    def fromCsvStruct(
         schema: StructType,
         options: Map[String, String] = Map.empty
     ): RowColumn =
