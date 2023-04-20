@@ -82,13 +82,10 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
   }
 
   /**
-    * Extension methods for any kind of column
+    * Casting methods
     * @group All Types
     */
-  implicit class BasicCol[T: SparkType](private val column: DoricColumn[T]) {
-
-    private type CastToT[To]  = Casting[T, To]
-    private type WCastToT[To] = UnsafeCasting[T, To]
+  implicit class CastingImpl[T](private val column: DoricColumn[T]) {
 
     /**
       * Gives the column an alias.
@@ -113,6 +110,16 @@ private[syntax] trait CommonColumns extends ColGetters[NamedDoricColumn] {
       */
     def asCName(colName: CName): NamedDoricColumn[T] =
       NamedDoricColumn[T](column, colName.value)
+  }
+
+  /**
+    * Extension methods for any kind of column
+    * @group All Types
+    */
+  implicit class BasicCol[T: SparkType](private val column: DoricColumn[T]) {
+
+    private type CastToT[To]  = Casting[T, To]
+    private type WCastToT[To] = UnsafeCasting[T, To]
 
     /**
       * Type safe equals between Columns

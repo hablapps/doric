@@ -2,9 +2,11 @@ package doric
 package syntax
 
 import cats.implicits._
-
-import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.StringSplit
+import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.{Column, functions => f}
+
+import scala.jdk.CollectionConverters._
 
 trait StringColumn3x {
   implicit class StringOperationsSyntax3x(s: DoricColumn[String]) {
@@ -47,5 +49,55 @@ trait StringColumn3x {
       (s.elem, pattern.elem, limit.elem)
         .mapN((str, p, l) => new Column(StringSplit(str.expr, p.expr, l.expr)))
         .toDC
+
+    /**
+      * Parses a CSV string and infers its schema in DDL format.
+      * @throws org.apache.spark.sql.AnalysisException if it is not a foldable string expression or null
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.schema_of_csv(csv:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.schema_of_csv]]
+      */
+    def schemaOfCsv(options: Map[String, String] = Map.empty): StringColumn = {
+      s.elem.map(x => f.schema_of_csv(x, options.asJava)).toDC
+    }
+
+    /**
+      * Parses a JSON string and infers its schema in DDL format.
+      * @throws org.apache.spark.sql.AnalysisException if it is not a foldable string expression or null
+      *
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.schema_of_json(json:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.schema_of_json]]
+      */
+    def schemaOfJson(options: Map[String, String] = Map.empty): StringColumn = {
+      s.elem.map(x => f.schema_of_json(x, options.asJava)).toDC
+    }
+
+    /**
+      * Parses a column containing a CSV string into a StructType with the specified schema.
+      *
+      * @note Returns null, in the case of an unparseable string.
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.from_csv(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.Column,options:* org.apache.spark.sql.functions.from_csv]]
+      */
+    def fromCsvString(
+        schema: StringColumn,
+        options: Map[String, String] = Map.empty
+    ): RowColumn =
+      (s.elem, schema.elem)
+        .mapN((x, y) => f.from_csv(x, y, options.asJava))
+        .toDC
+
+    /**
+      * Parses a column containing a CSV string into a StructType with the specified schema.
+      *
+      * @note Returns null, in the case of an unparseable string.
+      * @group String Type
+      * @see [[org.apache.spark.sql.functions.from_csv(e:org\.apache\.spark\.sql\.Column,schema:org\.apache\.spark\.sql\.types\.StructType,options:* org.apache.spark.sql.functions.from_csv]]
+      * @todo here we have an error because of same function name
+      */
+    def fromCsvStruct(
+        schema: StructType,
+        options: Map[String, String] = Map.empty
+    ): RowColumn =
+      s.elem.map(x => f.from_csv(x, schema, options)).toDC
   }
 }

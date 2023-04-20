@@ -56,28 +56,6 @@ class ArrayColumns3xSpec
       )
     }
   }
-
-  describe("zipWith doric function") {
-
-    it("should work as spark zip_with function") {
-      val df = List(
-        (Array("a", "b", "c", "d"), Array("b", "a", "e")),
-        (Array("a"), null),
-        (null, Array("b")),
-        (null, null)
-      ).toDF("col1", "col2")
-
-      df.testColumns2("col1", "col2")(
-        (
-            c1,
-            c2
-        ) => colArrayString(c1).zipWith(colArrayString(c2))(concat(_, _)),
-        (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
-        List(Some(Array("ab", "ba", "ce", null)), None, None, None)
-      )
-    }
-  }
-
   describe("sort doric function") {
 
     lazy val arraySort_old: (Column, Column) => Column =

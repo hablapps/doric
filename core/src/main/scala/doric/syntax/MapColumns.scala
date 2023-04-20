@@ -2,9 +2,11 @@ package doric
 package syntax
 
 import cats.implicits._
-
-import org.apache.spark.sql.{Column, functions => f}
+import doric.types.{SparkType}
 import org.apache.spark.sql.functions.{map_keys, map_values}
+import org.apache.spark.sql.{Column, Row, functions => f}
+
+import scala.jdk.CollectionConverters._
 
 private[syntax] trait MapColumns {
 
@@ -77,7 +79,7 @@ private[syntax] trait MapColumns {
     * Extension methods for Map Columns
     * @group Map Type
     */
-  implicit class MapColumnOps[K, V](
+  implicit class MapColumnOps[K: SparkType, V: SparkType](
       private val map: MapColumn[K, V]
   ) {
 
@@ -136,5 +138,117 @@ private[syntax] trait MapColumns {
       * @see [[org.apache.spark.sql.functions.size]]
       */
     def size: IntegerColumn = map.elem.map(f.size).toDC
+
+    /**
+      * DORIC EXCLUSIVE! Map to array conversion
+      */
+    def toArray: DoricColumn[Array[Row]] =
+      map.keys.zipWith(map.values)((a, b) => struct(a.as("key"), b.as("value")))
+
+    /**
+      * Creates a new row for each element in the given map column.
+      *
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL             SPARK         DORIC
+      *  +----------------+   +---+-----+     +------+
+      *  |col             |   |key|value|     |col   |
+      *  +----------------+   +---+-----+     +------+
+      *  |[a -> b, c -> d]|   |a  |b    |     |{a, b}|
+      *  |[]              |   |c  |d    |     |{c, d}|
+      *  |null            |   +---+-----+     +------+
+      *  +----------------+
+      * }}}
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.explode]]
+      */
+    def explode: DoricColumn[Row] = map.toArray.elem.map(f.explode).toDC
+
+    /**
+      * Creates a new row for each element in the given map column.
+      * @note Unlike explode, if the array is null or empty then null is produced.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *        ORIGINAL               SPARK            DORIC
+      *  +---+----------------+   +---+----+-----+  +---+------+
+      *  |ix |col             |   |ix |key |value|  |ix |col   |
+      *  +---+----------------+   +---+----+-----+  +---+------+
+      *  |1  |{a -> b, c -> d}|   |1  |a   |b    |  |1  |{a, b}|
+      *  |2  |{}              |   |1  |c   |d    |  |1  |{c, d}|
+      *  |3  |null            |   |2  |null|null |  |2  |null  |
+      *  +---+----------------+   |3  |null|null |  |3  |null  |
+      *                           +---+----+-----+  +---+------+
+      * }}}
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.explode_outer]]
+      */
+    def explodeOuter: DoricColumn[Row] =
+      map.toArray.elem.map(f.explode_outer).toDC
+
+    private def mapToArrayZipped: DoricColumn[Array[Row]] =
+      map.toArray.transformWithIndex((value, index) =>
+        struct(
+          index.asCName("pos".cname),
+          value.getChild[K]("key").asCName("key".cname),
+          value.getChild[V]("value").asCName("value".cname)
+        )
+      )
+
+    /**
+      * Creates a new row for each element with position in the given map column.
+      *
+      * @note Uses the default column name pos for position, and key and value for elements in the map.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL               SPARK             DORIC
+      *  +----------------+   +---+---+-----+     +---------+
+      *  |col             |   |pos|key|value|     |col      |
+      *  +----------------+   +---+---+-----+     +---------+
+      *  |[a -> b, c -> d]|   |1  |a  |b    |     |{1, a, b}|
+      *  |[]              |   |2  |c  |d    |     |{2, c, d}|
+      *  |null            |   +---+---+-----+     +---------+
+      *  +----------------+
+      * }}}
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.posexplode]]
+      */
+    def posExplode: DoricColumn[Row] = mapToArrayZipped.explode
+
+    /**
+      * Creates a new row for each element with position in the given map column.
+      * Unlike posexplode, if the map is null or empty then the row (null, null) is produced.
+      *
+      * @note Uses the default column name pos for position, and key and value for elements in the map.
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL               SPARK             DORIC
+      *  +----------------+   +---+----+-----+    +---------+
+      *  |col             |   |pos|key |value|    |col      |
+      *  +----------------+   +---+----+-----+    +---------+
+      *  |[a -> b, c -> d]|   |1  |a   |b    |    |{1, a, b}|
+      *  |[]              |   |2  |c   |d    |    |{2, c, d}|
+      *  |null            |   |2  |null|null |    |null     |
+      *  +----------------+   |3  |null|null |    |null     |
+      *                       +---+----+-----+    +---+-----+
+      * }}}
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.posexplode_outer]]
+      */
+    def posExplodeOuter: RowColumn = mapToArrayZipped.explodeOuter
+
+    /**
+      * Converts a column containing a StructType into a JSON string with the specified schema.
+      * @throws java.lang.IllegalArgumentException in the case of an unsupported type.
+      *
+      * @group Map Type
+      * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv
+      * @todo scaladoc link (issue #135)
+      */
+    def toJson(options: Map[String, String] = Map.empty): StringColumn =
+      map.elem.map(x => f.to_json(x, options.asJava)).toDC
   }
 }

@@ -121,4 +121,26 @@ class MapColumns3xSpec extends DoricTestElements with MapColumns {
       )
     }
   }
+
+  describe("mapEntries doric function") {
+    import spark.implicits._
+
+    val df = List(
+      Map("k1" -> "v1", "k2" -> "v2"),
+      Map.empty[String, String],
+      null
+    ).toDF("col1")
+
+    it("should work as spark map_entries function") {
+      df.testColumns("col1")(
+        c => colMapString[String](c).mapEntries,
+        c => f.map_entries(f.col(c)),
+        List(
+          Some(Array(Row("k1", "v1"), Row("k2", "v2"))),
+          Some(Array.empty[Row]),
+          None
+        )
+      )
+    }
+  }
 }

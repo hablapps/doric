@@ -1,16 +1,16 @@
 package doric
 package syntax
 
-import scala.language.higherKinds
-import scala.reflect.ClassTag
-
 import cats.data.Kleisli
 import cats.implicits._
 import doric.types.{CollectionType, LiteralSparkType, SparkType}
-
-import org.apache.spark.sql.{Column, Dataset, functions => f}
-import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
+import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
+
+import scala.jdk.CollectionConverters._
+import scala.language.higherKinds
+import scala.reflect.ClassTag
 
 protected final case class Zipper[T1, T2, F[_]: CollectionType](
     col: DoricColumn[F[T1]],
@@ -92,7 +92,7 @@ private[syntax] trait ArrayColumns {
       *
       * @group Array Type
       * @param n
-      * the index of the element to retreave.
+      * the index of the element to retrieve.
       * @return
       * the DoricColumn with the selected element.
       */
@@ -394,7 +394,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.array_sort]]
       */
-    def sortAscNullsLast: ArrayColumn[T] = col.elem.map(f.array_sort).toDC
+    def sortAscNullsLast: DoricColumn[F[T]] = col.elem.map(f.array_sort).toDC
 
     /**
       * Sorts the input array for the given column in ascending order,
@@ -404,7 +404,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column,asc* org.apache.spark.sql.functions.sort_array]]
       */
-    def sortAscNullsFirst: ArrayColumn[T] = col.elem.map(f.sort_array).toDC
+    def sortAscNullsFirst: DoricColumn[F[T]] = col.elem.map(f.sort_array).toDC
 
     /**
       * Sorts the input array for the given column in ascending or descending order,
@@ -415,7 +415,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.sort_array(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.sort_array]]
       */
-    def sort(asc: BooleanColumn): ArrayColumn[T] =
+    def sort(asc: BooleanColumn): DoricColumn[F[T]] =
       (col.elem, asc.elem)
         .mapN((c, a) => {
           new Column(SortArray(c.expr, a.expr))
@@ -441,7 +441,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.arrays_overlap]]
       */
-    def overlaps[B](col2: ArrayColumn[T]): BooleanColumn =
+    def overlaps(col2: DoricColumn[F[T]]): BooleanColumn =
       (col.elem, col2.elem).mapN(f.arrays_overlap).toDC
 
     /**
@@ -489,6 +489,61 @@ private[syntax] trait ArrayColumns {
     def explodeOuter: DoricColumn[T] = col.elem.map(f.explode_outer).toDC
 
     /**
+      * Creates a new row for each element with position in the given array column.
+      *
+      * @note Uses the default column name pos for position, and value for elements in the array
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL        SPARK         DORIC
+      *  +------------+   +---+---+     +------+
+      *  |col         |   |pos|col|     |col   |
+      *  +------------+   +---+---+     +------+
+      *  |[a, b, c, d]|   |0  |a  |     |{0, a}|
+      *  |[e]         |   |1  |b  |     |{1, b}|
+      *  |[]          |   |2  |c  |     |{2, c}|
+      *  |null        |   |3  |d  |     |{3, d}|
+      *  +------------+   |0  |e  |     |{0, e}|
+      *                   +---+---+     +------+
+      * }}}
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.posexplode]]
+      */
+    def posExplode: DoricColumn[Row] =
+      col.zipWithIndex("pos".cname, "value".cname).elem.map(f.explode).toDC
+
+    /**
+      * Creates a new row for each element with position in the given array column.
+      * Unlike posexplode, if the array is null or empty then the row null is produced.
+      *
+      * @note Uses the default column name pos for position, and col for elements in the array
+      * @note WARNING: Unlike spark, doric returns a struct
+      * @example {{{
+      *     ORIGINAL        SPARK         DORIC
+      *  +------------+   +----+----+     +------+
+      *  |col         |   |pos |col |     |col   |
+      *  +------------+   +----+----+     +------+
+      *  |[a, b, c, d]|   |0   |a   |     |{0, a}|
+      *  |[e]         |   |1   |b   |     |{1, b}|
+      *  |[]          |   |2   |c   |     |{2, c}|
+      *  |null        |   |3   |d   |     |{3, d}|
+      *  +------------+   |0   |e   |     |{0, e}|
+      *                   |null|null|     |null  |
+      *                   |null|null|     |null  |
+      *                   +----+----+     +------+
+      * }}}
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.posexplode_outer]]
+      */
+    def posExplodeOuter: DoricColumn[Row] =
+      col
+        .zipWithIndex("pos".cname, "value".cname)
+        .elem
+        .map(f.explode_outer)
+        .toDC
+
+    /**
       * Returns an array with reverse order of elements.
       *
       * @group Array Type
@@ -504,7 +559,7 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.shuffle]]
       */
-    def shuffle: ArrayColumn[T] = col.elem.map(f.shuffle).toDC
+    def shuffle: DoricColumn[F[T]] = col.elem.map(f.shuffle).toDC
 
     /**
       * Returns length of array.
@@ -527,10 +582,25 @@ private[syntax] trait ArrayColumns {
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
       */
-    def slice(start: IntegerColumn, length: IntegerColumn): ArrayColumn[T] =
+    def slice(start: IntegerColumn, length: IntegerColumn): DoricColumn[F[T]] =
       (col.elem, start.elem, length.elem)
         .mapN((a, b, c) => new Column(Slice(a.expr, b.expr, c.expr)))
         .toDC
+
+    /**
+      * DORIC EXCLUSIVE! Given any array[e] column this method will return a new
+      * array struct[i, e] column, where the first element is the index and
+      * the second element is the value itself
+      *
+      * @group Array Type
+      */
+    def zipWithIndex(
+        indexName: CName = "index".cname,
+        valueName: CName = "value".cname
+    ): DoricColumn[F[Row]] =
+      col.transformWithIndex((value, index) =>
+        struct(index.asCName(indexName), value.asCName(valueName))
+      )
 
     /**
       * Merge two given arrays, element-wise, into a single array using a function.
@@ -548,6 +618,81 @@ private[syntax] trait ArrayColumns {
     ): Zipper[T, T2, F] = {
       Zipper(col, col2)
     }
+
+    /**
+      * Returns a merged array of structs in which the N-th struct contains all N-th values of input arrays.
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.arrays_zip]]
+      */
+    def zip(
+        other: DoricColumn[F[T]],
+        others: DoricColumn[F[T]]*
+    ): DoricColumn[F[Row]] = {
+      val cols = col +: (other +: others)
+      cols.toList.traverse(_.elem).map(f.arrays_zip).toDC
+    }
+
+    /**
+      * Creates a new map column.
+      * The array in the first column is used for keys.
+      * The array in the second column is used for values.
+      *
+      * @throws RuntimeException if arrays doesn't have the same length.
+      * @throws RuntimeException if a key is null
+      *
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.map_from_arrays]]
+      */
+    def mapFromArrays[V](values: DoricColumn[F[V]]): MapColumn[T, V] =
+      (col.elem, values.elem).mapN(f.map_from_arrays).toDC
+
+    /**
+      * Creates a new map column.
+      * The array in the first column is used for keys.
+      * The array in the second column is used for values.
+      *
+      * @throws RuntimeException if arrays doesn't have the same length.
+      * @throws RuntimeException if a key is null
+      *
+      * @group Array Type
+      * @see [[mapFromArrays]]
+      */
+    def toMap[V](values: DoricColumn[F[V]]): MapColumn[T, V] =
+      mapFromArrays(values)
+
+    /**
+      * Converts a column containing a StructType into a JSON string with the specified schema.
+      * @throws IllegalArgumentException in the case of an unsupported type.
+      *
+      * @group Array Type
+      * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv
+      * @todo scaladoc link (issue #135)
+      */
+    def toJson(options: Map[String, String] = Map.empty): StringColumn =
+      col.elem.map(x => f.to_json(x, options.asJava)).toDC
+  }
+
+  /**
+    * Extension methods for arrays
+    *
+    * @group Array Type
+    */
+  implicit class ArrayColumnTupleSyntax[K, V, F[_]: CollectionType](
+      private val col: DoricColumn[F[(K, V)]]
+  ) {
+
+    /**
+      * Returns a map created from the given array of entries.
+      * All elements in the array for key should not be null.
+      *
+      * @group Map Type
+      * @see [[org.apache.spark.sql.functions.map_from_entries]]
+      */
+    def mapFromEntries: MapColumn[K, V] = col.elem.map(f.map_from_entries).toDC
+
+    @inline def toMap: MapColumn[K, V] = mapFromEntries
+
   }
 
   implicit class ArrayArrayColumnSyntax[G[_]: CollectionType, F[_]

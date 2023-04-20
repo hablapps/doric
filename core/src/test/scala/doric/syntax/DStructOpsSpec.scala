@@ -4,8 +4,13 @@ package syntax
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError}
 import doric.testUtilities.data.User
 import doric.types.SparkType
-import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{IntegerType, StringType}
+import org.apache.spark.sql.{Row, functions => f}
+
+import java.sql.Timestamp
+import scala.jdk.CollectionConverters._
+
+case class User2(name: String, surname: String, age: Int, birthday: Timestamp)
 
 class DStructOpsSpec extends DoricTestElements {
 
@@ -101,6 +106,54 @@ class DStructOpsSpec extends DoricTestElements {
 
     it("should not work statically if the field doesn't exist") {
       """col[User]("user").getChildSafe(Symbol("nameeee"))""" shouldNot compile
+    }
+  }
+
+  describe("toJson(struct) doric function") {
+
+    val dfUsers = List(
+      (
+        User2("name1", "surname1", 1, Timestamp.valueOf("2015-08-26 00:00:00")),
+        1
+      ),
+      (
+        User2("name2", "surname2", 2, Timestamp.valueOf("2015-08-26 00:00:00")),
+        2
+      ),
+      (User2("name3", "surname3", 3, null), 3)
+    )
+      .toDF("user", "delete")
+
+    it("should work as to_json spark function") {
+      dfUsers.testColumns("user")(
+        c => colStruct(c).toJson(),
+        c => f.to_json(f.col(c)),
+        List(
+          Some(
+            "{\"name\":\"name1\",\"surname\":\"surname1\",\"age\":1,\"birthday\":\"2015-08-26T00:00:00.000Z\"}"
+          ),
+          Some(
+            "{\"name\":\"name2\",\"surname\":\"surname2\",\"age\":2,\"birthday\":\"2015-08-26T00:00:00.000Z\"}"
+          ),
+          Some("{\"name\":\"name3\",\"surname\":\"surname3\",\"age\":3}")
+        )
+      )
+    }
+
+    it("should work as to_json spark function with options") {
+      dfUsers.testColumns2("user", Map("timestampFormat" -> "dd/MM/yyyy"))(
+        (c, options) => colStruct(c).toJson(options),
+        (c, options) => f.to_json(f.col(c), options.asJava),
+        List(
+          Some(
+            "{\"name\":\"name1\",\"surname\":\"surname1\",\"age\":1,\"birthday\":\"26/08/2015\"}"
+          ),
+          Some(
+            "{\"name\":\"name2\",\"surname\":\"surname2\",\"age\":2,\"birthday\":\"26/08/2015\"}"
+          ),
+          Some("{\"name\":\"name3\",\"surname\":\"surname3\",\"age\":3}")
+        )
+      )
     }
   }
 
