@@ -4,7 +4,7 @@ package syntax
 import doric.SparkAuxFunctions.createLambda
 import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
 import doric.types.SparkType
-import org.apache.spark.sql.catalyst.expressions.ArrayExists
+import org.apache.spark.sql.catalyst.expressions.{ArrayExists, ZipWith}
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Column, Row, functions => f}
 
@@ -908,6 +908,12 @@ class ArrayColumnsSpec extends DoricTestElements {
   describe("zipWith doric function") {
     import spark.implicits._
 
+    def zip_with_spark(
+        left: Column,
+        right: Column,
+        f: (Column, Column) => Column
+    ): Column = new Column(ZipWith(left.expr, right.expr, createLambda(f)))
+
     it("should work as spark zip_with function") {
       val df = List(
         (Array("a", "b", "c", "d"), Array("b", "a", "e")),
@@ -921,7 +927,7 @@ class ArrayColumnsSpec extends DoricTestElements {
             c1,
             c2
         ) => colArrayString(c1).zipWith(colArrayString(c2))(concat(_, _)),
-        (c1, c2) => f.zip_with(f.col(c1), f.col(c2), f.concat(_, _)),
+        (c1, c2) => zip_with_spark(f.col(c1), f.col(c2), f.concat(_, _)),
         List(Some(Array("ab", "ba", "ce", null)), None, None, None)
       )
     }
