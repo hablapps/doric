@@ -5,7 +5,7 @@ import doric.types.DoubleC
 
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait AggregationColumns31 {
+protected trait AggregationColumns31 {
 
   /**
     * Aggregate function: returns the approximate `percentile` of the numeric column `col` which

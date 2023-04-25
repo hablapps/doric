@@ -8,7 +8,7 @@ import doric.Doric
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.aggregate.Sum
 
-private[syntax] trait AggregationColumns {
+protected trait AggregationColumns {
 
   /**
     * Aggregate function: returns the sum of all values in the expression.

@@ -6,7 +6,7 @@ import doric.types.{BinaryType, SparkType}
 
 import org.apache.spark.sql.{functions => f}
 
-private[syntax] trait BinaryColumns {
+protected trait BinaryColumns {
 
   /**
     * Concatenates multiple binary columns together into a single column.

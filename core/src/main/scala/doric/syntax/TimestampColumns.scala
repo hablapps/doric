@@ -7,7 +7,7 @@ import doric.types.{SparkType, TimestampType}
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{FromUTCTimestamp, ToUTCTimestamp}
 
-private[syntax] trait TimestampColumns {
+protected trait TimestampColumns {
 
   /**
     * Returns the current timestamp at the start of query evaluation as a timestamp column.

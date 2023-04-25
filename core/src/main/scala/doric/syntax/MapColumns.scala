@@ -8,7 +8,7 @@ import org.apache.spark.sql.{Column, Row, functions => f}
 
 import scala.jdk.CollectionConverters._
 
-private[syntax] trait MapColumns {
+protected trait MapColumns {
 
   /**
     * Returns the union of all the given maps.

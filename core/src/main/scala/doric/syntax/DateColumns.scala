@@ -9,7 +9,7 @@ import java.sql.Date
 import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{AddMonths, CurrentDate, DateAdd, DateFormatClass, DateSub, MonthsBetween, NextDay, TruncDate, TruncTimestamp}
 
-private[syntax] trait DateColumns {
+protected trait DateColumns {
 
   /**
     * Returns the current date at the start of query evaluation as a date column.

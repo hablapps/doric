@@ -33,7 +33,7 @@ protected final case class Zipper[T1, T2, F[_]: CollectionType](
   }
 }
 
-private[syntax] trait ArrayColumns {
+protected trait ArrayColumns {
 
   /**
     * Concatenates multiple array columns together into a single column.
@@ -460,7 +460,8 @@ private[syntax] trait ArrayColumns {
       * }}}
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.exists]]
+      * @see org.apache.spark.sql.functions.exists
+      * @todo scaladoc link not available for spark 2.4
       */
     def exists(fun: DoricColumn[T] => BooleanColumn): BooleanColumn = {
       val xv = x(col.getIndex(0))
@@ -580,7 +581,8 @@ private[syntax] trait ArrayColumns {
       * @note
       * if `start` == 0 an exception will be thrown
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.slice(x:org\.apache\.spark\.sql\.Column,start:org\.apache\.spark\.sql\.Column,length* org.apache.spark.sql.functions.slice]]
+      * @see org.apache.spark.sql.functions.slice
+      * @todo scaladoc link (issue #135)
       */
     def slice(start: IntegerColumn, length: IntegerColumn): DoricColumn[F[T]] =
       (col.elem, start.elem, length.elem)
@@ -606,12 +608,14 @@ private[syntax] trait ArrayColumns {
       * Merge two given arrays, element-wise, into a single array using a function.
       * If one array is shorter, nulls are appended at the end to match the length of the longer
       * array, before applying the function.
+      *
       * @example {{{
       *   df.select(colArray("val1").zipWith(col("val2"), concat(_, _)))
       * }}}
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.zip_with]]
+      * @see org.apache.spark.sql.functions.zip_with
+      * @todo scaladoc link not available for spark 2.4
       */
     def zipWith[T2](
         col2: DoricColumn[F[T2]]
@@ -638,8 +642,8 @@ private[syntax] trait ArrayColumns {
       * The array in the first column is used for keys.
       * The array in the second column is used for values.
       *
-      * @throws RuntimeException if arrays doesn't have the same length.
-      * @throws RuntimeException if a key is null
+      * @throws java.lang.RuntimeException if arrays doesn't have the same length.
+      *                                    or if a key is null
       *
       * @group Array Type
       * @see [[org.apache.spark.sql.functions.map_from_arrays]]
@@ -652,8 +656,8 @@ private[syntax] trait ArrayColumns {
       * The array in the first column is used for keys.
       * The array in the second column is used for values.
       *
-      * @throws RuntimeException if arrays doesn't have the same length.
-      * @throws RuntimeException if a key is null
+      * @throws java.lang.RuntimeException if arrays doesn't have the same length
+      *                                    or if a key is null
       *
       * @group Array Type
       * @see [[mapFromArrays]]
@@ -663,7 +667,7 @@ private[syntax] trait ArrayColumns {
 
     /**
       * Converts a column containing a StructType into a JSON string with the specified schema.
-      * @throws IllegalArgumentException in the case of an unsupported type.
+      * @throws java.lang.IllegalArgumentException in the case of an unsupported type.
       *
       * @group Array Type
       * @see org.apache.spark.sql.functions.to_json(e:org\.apache\.spark\.sql\.Column,options:scala\.collection\.immutable\.Map\[java\.lang\.String,java\.lang\.String\]):* org.apache.spark.sql.functions.to_csv

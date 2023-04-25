@@ -20,7 +20,7 @@ package object syntax {
     * @tparam K type of "key" doric column to perform the search
     * @tparam V type of "value" doric column result
     */
-  @inline private[syntax] def elementAtAbstract[T, K, V](
+  @inline def elementAtAbstract[T, K, V](
       dc: DoricColumn[T],
       key: DoricColumn[K]
   ): DoricColumn[V] = {
@@ -39,7 +39,7 @@ package object syntax {
     * @param dc doric column to be reversed
     * @tparam T type of doric column (string or array)
     */
-  @inline private[syntax] def reverseAbstract[T](
+  @inline def reverseAbstract[T](
       dc: DoricColumn[T]
   ): DoricColumn[T] =
     dc.elem.map(f.reverse).toDC

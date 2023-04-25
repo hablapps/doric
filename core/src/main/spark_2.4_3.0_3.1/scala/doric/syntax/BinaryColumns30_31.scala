@@ -7,7 +7,7 @@ import doric.types.{BinaryType, SparkType}
 import org.apache.spark.sql.catalyst.expressions.Decode
 import org.apache.spark.sql.Column
 
-private[syntax] trait BinaryColumns30_31 {
+protected trait BinaryColumns30_31 {
 
   implicit class BinaryOperationsSyntax30_31[T: BinaryType: SparkType](
       column: DoricColumn[T]

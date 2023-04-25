@@ -14,7 +14,7 @@ import shapeless.{::, HList, LabelledGeneric, Witness}
 import scala.jdk.CollectionConverters._
 import scala.language.dynamics
 
-private[syntax] trait DStructs {
+protected trait DStructs {
 
   /**
     * Creates a struct with the columns
