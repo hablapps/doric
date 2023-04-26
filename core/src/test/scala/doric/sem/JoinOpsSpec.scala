@@ -69,14 +69,7 @@ class JoinOpsSpec extends DoricTestElements {
           isLeft = true
         ),
         JoinDoricSingleError(
-          SparkErrorWrapper(
-            new Exception(
-              if (!spark.version.startsWith("3.4"))
-                "Cannot resolve column name \"identifier\" among (" + id + ", " + otherColumn + ")"
-              else
-                "[UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `identifier` cannot be resolved. Did you mean one of the following? [`id`, `otherColumn`]."
-            )
-          ),
+          ColumnNotFound("identifier", List("id", "otherColumn")),
           isLeft = false
         )
       )
