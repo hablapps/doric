@@ -4,7 +4,7 @@ import sbt.Compile
 
 val stableVersion = "0.0.6"
 
-val sparkDefaultShortVersion = "3.3"
+val sparkDefaultShortVersion = "3.4"
 val spark24Version           = "2.4.8"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
@@ -217,7 +217,7 @@ lazy val docs = project
       }
     }
   )
-  .enablePlugins(plugins: _*)
+  .enablePlugins(plugins *)
 
 // Scoverage settings
 Global / coverageEnabled       := false
