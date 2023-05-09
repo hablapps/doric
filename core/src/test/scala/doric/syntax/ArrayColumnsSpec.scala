@@ -16,6 +16,23 @@ class ArrayColumnsSpec extends DoricTestElements {
 
   import spark.implicits._
 
+  describe("mkString doric function") {
+    it("should concat be equivalent to concat_ws spark function") {
+      val df = List(
+        Array("a", "b"),
+        Array("a"),
+        Array.empty[String],
+        null
+      ).toDF("col1")
+
+      df.testColumns2("col1", ",")(
+        (c, sep) => colArrayString(c).mkString(sep.lit),
+        (c, sep) => f.concat_ws(sep, f.col(c)),
+        List(Some("a,b"), Some("a"), Some(""), Some(""))
+      )
+    }
+  }
+
   describe("ArrayOps") {
     val result     = "result"
     val testColumn = "col"

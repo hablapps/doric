@@ -84,6 +84,31 @@ protected trait NumericUtilsSpec extends TypedColumnTest {
     )
   }
 
+  def testOnlyDoricDecimals[
+      T: Primitive: ClassTag: TypeTag,
+      O: Primitive: ClassTag: TypeTag: Equality
+  ](
+      input: List[Option[Float]],
+      expected: List[Option[O]],
+      doricFun: DoricColumn[T] => DoricColumn[O]
+  )(implicit
+      spark: SparkSession,
+      funT: FromFloat[T]
+  ): Unit = {
+    import spark.implicits._
+    val df = input.map(_.map(funT)).toDF("col1")
+
+    val result = df
+      .select(doricFun(col[T]("col1")).as("col1"))
+      .collectCols(col[Option[O]]("col1"))
+
+    import Equalities._
+    assert(result.map {
+      case Some(x: java.lang.Double) if x.isNaN => None
+      case x                                    => x
+    } === expected)
+  }
+
   def testDoricSparkDecimals[
       T: Primitive: ClassTag: TypeTag,
       O: Primitive: ClassTag: TypeTag: Equality
