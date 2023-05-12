@@ -1051,8 +1051,9 @@ class StringColumnsSpec extends DoricTestElements {
   describe("comparison operators") {
     import spark.implicits._
 
-    val df = List(("abc", "xyz"), ("abc", "abc"), ("xyz", "abc"), ("xyz", "xyz"))
-      .toDF("col1", "col2")
+    val df =
+      List(("abc", "xyz"), ("abc", "abc"), ("xyz", "abc"), ("xyz", "xyz"))
+        .toDF("col1", "col2")
 
     it("> should work as spark > function") {
       df.testColumns2("col1", "col2")(
