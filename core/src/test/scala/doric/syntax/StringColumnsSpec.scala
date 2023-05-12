@@ -1048,4 +1048,43 @@ class StringColumnsSpec extends DoricTestElements {
     }
   }
 
+  describe("comparison operators") {
+    import spark.implicits._
+
+    val df = List(("abc", "xyz"), ("abc", "abc"), ("xyz", "abc"), ("xyz", "xyz"))
+      .toDF("col1", "col2")
+
+    it("> should work as spark > function") {
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => colString(col1) > colString(col2),
+        (col1, col2) => f.col(col1) > f.col(col2),
+        List(false, false, true, false).map(Option(_))
+      )
+    }
+
+    it(">= should work as spark >= function") {
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => colString(col1) >= colString(col2),
+        (col1, col2) => f.col(col1) >= f.col(col2),
+        List(false, true, true, true).map(Option(_))
+      )
+    }
+
+    it("< should work as spark < function") {
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => colString(col1) < colString(col2),
+        (col1, col2) => f.col(col1) < f.col(col2),
+        List(true, false, false, false).map(Option(_))
+      )
+    }
+
+    it("<= should work as spark <= function") {
+      df.testColumns2("col1", "col2")(
+        (col1, col2) => colString(col1) <= colString(col2),
+        (col1, col2) => f.col(col1) <= f.col(col2),
+        List(true, true, false, true).map(Option(_))
+      )
+    }
+  }
+
 }

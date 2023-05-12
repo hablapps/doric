@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import cats.implicits._
+import doric.DoricColumn.sparkFunction
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.types.{DataType, StructType}
 import org.apache.spark.sql.{Column, functions => f}
@@ -689,5 +690,29 @@ protected trait StringColumns {
         .map(x => new Column(JsonTuple(x.map(_.expr))))
         .toDC
     }
+
+    /**
+      * @group Comparable Type
+      */
+    def <(other: StringColumn): BooleanColumn =
+      sparkFunction[String, Boolean](s, other, _ < _)
+
+    /**
+      * @group Comparable Type
+      */
+    def <=(other: StringColumn): BooleanColumn =
+      sparkFunction[String, Boolean](s, other, _ <= _)
+
+    /**
+      * @group Comparable Type
+      */
+    def >(other: StringColumn): BooleanColumn =
+      sparkFunction[String, Boolean](s, other, _ > _)
+
+    /**
+      * @group Comparable Type
+      */
+    def >=(other: StringColumn): BooleanColumn =
+      sparkFunction[String, Boolean](s, other, _ >= _)
   }
 }
