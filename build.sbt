@@ -2,7 +2,7 @@ import scala.language.postfixOps
 
 import sbt.Compile
 
-val stableVersion = "0.0.6"
+val stableVersion = "0.0.7"
 
 val sparkDefaultShortVersion = "3.4"
 val spark24Version           = "2.4.8"
