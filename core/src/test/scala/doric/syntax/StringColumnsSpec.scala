@@ -480,11 +480,18 @@ class StringColumnsSpec extends DoricTestElements {
       df.testColumns2("col1", "")(
         (str, pattern) => colString(str).split(pattern.lit),
         (str, pattern) => f.split(f.col(str), pattern),
-        List(
-          Array("h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", ""),
-          Array("1", "2", "3", "4", "5", ""),
-          null
-        ).map(Option(_))
+        if (!spark.version.startsWith("3.4"))
+          List(
+            Array("h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", ""),
+            Array("1", "2", "3", "4", "5", ""),
+            null
+          ).map(Option(_))
+        else
+          List(
+            Array("h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"),
+            Array("1", "2", "3", "4", "5"),
+            null
+          ).map(Option(_))
       )
     }
   }

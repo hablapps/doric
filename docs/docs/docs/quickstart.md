@@ -61,6 +61,8 @@ Doric is committed to use the most modern APIs first.
 | 3.3.1 | 2.13  |   ✅    |                                                                                    -                                                                                    |
 | 3.3.2 | 2.12  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/@STABLE_VERSION@) |
 | 3.3.2 | 2.13  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.13/@STABLE_VERSION@) |
+| 3.4.0 | 2.12  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/@STABLE_VERSION@) |
+| 3.4.0 | 2.13  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.13/@STABLE_VERSION@) |
 
 
 __Import statements__

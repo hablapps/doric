@@ -1,7 +1,6 @@
 package doric
 package types
 
-import org.apache.spark.sql.types.Decimal
 import org.apache.spark.unsafe.types.CalendarInterval
 
 trait DeserializeSparkTypeSpec_Specific extends DoricTestElements {

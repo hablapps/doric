@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import doric.types.NumericType
+
 import org.apache.spark.sql.{functions => f}
 
 protected trait NumericColumns31 {

@@ -2,8 +2,8 @@ package doric
 package syntax
 
 import cats.implicits._
-import org.apache.spark.sql.Column
-import org.apache.spark.sql.{functions => f}
+
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.{ShiftLeft, ShiftRight, ShiftRightUnsigned}
 
 protected trait NumericColumns32 {

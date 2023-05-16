@@ -2,6 +2,7 @@ package doric
 package syntax
 
 import doric.sem.Location
+
 import org.apache.spark.sql.{functions => f}
 
 protected trait StringColumns31 {

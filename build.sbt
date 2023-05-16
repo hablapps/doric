@@ -4,12 +4,13 @@ import sbt.Compile
 
 val stableVersion = "0.0.6"
 
-val sparkDefaultShortVersion = "3.3"
+val sparkDefaultShortVersion = "3.4"
 val spark24Version           = "2.4.8"
 val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.3"
 val spark33Version           = "3.3.2"
+val spark34Version           = "3.4.0"
 
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
@@ -24,6 +25,7 @@ val parserSparkVersion: String => String = {
   case versionRegexShort("3", "1") => spark31Version
   case versionRegexShort("3", "2") => spark32Version
   case versionRegexShort("3", "3") => spark33Version
+  case versionRegexShort("3", "4") => spark34Version
   case versionRegex(a, b, c)       => s"$a.$b.$c"
 }
 
@@ -37,7 +39,7 @@ val scalaVersionSelect: String => List[String] = {
   case versionRegex("3", "1", _) => List(scala212)
   case versionRegex("3", "2", _) => List(scala212, scala213)
   case versionRegex("3", "3", _) => List(scala212, scala213)
-
+  case versionRegex("3", "4", _) => List(scala212, scala213)
 }
 
 val catsVersion: String => String = {
@@ -215,7 +217,7 @@ lazy val docs = project
       }
     }
   )
-  .enablePlugins(plugins: _*)
+  .enablePlugins(plugins *)
 
 // Scoverage settings
 Global / coverageEnabled       := false

@@ -1,7 +1,7 @@
 package doric
 package syntax
 
-import doric.sem.{ColumnTypeError, DoricMultiError, SparkErrorWrapper}
+import doric.sem.{ColumnNotFound, ColumnTypeError, DoricMultiError}
 
 import org.apache.spark.sql.functions.{col => sparkCol}
 import org.apache.spark.sql.types.{IntegerType, StringType}
@@ -19,11 +19,7 @@ class AsSpec extends DoricTestElements {
       intercept[DoricMultiError] {
         df.select(originalColumn)
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            """Cannot resolve column name "error" among (int, str)"""
-          )
-        )
+        ColumnNotFound("error", List("int", "str"))
       )
     }
 

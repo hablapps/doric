@@ -18,6 +18,7 @@ Type-safe columns for spark DataFrames!
 | 3.1.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-1_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-1_2.12/0.0.6) | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.1.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 | 3.2.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.6) | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.2.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 | 3.3.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.6) | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.3.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
+| 3.4.x | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.6) | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.4.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 ----
 
 Doric offers type-safety in DataFrame column expressions at a minimum
@@ -85,7 +86,12 @@ following spark versions.
 | 3.2.0 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.2.1 | 2.12  |   ✅   |                                                                              -                                                                               |
 | 3.2.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.6) |
-| 3.3.0 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.6) |
+| 3.3.0 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.3.1 | 2.12  |   ✅   |                                                                              -                                                                               |
+| 3.3.2 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.6) |
+| 3.4.0 | 2.12  |   ✅   | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.6) |
+
+
 
 
 ## Contributing 

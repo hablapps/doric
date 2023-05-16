@@ -2,6 +2,7 @@ package doric
 package sem
 
 import doric.implicitConversions._
+
 import org.apache.spark.sql.types.{LongType, StringType}
 
 class JoinOpsSpec extends DoricTestElements {
@@ -58,7 +59,7 @@ class JoinOpsSpec extends DoricTestElements {
 
       val badJoinFunction: DoricJoinColumn =
         LeftDF.colString(id) ===
-          RightDF.colString(id + "entifier")
+          RightDF.colString("identifier")
 
       intercept[DoricMultiError] {
         left.join(right, "inner", badJoinFunction)
@@ -68,11 +69,7 @@ class JoinOpsSpec extends DoricTestElements {
           isLeft = true
         ),
         JoinDoricSingleError(
-          SparkErrorWrapper(
-            new Exception(
-              "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
-            )
-          ),
+          ColumnNotFound("identifier", List("id", "otherColumn")),
           isLeft = false
         )
       )
@@ -94,11 +91,7 @@ class JoinOpsSpec extends DoricTestElements {
           isLeft = true
         ),
         JoinDoricSingleError(
-          SparkErrorWrapper(
-            new Exception(
-              "Cannot resolve column name \"" + id + "entifier\" among (" + id + ", " + otherColumn + ")"
-            )
-          ),
+          ColumnNotFound("identifier", List("id", "otherColumn")),
           isLeft = false
         )
       )

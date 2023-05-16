@@ -1,14 +1,15 @@
 package doric
 package syntax
 
-import Equalities._
+import scala.reflect.ClassTag
+
+import doric.Equalities._
 import doric.types.NumericType
 import doric.types.SparkType.Primitive
-import org.apache.spark.sql.{DataFrame, SparkSession, functions => f}
+import java.sql.Timestamp
 import org.scalatest.funspec.AnyFunSpecLike
 
-import java.sql.Timestamp
-import scala.reflect.ClassTag
+import org.apache.spark.sql.{DataFrame, SparkSession, functions => f}
 
 trait NumericOperations31Spec
     extends AnyFunSpecLike

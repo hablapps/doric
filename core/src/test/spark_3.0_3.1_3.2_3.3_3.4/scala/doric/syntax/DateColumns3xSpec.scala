@@ -5,6 +5,7 @@ import java.sql.Date
 import java.time.{Instant, LocalDate}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
+
 import org.apache.spark.sql.{DataFrame, functions => f}
 
 class DateColumns3xSpec

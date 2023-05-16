@@ -1,15 +1,16 @@
 package doric
 package syntax
 
-import doric.SparkAuxFunctions.createLambda
-import doric.sem.{ChildColumnNotFound, ColumnTypeError, DoricMultiError, SparkErrorWrapper}
-import doric.types.SparkType
-import org.apache.spark.sql.catalyst.expressions.{ArrayExists, ZipWith}
-import org.apache.spark.sql.types.{IntegerType, LongType, StringType, StructField, StructType}
-import org.apache.spark.sql.{Column, Row, functions => f}
-
-import java.sql.Timestamp
 import scala.jdk.CollectionConverters._
+
+import doric.SparkAuxFunctions.createLambda
+import doric.sem.{ChildColumnNotFound, ColumnNotFound, ColumnTypeError, DoricMultiError}
+import doric.types.SparkType
+import java.sql.Timestamp
+
+import org.apache.spark.sql.{Column, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.{ArrayExists, ZipWith}
+import org.apache.spark.sql.types._
 
 class ArrayColumnsSpec extends DoricTestElements {
 
@@ -52,11 +53,7 @@ class ArrayColumnsSpec extends DoricTestElements {
             .transform(_ => colString("something"))
         )
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something2\" among (col, something)"
-          )
-        ),
+        ColumnNotFound("something2", List("col", "something")),
         ColumnTypeError("something", StringType, IntegerType)
       )
 
@@ -72,11 +69,7 @@ class ArrayColumnsSpec extends DoricTestElements {
         )
       }
       errors should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something2\" among (col, something)"
-          )
-        ),
+        ColumnNotFound("something2", List("col", "something")),
         ColumnTypeError("_1", LongType, IntegerType),
         ChildColumnNotFound("_3", List("_1", "_2"))
       )
@@ -179,11 +172,7 @@ class ArrayColumnsSpec extends DoricTestElements {
             .transformWithIndex(_ + _ + colInt("something2"))
         )
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something2\" among (col, something)"
-          )
-        ),
+        ColumnNotFound("something2", List("col", "something")),
         ColumnTypeError("something", IntegerType, StringType)
       )
     }
@@ -212,11 +201,7 @@ class ArrayColumnsSpec extends DoricTestElements {
             .aggregate(colInt("something2"))(_ + _ + colInt("something"))
         )
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something2\" among (col, something)"
-          )
-        ),
+        ColumnNotFound("something2", List("col", "something")),
         ColumnTypeError("something", IntegerType, StringType)
       )
     }
@@ -249,16 +234,8 @@ class ArrayColumnsSpec extends DoricTestElements {
             )
         )
       } should containAllErrors(
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something2\" among (col, something)"
-          )
-        ),
-        SparkErrorWrapper(
-          new Exception(
-            "Cannot resolve column name \"something3\" among (col, something)"
-          )
-        ),
+        ColumnNotFound("something2", List("col", "something")),
+        ColumnNotFound("something3", List("col", "something")),
         ColumnTypeError("something", IntegerType, StringType)
       )
     }

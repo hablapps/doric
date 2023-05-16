@@ -65,9 +65,7 @@ class ErrorsSpec
       val err = intercept[DoricMultiError] {
         Seq(1, 2, 3).toDF("value").select(colInt("notFound"))
       }
-      val err2 = SparkErrorWrapper(
-        new Exception("Cannot resolve column name \"notFound\" among (value)")
-      )
+      val err2 = ColumnNotFound("notFound", List("value"))
 
       err.errors.head.equals(err2) shouldBe true
     }
