@@ -1,16 +1,17 @@
 package doric
 package syntax
 
-import cats.data.Kleisli
-import cats.implicits._
-import doric.types.{CollectionType, LiteralSparkType, SparkType}
-import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
-import org.apache.spark.sql.catalyst.expressions._
-import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
-
 import scala.jdk.CollectionConverters._
 import scala.language.higherKinds
 import scala.reflect.ClassTag
+
+import cats.data.Kleisli
+import cats.implicits._
+import doric.types.{CollectionType, LiteralSparkType, SparkType}
+
+import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.catalyst.expressions.LambdaFunction.identity
 
 protected final case class Zipper[T1, T2, F[_]: CollectionType](
     col: DoricColumn[F[T1]],
@@ -392,7 +393,7 @@ protected trait ArrayColumns {
       * Null elements will be placed at the end of the returned array.
       *
       * @group Array Type
-      * @see [[org.apache.spark.sql.functions.array_sort]]
+      * @see [[https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/functions$.html#array_sort(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column]]
       */
     def sortAscNullsLast: DoricColumn[F[T]] = col.elem.map(f.array_sort).toDC
 
