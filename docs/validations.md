@@ -14,27 +14,27 @@ raising a run-time exception:
 ```scala
 // Spark
 List(1,2,3).toDF().select(f.col("id")+1)
-// org.apache.spark.sql.AnalysisException: Column 'id' does not exist. Did you mean one of the following? [value];
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$4945/0x0000000101b11040@1d3704a2))]
+// org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].;
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5045/0x0000000101b94040@6fc29306))]
 // +- LocalRelation [value#399]
 // 
-// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:54)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7(CheckAnalysis.scala:200)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7$adapted(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:367)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:366)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:366)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:221)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$$failUnresolvedAttribute(CheckAnalysis.scala:143)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5(CheckAnalysis.scala:258)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5$adapted(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:295)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:294)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:294)
 // 	at scala.collection.Iterator.foreach(Iterator.scala:943)
 // 	at scala.collection.Iterator.foreach$(Iterator.scala:943)
 // 	at scala.collection.AbstractIterator.foreach(Iterator.scala:1431)
-// 	at scala.collection.IterableLike.foreach(IterableLike.scala:74)
 ```
 
 ```scala
 // Doric
 List(1,2,3).toDF().select(colInt("id")+1)
 // doric.sem.DoricMultiError: Found 1 error in select
-//   Cannot resolve column name "id" among (value)
+//   [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
 //   	located at . (validations.md:37)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
@@ -43,14 +43,14 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:139)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
-// Caused by: org.apache.spark.sql.AnalysisException: Cannot resolve column name "id" among (value)
-// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.cannotResolveColumnNameAmongFieldsError(QueryCompilationErrors.scala:2265)
-// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:259)
-// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:251)
+// Caused by: org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedColumnWithSuggestionError(QueryCompilationErrors.scala:2936)
+// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:255)
+// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:250)
 // 	at scala.Option.getOrElse(Option.scala:189)
-// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:251)
-// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1417)
-// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1384)
+// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:250)
+// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1476)
+// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1443)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
 // 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)

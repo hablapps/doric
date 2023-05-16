@@ -13,7 +13,7 @@ Let's see again the error raised by doric when making a reference to a non-exist
 // Doric
 List(1,2,3).toDF().select(colInt("id")+1)
 // doric.sem.DoricMultiError: Found 1 error in select
-//   Cannot resolve column name "id" among (value)
+//   [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
 //   	located at . (errors.md:27)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
@@ -22,14 +22,14 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:139)
 // 	at repl.MdocSession$MdocApp$$anonfun$1.apply(errors.md:27)
 // 	at repl.MdocSession$MdocApp$$anonfun$1.apply(errors.md:27)
-// Caused by: org.apache.spark.sql.AnalysisException: Cannot resolve column name "id" among (value)
-// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.cannotResolveColumnNameAmongFieldsError(QueryCompilationErrors.scala:2265)
-// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:259)
-// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:251)
+// Caused by: org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedColumnWithSuggestionError(QueryCompilationErrors.scala:2936)
+// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:255)
+// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:250)
 // 	at scala.Option.getOrElse(Option.scala:189)
-// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:251)
-// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1417)
-// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1384)
+// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:250)
+// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1476)
+// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1443)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
 // 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
@@ -57,12 +57,12 @@ val col3 = colInt("unknown") // non-existing column
 ```scala
 dfPair.select(col1, col2, col3)
 // doric.sem.DoricMultiError: Found 3 errors in select
-//   Cannot resolve column name "unknown" among (str, int)
-//   	located at . (errors.md:45)
 //   The column with name 'int' was expected to be StringType but is of type IntegerType
 //   	located at . (errors.md:42)
 //   The column with name 'str' was expected to be IntegerType but is of type StringType
 //   	located at . (errors.md:39)
+//   [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `unknown` cannot be resolved. Did you mean one of the following? [`str`, `int`].
+//   	located at . (errors.md:45)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
 // 	at cats.data.Validated.fold(Validated.scala:29)

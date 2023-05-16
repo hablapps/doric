@@ -10,25 +10,25 @@ __Installation__
 
 To use doric, just add the following dependency in your favourite build tool:
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.6)
+[![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.6)
 
 _Sbt_
 ```scala
-libraryDependencies += "org.hablapps" % "doric_3-3_2.12" % "0.0.6"
+libraryDependencies += "org.hablapps" % "doric_3-4_2.12" % "0.0.6"
 ```
 _Maven_
 ```xml
 <dependency>
   <groupId>org.hablapps</groupId>
-  <artifactId>doric_3-3_2.12</artifactId>
+  <artifactId>doric_3-4_2.12</artifactId>
   <version>0.0.6</version>
 </dependency>
 ```
 
 Doric is committed to use the most modern APIs first.
-<!-- * Doric is compatible with Spark version 3.3.2. -->
+<!-- * Doric is compatible with Spark version 3.4.0. -->
 * The latest stable version of doric is 0.0.6.
-* The latest experimental version of doric is 0.0.0+1-619e2283-SNAPSHOT.
+* The latest experimental version of doric is 0.0.0+1-de16314a-SNAPSHOT.
 * Doric is compatible with the following Spark versions:
 
 | Spark | Scala | Tested |                                                                                  doric                                                                                  |
@@ -61,6 +61,8 @@ Doric is committed to use the most modern APIs first.
 | 3.3.1 | 2.13  |   ✅    |                                                                                    -                                                                                    |
 | 3.3.2 | 2.12  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.6) |
 | 3.3.2 | 2.13  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.13/0.0.6) |
+| 3.4.0 | 2.12  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.6) |
+| 3.4.0 | 2.13  |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.13/0.0.6) |
 
 
 __Import statements__
@@ -89,16 +91,16 @@ def df = List(1,2,3).toDF().select($"value" * f.lit(true))
 It's only when we try to construct the DataFrame that an exception is raised at _run-time_:
 ```scala
 df
-// org.apache.spark.sql.AnalysisException: cannot resolve '(value * true)' due to data type mismatch: differing types in '(value * true)' (int and boolean).;
-// 'Project [unresolvedalias((value#365 * true), Some(org.apache.spark.sql.Column$$Lambda$4945/0x0000000101b11040@1d3704a2))]
+// org.apache.spark.sql.AnalysisException: [DATATYPE_MISMATCH.BINARY_OP_DIFF_TYPES] Cannot resolve "(value * true)" due to data type mismatch: the left and right operands of the binary operator have incompatible types ("INT" and "BOOLEAN").;
+// 'Project [unresolvedalias((value#365 * true), Some(org.apache.spark.sql.Column$$Lambda$5045/0x0000000101b94040@6fc29306))]
 // +- LocalRelation [value#365]
 // 
-// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7(CheckAnalysis.scala:213)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7$adapted(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:367)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:366)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:366)
+// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.dataTypeMismatch(package.scala:73)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5(CheckAnalysis.scala:269)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5$adapted(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:295)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:294)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:294)
 // 	at scala.collection.Iterator.foreach(Iterator.scala:943)
 // 	at scala.collection.Iterator.foreach$(Iterator.scala:943)
 // 	at scala.collection.AbstractIterator.foreach(Iterator.scala:1431)
@@ -186,8 +188,8 @@ strDf.select(f.col("str").asDoric[String]).show()
 
 strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show()
 // doric.sem.DoricMultiError: Found 1 error in select
-//   cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
-//   'Project [unresolvedalias((cast(str#378 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4945/0x0000000101b11040@1d3704a2))]
+//   [DATATYPE_MISMATCH.BINARY_OP_DIFF_TYPES] Cannot resolve "(str + true)" due to data type mismatch: the left and right operands of the binary operator have incompatible types ("DOUBLE" and "BOOLEAN").;
+//   'Project [unresolvedalias((cast(str#378 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$5045/0x0000000101b94040@6fc29306))]
 //   +- Project [value#375 AS str#378]
 //      +- LocalRelation [value#375]
 //   
@@ -200,17 +202,17 @@ strDf.select((f.col("str") + f.lit(true)).asDoric[String]).show()
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply$mcV$sp(quickstart.md:76)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(quickstart.md:76)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(quickstart.md:76)
-// Caused by: org.apache.spark.sql.AnalysisException: cannot resolve '(CAST(str AS DOUBLE) + true)' due to data type mismatch: differing types in '(CAST(str AS DOUBLE) + true)' (double and boolean).;
-// 'Project [unresolvedalias((cast(str#378 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$4945/0x0000000101b11040@1d3704a2))]
+// Caused by: org.apache.spark.sql.AnalysisException: [DATATYPE_MISMATCH.BINARY_OP_DIFF_TYPES] Cannot resolve "(str + true)" due to data type mismatch: the left and right operands of the binary operator have incompatible types ("DOUBLE" and "BOOLEAN").;
+// 'Project [unresolvedalias((cast(str#378 as double) + true), Some(org.apache.spark.sql.Column$$Lambda$5045/0x0000000101b94040@6fc29306))]
 // +- Project [value#375 AS str#378]
 //    +- LocalRelation [value#375]
 // 
-// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7(CheckAnalysis.scala:213)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7$adapted(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:367)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:366)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:366)
+// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.dataTypeMismatch(package.scala:73)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5(CheckAnalysis.scala:269)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5$adapted(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:295)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:294)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:294)
 // 	at scala.collection.Iterator.foreach(Iterator.scala:943)
 // 	at scala.collection.Iterator.foreach$(Iterator.scala:943)
 // 	at scala.collection.AbstractIterator.foreach(Iterator.scala:1431)

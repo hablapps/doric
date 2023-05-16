@@ -54,21 +54,21 @@ will refer us to the line of the `select` statement instead:
 ```scala
 val userc = userCol("name1") // actual location of error :S
 userDF.select(userc)        // error location reported by Spark
-// org.apache.spark.sql.AnalysisException: Column 'name1_user' does not exist. Did you mean one of the following? [name_user, age_user, city_user];
+// org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `name1_user` cannot be resolved. Did you mean one of the following? [`name_user`, `age_user`, `city_user`].;
 // 'Project ['name1_user]
 // +- Project [_1#316 AS name_user#323, _2#317 AS city_user#324, _3#318 AS age_user#325]
 //    +- LocalRelation [_1#316, _2#317, _3#318]
 // 
-// 	at org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:54)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7(CheckAnalysis.scala:200)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$7$adapted(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:367)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$6(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$6$adapted(CheckAnalysis.scala:193)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:221)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$$failUnresolvedAttribute(CheckAnalysis.scala:143)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5(CheckAnalysis.scala:258)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$5$adapted(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:295)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$4(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$4$adapted(CheckAnalysis.scala:256)
 // 	at scala.collection.immutable.Stream.foreach(Stream.scala:533)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$1(CheckAnalysis.scala:193)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis$1$adapted(CheckAnalysis.scala:102)
-// 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:367)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$1(CheckAnalysis.scala:256)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$1$adapted(CheckAnalysis.scala:163)
 ```
 
 ### Towards the source of error
@@ -90,9 +90,9 @@ val age = user[Int]("name")
 val team = user[String]("team")
 userDF.select(age, team)
 // doric.sem.DoricMultiError: Found 2 errors in select
-//   Cannot resolve column name "team_user" among (name_user, city_user, age_user)
-//   	located at . (modularity.md:79)
 //   The column with name 'name_user' was expected to be IntegerType but is of type StringType
+//   	located at . (modularity.md:79)
+//   [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `team_user` cannot be resolved. Did you mean one of the following? [`name_user`, `city_user`, `age_user`].
 //   	located at . (modularity.md:79)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
@@ -125,10 +125,10 @@ val age = user[Int]("name")
 val team = user[String]("team")
 userDF.select(age, team)
 // doric.sem.DoricMultiError: Found 2 errors in select
-//   Cannot resolve column name "team_user" among (name_user, city_user, age_user)
-//   	located at . (modularity.md:136)
 //   The column with name 'name_user' was expected to be IntegerType but is of type StringType
 //   	located at . (modularity.md:135)
+//   [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `team_user` cannot be resolved. Did you mean one of the following? [`name_user`, `city_user`, `age_user`].
+//   	located at . (modularity.md:136)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
 // 	at cats.data.Validated.fold(Validated.scala:29)
