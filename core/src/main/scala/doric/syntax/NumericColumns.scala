@@ -4,10 +4,8 @@ package syntax
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.{CollectionType, NumericType}
-import org.apache.spark.sql.catalyst.expressions.{BRound, Expression, FormatNumber, FromUnixTime, Rand, Randn, Round, RoundBase, UnaryMinus}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, RoundBase, UnaryMinus}
 import org.apache.spark.sql.{Column, functions => f}
-
-import scala.math.BigDecimal.RoundingMode.RoundingMode
 
 protected trait NumericColumns {
 
@@ -598,31 +596,6 @@ protected trait NumericColumns {
     def round(scale: IntegerColumn): DoricColumn[T] = (column.elem, scale.elem)
       .mapN((c, s) => new Column(Round(c.expr, s.expr)))
       .toDC
-
-    /**
-      * DORIC EXCLUSIVE! Round the value to `scale` decimal places with given round `mode`
-      * if `scale` is greater than or equal to 0 or at integral part when `scale` is less than 0.
-      *
-      * @todo decimal type
-      * @group Numeric Type
-      */
-    def round(scale: IntegerColumn, mode: RoundingMode): DoricColumn[T] = {
-      case class DoricRound(
-          child: Expression,
-          scale: Expression,
-          mode: RoundingMode
-      ) extends RoundBase(child, scale, mode, s"ROUND_$mode") {
-        override protected def withNewChildrenInternal(
-            newLeft: Expression,
-            newRight: Expression
-        ): DoricRound =
-          copy(child = newLeft, scale = newRight)
-      }
-
-      (column.elem, scale.elem)
-        .mapN((c, s) => new Column(DoricRound(c.expr, s.expr, mode)))
-        .toDC
-    }
 
     /**
       * Returns col1 if it is not NaN, or col2 if col1 is NaN.
