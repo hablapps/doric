@@ -148,7 +148,7 @@ class TransformOpsSpec
 
       val df = List(("a", "b")).toDF("col1", "col2")
 
-      val res = df.drop(colString("col1")).collect().toList
+      val res    = df.drop(colString("col1")).collect().toList
       val actual = List(Row("b"))
 
       res shouldBe actual
@@ -171,7 +171,10 @@ class TransformOpsSpec
 
       val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
 
-      val res = df.drop(colString("col2"), colInt("col3"), colDouble("col4")).collect().toList
+      val res = df
+        .drop(colString("col2"), colInt("col3"), colDouble("col4"))
+        .collect()
+        .toList
       val actual = List(Row("a"))
 
       res shouldBe actual
@@ -183,11 +186,13 @@ class TransformOpsSpec
       val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
 
       intercept[DoricMultiError] {
-        df.drop(colString("not"), colInt("a"), colDouble("column")).collect().toList
+        df.drop(colString("not"), colInt("a"), colDouble("column"))
+          .collect()
+          .toList
       } should containAllErrors(
         ColumnNotFound("not", List("col1", "col2", "col3", "col4")),
         ColumnNotFound("a", List("col1", "col2", "col3", "col4")),
-        ColumnNotFound("column", List("col1", "col2", "col3", "col4")),
+        ColumnNotFound("column", List("col1", "col2", "col3", "col4"))
       )
     }
   }

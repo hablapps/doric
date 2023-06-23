@@ -163,7 +163,8 @@ private[sem] trait TransformOps {
       */
     def drop(col: DoricColumn[_]*): DataFrame = {
       val dataFrame = df.toDF()
-      col.toList.traverse(_.elem)
+      col.toList
+        .traverse(_.elem)
         .run(dataFrame)
         .map(_.foldLeft(dataFrame)((df, col) => df.drop(col)))
         .returnOrThrow("drop")
