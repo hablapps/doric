@@ -147,6 +147,7 @@ private[sem] trait TransformOps {
     /**
       * Drops specified column from the Dataframe.
       * @group Dataframe Transformation operation
+      * @note Unlike in Spark, dropping a column that does not exist will result in a ColumnNotFound exception
       */
     def drop(col: DoricColumn[_]): DataFrame = {
       col.elem
@@ -158,6 +159,7 @@ private[sem] trait TransformOps {
     /**
       * Drops specified columns from the Dataframe.
       * @group Dataframe Transformation operation
+      * @note Unlike in Spark, dropping columns that do not exist will result in a ColumnNotFound exception
       */
     def drop(col: DoricColumn[_]*): DataFrame = {
       val dataFrame = df.toDF()
