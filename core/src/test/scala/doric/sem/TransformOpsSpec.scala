@@ -2,6 +2,7 @@ package doric
 package sem
 
 import doric.implicitConversions._
+import org.apache.spark.sql.Row
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.EitherValues
 
@@ -140,6 +141,28 @@ class TransformOpsSpec
         (10, 1),
         (11, 1)
       )
+    }
+
+    it("drops a single column") {
+      import spark.implicits._
+
+      val df = List(("a", "b")).toDF("col1", "col2")
+
+      val res = df.drop(colString("col1")).collect().toList
+      val actual = List(Row("b"))
+
+      res shouldBe actual
+    }
+
+    it("drops multiple columns") {
+      import spark.implicits._
+
+      val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
+
+      val res = df.drop(colString("col2"), colInt("col3"), colDouble("col4")).collect().toList
+      val actual = List(Row("a"))
+
+      res shouldBe actual
     }
   }
 }
