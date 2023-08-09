@@ -1,7 +1,6 @@
 package doric
 package types
 
-import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.Decimal
 import org.apache.spark.unsafe.types.CalendarInterval
 
@@ -90,20 +89,16 @@ class PrimitiveTypesSpec
 
       testDataType[java.sql.Date]
       testDataType[java.sql.Timestamp]
-      if (spark.version > "2.4.8") {
-        testDataType[java.time.LocalDate]
-        testDataType[java.time.Instant]
-        testDataType[CalendarInterval]
-      }
+      testDataType[java.time.LocalDate]
+      testDataType[java.time.Instant]
+      testDataType[CalendarInterval]
 
       testLitDataType[java.sql.Date](java.sql.Date.valueOf("2022-12-31"))
       testLitDataType[java.sql.Timestamp](new java.sql.Timestamp(0))
+      testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
+      testLitDataType[java.time.Instant](java.time.Instant.now())
+      // TBD: testLitDataType[CalendarInterval](CalendarInterval.fromString("1971-01-01"))
 
-      if (spark.version > "2.4.8") {
-        testLitDataType[java.time.LocalDate](java.time.LocalDate.now())
-        testLitDataType[java.time.Instant](java.time.Instant.now())
-        // TBD: testLitDataType[CalendarInterval](CalendarInterval.fromString("1971-01-01"))
-      }
     }
   }
 
