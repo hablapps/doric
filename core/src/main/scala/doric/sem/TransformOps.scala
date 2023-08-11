@@ -2,9 +2,10 @@ package doric
 package sem
 
 import cats.implicits._
-
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{Column, DataFrame, Dataset}
 import org.apache.spark.sql.doric.DataFrameExtras
+
+import scala.collection.immutable
 
 private[sem] trait TransformOps {
 
@@ -141,6 +142,32 @@ private[sem] trait TransformOps {
 
     @inline def selectCName(col: CName, cols: CName*): DataFrame = {
       df.select(col.value, cols.map(_.value): _*)
+    }
+
+    /**
+      * Drops specified column from the Dataframe.
+      * @group Dataframe Transformation operation
+      * @note Unlike in Spark, dropping a column that does not exist will result in a ColumnNotFound exception
+      */
+    def drop(col: DoricColumn[_]): DataFrame = {
+      col.elem
+        .run(df)
+        .map(df.drop)
+        .returnOrThrow("drop")
+    }
+
+    /**
+      * Drops specified columns from the Dataframe.
+      * @group Dataframe Transformation operation
+      * @note Unlike in Spark, dropping columns that do not exist will result in a ColumnNotFound exception
+      */
+    def drop(col: DoricColumn[_]*): DataFrame = {
+      val dataFrame = df.toDF()
+      col.toList
+        .traverse(_.elem)
+        .run(dataFrame)
+        .map(_.foldLeft(dataFrame)((df, col) => df.drop(col)))
+        .returnOrThrow("drop")
     }
   }
 }

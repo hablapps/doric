@@ -1,45 +1,5 @@
 [
   {
-    "spark": "2.4.1",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.2",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.3",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.4",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.5",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.6",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4.7",
-    "scope": "test",
-    "isRelease": "-"
-  },
-  {
-    "spark": "2.4",
-    "scope": "test-uploadReport",
-    "isRelease": "release"
-  },
-  {
     "spark": "3.0.0",
     "scope": "test",
     "isRelease": "-"

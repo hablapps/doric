@@ -1,13 +1,14 @@
 package doric
 package syntax
 
-import org.apache.spark.sql.types.{DataType, StructType}
-import org.apache.spark.sql.{Row, functions => f}
+import scala.jdk.CollectionConverters._
 
 import java.sql.Timestamp
-import java.time.format.DateTimeFormatter
 import java.time.{Instant, LocalDate, ZoneId}
-import scala.jdk.CollectionConverters._
+import java.time.format.DateTimeFormatter
+
+import org.apache.spark.sql.{Row, functions => f}
+import org.apache.spark.sql.types.{DataType, StructType}
 
 class StringColumnsSpec extends DoricTestElements {
 
@@ -183,8 +184,9 @@ class StringColumnsSpec extends DoricTestElements {
   }
 
   describe("locate doric function") {
-    import org.apache.spark.sql.functions.{locate => sparkLocate}
     import spark.implicits._
+
+    import org.apache.spark.sql.functions.{locate => sparkLocate}
 
     val df = List("hello world", "abcde hello hello", "other words", null)
       .toDF("col1")
@@ -319,16 +321,15 @@ class StringColumnsSpec extends DoricTestElements {
       )
     }
 
-    if (spark.version >= "2.4.6") {
-      it("should raise an error if group > regex group result") {
-        intercept[java.lang.IllegalArgumentException] {
-          df.withColumn(
-            "res",
-            colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
-          ).collect()
-        }
+    it("should raise an error if group > regex group result") {
+      intercept[java.lang.IllegalArgumentException] {
+        df.withColumn(
+          "res",
+          colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
+        ).collect()
       }
     }
+
   }
 
   describe("regexpReplace doric function") {

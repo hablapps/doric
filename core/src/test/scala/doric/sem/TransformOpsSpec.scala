@@ -2,6 +2,8 @@ package doric
 package sem
 
 import doric.implicitConversions._
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, TimestampType}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.EitherValues
 
@@ -139,6 +141,87 @@ class TransformOpsSpec
       df.collectCols(col[Long]("id"), col[Int]("hi")) shouldBe List(
         (10, 1),
         (11, 1)
+      )
+    }
+
+    it("drops a single column") {
+      import spark.implicits._
+
+      val df = List(("a", "b")).toDF("col1", "col2")
+
+      val res    = df.drop(colString("col1")).collect().toList
+      val actual = List(Row("b"))
+
+      res shouldBe actual
+    }
+
+    it("drop throws an error when column is not found") {
+      import spark.implicits._
+
+      val df = List(("a", "b")).toDF("col1", "col2")
+
+      intercept[DoricMultiError] {
+        df.drop(colString("invalid")).collect().toList
+      } should containAllErrors(
+        ColumnNotFound("invalid", List("col1", "col2"))
+      )
+    }
+
+    it("drop throws an error when column is of the wrong type") {
+      import spark.implicits._
+
+      val df = List(("a", "b")).toDF("col1", "col2")
+
+      intercept[DoricMultiError] {
+        df.drop(colInt("col1")).collect().toList
+      } should containAllErrors(
+        ColumnTypeError("col1", IntegerType, StringType)
+      )
+    }
+
+    it("drops multiple columns") {
+      import spark.implicits._
+
+      val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
+
+      val res = df
+        .drop(colString("col2"), colInt("col3"), colDouble("col4"))
+        .collect()
+        .toList
+      val actual = List(Row("a"))
+
+      res shouldBe actual
+    }
+
+    it("drop throws an error when columns are not found") {
+      import spark.implicits._
+
+      val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
+
+      intercept[DoricMultiError] {
+        df.drop(colString("not"), colInt("a"), colDouble("column"))
+          .collect()
+          .toList
+      } should containAllErrors(
+        ColumnNotFound("not", List("col1", "col2", "col3", "col4")),
+        ColumnNotFound("a", List("col1", "col2", "col3", "col4")),
+        ColumnNotFound("column", List("col1", "col2", "col3", "col4"))
+      )
+    }
+
+    it("drop throws an error when columns are of the wrong type") {
+      import spark.implicits._
+
+      val df = List(("a", "b", 1, 2.0)).toDF("col1", "col2", "col3", "col4")
+
+      intercept[DoricMultiError] {
+        df.drop(colDouble("col1"), colTimestamp("col2"), colString("col3"))
+          .collect()
+          .toList
+      } should containAllErrors(
+        ColumnTypeError("col1", DoubleType, StringType),
+        ColumnTypeError("col2", TimestampType, StringType),
+        ColumnTypeError("col3", StringType, IntegerType)
       )
     }
   }

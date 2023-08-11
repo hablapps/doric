@@ -1,13 +1,11 @@
 package doric
 package types
 
-import Equalities._
+import doric.Equalities._
 
-import org.apache.spark.sql.Row
 import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.internal.SQLConf
-import org.apache.spark.sql.internal.SQLConf.buildConf
 import org.apache.spark.sql.types.{Decimal, StructType}
 
 class DeserializeSparkTypeSpec
@@ -72,20 +70,19 @@ class DeserializeSparkTypeSpec
         }
       }
 
-      if (spark.version > "2.4.8")
-        SQLConf.withExistingConf(
-          spark.sessionState.conf
-            .copy(DoricTestElements.JAVA8APIENABLED -> true)
-        ) {
-          if (spark.version >= "3.2") {
-            deserializeSparkType[java.sql.Date](
-              java.sql.Date.valueOf("2022-12-31")
-            )
-            deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
-          }
-          deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
-          deserializeSparkType[java.time.Instant](java.time.Instant.now())
+      SQLConf.withExistingConf(
+        spark.sessionState.conf
+          .copy(DoricTestElements.JAVA8APIENABLED -> true)
+      ) {
+        if (spark.version >= "3.2") {
+          deserializeSparkType[java.sql.Date](
+            java.sql.Date.valueOf("2022-12-31")
+          )
+          deserializeSparkType[java.sql.Timestamp](new java.sql.Timestamp(0))
         }
+        deserializeSparkType[java.time.LocalDate](java.time.LocalDate.now())
+        deserializeSparkType[java.time.Instant](java.time.Instant.now())
+      }
     }
   }
 
