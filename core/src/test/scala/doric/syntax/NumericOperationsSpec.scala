@@ -531,7 +531,7 @@ trait NumericOperationsSpec
         testDoricSparkDecimals[T, T](
           List(Some(-1.4f), Some(0.7f), Some(1.0f), None),
           List(Some(-1.0f), Some(1.0f), Some(1.0f), None),
-          _.round,
+          _.round(0.lit),
           f.round
         )
       }

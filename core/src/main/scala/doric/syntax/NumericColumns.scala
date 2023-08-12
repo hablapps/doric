@@ -577,15 +577,6 @@ protected trait NumericColumns {
     def floor: LongColumn = column.elem.map(f.floor).toDC
 
     /**
-      * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode
-      *
-      * @todo decimal type
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.round]]
-      */
-    def round: DoricColumn[T] = column.elem.map(f.round).toDC
-
-    /**
       * Round the value to `scale` decimal places with HALF_UP round mode
       * if `scale` is greater than or equal to 0 or at integral part when `scale` is less than 0.
       *
