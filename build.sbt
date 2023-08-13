@@ -119,7 +119,7 @@ lazy val core = project
     crossScalaVersions := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
-      "org.typelevel"          %% "cats-core"               % "2.7.0",
+      "org.typelevel"          %% "cats-core"               % "2.9.0",
       "com.lihaoyi"            %% "sourcecode"              % "0.3.0",
       "com.chuusai"            %% "shapeless"               % "2.3.10",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0",
