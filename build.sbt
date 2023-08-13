@@ -14,7 +14,7 @@ val spark34Version           = "3.4.0"
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
 
-val scala212 = "2.12.15"
+val scala212 = "2.12.18"
 val scala213 = "2.13.8"
 
 val parserSparkVersion: String => String = {
@@ -119,9 +119,9 @@ lazy val core = project
     crossScalaVersions := scalaVersionSelect(sparkVersion.value),
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
-      "org.typelevel" %% "cats-core"  % "2.7.0",
-      "com.lihaoyi"   %% "sourcecode" % "0.3.0",
-      "com.chuusai"   %% "shapeless"  % "2.3.10",
+      "org.typelevel"          %% "cats-core"               % "2.7.0",
+      "com.lihaoyi"            %% "sourcecode"              % "0.3.0",
+      "com.chuusai"            %% "shapeless"               % "2.3.10",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0",
       "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
       "org.scalatest"          %% "scalatest"               % "3.2.16" % "test"
