@@ -15,7 +15,7 @@ raising a run-time exception:
 // Spark
 List(1,2,3).toDF().select(f.col("id")+1)
 // org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].;
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5078/0x0000000101bb0840@5b9e9122))]
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5080/0x0000000101bb1840@300a3f82))]
 // +- LocalRelation [value#399]
 // 
 // 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:221)
@@ -38,7 +38,7 @@ List(1,2,3).toDF().select(colInt("id")+1)
 //   	located at . (validations.md:37)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
-// 	at cats.data.Validated.fold(Validated.scala:29)
+// 	at cats.data.Validated.fold(Validated.scala:50)
 // 	at doric.sem.package$ErrorThrower.returnOrThrow(package.scala:9)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:140)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
@@ -52,8 +52,8 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1476)
 // 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1443)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
-// 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:674)
-// 	at cats.data.Kleisli.$anonfun$map$1(Kleisli.scala:40)
+// 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:707)
+// 	at scala.Function1.$anonfun$andThen$1(Function1.scala:57)
 ```
 
 ## Mismatch types
@@ -92,7 +92,7 @@ val df = List("1","2","three").toDF().select(colInt("value") + 1.lit)
 //   	located at . (validations.md:59)
 // 
 // 	at doric.sem.package$ErrorThrower.$anonfun$returnOrThrow$1(package.scala:9)
-// 	at cats.data.Validated.fold(Validated.scala:29)
+// 	at cats.data.Validated.fold(Validated.scala:50)
 // 	at doric.sem.package$ErrorThrower.returnOrThrow(package.scala:9)
 // 	at doric.sem.TransformOps$DataframeTransformationSyntax.select(TransformOps.scala:140)
 // 	at repl.MdocSession$MdocApp$$anonfun$3.apply$mcV$sp(validations.md:59)
