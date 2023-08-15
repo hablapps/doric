@@ -15,7 +15,7 @@ raising a run-time exception:
 // Spark
 List(1,2,3).toDF().select(f.col("id")+1)
 // org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].;
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5080/0x0000000101bb1840@300a3f82))]
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5080/0x0000000101bb1840@72c756ae))]
 // +- LocalRelation [value#399]
 // 
 // 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:221)
@@ -52,7 +52,7 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1476)
 // 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1443)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
-// 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:707)
+// 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:735)
 // 	at scala.Function1.$anonfun$andThen$1(Function1.scala:57)
 ```
 
