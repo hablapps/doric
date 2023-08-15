@@ -546,16 +546,6 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"round function with scale and round mode") {
-        val scale = 2
-        val mode  = BigDecimal.RoundingMode.FLOOR
-        testOnlyDoricDecimals[T, T](
-          List(Some(1.466666f), Some(0.7111111f), Some(1.0f), None),
-          List(Some(1.46f), Some(0.71f), Some(1.0f), None),
-          _.round(scale.lit, mode)
-        )
-      }
-
       it(s"naNvl function with param") {
         testDoricSparkDecimals2[T, T, T](
           List(

@@ -582,7 +582,8 @@ protected trait NumericColumns {
       *
       * @todo decimal type
       * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.round]]
+      * @see org.apache.spark.sql.functions.round
+      * @todo scaladoc link (issue #135)
       */
     def round(scale: IntegerColumn): DoricColumn[T] = (column.elem, scale.elem)
       .mapN((c, s) => new Column(Round(c.expr, s.expr)))

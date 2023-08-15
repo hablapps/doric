@@ -7,6 +7,7 @@ import doric.Equalities._
 import doric.types.NumericType
 import doric.types.SparkType.Primitive
 import java.sql.Timestamp
+import org.scalactic.Equality
 import org.scalatest.funspec.AnyFunSpecLike
 
 import org.apache.spark.sql.{DataFrame, SparkSession, functions => f}
@@ -19,7 +20,7 @@ trait NumericOperations31Spec
   def df: DataFrame
 
   import scala.reflect.runtime.universe._
-  def test[T: NumericType: Primitive: ClassTag: TypeTag]()(implicit
+  def test[T: NumericType: Primitive: ClassTag: TypeTag: Equality]()(implicit
       spark: SparkSession,
       fun: FromInt[T]
   ): Unit = {
@@ -48,8 +49,9 @@ trait NumericOperations31Spec
     }
   }
 
-  def testDecimals[T: NumWithDecimalsType: Primitive: ClassTag: TypeTag]()(
-      implicit
+  def testDecimals[
+      T: NumWithDecimalsType: Primitive: ClassTag: TypeTag: Equality
+  ]()(implicit
       spark: SparkSession,
       fun: FromFloat[T]
   ): Unit = {
@@ -64,14 +66,22 @@ trait NumericOperations31Spec
           f.atanh
         )
       }
+
+      it(s"round function with scale and round mode") {
+        val scale = 2
+        val mode  = BigDecimal.RoundingMode.FLOOR
+        testOnlyDoricDecimals[T, T](
+          List(Some(1.466666f), Some(0.7111111f), Some(1.0f), None),
+          List(Some(1.46f), Some(0.71f), Some(1.0f), None),
+          _.round(scale.lit, mode)
+        )
+      }
     }
   }
 }
 
 class Numeric31Spec
     extends SparkSessionTestWrapper
-    with AnyFunSpecLike
-    with TypedColumnTest
     with NumericOperations31Spec {
 
   import spark.implicits._
