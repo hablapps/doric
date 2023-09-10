@@ -124,7 +124,7 @@ lazy val core = project
       "com.chuusai"            %% "shapeless"               % "2.3.10",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0",
       "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
-      "org.scalatest"          %% "scalatest"               % "3.2.16" % "test"
+      "org.scalatest"          %% "scalatest"               % "3.2.17" % "test"
     ),
     // docs
     run / fork                      := true,
