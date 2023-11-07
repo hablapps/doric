@@ -79,6 +79,45 @@ protected trait ArrayColumns {
     cols.toList.traverse(_.elem).map(f.array(_: _*)).toDC
 
   /**
+    * Extension methods for arrays of strings
+    *
+    * @group Array Type
+    */
+  implicit class ArrayStringColumnSyntax[F[_]: CollectionType](
+      private val col: DoricColumn[F[String]]
+  ) {
+
+    /**
+      * Concatenates each string element with the separator column into a new string column
+      *
+      * @note even if `cols` contain null columns, it prints remaining string columns (or empty string).
+      * @note if separator column is null, result will be null
+      * @example {{{
+      * df.withColumn("res", colArrayString("col1").mkString(colString("col2")))
+      *   .show(false)
+      *     +------+----+----+
+      *     |col1  |col2|res |
+      *     +------+----+----+
+      *     |[a, b]|,   |a,b |
+      *     |[a, b]|||  |a||b|
+      *     |[a]   |,   |a   |
+      *     |[]    |,   |    |
+      *     |[a, b]|null|null|
+      *     |null  |,   |    |
+      *     |null  |null|null|
+      *     +------+----+----+
+      * }}}
+      * @group Array Type
+      * @see [[org.apache.spark.sql.functions.concat_ws]]
+      */
+    def mkString(sep: StringColumn): StringColumn =
+      (col.elem, sep.elem)
+        .mapN((c, s) => new Column(ConcatWs(Seq(s.expr, c.expr))))
+        .toDC
+
+  }
+
+  /**
     * Extension methods for arrays
     *
     * @group Array Type

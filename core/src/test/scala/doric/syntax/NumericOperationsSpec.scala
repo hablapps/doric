@@ -26,7 +26,7 @@ trait NumericOperationsSpec
 
     val numTypeStr = getClassName[T]
 
-    describe(s"Numeric $numTypeStr") {
+    describe(s"Numeric ( $numTypeStr )") {
 
       it("+") {
         validate[T, T, T](df, (a, b) => a + b)
@@ -56,7 +56,7 @@ trait NumericOperationsSpec
         validate[T, T, Boolean](df, (a, b) => a <= b)
       }
 
-      it(s"abs function $numTypeStr") {
+      it(s"abs function") {
         testDoricSpark[T, T](
           List(Some(-1), Some(0), Some(1), None),
           List(Some(1), Some(0), Some(1), None),
@@ -65,7 +65,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"acos function $numTypeStr") {
+      it(s"acos function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(0), Some(1), None),
           List(Some(3.14159), Some(1.57080), Some(0.0), None),
@@ -74,7 +74,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"asin function $numTypeStr") {
+      it(s"asin function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.57079), Some(1.57080), None, None),
@@ -83,7 +83,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"atan function $numTypeStr") {
+      it(s"atan function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-0.785398), Some(0.78540), Some(1.10715), None),
@@ -92,7 +92,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"atan2 function $numTypeStr") {
+      it(s"atan2 function") {
         testDoricSpark2[T, T, Double](
           List(
             (Some(-1), Some(-1)),
@@ -108,7 +108,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"bin function $numTypeStr") {
+      it(s"bin function") {
         testDoricSpark[T, String](
           List(Some(0), Some(1), Some(2), None),
           List(Some("0"), Some("1"), Some("10"), None),
@@ -117,7 +117,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"cbrt function $numTypeStr") {
+      it(s"cbrt function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.0), Some(1.0), Some(1.25992), None),
@@ -126,7 +126,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"cos function $numTypeStr") {
+      it(s"cos function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(0.54030), Some(0.54030), Some(-0.41615), None),
@@ -135,7 +135,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"cosh function $numTypeStr") {
+      it(s"cosh function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(1.54308), Some(1.54308), Some(3.76220), None),
@@ -144,7 +144,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"degrees function $numTypeStr") {
+      it(s"degrees function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-57.29578), Some(57.29578), Some(114.59156), None),
@@ -153,7 +153,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"exp function $numTypeStr") {
+      it(s"exp function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(0.36788), Some(2.71828), Some(7.38906), None),
@@ -162,7 +162,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"expm1 function $numTypeStr") {
+      it(s"expm1 function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-0.63212), Some(1.71828), Some(6.38906), None),
@@ -171,7 +171,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"factorial function $numTypeStr") {
+      it(s"factorial function") {
         testDoricSpark[T, Long](
           List(Some(-1), Some(1), Some(10), None),
           List(None, Some(1L), Some(3628800L), None),
@@ -180,7 +180,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"hypot function $numTypeStr") {
+      it(s"hypot function") {
         testDoricSpark2[T, T, Double](
           List(
             (Some(-1), Some(1)),
@@ -196,7 +196,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"log function $numTypeStr") {
+      it(s"log function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.0), Some(0.69315), None),
@@ -205,7 +205,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"log10 function $numTypeStr") {
+      it(s"log10 function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.0), Some(0.30103), None),
@@ -214,7 +214,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"log1p function $numTypeStr") {
+      it(s"log1p function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0.69314), Some(1.09861), None),
@@ -223,7 +223,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"log2 function $numTypeStr") {
+      it(s"log2 function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(0), Some(1), None),
@@ -232,7 +232,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"pow function $numTypeStr") {
+      it(s"pow function") {
         testDoricSpark2[T, T, Double](
           List(
             (Some(-1), Some(2)),
@@ -248,7 +248,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"pMod function $numTypeStr") {
+      it(s"pMod function") {
         testDoricSpark2[T, T, T](
           List(
             (Some(-10), Some(3)),
@@ -264,7 +264,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"radians function $numTypeStr") {
+      it(s"radians function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-0.01745), Some(0.01745), Some(0.03491), None),
@@ -273,7 +273,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"rint function $numTypeStr") {
+      it(s"rint function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.0), Some(1.0), Some(2.0), None),
@@ -282,7 +282,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"signum function $numTypeStr") {
+      it(s"signum function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(2), None),
           List(Some(-1.0), Some(1.0), None),
@@ -291,7 +291,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sin function $numTypeStr") {
+      it(s"sin function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-0.84147), Some(0.84147), Some(0.90930), None),
@@ -300,7 +300,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sinh function $numTypeStr") {
+      it(s"sinh function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.17520), Some(1.17520), Some(3.62686), None),
@@ -309,7 +309,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sqrt function $numTypeStr") {
+      it(s"sqrt function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(None, Some(1.0), Some(1.41421), None),
@@ -318,7 +318,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"tan function $numTypeStr") {
+      it(s"tan function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-1.55741), Some(1.55741), Some(-2.18504), None),
@@ -327,7 +327,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"tanh function $numTypeStr") {
+      it(s"tanh function") {
         testDoricSpark[T, Double](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(-0.76159), Some(0.76159), Some(0.96403), None),
@@ -336,7 +336,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"negate function $numTypeStr") {
+      it(s"negate function") {
         testDoricSpark[T, T](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(1), Some(-1), Some(-2), None),
@@ -345,7 +345,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"unary (-) function $numTypeStr") {
+      it(s"unary (-) function") {
         testDoricSpark[T, T](
           List(Some(-1), Some(1), Some(2), None),
           List(Some(1), Some(-1), Some(-2), None),
@@ -364,8 +364,8 @@ trait NumericOperationsSpec
     val numTypeStr   = getClassName[T]
     implicit val AST = SparkType.fromArray[T]
 
-    describe(s"Integral num $numTypeStr") {
-      it(s"sequence function $numTypeStr") {
+    describe(s"Integral num ( $numTypeStr )") {
+      it(s"sequence function") {
         val to = 5
         testDoricSpark[T, Array[T]](
           List(Some(-1), None),
@@ -375,7 +375,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sequenceT function $numTypeStr") {
+      it(s"sequenceT function") {
         val to = 5
         testDoricSpark[T, Array[T]](
           List(Some(-1), None),
@@ -385,7 +385,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sequence function with param $numTypeStr") {
+      it(s"sequence function with param") {
         val to   = 6
         val step = 2
         testDoricSpark[T, Array[T]](
@@ -396,7 +396,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"sequenceT function with param $numTypeStr") {
+      it(s"sequenceT function with param") {
         val to   = 6
         val step = 2
         testDoricSpark[T, Array[T]](
@@ -407,7 +407,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"hex function $numTypeStr") {
+      it(s"hex function") {
         testDoricSpark[T, String](
           List(Some(0), Some(1), Some(10), None),
           List(Some("0"), Some("1"), Some("A"), None),
@@ -416,7 +416,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"shiftLeft function $numTypeStr") {
+      it(s"shiftLeft function") {
         // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
         val shiftLeftBefore32: (Column, Column) => Column =
           (col, int) => new Column(ShiftLeft(col.expr, int.expr))
@@ -429,7 +429,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"shiftRight function $numTypeStr") {
+      it(s"shiftRight function") {
         // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
         val shiftRightBefore32: (Column, Column) => Column =
           (col, int) => new Column(ShiftRight(col.expr, int.expr))
@@ -442,7 +442,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"shiftRightUnsigned function $numTypeStr") {
+      it(s"shiftRightUnsigned function") {
         // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
         val shiftRightUnsignedBefore32: (Column, Column) => Column =
           (col, int) => new Column(ShiftRightUnsigned(col.expr, int.expr))
@@ -455,7 +455,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"bitwiseNot function $numTypeStr") {
+      it(s"bitwiseNot function") {
         // Aux function as it is deprecated since 3.2, otherwise specs would get complicated
         val bitwiseNotBefore32: Column => Column =
           col => new Column(BitwiseNot(col.expr))
@@ -478,9 +478,9 @@ trait NumericOperationsSpec
   ): Unit = {
     val numTypeStr = getClassName[T]
 
-    describe(s"Num with Decimals $numTypeStr") {
+    describe(s"Num with Decimals ( $numTypeStr )") {
 
-      it(s"bRound function $numTypeStr") {
+      it(s"bRound function") {
         testDoricSparkDecimals[T, T](
           List(Some(-0.2f), Some(0.8f), Some(0.0f), None),
           List(Some(0.0f), Some(1.0f), Some(0.0f), None),
@@ -489,7 +489,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"bRound function with param $numTypeStr") {
+      it(s"bRound function with param") {
         val scale = 5
         testDoricSparkDecimals[T, T](
           List(Some(-0.256777f), Some(0.811111f), Some(0.0f), None),
@@ -499,7 +499,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"bRound function with param=0 $numTypeStr") {
+      it(s"bRound function with param=0") {
         val scale = 0
         testDoricSparkDecimals[T, T](
           List(Some(-0.2567f), Some(0.811f), Some(0.0f), None),
@@ -509,7 +509,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"ceil function $numTypeStr") {
+      it(s"ceil function") {
         testDoricSparkDecimals[T, Long](
           List(Some(-1.876458f), Some(0.12354f), Some(1.0f), None),
           List(Some(-1L), Some(1L), Some(1L), None),
@@ -518,7 +518,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"floor function $numTypeStr") {
+      it(s"floor function") {
         testDoricSparkDecimals[T, Long](
           List(Some(-1.876458f), Some(0.12354f), Some(1.0f), None),
           List(Some(-2L), Some(0L), Some(1L), None),
@@ -527,16 +527,16 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"round function $numTypeStr") {
+      it(s"round function") {
         testDoricSparkDecimals[T, T](
           List(Some(-1.4f), Some(0.7f), Some(1.0f), None),
           List(Some(-1.0f), Some(1.0f), Some(1.0f), None),
-          _.round,
+          _.round(0.lit),
           f.round
         )
       }
 
-      it(s"round function with param $numTypeStr") {
+      it(s"round function with scale") {
         val scale = 5
         testDoricSparkDecimals[T, T](
           List(Some(-1.466666f), Some(0.7111111f), Some(1.0f), None),
@@ -546,7 +546,7 @@ trait NumericOperationsSpec
         )
       }
 
-      it(s"naNvl function with param $numTypeStr") {
+      it(s"naNvl function with param") {
         testDoricSparkDecimals2[T, T, T](
           List(
             (Some(-1.466f), Some(-2.0f)),

@@ -4,7 +4,7 @@ package syntax
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
 import doric.types.{CollectionType, NumericType}
-import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, UnaryMinus}
+import org.apache.spark.sql.catalyst.expressions.{BRound, FormatNumber, FromUnixTime, Rand, Randn, Round, RoundBase, UnaryMinus}
 import org.apache.spark.sql.{Column, functions => f}
 
 protected trait NumericColumns {
@@ -577,20 +577,13 @@ protected trait NumericColumns {
     def floor: LongColumn = column.elem.map(f.floor).toDC
 
     /**
-      * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode
+      * Round the value to `scale` decimal places with HALF_UP round mode
+      * if `scale` is greater than or equal to 0 or at integral part when `scale` is less than 0.
       *
       * @todo decimal type
       * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column)* org.apache.spark.sql.functions.round]]
-      */
-    def round: DoricColumn[T] = column.elem.map(f.round).toDC
-
-    /**
-      * Returns the value of the column e rounded to 0 decimal places with HALF_UP round mode.
-      *
-      * @todo decimal type
-      * @group Numeric Type
-      * @see [[org.apache.spark.sql.functions.round(e:org\.apache\.spark\.sql\.Column,scale:* org.apache.spark.sql.functions.round]]
+      * @see org.apache.spark.sql.functions.round
+      * @todo scaladoc link (issue #135)
       */
     def round(scale: IntegerColumn): DoricColumn[T] = (column.elem, scale.elem)
       .mapN((c, s) => new Column(Round(c.expr, s.expr)))
