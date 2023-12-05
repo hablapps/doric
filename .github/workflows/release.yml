@@ -69,7 +69,7 @@ jobs:
 
       - name: Publish on gh release the JARS
         if: github.ref_type == 'tag'
-        uses: AButler/upload-release-assets@v2.0
+        uses: AButler/upload-release-assets@v3.0
         with:
           files: 'core/target/scala-2.**/doric_*.jar'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
