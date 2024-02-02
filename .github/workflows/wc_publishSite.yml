@@ -61,7 +61,7 @@ jobs:
 
       - name: Upload docs ⬆️
         if: steps.prepare_scaladocs.conclusion == 'success'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "spark-${{ matrix.spark }}"
           path: "spark-${{ matrix.spark }}"

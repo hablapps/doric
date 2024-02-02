@@ -51,7 +51,7 @@ jobs:
           }" > pr_context.json
 
       - name: Upload PR context
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "pr_context.json"
           path: "pr_context.json"
