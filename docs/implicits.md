@@ -85,7 +85,7 @@ val complexCol: DoricColumn[Int] =
       .transform(_ + 1.lit)
       .aggregate(0.lit)(_ + _)
 // complexCol: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(scala.Function1$$Lambda$2999/0x000000080133f040@39459b5a)
+//   Kleisli(scala.Function1$$Lambda$3002/0x0000000801346040@7ec594eb)
 // )
   
 dfArrays.select(complexCol as "complexTransformation").show()
@@ -238,7 +238,7 @@ Last, note that we can also emulate the default Spark behaviour, enabling implic
 with an explicit import statement:
 
 ```scala
-import doric.implicitConversions.implicitSafeCast
+import doric.implicitConversions.implicitSafeCast
 
 dfEq.withColumn("eq", colString("str") === colInt("int") ).show()
 // +---+---+-----+
@@ -277,7 +277,7 @@ The default doric syntax is a little stricter and forces us to transform these v
 ```scala
 val colD = colInt("int") + 1.lit
 // colD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(scala.Function1$$Lambda$2999/0x000000080133f040@18f28a93)
+//   Kleisli(scala.Function1$$Lambda$3002/0x0000000801346040@21dcd0b5)
 // )
 
 intDF.select(colD).show()
@@ -295,15 +295,15 @@ However, we can also profit from the same literal syntax with the help of implic
 we have to _explicitly_ add the following import statement:
 
 ```scala
-import doric.implicitConversions.literalConversion
+import doric.implicitConversions.literalConversion
 val colSugarD = colInt("int") + 1
 // colSugarD: DoricColumn[Int] = TransformationDoricColumn(
-//   Kleisli(scala.Function1$$Lambda$2999/0x000000080133f040@5152538d)
+//   Kleisli(scala.Function1$$Lambda$3002/0x0000000801346040@ff8fe1f)
 // )
 val columConcatLiterals = concat("this", "is","doric") // concat expects DoricColumn[String] values, the conversion puts them as expected
 // columConcatLiterals: StringColumn = TransformationDoricColumn(
-//   Kleisli(scala.Function1$$Lambda$2999/0x000000080133f040@793ac211)
-// ) // concat expects DoricColumn[String] values, the conversion puts them as expected
+//   Kleisli(scala.Function1$$Lambda$3002/0x0000000801346040@730fcd33)
+// )
 
 intDF.select(colSugarD, columConcatLiterals).show()
 // +---------+-----------------------+
