@@ -46,7 +46,7 @@ jobs:
       - name: Find Comment
 #        if: github.event_name == 'pull_request'
 #        if: ${{ github.event.workflow_run.conclusion == 'success/failure' }}
-        uses: peter-evans/find-comment@v2
+        uses: peter-evans/find-comment@v3
         id: fc
         with:
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
@@ -169,7 +169,7 @@ jobs:
 
       - name: Find Comment
         if: ${{ always() }}
-        uses: peter-evans/find-comment@v2
+        uses: peter-evans/find-comment@v3
         id: fc
         with:
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
