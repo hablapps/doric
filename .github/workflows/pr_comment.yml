@@ -70,7 +70,7 @@ jobs:
         run: echo "::set-output name=current_date::$(date +'%Y-%m-%d %H:%M:%S %z (%Z)')"
 
       - name: Create summary comment
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
@@ -178,7 +178,7 @@ jobs:
       - name: Add test results
         if: steps.fc.conclusion == 'success'
         id: add_test_results
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
@@ -189,7 +189,7 @@ jobs:
 
       - name: Add failed comment
         if: ${{ failure() && steps.fc.conclusion == 'success' }}
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
