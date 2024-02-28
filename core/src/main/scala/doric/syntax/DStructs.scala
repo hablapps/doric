@@ -1,18 +1,18 @@
 package doric
 package syntax
 
+import scala.jdk.CollectionConverters._
+import scala.language.dynamics
+
 import cats.data.Kleisli
-import cats.evidence.Is
 import cats.implicits._
 import doric.sem.{ColumnTypeError, Location, SparkErrorWrapper}
 import doric.types.SparkType
-import org.apache.spark.sql.catalyst.expressions.ExtractValue
-import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
-import shapeless.labelled.FieldType
 import shapeless.{::, HList, LabelledGeneric, Witness}
+import shapeless.labelled.FieldType
 
-import scala.jdk.CollectionConverters._
-import scala.language.dynamics
+import org.apache.spark.sql.{Column, Dataset, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.ExtractValue
 
 protected trait DStructs {
 
@@ -131,7 +131,8 @@ protected trait DStructs {
       type V = _V
     }
 
-    implicit def Found[K <: Symbol, _V: SparkType, T <: HList] =
+    implicit def Found[K <: Symbol, _V: SparkType, T <: HList]
+        : SelectorWithSparkType[FieldType[K, _V] :: T, K] { type V = _V } =
       new SelectorWithSparkType[FieldType[K, _V] :: T, K] {
         type V = _V
         val st = SparkType[_V]
@@ -141,7 +142,7 @@ protected trait DStructs {
   trait SelectorLPI {
     implicit def KeepFinding[K1, V1, T <: HList, K <: Symbol](implicit
         T: SelectorWithSparkType[T, K]
-    ) =
+    ): SelectorWithSparkType[FieldType[K1, V1] :: T, K] { type V = T.V } =
       new SelectorWithSparkType[FieldType[K1, V1] :: T, K] {
         type V = T.V
         val st = T.st
