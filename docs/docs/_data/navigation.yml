@@ -15,7 +15,7 @@ docs:
       - title: "Modularity"
         url: /docs/modularity/
       - title: "Doric exclusive features"
-        url: /docs/doric-exclusive-featues/
+        url: /docs/doric-exclusive-features/
 main:
   - title: "Documentation"
     url: /docs/
