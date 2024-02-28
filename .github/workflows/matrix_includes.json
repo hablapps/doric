@@ -70,9 +70,29 @@
     "isRelease": "-"
   },
   {
+    "spark": "3.3.2",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
+    "spark": "3.3.3",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
     "spark": "3.3",
     "scope": "test-uploadReport",
     "isRelease": "release"
+  },
+  {
+    "spark": "3.4.0",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
+    "spark": "3.4.1",
+    "scope": "test",
+    "isRelease": "-"
   },
   {
     "spark": "3.4",
