@@ -517,7 +517,7 @@ is null and b is not null, or c if both a and b are null but c is not
 null.
 </p></div><dl class="paramcmts block"><dt class="param">cols</dt><dd class="cmt"><p>
   the DoricColumns to coalesce</p></dd><dt>returns</dt><dd class="cmt"><p>
-  the first column that is not null, or null if all inputs are null.</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#coalesce(e:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.coalesce</a></p></span></dd></dl></div>
+  the first column that is not null, or null if all inputs are null.</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#coalesce(e:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.coalesce</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.ColGetters#col" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="col[T](colName:String)(implicitevidence$1:doric.types.SparkType[T],implicitlocation:doric.sem.Location):F[T]"></a><a id="col[T](String)(SparkType[T],Location):NamedDoricColumn[T]"></a>
       <span class="permalink">
@@ -718,7 +718,7 @@ the float column reference</p></dd></dl><dl class="attributes block"> <dt>Defini
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="originDF">originDF: <a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
+        <span class="name">colFromDF</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="originDF">originDF: <a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../types/SparkType.html" class="extype" name="doric.types.SparkType">SparkType</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>, <span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.ColGetters.colFromDF.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column of the provided dataframe.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column of the provided dataframe. Useful to prevent column
@@ -904,7 +904,7 @@ the string column reference</p></dd></dl><dl class="attributes block"> <dt>Defin
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
+        <span class="name">colStruct</span><span class="params">(<span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="location">location: <a href="../sem/Location.html" class="extype" name="doric.sem.Location">Location</a></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Retrieves a column with the provided name expecting it to be of struct type.</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves a column with the provided name expecting it to be of struct type.
@@ -944,7 +944,7 @@ the Timestamp column reference</p></dd></dl><dl class="attributes block"> <dt>De
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">constructSide</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="column">column: <a href="../index.html#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>, <span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.constructSide.T">T</span>]</span>
+        <span class="name">constructSide</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="column">column: <a href="../index.html#Doric[T]=cats.data.Kleisli[doric.package.DoricValidated,org.apache.spark.sql.Dataset[_],T]" class="extmbr" name="doric.Doric">Doric</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Column.html#org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.Column">Column</a>]</span>, <span name="colName">colName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../NamedDoricColumn.html" class="extype" name="doric.NamedDoricColumn">NamedDoricColumn</a>[<span class="extype" name="doric.syntax.CommonColumns.constructSide.T">T</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="doric.syntax.CommonColumns">CommonColumns</a> → ColGetters</dd></dl></div>
@@ -1118,7 +1118,7 @@ the Timestamp column reference</p></dd></dl><dl class="attributes block"> <dt>De
       
       <p class="shortcomment cmt">Returns the greatest value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the greatest value of the list of values, skipping null values.
 This function takes at least 2 parameters. It will return null iff all parameters are null.
-</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#greatest(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.greatest</a></p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#greatest(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.greatest</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.CommonColumns#hash" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="All Types">
       <a id="hash(cols:doric.DoricColumn[_]*):doric.IntegerColumn"></a><a id="hash(DoricColumn[_]*):IntegerColumn"></a>
       <span class="permalink">
@@ -1135,7 +1135,7 @@ This function takes at least 2 parameters. It will return null iff all parameter
       </span>
       
       <p class="shortcomment cmt">Calculates the hash code of given columns, and returns the result as an integer column.</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the hash code of given columns, and returns the result as an integer column.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#hash(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.hash</a></p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#hash(cols:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.hash</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -1188,7 +1188,7 @@ This function takes at least 2 parameters. It will return null iff all parameter
       
       <p class="shortcomment cmt">Returns the least value of the list of values, skipping null values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the least value of the list of values, skipping null values.
 This function takes at least 2 parameters. It will return null iff all parameters are null.
-</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#least(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.least</a></p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>skips null values</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#least(exprs:org.apache.spark.sql.Column*):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.least</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">

@@ -377,7 +377,7 @@
       </span>
       
       <p class="shortcomment cmt">Returns value for the given key in value.</p><div class="fullcomment"><div class="comment cmt"><p>Returns value for the given key in value.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#element_at(column:%3C?%3E,value:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.element_at</a></p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#element_at(column:%3C?%3E,value:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.element_at</a></p></span></dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a><a id="ensuring((MapColumnOps[K,V])⇒Boolean,⇒Any):MapColumnOps[K,V]"></a>
       <span class="permalink">
@@ -502,7 +502,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">explode</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
+        <span class="name">explode</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new row for each element in the given map column.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new row for each element in the given map column.
@@ -515,7 +515,7 @@
 |[]              |   |c  |d    |     |{c, d}|
 |<span class="kw">null</span>            |   +---+-----+     +------+
 +----------------+</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#explode(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.explode</a></p></span></dd></dl></div>
+            </div><dt>Note</dt><dd><span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#explode(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.explode</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.MapColumns.MapColumnOps#explodeOuter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="explodeOuter:doric.DoricColumn[org.apache.spark.sql.Row]"></a><a id="explodeOuter:DoricColumn[Row]"></a>
       <span class="permalink">
@@ -528,7 +528,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">explodeOuter</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
+        <span class="name">explodeOuter</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new row for each element in the given map column.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new row for each element in the given map column.</p></div><dl class="attributes block"> <div class="block">Example:
@@ -541,7 +541,7 @@
 |<span class="num">3</span>  |<span class="kw">null</span>            |   |<span class="num">2</span>  |<span class="kw">null</span>|<span class="kw">null</span> |  |<span class="num">2</span>  |<span class="kw">null</span>  |
 +---+----------------+   |<span class="num">3</span>  |<span class="kw">null</span>|<span class="kw">null</span> |  |<span class="num">3</span>  |<span class="kw">null</span>  |
                          +---+----+-----+  +---+------+</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>Unlike explode, if the array is null or empty then null is produced.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#explode_outer(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.explode_outer</a></p></span></dd></dl></div>
+            </div><dt>Note</dt><dd><span class="cmt"><p>Unlike explode, if the array is null or empty then null is produced.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#explode_outer(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.explode_outer</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -656,7 +656,7 @@
       
       <p class="shortcomment cmt">Returns an unordered array containing the keys of the map.</p><div class="fullcomment"><div class="comment cmt"><p>Returns an unordered array containing the keys of the map.
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  the DoricColumn of the Array of keys</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#map_keys(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_keys</a></p></span></dd></dl></div>
+  the DoricColumn of the Array of keys</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#map_keys(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_keys</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.LiteralConversions.LiteralOps#lit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lit(implicitl:doric.sem.Location):doric.LiteralDoricColumn[L]"></a><a id="lit(Location):LiteralDoricColumn[MapColumnOps[K,V]]"></a>
       <span class="permalink">
@@ -748,7 +748,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">posExplode</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
+        <span class="name">posExplode</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new row for each element with position in the given map column.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new row for each element with position in the given map column.
@@ -761,7 +761,7 @@ a literal with the same type.</p></dd></dl><dl class="attributes block"> <dt cla
 |[]              |   |<span class="num">2</span>  |c  |d    |     |{<span class="num">2</span>, c, d}|
 |<span class="kw">null</span>            |   +---+---+-----+     +---------+
 +----------------+</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>Uses the default column name pos for position, and key and value for elements in the map.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#posexplode(e:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.posexplode</a></p></span></dd></dl></div>
+            </div><dt>Note</dt><dd><span class="cmt"><p>Uses the default column name pos for position, and key and value for elements in the map.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#posexplode(e:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.posexplode</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.MapColumns.MapColumnOps#posExplodeOuter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="posExplodeOuter:doric.RowColumn"></a><a id="posExplodeOuter:RowColumn"></a>
       <span class="permalink">
@@ -789,7 +789,7 @@ Unlike posexplode, if the map is null or empty then the row (null, null) is prod
 |<span class="kw">null</span>            |   |<span class="num">2</span>  |<span class="kw">null</span>|<span class="kw">null</span> |    |<span class="kw">null</span>     |
 +----------------+   |<span class="num">3</span>  |<span class="kw">null</span>|<span class="kw">null</span> |    |<span class="kw">null</span>     |
                      +---+----+-----+    +---+-----+</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>Uses the default column name pos for position, and key and value for elements in the map.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#posexplode_outer(e:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.posexplode_outer</a></p></span></dd></dl></div>
+            </div><dt>Note</dt><dd><span class="cmt"><p>Uses the default column name pos for position, and key and value for elements in the map.</p></span>, <span class="cmt"><p>WARNING: Unlike spark, doric returns a struct</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#posexplode_outer(e:%3C?%3E):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.posexplode_outer</a></p></span></dd></dl></div>
     </li><li name="doric.syntax.MapColumns.MapColumnOps#size" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Map Type">
       <a id="size:doric.IntegerColumn"></a><a id="size:IntegerColumn"></a>
       <span class="permalink">
@@ -808,7 +808,7 @@ Unlike posexplode, if the map is null or empty then the row (null, null) is prod
       <p class="shortcomment cmt">Returns length of map.</p><div class="fullcomment"><div class="comment cmt"><p>Returns length of map.</p><p>The function returns null for null input if spark.sql.legacy.sizeOfNull is set to false or
 spark.sql.ansi.enabled is set to true. Otherwise, the function returns -1 for null input.
 With the default settings, the function returns -1 for null input.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#size(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.size</a></p></span></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#size(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.size</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -837,7 +837,7 @@ With the default settings, the function returns -1 for null input.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">toArray</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.18/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]]</span>
+        <span class="name">toArray</span><span class="result">: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[<a href="https://www.scala-lang.org/api/2.12.18/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Row.html#org.apache.spark.sql.Row" class="extype" name="org.apache.spark.sql.Row">Row</a>]]</span>
       </span>
       
       <p class="shortcomment cmt">DORIC EXCLUSIVE! Map to array conversion
@@ -891,7 +891,7 @@ With the default settings, the function returns -1 for null input.
       
       <p class="shortcomment cmt">Returns an unordered array containing the values of the map.</p><div class="fullcomment"><div class="comment cmt"><p>Returns an unordered array containing the values of the map.
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
-  the DoricColumn of the Array of values</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/functions$.html#map_values(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_values</a></p></span></dd></dl></div>
+  the DoricColumn of the Array of values</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/functions$.html#map_values(e:org.apache.spark.sql.Column):org.apache.spark.sql.Column" class="extype" name="org.apache.spark.sql.functions">org.apache.spark.sql.functions.map_values</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

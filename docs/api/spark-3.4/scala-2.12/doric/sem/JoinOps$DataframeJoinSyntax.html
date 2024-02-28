@@ -216,7 +216,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DataframeJoinSyntax</span><span class="params">(<span name="df">df: <a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[<span class="extype" name="doric.sem.JoinOps.DataframeJoinSyntax.A">A</span>]</span>)</span>
+        <span class="name">DataframeJoinSyntax</span><span class="params">(<span name="df">df: <a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[<span class="extype" name="doric.sem.JoinOps.DataframeJoinSyntax.A">A</span>]</span>)</span>
       </span>
       
       
@@ -545,7 +545,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">innerJoinKeepLeftKeys</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="column">column: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="columns">columns: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="name">innerJoinKeepLeftKeys</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="column">column: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="columns">columns: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Join with another <code>DataFrame</code>, using the given doric columns.</p><div class="fullcomment"><div class="comment cmt"><p>Join with another <code>DataFrame</code>, using the given doric columns. The
@@ -583,7 +583,7 @@ following performs a inner join between <code>df1</code> and <code>df2</code> by
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="column">column: <a href="../DoricJoinColumn.html" class="extype" name="doric.DoricJoinColumn">DoricJoinColumn</a></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="name">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="column">column: <a href="../DoricJoinColumn.html" class="extype" name="doric.DoricJoinColumn">DoricJoinColumn</a></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Join with another <code>DataFrame</code>, using the given doric columns.</p><div class="fullcomment"><div class="comment cmt"><p>Join with another <code>DataFrame</code>, using the given doric columns. The
@@ -608,7 +608,7 @@ df1.join(df2, joinColumn, <span class="lit">"outer"</span>)</pre></div><dl class
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.0/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="col">col: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="cols">cols: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="name">join</span><span class="params">(<span name="df2">df2: <a href="https://spark.apache.org/docs/3.4.2/api/scala/org/apache/spark/sql/Dataset.html#org.apache.spark.sql.Dataset" class="extype" name="org.apache.spark.sql.Dataset">Dataset</a>[_]</span>, <span name="joinType">joinType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="col">col: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]</span>, <span name="cols">cols: <a href="../DoricColumn.html" class="extype" name="doric.DoricColumn">DoricColumn</a>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Join with another <code>DataFrame</code>, using the given doric columns.</p><div class="fullcomment"><div class="comment cmt"><p>Join with another <code>DataFrame</code>, using the given doric columns. The

@@ -15,7 +15,7 @@ raising a run-time exception:
 // Spark
 List(1,2,3).toDF().select(f.col("id")+1)
 // org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].;
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5129/0x0000000801bcd840@470983bf))]
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$5134/0x0000000801bd1840@5477457d))]
 // +- LocalRelation [value#399]
 // 
 // 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:221)
@@ -45,12 +45,12 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
 // Caused by: org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
 // 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedColumnWithSuggestionError(QueryCompilationErrors.scala:2936)
-// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:255)
-// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:250)
+// 	at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$resolveException(Dataset.scala:254)
+// 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:249)
 // 	at scala.Option.getOrElse(Option.scala:189)
-// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:250)
-// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1476)
-// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1443)
+// 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:249)
+// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1474)
+// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1441)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:735)
 // 	at scala.Function1.$anonfun$andThen$1(Function1.scala:57)
