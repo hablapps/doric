@@ -9,7 +9,10 @@ object ChildColumnNotFound {
   ): SparkErrorWrapper = {
     SparkErrorWrapper(
       new Throwable(
-        if (!(sparkSession.version.startsWith("3.4") || sparkSession.version.startsWith("3.5")))
+        if (
+          !(sparkSession.version.startsWith("3.4") || sparkSession.version
+            .startsWith("3.5"))
+        )
           s"No such struct field $expectedCol in ${foundCols.mkString(", ")}"
         else
           s"[FIELD_NOT_FOUND] No such struct field `$expectedCol` in ${foundCols

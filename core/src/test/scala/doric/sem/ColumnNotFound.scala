@@ -10,7 +10,10 @@ object ColumnNotFound {
 
     SparkErrorWrapper(
       new Throwable(
-        if (!(sparkSession.version.startsWith("3.4") || sparkSession.version.startsWith("3.5")))
+        if (
+          !(sparkSession.version.startsWith("3.4") || sparkSession.version
+            .startsWith("3.5"))
+        )
           s"""Cannot resolve column name "$expectedCol" among (${foundCols
               .mkString(", ")})"""
         else
