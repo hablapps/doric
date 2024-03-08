@@ -3,7 +3,8 @@ package syntax
 
 import cats.implicits._
 import doric.types.CollectionType
-import org.apache.spark.sql.{Column, functions => f, Row}
+
+import org.apache.spark.sql.{Column, Row, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 
 trait ArrayColumns3x {

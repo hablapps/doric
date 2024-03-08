@@ -322,7 +322,7 @@ class StringColumnsSpec extends DoricTestElements {
     }
 
     it("should raise an error if group > regex group result") {
-      intercept[java.lang.IllegalArgumentException] {
+      intercept[java.lang.RuntimeException] {
         df.withColumn(
           "res",
           colString("col1").regexpExtract("(\\d+)-(\\d+)".lit, 4.lit)
@@ -481,7 +481,7 @@ class StringColumnsSpec extends DoricTestElements {
       df.testColumns2("col1", "")(
         (str, pattern) => colString(str).split(pattern.lit),
         (str, pattern) => f.split(f.col(str), pattern),
-        if (!spark.version.startsWith("3.4"))
+        if (!(spark.version.startsWith("3.4") || spark.version.startsWith("3.5")))
           List(
             Array("h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", ""),
             Array("1", "2", "3", "4", "5", ""),

@@ -1,10 +1,11 @@
 package doric
 package syntax
 
-import doric.types.SparkType
-import org.apache.spark.sql.{Row, functions => f}
-
 import scala.jdk.CollectionConverters._
+
+import doric.types.SparkType
+
+import org.apache.spark.sql.{Row, functions => f}
 
 private[syntax] trait DStructs3x {
 

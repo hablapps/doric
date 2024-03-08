@@ -1,13 +1,14 @@
 package doric
 package syntax
 
-import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.{Row, functions => f}
+import scala.jdk.CollectionConverters._
+
+import java.sql.Timestamp
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
 
-import java.sql.Timestamp
-import scala.jdk.CollectionConverters._
+import org.apache.spark.sql.{Row, functions => f}
+import org.apache.spark.sql.types.StructType
 
 class StringColumns3xSpec
     extends DoricTestElements
