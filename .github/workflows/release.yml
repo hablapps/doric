@@ -48,14 +48,17 @@ jobs:
       - uses: actions/checkout@v4.1.1
 
       # SETUP & CACHE
+      - uses: coursier/cache-action@v6.4.5
+        id: coursier-cache
+        with:
+          ignoreJob: 'true'
+          ignoreMatrix: 'true'
+
       - uses: coursier/setup-action@v1.3.5
+        if: steps.coursier-cache.outputs.cache-hit-coursier != 'true'
         with:
           jvm: adopt:8
           apps: sbt scala scalafmt  # https://github.com/coursier/apps
-
-      - uses: actions/cache@v4.0.0
-        with:
-          key: "${{ matrix.spark }}-${{ hashFiles('build.sbt') }}"
 
       # MAVEN RELEASE
       - name: Maven release 🎁
