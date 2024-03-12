@@ -2,10 +2,11 @@ package doric
 package syntax
 
 import doric.testUtilities.data.User
-import org.apache.spark.sql.catalyst.expressions.ArraySort
-import org.apache.spark.sql.{Column, Row, functions => f}
 import org.scalatest.EitherValues
 import org.scalatest.matchers.should.Matchers
+
+import org.apache.spark.sql.{Column, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.ArraySort
 
 class ArrayColumns3xSpec
     extends DoricTestElements

@@ -1,13 +1,14 @@
 package doric
 package syntax
 
+import scala.jdk.CollectionConverters._
+
 import cats.implicits._
 import doric.DoricColumn.sparkFunction
+
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.types.{DataType, StructType}
-import org.apache.spark.sql.{Column, functions => f}
-
-import scala.jdk.CollectionConverters._
 
 protected trait StringColumns {
 
@@ -154,7 +155,7 @@ protected trait StringColumns {
       * Computes the Levenshtein distance of the two given string columns.
       *
       * @group String Type
-      * @see [[org.apache.spark.sql.functions.levenshtein]]
+      * @see [[https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/functions$.html#levenshtein(l:org.apache.spark.sql.Column,r:org.apache.spark.sql.Column):org.apache.spark.sql.Column]]
       */
     def levenshtein(dc: StringColumn): IntegerColumn =
       (s.elem, dc.elem).mapN(f.levenshtein).toDC

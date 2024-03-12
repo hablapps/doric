@@ -1,10 +1,11 @@
 package doric.syntax
 
-import doric.{DoricTestElements, colStruct}
-import org.apache.spark.sql.{functions => f}
-
-import java.sql.Timestamp
 import scala.jdk.CollectionConverters._
+
+import doric.{colStruct, DoricTestElements}
+import java.sql.Timestamp
+
+import org.apache.spark.sql.{functions => f}
 
 class DStructs3xSpec extends DoricTestElements {
 

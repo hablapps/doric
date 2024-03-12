@@ -3,8 +3,9 @@ package syntax
 
 import cats.implicits._
 import doric.types.SparkType
-import org.apache.spark.sql.catalyst.expressions.{MapFilter, MapZipWith, TransformKeys, TransformValues}
+
 import org.apache.spark.sql.{Column, Row, functions => f}
+import org.apache.spark.sql.catalyst.expressions.{MapFilter, MapZipWith, TransformKeys, TransformValues}
 
 trait MapColumns3x {
 

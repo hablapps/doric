@@ -1,12 +1,13 @@
 package doric
 package syntax
 
+import scala.jdk.CollectionConverters._
+
 import cats.implicits._
+
+import org.apache.spark.sql.{Column, functions => f}
 import org.apache.spark.sql.catalyst.expressions.StringSplit
 import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.{Column, functions => f}
-
-import scala.jdk.CollectionConverters._
 
 trait StringColumn3x {
   implicit class StringOperationsSyntax3x(s: DoricColumn[String]) {

@@ -32,4 +32,8 @@ spark_3.3:
 
 spark_3.4:
   - changed-files:
-    - any-glob-to-any-file: [ 'core/src/main/spark*3.4*/**/*', 'core/src/main/scala/**/*' ]
+      - any-glob-to-any-file: [ 'core/src/main/spark*3.4*/**/*', 'core/src/main/scala/**/*' ]
+
+spark_3.5:
+  - changed-files:
+      - any-glob-to-any-file: [ 'core/src/main/spark*3.5*/**/*', 'core/src/main/scala/**/*' ]

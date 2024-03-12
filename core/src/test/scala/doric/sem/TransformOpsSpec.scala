@@ -2,10 +2,11 @@ package doric
 package sem
 
 import doric.implicitConversions._
-import org.apache.spark.sql.Row
-import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, TimestampType}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.EitherValues
+
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, TimestampType}
 
 class TransformOpsSpec
     extends DoricTestElements
@@ -122,13 +123,17 @@ class TransformOpsSpec
           )
       }
       error.getMessage should startWith(
-        if (!spark.version.startsWith("3.4"))
+        if (
+          !(spark.version.startsWith("3.4") || spark.version.startsWith("3.5"))
+        )
           "Found duplicate column(s) in given column names:"
         else
           "[COLUMN_ALREADY_EXISTS] The column `a` already exists. Consider to choose another name or rename the existing column."
       )
       error.getMessage should include("`a`")
-      if (!spark.version.startsWith("3.4")) {
+      if (
+        !(spark.version.startsWith("3.4") || spark.version.startsWith("3.5"))
+      ) {
         error.getMessage should include("`b`")
       }
     }
