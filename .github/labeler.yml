@@ -10,10 +10,6 @@ documentation:
   - changed-files:
     - any-glob-to-any-file: [ 'docs/**/*', 'notebooks/**/*', '*.md' ]
 
-spark_2.4:
-  - changed-files:
-    - any-glob-to-any-file: [ 'core/src/main/spark*2.4*/**/*', 'core/src/main/scala/**/*' ]
-
 spark_3.0:
   - changed-files:
     - any-glob-to-any-file: [ 'core/src/main/spark*3.0*/**/*', 'core/src/main/scala/**/*' ]

@@ -21,7 +21,7 @@ jobs:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
 #        run: echo "$GITHUB_CONTEXT"
       - name: Download PR context
-        uses: dawidd6/action-download-artifact@v3.0.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v3.1.2 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
           name: pr_context.json
           workflow_conclusion: ""
@@ -51,19 +51,6 @@ jobs:
         with:
           issue-number: ${{ fromJson(steps.output_pr_context.outputs.pr_context).pr_number }}
           body-includes: "This is an auto-generated comment"
-
-#      - uses: actions/checkout@v3
-#
-#      - name: Render template
-#        id: template
-#        uses: chuhlomin/render-template@v1.4
-#        with:
-#          template: .github/templates/pr_comment.md
-#          vars: |
-#            workflow: ${{ github.workflow }}
-#            run_url: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-#            attempt: ${{ github.event.workflow_run.run_attempt }}
-#            job_name: ${{ github.job }}
 
       - name: Get current date
         id: getDate
@@ -133,7 +120,7 @@ jobs:
     steps:
       - name: Download artifact
         id: download_artifacts
-        uses: dawidd6/action-download-artifact@v3.0.0 # marcofaggian/action-download-multiple-artifacts@v3.0.8
+        uses: dawidd6/action-download-artifact@v3.1.2 # marcofaggian/action-download-multiple-artifacts@v3.0.8
         with:
 #          names: test-summary-*.md
           workflow_conclusion: ""
