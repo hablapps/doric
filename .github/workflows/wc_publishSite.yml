@@ -14,7 +14,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@v2.0.1
@@ -29,17 +29,20 @@ jobs:
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       # SETUP & CACHE
+      - uses: coursier/cache-action@v6.4.5
+        id: coursier-cache
+        with:
+          ignoreJob: 'true'
+          ignoreMatrix: 'true'
+
       - uses: coursier/setup-action@v1.3.5
+        if: steps.coursier-cache.outputs.cache-hit-coursier != 'true'
         with:
           jvm: adopt:8
           apps: sbt scala scalafmt  # https://github.com/coursier/apps
-
-      - uses: coursier/cache-action@v6
-        with:
-          extraKey: "${{ matrix.spark }}"
 
         # BUILD SCALADOCS (API)
       - name: Build the scaladocs 💻
@@ -61,7 +64,7 @@ jobs:
 
       - name: Upload docs ⬆️
         if: steps.prepare_scaladocs.conclusion == 'success'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: "spark-${{ matrix.spark }}"
           path: "spark-${{ matrix.spark }}"
@@ -79,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       # BUILD MDOC, sbt should take the latest version
       - name: Build the microsite 💻
@@ -88,7 +91,7 @@ jobs:
 
       # DOWNLOAD DOCS, this will download all the artifacts because no name provided
       - name: Download docs ⬇️
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.4
         with:
           path: "docs/target/mdoc/docs/api/"
 

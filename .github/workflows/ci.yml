@@ -15,7 +15,7 @@ jobs:
     name: Check Dependencies
     steps:
       - name: PR Dependency Check
-        uses: gregsdennis/dependencies-action@1.3.2
+        uses: gregsdennis/dependencies-action@1.3.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,7 +51,7 @@ jobs:
           }" > pr_context.json
 
       - name: Upload PR context
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: "pr_context.json"
           path: "pr_context.json"
@@ -69,7 +69,7 @@ jobs:
   check_mdoc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       # BUILD MDOC, sbt should take the latest version
       - name: Build the microsite 💻

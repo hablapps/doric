@@ -6,14 +6,17 @@ runs:
   steps:
 
       # SETUP & CACHE
-    - uses: coursier/setup-action@v1.3.0
+    - uses: coursier/cache-action@v6.4.5
+      id: coursier-cache
+      with:
+        ignoreJob: 'true'
+        ignoreMatrix: 'true'
+
+    - uses: coursier/setup-action@v1.3.5
+      if: steps.coursier-cache.outputs.cache-hit-coursier != 'true'
       with:
         jvm: adopt:8
         apps: sbt scala scalafmt  # https://github.com/coursier/apps
-
-    - uses: coursier/cache-action@v6
-      with:
-        extraKey: "${{ env.SPARK_VERSION }}"
 
       # CHECK CODE FORMAT
     - name: Code Format
@@ -32,7 +35,7 @@ runs:
     - name: Test Summary
       id: test_summary
       if: ${{ success() && steps.test_coverage.conclusion == 'success' || failure() && steps.test_coverage.conclusion == 'failure' }}
-      uses: test-summary/action@v2.0
+      uses: test-summary/action@v2.3
       with:
         paths: "./core/target/test-reports/**/TEST-*.xml"
         output: "test-summary.md"
@@ -54,7 +57,7 @@ runs:
 
     - name: Upload test summary
       if: ${{ github.event_name == 'pull_request' && ((success() || failure()) && steps.add_summary_link.conclusion == 'success') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: "test-summary-${{ env.SPARK_VERSION }}.md"
         path: "test-summary-${{ env.SPARK_VERSION }}.md"
@@ -63,9 +66,9 @@ runs:
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4.1.0
       with:
-        files: ./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
+        file: ./target/scala-*/scoverage-report/scoverage.xml
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'

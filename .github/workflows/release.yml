@@ -29,7 +29,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@v2.0.1
@@ -45,18 +45,20 @@ jobs:
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       # SETUP & CACHE
+      - uses: coursier/cache-action@v6.4.5
+        id: coursier-cache
+        with:
+          ignoreJob: 'true'
+          ignoreMatrix: 'true'
+
       - uses: coursier/setup-action@v1.3.5
+        if: steps.coursier-cache.outputs.cache-hit-coursier != 'true'
         with:
           jvm: adopt:8
           apps: sbt scala scalafmt  # https://github.com/coursier/apps
-
-      - name: Coursier cache
-        uses: coursier/cache-action@v6
-        with:
-          extraKey: "${{ matrix.spark }}"
 
       # MAVEN RELEASE
       - name: Maven release 🎁
