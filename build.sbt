@@ -123,7 +123,7 @@ lazy val core = project
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel"          %% "cats-core"               % "2.10.0",
-      "com.lihaoyi"            %% "sourcecode"              % "0.3.1",
+      "com.lihaoyi"            %% "sourcecode"              % "0.4.1",
       "com.chuusai"            %% "shapeless"               % "2.3.10",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0",
       "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
