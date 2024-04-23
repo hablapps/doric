@@ -88,11 +88,6 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: print it
-        shell: bash
-        run: |
-          echo "${{ secrets.CODECOV_TOKEN }}"
-
       - name: Publish coverage to codecov 📊
         if: contains(matrix.scope, 'uploadReport')
         uses: codecov/codecov-action@v4
