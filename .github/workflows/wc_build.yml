@@ -37,20 +37,20 @@ jobs:
 
       - uses: coursier/cache-action@v6
         with:
-          extraKey: "${{ env.SPARK_VERSION }}"
+          extraKey: "${{ matrix.spark }}"
 
         # CHECK CODE FORMAT
       - name: Code Format
         id: code_format
-        if: contains(env.SCOPE, 'test')
-        run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} scalafmtCheckAll
+        if: contains(matrix.scope, 'test')
+        run: sbt -DsparkVersion=${{ matrix.spark }} scalafmtCheckAll
         shell: bash
 
         # TESTING & COVERAGE
       - name: Test & coverage 📋
         id: test_coverage
         if: steps.code_format.conclusion == 'success'
-        run: sbt -DsparkVersion=${{ env.SPARK_VERSION }} coverage +core/test coverageAggregate
+        run: sbt -DsparkVersion=${{ matrix.spark }} coverage +core/test coverageAggregate
         shell: bash
 
       - name: Test Summary
@@ -73,26 +73,26 @@ jobs:
         run: |
           img=$(head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/')
           url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          echo "| ${{ env.SPARK_VERSION }} | [${img}](${url}) |" > test-summary-${{ env.SPARK_VERSION }}.md
-          cat -e test-summary-${{ env.SPARK_VERSION }}.md
+          echo "| ${{ matrix.spark }} | [${img}](${url}) |" > test-summary-${{ matrix.spark }}.md
+          cat -e test-summary-${{ matrix.spark }}.md
 
       - name: Upload test summary
         if: ${{ github.event_name == 'pull_request' && ((success() || failure()) && steps.add_summary_link.conclusion == 'success') }}
         uses: actions/upload-artifact@v3
         with:
-          name: "test-summary-${{ env.SPARK_VERSION }}.md"
-          path: "test-summary-${{ env.SPARK_VERSION }}.md"
+          name: "test-summary-${{ matrix.spark }}.md"
+          path: "test-summary-${{ matrix.spark }}.md"
           if-no-files-found: error
           retention-days: 1
 
       - name: Publish coverage to codecov 📊
-        if: contains(env.SCOPE, 'uploadReport')
+        if: contains(matrix.scope, 'uploadReport')
         uses: codecov/codecov-action@v4
         with:
           files: ./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
           fail_ci_if_error: true
           verbose: false
-          flags: 'spark-${{ env.SPARK_VERSION }}.x'
+          flags: 'spark-${{ matrix.spark }}.x'
           token: ${{ secrets.CODECOV_TOKEN }}
 
         # CLEAN PROJECT BEFORE CACHE
