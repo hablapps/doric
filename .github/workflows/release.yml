@@ -21,6 +21,7 @@ jobs:
     uses: ./.github/workflows/wc_build.yml
     with:
       matrix_filter: "[?isRelease==`release`]"
+    secrets: inherit
 
   # PUBLISH JARS AT MAVEN CENTRAL
   matrix_prep:
