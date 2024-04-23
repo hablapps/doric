@@ -63,7 +63,7 @@ runs:
 
     - name: Publish coverage to codecov 📊
       if: contains(env.SCOPE, 'uploadReport')
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         files: ./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
         fail_ci_if_error: true
