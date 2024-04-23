@@ -1,6 +1,11 @@
 name: "Build & coverage"
 description: "Check the code, build, testing & generate project coverage"
 
+inputs:
+  CODECOV_TOKEN:
+    description: "The token to upload to codecov"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -69,7 +74,7 @@ runs:
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ inputs.CODECOV_TOKEN }}
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯

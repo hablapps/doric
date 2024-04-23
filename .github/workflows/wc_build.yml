@@ -33,3 +33,5 @@ jobs:
         env:
           SPARK_VERSION: ${{ matrix.spark }}
           SCOPE: ${{ matrix.scope }}
+        with:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
