@@ -69,6 +69,7 @@ runs:
         fail_ci_if_error: true
         verbose: false
         flags: 'spark-${{ env.SPARK_VERSION }}.x'
+        token: ${{ secrets.CODECOV_TOKEN }}
 
       # CLEAN PROJECT BEFORE CACHE
     - name: Cleaning before cache 🚯
