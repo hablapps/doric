@@ -3,7 +3,7 @@ codecov:
   branch: main
   notify:
     wait_for_ci: true
-    after_n_builds: 4
+    after_n_builds: 5
 
 coverage:
   precision: 2
@@ -37,4 +37,4 @@ comment:
   layout: "reach,diff,flags,files,footer"
   behavior: once  # once: update, if exists. Otherwise, post new. Skip if deleted.
   require_changes: false  # if true: only post the comment if coverage changes
-  after_n_builds: 4
+  after_n_builds: 5
