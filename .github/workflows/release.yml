@@ -21,8 +21,7 @@ jobs:
     uses: ./.github/workflows/wc_build.yml
     with:
       matrix_filter: "[?isRelease==`release`]"
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    secrets: inherit
 
   # PUBLISH JARS AT MAVEN CENTRAL
   matrix_prep:
