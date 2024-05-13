@@ -64,7 +64,8 @@ jobs:
     uses: ./.github/workflows/wc_build.yml
     with:
       matrix_filter: "[]"
-    secrets: inherit
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   # CHECK MDOC IS OK
   check_mdoc:
