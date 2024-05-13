@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # SETUP & CACHE
-      - uses: coursier/setup-action@v1.3.0
+      - uses: coursier/setup-action@v1.3.5
         with:
           jvm: adopt:8
           apps: sbt scala scalafmt  # https://github.com/coursier/apps
