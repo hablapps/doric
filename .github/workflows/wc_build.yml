@@ -59,7 +59,7 @@ jobs:
       - name: Test Summary
         id: test_summary
         if: ${{ success() && steps.test_coverage.conclusion == 'success' || failure() && steps.test_coverage.conclusion == 'failure' }}
-        uses: test-summary/action@v2.0
+        uses: test-summary/action@v2.3
         with:
           paths: "./core/target/test-reports/**/TEST-*.xml"
           output: "test-summary.md"
