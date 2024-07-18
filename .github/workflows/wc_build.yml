@@ -6,6 +6,9 @@ on:
       matrix_filter:
         required: true
         type: string
+    secrets:
+      CODECOV_TOKEN:
+        required: false
 
 jobs:
   matrix_prep:
@@ -29,7 +32,73 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/build_and_coverage
-        env:
-          SPARK_VERSION: ${{ matrix.spark }}
-          SCOPE: ${{ matrix.scope }}
+      # SETUP & CACHE
+      - uses: coursier/setup-action@v1.3.5
+        with:
+          jvm: adopt:8
+          apps: sbt scala scalafmt  # https://github.com/coursier/apps
+
+      - uses: coursier/cache-action@v6
+        with:
+          extraKey: "${{ matrix.spark }}"
+
+        # CHECK CODE FORMAT
+      - name: Code Format
+        id: code_format
+        if: contains(matrix.scope, 'test')
+        run: sbt -DsparkVersion=${{ matrix.spark }} scalafmtCheckAll
+        shell: bash
+
+        # TESTING & COVERAGE
+      - name: Test & coverage 📋
+        id: test_coverage
+        if: steps.code_format.conclusion == 'success'
+        run: sbt -DsparkVersion=${{ matrix.spark }} coverage +core/test coverageAggregate
+        shell: bash
+
+      - name: Test Summary
+        id: test_summary
+        if: ${{ success() && steps.test_coverage.conclusion == 'success' || failure() && steps.test_coverage.conclusion == 'failure' }}
+        uses: test-summary/action@v2.0
+        with:
+          paths: "./core/target/test-reports/**/TEST-*.xml"
+          output: "test-summary.md"
+
+      - name: Add 2 GitHub step summary
+        if: ${{ (success() || failure()) && steps.test_summary.conclusion == 'success' }}
+        shell: bash
+        run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Add summary link
+        id: add_summary_link
+        if: ${{ (success() || failure()) && steps.test_summary.conclusion == 'success' }}
+        shell: bash
+        run: |
+          img=$(head -1 test-summary.md | perl -pe 's/(<.*?.>).*/$1/')
+          url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "| ${{ matrix.spark }} | [${img}](${url}) |" > test-summary-${{ matrix.spark }}.md
+          cat -e test-summary-${{ matrix.spark }}.md
+
+      - name: Upload test summary
+        if: ${{ github.event_name == 'pull_request' && ((success() || failure()) && steps.add_summary_link.conclusion == 'success') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: "test-summary-${{ matrix.spark }}.md"
+          path: "test-summary-${{ matrix.spark }}.md"
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Publish coverage to codecov 📊
+        if: contains(matrix.scope, 'uploadReport')
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./target/scala-2.12/scoverage-report/scoverage.xml,./target/scala-2.13/scoverage-report/scoverage.xml
+          fail_ci_if_error: true
+          verbose: false
+          flags: 'spark-${{ matrix.spark }}.x'
+
+        # CLEAN PROJECT BEFORE CACHE
+      - name: Cleaning before cache 🚯
+        if: ${{ always() }}
+        uses: ./.github/actions/clean_cache
