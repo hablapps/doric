@@ -81,7 +81,7 @@ jobs:
 
       - name: Upload test summary
         if: ${{ github.event_name == 'pull_request' && ((success() || failure()) && steps.add_summary_link.conclusion == 'success') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "test-summary-${{ matrix.spark }}.md"
           path: "test-summary-${{ matrix.spark }}.md"
