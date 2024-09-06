@@ -15,7 +15,7 @@ val spark35Version           = "3.5.3"
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
 
-val scala212 = "2.12.19"
+val scala212 = "2.12.20"
 val scala213 = "2.13.14"
 
 val parserSparkVersion: String => String = {
