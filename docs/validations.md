@@ -15,13 +15,13 @@ raising a run-time exception:
 // Spark
 List(1,2,3).toDF().select(f.col("id")+1)
 // org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].;
-// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$3773/0x00000008016bb840@1cb0f666))]
+// 'Project [unresolvedalias(('id + 1), Some(org.apache.spark.sql.Column$$Lambda$3772/0x00000008016ba840@69a076f9))]
 // +- LocalRelation [value#399]
 // 
-// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:307)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$$failUnresolvedAttribute(CheckAnalysis.scala:147)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$6(CheckAnalysis.scala:266)
-// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$6$adapted(CheckAnalysis.scala:264)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedAttributeError(QueryCompilationErrors.scala:306)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$$failUnresolvedAttribute(CheckAnalysis.scala:141)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$6(CheckAnalysis.scala:299)
+// 	at org.apache.spark.sql.catalyst.analysis.CheckAnalysis.$anonfun$checkAnalysis0$6$adapted(CheckAnalysis.scala:297)
 // 	at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:244)
 // 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1(TreeNode.scala:243)
 // 	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$foreachUp$1$adapted(TreeNode.scala:243)
@@ -44,13 +44,13 @@ List(1,2,3).toDF().select(colInt("id")+1)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
 // 	at repl.MdocSession$MdocApp$$anonfun$2.apply(validations.md:37)
 // Caused by: org.apache.spark.sql.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `id` cannot be resolved. Did you mean one of the following? [`value`].
-// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedColumnWithSuggestionError(QueryCompilationErrors.scala:3110)
-// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.resolveException(QueryCompilationErrors.scala:3118)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.unresolvedColumnWithSuggestionError(QueryCompilationErrors.scala:3109)
+// 	at org.apache.spark.sql.errors.QueryCompilationErrors$.resolveException(QueryCompilationErrors.scala:3117)
 // 	at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:251)
 // 	at scala.Option.getOrElse(Option.scala:189)
 // 	at org.apache.spark.sql.Dataset.resolve(Dataset.scala:251)
-// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1426)
-// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1393)
+// 	at org.apache.spark.sql.Dataset.col(Dataset.scala:1428)
+// 	at org.apache.spark.sql.Dataset.apply(Dataset.scala:1395)
 // 	at doric.types.SparkType.$anonfun$validate$1(SparkType.scala:61)
 // 	at cats.data.KleisliApply.$anonfun$product$2(Kleisli.scala:735)
 // 	at scala.Function1.$anonfun$andThen$1(Function1.scala:57)
