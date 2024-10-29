@@ -9,7 +9,7 @@ val spark30Version           = "3.0.3"
 val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.3"
 val spark33Version           = "3.3.4"
-val spark34Version           = "3.4.2"
+val spark34Version           = "3.4.4"
 val spark35Version           = "3.5.3"
 
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
@@ -190,8 +190,6 @@ lazy val docs = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value
     ),
     mdocVariables := Map(
-      // VERSION is not working well? 0.0.0+1-6f46b6de-SNAPSHOT
-      //                              ^^^^^
       "VERSION"        -> version.value,
       "STABLE_VERSION" -> stableVersion,
       "SPARK_VERSION"  -> sparkVersion.value,
