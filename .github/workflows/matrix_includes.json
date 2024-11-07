@@ -55,6 +55,11 @@
     "isRelease": "-"
   },
   {
+    "spark": "3.2.3",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
     "spark": "3.2",
     "scope": "test-uploadReport",
     "isRelease": "release"
