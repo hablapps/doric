@@ -700,8 +700,9 @@ protected trait ArrayColumns {
 
   }
 
-  implicit class ArrayArrayColumnSyntax[G[_]: CollectionType, F[_]
-    : CollectionType, T](
+  implicit class ArrayArrayColumnSyntax[G[_]: CollectionType, F[
+      _
+  ]: CollectionType, T](
       private val col: DoricColumn[F[G[T]]]
   ) {
 
