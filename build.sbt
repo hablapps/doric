@@ -10,7 +10,7 @@ val spark31Version           = "3.1.3"
 val spark32Version           = "3.2.4"
 val spark33Version           = "3.3.4"
 val spark34Version           = "3.4.4"
-val spark35Version           = "3.5.3"
+val spark35Version           = "3.5.5"
 
 val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
