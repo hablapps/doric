@@ -124,7 +124,7 @@ lazy val core = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel"          %% "cats-core"               % "2.12.0",
       "com.lihaoyi"            %% "sourcecode"              % "0.4.2",
-      "com.chuusai"            %% "shapeless"               % "2.3.12",
+      "com.chuusai"            %% "shapeless"               % "2.3.13",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
       "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
       "org.scalatest"          %% "scalatest"               % "3.2.19" % "test"
