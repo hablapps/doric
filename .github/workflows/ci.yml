@@ -67,11 +67,18 @@ jobs:
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+
   # CHECK MDOC IS OK
   check_mdoc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+        # SETUP & CACHE
+      - uses: coursier/setup-action@v1.3.6
+        with:
+          jvm: adopt:11
+          apps: sbt scala scalafmt  # https://github.com/coursier/apps
 
       # BUILD MDOC, sbt should take the latest version
       - name: Build the microsite 💻
