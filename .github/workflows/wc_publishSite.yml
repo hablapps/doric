@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # SETUP & CACHE
-      - uses: coursier/setup-action@v1.3.6
+      - uses: coursier/setup-action@v1.3.9
         with:
           jvm: adopt:8
           apps: sbt scala scalafmt  # https://github.com/coursier/apps
@@ -81,6 +81,12 @@ jobs:
 
       - uses: actions/checkout@v4
 
+        # SETUP & CACHE
+      - uses: coursier/setup-action@v1.3.6
+        with:
+          jvm: adopt:11
+          apps: sbt scala scalafmt  # https://github.com/coursier/apps
+
       # BUILD MDOC, sbt should take the latest version
       - name: Build the microsite 💻
         run: sbt +docs/mdoc
@@ -94,7 +100,7 @@ jobs:
 
       # DEPLOY TO GITHUB PAGES
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: docs/target/mdoc # The folder the action should deploy.

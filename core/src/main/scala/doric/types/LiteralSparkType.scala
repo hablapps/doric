@@ -147,7 +147,8 @@ trait LiteralSparkTypeLPI_I extends LiteralSparkTypeLPI_II {
   // Period: TBD
 }
 
-trait LiteralSparkTypeLPI_II extends LiteralSparkTypeLPI_III { // with LiteralSparkTypeLPI_II_Array_Specific{
+trait LiteralSparkTypeLPI_II
+    extends LiteralSparkTypeLPI_III { // with LiteralSparkTypeLPI_II_Array_Specific{
   self: LiteralSparkType.type =>
 
   implicit def fromMap[K, V](implicit
