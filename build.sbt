@@ -16,7 +16,7 @@ val versionRegex      = """^(.*)\.(.*)\.(.*)$""".r
 val versionRegexShort = """^(.*)\.(.*)$""".r
 
 val scala212 = "2.12.20"
-val scala213 = "2.13.14"
+val scala213 = "2.13.16"
 
 val parserSparkVersion: String => String = {
   case versionRegexShort("3", "0") => spark30Version
@@ -124,8 +124,8 @@ lazy val core = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided", // scala-steward:off
       "org.typelevel"          %% "cats-core"               % "2.13.0",
       "com.lihaoyi"            %% "sourcecode"              % "0.4.2",
-      "com.chuusai"            %% "shapeless"               % "2.3.12",
-      "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
+      "com.chuusai"            %% "shapeless"               % "2.3.13",
+      "org.scala-lang.modules" %% "scala-collection-compat" % "2.13.0",
       "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
       "org.scalatest"          %% "scalatest"               % "3.2.19" % "test"
     ),
