@@ -19,6 +19,7 @@ Type-safe columns for spark DataFrames!
 | 3.2.x |      [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-2_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-2_2.12/0.0.8)       | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.2.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 | 3.3.x |      [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-3_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-3_2.12/0.0.8)       | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.3.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 | 3.4.x |      [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.8)       | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.4.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
+| 3.5.x |      [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.12/0.0.8)       | [![Codecov](https://img.shields.io/codecov/c/github/hablapps/doric?flag=spark-3.5.x&label=codecov&logo=codecov&token=N7ZXUXZX1I)](https://codecov.io/gh/hablapps/doric) |
 ----
 
 Doric offers type-safety in DataFrame column expressions at a minimum
@@ -93,11 +94,13 @@ following spark versions.
 |       3.4.3        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.4.4 version                                                                   |
 |       3.4.4        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/0.0.8) |
 |       3.4.4        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.13/0.0.8) |
-|       3.5.0        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.3 version                                                                   |
-|       3.5.1        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.3 version                                                                   |
-|       3.5.2        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.3 version                                                                   |
-|       3.5.3        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.12/0.0.8) |
-|       3.5.3        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.13/0.0.8) |
+|       3.5.0        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.5 version                                                                   |
+|       3.5.1        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.5 version                                                                   |
+|       3.5.2        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.5 version                                                                   |
+|       3.5.3        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.5 version                                                                   |
+|       3.5.4        | 2.12 / 2.13 |   ✅    |                                                                  You can use 3.5.5 version                                                                   |
+|       3.5.5        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.12/0.0.8) |
+|       3.5.5        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.13/0.0.8) |
 
 
 ## Contributing 

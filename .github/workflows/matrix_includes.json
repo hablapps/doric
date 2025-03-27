@@ -130,6 +130,16 @@
     "isRelease": "-"
   },
   {
+    "spark": "3.5.3",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
+    "spark": "3.5.4",
+    "scope": "test",
+    "isRelease": "-"
+  },
+  {
     "spark": "3.5",
     "scope": "test-uploadReport",
     "isRelease": "release"
