@@ -58,11 +58,13 @@ Doric is committed to use the most modern APIs first.
 |       3.4.3        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.4.4 version                                                                        |
 |       3.4.4        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.12/@STABLE_VERSION@) |
 |       3.4.4        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-4_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-4_2.13/@STABLE_VERSION@) |
-|       3.5.0        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.3 version                                                                        |
-|       3.5.1        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.3 version                                                                        |
-|       3.5.2        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.3 version                                                                        |
-|       3.5.3        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.12/@STABLE_VERSION@) |
-|       3.5.3        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.13/@STABLE_VERSION@) |
+|       3.5.0        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.5 version                                                                        |
+|       3.5.1        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.5 version                                                                        |
+|       3.5.2        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.5 version                                                                        |
+|       3.5.3        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.5 version                                                                        |
+|       3.5.4        | 2.12 / 2.13 |   ✅    |                                                                        You can use 3.5.5 version                                                                        |
+|       3.5.5        |    2.12     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.12)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.12/@STABLE_VERSION@) |
+|       3.5.5        |    2.13     |   ✅    | [![Maven Central](https://img.shields.io/maven-central/v/org.hablapps/doric_3-5_2.13)](https://mvnrepository.com/artifact/org.hablapps/doric_3-5_2.13/@STABLE_VERSION@) |
 
 
 __Import statements__
