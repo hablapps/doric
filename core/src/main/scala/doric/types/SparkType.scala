@@ -222,6 +222,21 @@ trait SparkTypeLPI_I extends SparkTypeLPI_II with SparkTypeLPI_I_Specific {
     else
       fromInstantST.customType[java.sql.Timestamp](java.sql.Timestamp.from)
 
+  implicit def fromLocalDateTimeST: SparkType[java.time.LocalDateTime] =
+    if (
+      SQLConf.get.getConfString(
+        "spark.sql.datetime.java8API.enabled",
+        "false"
+      ) == "false"
+    )
+      SparkType[java.time.LocalDateTime](
+        org.apache.spark.sql.types.TimestampNTZType
+      )
+    else
+      fromTimestampST.customType[java.time.LocalDateTime](t =>
+        t.toLocalDateTime
+      )
+
   implicit def fromLocalDateST: SparkType[java.time.LocalDate] =
     if (
       SQLConf.get.getConfString(

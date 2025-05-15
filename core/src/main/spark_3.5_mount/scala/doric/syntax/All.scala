@@ -29,3 +29,4 @@ private[doric] trait All
     with StringColumn3x
     with AggregationColumns32
     with DStructs3x
+    with AggregationColumns34

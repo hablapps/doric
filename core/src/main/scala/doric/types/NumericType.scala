@@ -31,4 +31,9 @@ object NumericType {
   } = new NumericType[Short] {
     type Sum = Short
   }
+  implicit val byteNumeric: NumericType[Byte] {
+    type Sum = Byte
+  } = new NumericType[Byte] {
+    type Sum = Byte
+  }
 }
