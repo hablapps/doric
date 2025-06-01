@@ -118,7 +118,7 @@ trait TypedColumnTest extends Matchers with DatasetComparer {
     val bothNull = col(doricCol).isNull and col(sparkCol).isNull
 
     val equalsColumn = "equals"
-    val result = df
+    val result       = df
       .withColumn(equalsColumn, eqCond or bothNull)
       .na
       .fill(Map(equalsColumn -> false))

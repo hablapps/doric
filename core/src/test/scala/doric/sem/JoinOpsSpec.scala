@@ -9,7 +9,7 @@ class JoinOpsSpec extends DoricTestElements {
 
   private val id          = "id"
   private val otherColumn = "otherColumn"
-  private val left = spark
+  private val left        = spark
     .range(10)
     .toDF()
     .withColumn(
@@ -30,7 +30,7 @@ class JoinOpsSpec extends DoricTestElements {
   describe("join ops") {
 
     it("works with join of same name and type columns") {
-      val col1 = colLong(id).cast[String]
+      val col1     = colLong(id).cast[String]
       val badRight = right
         .withColumn(id, col1)
 

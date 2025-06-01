@@ -27,7 +27,7 @@ object Equalities {
     }
   }
 
-  private lazy val tolerance = 0.00001
+  private lazy val tolerance              = 0.00001
   implicit val eqDouble: Equality[Double] = new Equality[Double] {
     override def areEqual(a: Double, b: Any): Boolean = (a, b) match {
       case (x: Double, y: Double) => x === y +- tolerance

@@ -17,7 +17,7 @@ class TransformOpsSpec
     val errorCol = "error"
     val test1    = "test2"
     it("works withColumn") {
-      val test = "test"
+      val test   = "test"
       val result = spark
         .range(10)
         .withColumn(test, colLong("id") * 2L)
