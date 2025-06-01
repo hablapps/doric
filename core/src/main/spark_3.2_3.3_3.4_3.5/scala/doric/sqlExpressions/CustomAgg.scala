@@ -19,7 +19,7 @@ case class CustomAgg(
 
   override val initialValues: Seq[Expression]     = Seq(initialValue)
   override val updateExpressions: Seq[Expression] = Seq(update(accum, child))
-  override val mergeExpressions: Seq[Expression] = Seq(
+  override val mergeExpressions: Seq[Expression]  = Seq(
     merge(accum.left, accum.right)
   )
   override val evaluateExpression: Expression = evaluate(accum)
