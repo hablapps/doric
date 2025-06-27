@@ -126,7 +126,7 @@ lazy val core = project
       "com.lihaoyi"            %% "sourcecode"              % "0.4.2",
       "com.chuusai"            %% "shapeless"               % "2.3.13",
       "org.scala-lang.modules" %% "scala-collection-compat" % "2.13.0",
-      "com.github.mrpowers"    %% "spark-fast-tests"        % "1.3.0"  % "test",
+      "com.github.mrpowers"    %% "spark-fast-tests"        % "3.0.1"  % "test",
       "org.scalatest"          %% "scalatest"               % "3.2.19" % "test"
     ),
     // docs
