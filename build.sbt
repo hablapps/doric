@@ -43,7 +43,7 @@ val scalaVersionSelect: String => List[String] = {
 
 ThisBuild / organization := "org.hablapps"
 ThisBuild / homepage     := Some(url("https://github.com/hablapps/doric"))
-ThisBuild / licenses := List(
+ThisBuild / licenses     := List(
   "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 )
 ThisBuild / developers := List(
@@ -190,9 +190,9 @@ lazy val docs = project
       "org.apache.spark" %% "spark-sql" % sparkVersion.value
     ),
     mdocVariables := Map(
-      "VERSION"        -> version.value,
-      "STABLE_VERSION" -> stableVersion,
-      "SPARK_VERSION"  -> sparkVersion.value,
+      "VERSION"             -> version.value,
+      "STABLE_VERSION"      -> stableVersion,
+      "SPARK_VERSION"       -> sparkVersion.value,
       "SPARK_SHORT_VERSION" -> long2ShortVersion(sparkVersion.value)
         .replace(".", "-"),
       "SCALA_SHORT_VERSION" -> long2ShortVersion(scalaVersion.value)

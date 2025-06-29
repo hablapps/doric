@@ -14,7 +14,7 @@ class InterpolatorsSpec
     import spark.implicits._
 
     val colName = "column1"
-    val df = List("value 1", "value 2")
+    val df      = List("value 1", "value 2")
       .toDF(colName)
 
     it("should be a String Column") {
