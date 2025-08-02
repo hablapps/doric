@@ -90,7 +90,7 @@ class StringColumns3xSpec
   describe("schemaOfCsv doric function") {
     import spark.implicits._
 
-    val df = List("column not read").toDF("col1")
+    val df       = List("column not read").toDF("col1")
     val expected =
       if (spark.version < "3.1.0")
         List(Some("struct<_c0:string,_c1:string>"))
