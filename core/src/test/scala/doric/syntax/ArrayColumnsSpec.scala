@@ -107,7 +107,7 @@ class ArrayColumnsSpec extends DoricTestElements {
     ) {
 
       val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
-      val df4 = List((value, 7))
+      val df4                                      = List((value, 7))
         .toDF(testColumn, "something")
 
       val colTransform = col[Array[Row]](testColumn)
@@ -132,7 +132,7 @@ class ArrayColumnsSpec extends DoricTestElements {
       "should detect errors in even more complex transformations involving collections and structs"
     ) {
       val value: List[(List[(Int, String)], Long)] = List((List((1, "a")), 10L))
-      val df4 = List((value, 7))
+      val df4                                      = List((value, 7))
         .toDF(testColumn, "something")
 
       val colTransform = col[Array[Row]](testColumn)
