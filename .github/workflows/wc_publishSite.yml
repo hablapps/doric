@@ -14,7 +14,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@v2.0.1
@@ -29,7 +29,7 @@ jobs:
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # SETUP & CACHE
       - uses: coursier/setup-action@v1.3.9
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
         # SETUP & CACHE
       - uses: coursier/setup-action@v1.3.9
