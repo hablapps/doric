@@ -94,7 +94,7 @@ jobs:
 
       # DOWNLOAD DOCS, this will download all the artifacts because no name provided
       - name: Download docs ⬇️
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: "docs/target/mdoc/docs/api/"
 
