@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: sbt/setup-sbt@v1.1.11
+      - uses: sbt/setup-sbt@v1.1.12
       - uses: scalacenter/sbt-dependency-submission@v3
