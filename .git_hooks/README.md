@@ -7,7 +7,7 @@ ln -s .git_hooks/<SOURCE_FILE> <LINK_NAME_NO_EXTENSION>
 ```
 > Example:
 > 
-> `ln -s .git_hooks/pre-push.sh .git/hooks/pre-push`
+> `ln -s ../../.git_hooks/pre-push.sh .git/hooks/pre-push`
 
 Alternatively you can change your hooks' path config:
 ```
