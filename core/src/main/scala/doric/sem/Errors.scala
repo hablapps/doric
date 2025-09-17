@@ -45,7 +45,7 @@ case class DoricMultiError(
 
     val leftErrors  = errors.collectSide(true).map(_.getMessage)
     val rightErrors = errors.collectSide(false).map(_.getMessage)
-    val restErrors = NonEmptySet
+    val restErrors  = NonEmptySet
       .fromSet(
         uniqueErrors.filter(x => !x.isInstanceOf[JoinDoricSingleError])
       )

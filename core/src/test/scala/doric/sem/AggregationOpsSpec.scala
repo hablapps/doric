@@ -11,7 +11,7 @@ class AggregationOpsSpec extends DoricTestElements {
     val num  = "num"
     val sum1 = "sum"
     val conc = "conc"
-    val df =
+    val df   =
       List((1, "5", 1), (3, "5", 2), (2, "3", 3))
         .toDF(num, str, num2)
 
